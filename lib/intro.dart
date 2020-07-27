@@ -20,7 +20,7 @@ class IntroPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment(0, -0.70),
+      alignment: Alignment(-0.1, -0.70),
       child: Container(
         height: 190,
         width: 190,
@@ -62,12 +62,15 @@ class IntroText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment(0, 0),
+      alignment: Alignment.center,
       child: Container(
         height: 190,
-        width: 190,
-        child: Text(INTRO_SMS,
-    style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+        width: 300,
+        child: Text(
+          INTRO_SMS,
+          style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
