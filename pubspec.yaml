@@ -61,16 +61,17 @@ flutter:
     - assets/documents/
     - assets/gif/
     - assets/images/deliverypurple.png
+    - assets/images/clip.png
     - assets/videos/
 
   fonts:
     - family: RobotoMono
       fonts:
-       - asset: assets/fonts/RobotoMono-Regular.ttf
+        - asset: assets/fonts/RobotoMono-Regular.ttf
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto-Black.ttf
-
+        - asset: assets/fonts/Roboto-Black.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
