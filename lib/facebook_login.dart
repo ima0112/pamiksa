@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pamiksa/consts.dart'
-    show FACEBOOK_COLOR, FACEBOOK_LOGIN_SMS, APP_NAME, FACEBOOK_SMS;
+    show FACEBOOK_COLOR, FACEBOOK_LOGIN_SMS, FACEBOOK_SMS;
+import 'package:pamiksa/register.dart';
 
 class Facebook_Login extends StatelessWidget {
+  static const URI = '/facebook_login';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -65,16 +67,18 @@ class Facebook_Login_Button extends StatelessWidget {
         width: 320,
         child: RaisedButton.icon(
           textColor: Colors.white,
-          color: Colors.blueAccent,
+          color: FACEBOOK_COLOR,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          animationDuration: Duration(milliseconds: 1000),
           onPressed: () {
-
+            Navigator.of(context).pushReplacement(_createRouter());
           },
           icon: Icon(Icons.add, size: 18),
-          label: Text("CONTINUAR CON FACEBOOK"),
+          label: Text(
+            "CONTINUAR CON FACEBOOK",
+            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+          ),
         ),
       ),
     );
@@ -98,3 +102,12 @@ class Facebook_Login_TextSMS extends StatelessWidget {
     );
   }
 }
+
+Route _createRouter() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Register(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return child;
+      });
+}
+

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pamiksa/facebook_login.dart';
-import 'package:pamiksa/consts.dart' show PRIMARY_COLOR, INTRO_SMS, APP_NAME;
-import 'package:path/path.dart';
+import 'package:pamiksa/consts.dart' show COLORPRIMARYLIGTH, INTRO_SMS;
 
 class Intro extends StatelessWidget {
+  static const URI = '/intro';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: COLORPRIMARYLIGTH
+      ),
       home: Scaffold(
         body: Center(
           child: Stack(
@@ -64,19 +67,16 @@ class IntroButton extends StatelessWidget {
         width: 320,
         child: RaisedButton(
           textColor: Colors.white,
-          color: PRIMARY_COLOR,
+          color: Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          animationDuration: Duration(milliseconds: 1000),
           onPressed: () {
             Navigator.of(context).pushReplacement(_createRouter());
-//            Navigator.pushReplacement(context,
-//                MaterialPageRoute(builder: (context) => Facebook_Login()));
           },
           child: Text(
             'COMENZAR',
-            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+            style: TextStyle(fontFamily: 'RobotoMono-Regular', fontWeight: FontWeight.w900),
           ),
         ),
       ),
@@ -88,15 +88,6 @@ Route _createRouter() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => Facebook_Login(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(0.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
         return child;
       });
 }

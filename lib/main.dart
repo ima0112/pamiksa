@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/intro.dart';
+import 'package:pamiksa/start.dart';
 
 void main() {
-  runApp(Intro());
+  runApp(MyApp());
 }
