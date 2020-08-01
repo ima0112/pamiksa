@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/consts.dart' show APP_NAME, COLORPRIMARYLIGTH;
-import 'package:pamiksa/register.dart';
-import 'package:pamiksa/facebook_login.dart';
-import 'package:pamiksa/intro.dart';
+import 'package:pamiksa/src/models/consts.dart' show APP_NAME, COLORPRIMARYLIGTH;
+import 'package:pamiksa/src/ui/register/register.dart';
+import 'package:pamiksa/src/ui/intro/intro.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -16,7 +15,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/intro',
       routes: {
         Intro.URI: (context) => Intro(),
-        Facebook_Login.URI: (context) => Facebook_Login(),
         Register.URI: (context) => Register(),
       },
     );

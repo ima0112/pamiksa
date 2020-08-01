@@ -2,46 +2,45 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:pamiksa/consts.dart' show COLORPRIMARYLIGTH, REGISTRER_SMS;
+import 'file:///C:/Users/Imandra/AndroidStudioProjects/pamiksa/lib/src/models/consts.dart' show COLORPRIMARYLIGTH, REGISTRER_SMS;
 
 class Register extends StatefulWidget {
   static const URI = '/register';
 
   @override
   FormRegisterState createState() => new FormRegisterState();
+
 }
 
 class FormRegisterState extends State<Register> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  bool _obscureText = true;
+  List<String> _provincias = ['Matanzas', 'La Habana'];
+  List<String> _municipios = ['Cárdenas'];
+  String _selectedprovincia;
+  String _selectedmunicipio;
 
-  _validateEmail(String value) {
+  _validateNombre(String value) {
     if (value.isEmpty) {
-      return '¡Ingrese un correo electrónico!';
+      return '¡Ingrese su nombre!';
     }
-    // Regex para validación de email
-    String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
-        "\\@" +
-        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-        "(" +
-        "\\." +
-        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-        ")+";
-    RegExp regExp = new RegExp(p);
-    if (regExp.hasMatch(value)) {
-      return null;
-    }
-    return '¡El correo electrónico no es válido!';
   }
 
-  _validatePassword(String value) {
+  _validateProvincia(String value) {
     if (value.isEmpty) {
-      return '¡Ingrese una contraseña!';
+      return '¡Ingrese una provincia!';
     }
-    if (value.length < 8) {
-      return '¡La contraseña debe poseer al menos 8 caracteres!';
+  }
+
+  _validateMunicipio(String value) {
+    if (value.isEmpty) {
+      return '¡Ingrese un municipio!';
     }
-    return null;
+  }
+
+  _validateDireccion(String value) {
+    if (value.isEmpty) {
+      return '¡Ingrese una dirección!';
+    }
   }
 
   String _nombre;
@@ -76,9 +75,13 @@ class FormRegisterState extends State<Register> with TickerProviderStateMixin {
                     textAlign: TextAlign.center,
                   ),
                   TextFormField(
+                    maxLength: 50,
                     textCapitalization: TextCapitalization.words,
                     cursorColor: cursorColor,
-                    style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                    style: TextStyle(
+                        fontFamily: 'RobotoMono-Regular',
+                        color: Colors.black54,
+                        fontSize: 16),
                     decoration: InputDecoration(
                       filled: false,
                       fillColor: Colors.white24,
@@ -90,53 +93,78 @@ class FormRegisterState extends State<Register> with TickerProviderStateMixin {
                     onSaved: (value) {
                       _nombre = value;
                     },
-                    validator: (value) => _validateEmail(value),
+                    validator: (value) => _validateNombre(value),
                   ),
-                  TextFormField(
-                    cursorColor: cursorColor,
-                    style: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                    decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
-                      filled: false,
-                      labelText: "Provincia*",
-                      labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: color, width: 2)),
+                  DropdownButton(
+                    isExpanded: true,
+                    elevation: 16,
+                    underline: Container(
+                      height: 1,
+                      color: Colors.black38,
                     ),
-                    onSaved: (value) {
-                      _provincia = value;
+                    hint: Text('Provincia*'),
+                    style: TextStyle(
+                      debugLabel: 'hola',
+                        fontFamily: 'RobotoMono-Regular',
+                        color: Colors.black54,
+                        fontSize: 16),
+                    value: _selectedprovincia,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedprovincia = newValue;
+                      });
                     },
-                    validator: (value) => _validateEmail(value),
+                    items: _provincias.map((location) {
+                      return DropdownMenuItem(
+                        child: new Text(location),
+                        value: location,
+                      );
+                    }).toList(),
                   ),
-                  TextFormField(
-                    cursorColor: cursorColor,
-                    style: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                    decoration: InputDecoration(
-                      filled: false,
-                      labelText: "Municipio*",
-                      labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: color, width: 2)),
+                  DropdownButton(
+                    isExpanded: true,
+                    underline: Container(
+                      height: 1,
+                      color: Colors.black38,
                     ),
-                    onSaved: (value) {
-                      _municipio = value;
+                    hint: Text('Municipio*'),
+                    style: TextStyle(
+                        fontFamily: 'RobotoMono-Regular',
+                        color: Colors.black54,
+                        fontSize: 16),
+                    value: _selectedmunicipio,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedmunicipio = newValue;
+                      });
                     },
-                    validator: (value) => _validateEmail(value),
+                    items: _municipios.map((location) {
+                      return DropdownMenuItem(
+                        child: new Text(location),
+                        value: location,
+                      );
+                    }).toList(),
                   ),
                   TextFormField(
+                    maxLength: 150,
+                    textCapitalization: TextCapitalization.words,
                     cursorColor: cursorColor,
-                    style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                    style: TextStyle(
+                        fontFamily: 'RobotoMono-Regular',
+                        color: Colors.black54,
+                        fontSize: 16),
                     decoration: InputDecoration(
                       filled: false,
+                      fillColor: Colors.white24,
                       labelText: "Dirección*",
                       labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: color, width: 2),
-                      ),
+                          borderSide: BorderSide(color: color, width: 2)),
                     ),
                     onSaved: (value) {
                       _direccion = value;
                     },
+                    validator: (value) => _validateDireccion(value),
                   ),
                   sizedBoxSpace,
                   Container(
@@ -148,7 +176,13 @@ class FormRegisterState extends State<Register> with TickerProviderStateMixin {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          // Si el formulario es válido, queremos mostrar un Snackbar
+                          Scaffold.of(context).showSnackBar(
+                              SnackBar(content: Text('Processing Data')));
+                        }
+                      },
                       child: Text(
                         'REGISTRARME',
                         style: TextStyle(

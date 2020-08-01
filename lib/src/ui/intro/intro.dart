@@ -1,22 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pamiksa/consts.dart'
-    show FACEBOOK_COLOR, FACEBOOK_LOGIN_SMS, FACEBOOK_SMS;
-import 'package:pamiksa/register.dart';
+import 'package:pamiksa/src/models/consts.dart' show COLORPRIMARYLIGTH, INTRO_SMS;
+import 'package:pamiksa/src/ui/login/login.dart';
 
-class Facebook_Login extends StatelessWidget {
-  static const URI = '/facebook_login';
+class Intro extends StatelessWidget {
+  static const URI = '/intro';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: COLORPRIMARYLIGTH
+      ),
       home: Scaffold(
         body: Center(
           child: Stack(
             children: <Widget>[
-              Facebook_Login_Photo(),
-              Facebook_Login_Text(),
-              Facebook_Login_Button(),
-              Facebook_Login_TextSMS(),
+              IntroPhoto(),
+              IntroText(),
+              IntroButton(),
             ],
           ),
         ),
@@ -25,7 +25,7 @@ class Facebook_Login extends StatelessWidget {
   }
 }
 
-class Facebook_Login_Photo extends StatelessWidget {
+class IntroPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -33,13 +33,13 @@ class Facebook_Login_Photo extends StatelessWidget {
       child: Container(
         height: 190,
         width: 190,
-        child: Image.asset('assets/images/clip.png'),
+        child: Image.asset('assets/images/deliverypurple.png'),
       ),
     );
   }
 }
 
-class Facebook_Login_Text extends StatelessWidget {
+class IntroText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -48,7 +48,7 @@ class Facebook_Login_Text extends StatelessWidget {
         height: 190,
         width: 300,
         child: Text(
-          FACEBOOK_SMS,
+          INTRO_SMS,
           style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
           textAlign: TextAlign.center,
         ),
@@ -57,7 +57,7 @@ class Facebook_Login_Text extends StatelessWidget {
   }
 }
 
-class Facebook_Login_Button extends StatelessWidget {
+class IntroButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -65,38 +65,19 @@ class Facebook_Login_Button extends StatelessWidget {
       child: Container(
         height: 45,
         width: 320,
-        child: RaisedButton.icon(
+        child: RaisedButton(
           textColor: Colors.white,
-          color: FACEBOOK_COLOR,
+          color: Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
           onPressed: () {
             Navigator.of(context).pushReplacement(_createRouter());
           },
-          icon: Icon(Icons.add, size: 18),
-          label: Text(
-            "CONTINUAR CON FACEBOOK",
-            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+          child: Text(
+            'COMENZAR',
+            style: TextStyle(fontFamily: 'RobotoMono-Regular', fontWeight: FontWeight.w900),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class Facebook_Login_TextSMS extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment(0, 1.35),
-      child: Container(
-        height: 190,
-        width: 300,
-        child: Text(
-          FACEBOOK_LOGIN_SMS,
-          style: TextStyle(fontFamily: 'Roboto-Regular', color: Colors.black54),
-          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -105,9 +86,8 @@ class Facebook_Login_TextSMS extends StatelessWidget {
 
 Route _createRouter() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => Register(),
+      pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return child;
       });
 }
-
