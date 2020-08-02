@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src//shared/servidor.dart' show URL, ACCESS_TOKEN;
 import 'package:pamiksa/src//shared/widget/waveclipper.dart';
-import 'package:pamiksa/src/models/consts.dart';
+import 'file:///C:/Users/Imandra/AndroidStudioProjects/pamiksa/lib/src/providers/themes/consts.dart';
 import 'package:pamiksa/src/ui/login/loginF.dart';
-import 'package:pamiksa/src/ui/register/register.dart';
+import 'package:pamiksa/src/ui/register/register_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
@@ -65,13 +64,12 @@ class LoginP extends State<Login> {
         client: client,
         child: CacheProvider(
             child: Scaffold(
-              appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(0),
-                  child: AppBar(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    brightness: Brightness.dark,
-                  )
-              ),
+          appBar: PreferredSize(
+              preferredSize: Size.fromHeight(0),
+              child: AppBar(
+                backgroundColor: Theme.of(context).primaryColor,
+                brightness: Brightness.dark,
+              )),
           backgroundColor: Colors.white,
           body: ListView(
             children: <Widget>[
@@ -134,12 +132,15 @@ class LoginP extends State<Login> {
                 ],
               ),
               FormLogin(),
+              SizedBox(
+                height: 18,
+              ),
               Center(
                 child: Text(
                   '¿ Olvidó su contraseña ?',
                   style: TextStyle(
                       color: Color(0xff6200EA),
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w700),
                 ),
               ),
@@ -153,28 +154,34 @@ class LoginP extends State<Login> {
                     '¿ No tiene un usuario ? ',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.normal),
                   ),
-                  FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Register()));
-                      },
-                      child: Text(
-                        ' Regístrate',
-                        style: TextStyle(
-                            color: Color(0xff6200EA),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.underline),
-                      ))
+                  GestureDetector(
+                    child: Text(
+                      "Regístrate",
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(_createRouter());
+                    },
+                  )
                 ],
               )
             ],
           ),
         )));
   }
+}
+
+Route _createRouter() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Register(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return child;
+      });
 }

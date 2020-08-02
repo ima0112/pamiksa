@@ -3,7 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src//shared/graphql/mutations/loginM.dart';
 import 'package:pamiksa/src//shared/utils.dart';
 import 'package:pamiksa/src/models/user.dart';
-import 'package:pamiksa/src/ui/register/register.dart';
+import 'package:pamiksa/src/ui/register/register_data.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,7 +44,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
       return '¡Ingrese una contraseña!';
     }
     if (value.length < 8) {
-      return '¡La contraseña debe poseer al menos 8 caracteres!';
+      return '¡Debe poseer al menos 8 caracteres!';
     }
     return null;
   }
@@ -60,7 +60,8 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    final cursorColor = Theme.of(context).primaryColor;
+
     return Form(
         key: _formKey,
         child: Container(
@@ -72,6 +73,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               TextFormField(
+                cursorColor: cursorColor,
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
                     fontFamily: 'RobotoMono-Regular',
@@ -81,7 +83,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                   border: UnderlineInputBorder(),
                   labelText: 'Correo electrónico',
                   filled: false,
-                  prefixIcon: Icon(Icons.email),
+                  icon: Icon(Icons.email),
                 ),
                 onChanged: (String value) {
                   setState(() {
@@ -94,6 +96,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                 height: 20,
               ),
               TextFormField(
+                cursorColor: cursorColor,
                 style: TextStyle(
                     fontFamily: 'RobotoMono-Regular',
                     color: Colors.black54,
@@ -105,7 +108,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                   border: const UnderlineInputBorder(),
                   filled: false,
                   labelText: 'Contraseña',
-                  prefixIcon: Icon(Icons.lock),
+                  icon: Icon(Icons.lock),
                   suffixIcon: new GestureDetector(
                     onTap: () {
                       setState(() {
@@ -151,10 +154,11 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                         borderRadius: BorderRadius.circular(25),
                         child: Container(
                           key: _globalKey,
-                          height: 48,
+                          height: 45,
                           width: _width,
                           child: RaisedButton(
-                            animationDuration: Duration(milliseconds: 1000),
+                            textColor: Colors.white,
+                            color: Theme.of(context).primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25),
                             ),
@@ -169,13 +173,12 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                                     animateButton(mutation);
                                   } else {
                                     _state = 0;
-                                    _width = double.maxFinite;
+                                    _width = _width;
                                   }
                                 });
                               }
                             },
                             elevation: 0,
-                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ),
@@ -193,11 +196,9 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
   setUpButtonChild() {
     if (_state == 0) {
       return Text(
-        "Iniciar Sesión",
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-        ),
+        "INICIAR SESIÓN",
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
       );
     } else if (_state == 1) {
       return SizedBox(

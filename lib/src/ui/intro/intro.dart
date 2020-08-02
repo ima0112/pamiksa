@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/models/consts.dart' show COLORPRIMARYLIGTH, INTRO_SMS;
+import 'file:///C:/Users/Imandra/AndroidStudioProjects/pamiksa/lib/src/providers/themes/consts.dart' show COLORPRIMARYLIGTH, INTRO_SMS;
 import 'package:pamiksa/src/ui/login/login.dart';
 
 class Intro extends StatelessWidget {
@@ -8,7 +8,7 @@ class Intro extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: COLORPRIMARYLIGTH
+        primaryColor: Theme.of(context).primaryColor,
       ),
       home: Scaffold(
         body: Center(
