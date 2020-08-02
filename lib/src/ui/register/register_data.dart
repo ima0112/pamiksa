@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'file:///C:/Users/Imandra/AndroidStudioProjects/pamiksa/lib/src/providers/themes/consts.dart'
     show COLORPRIMARYLIGTH, REGISTRER_SMS;
+import 'package:pamiksa/src/ui/login/login.dart';
 
 class Register extends StatefulWidget {
   static const URI = '/register';
@@ -98,8 +99,15 @@ class FormRegisterState extends State<Register> with TickerProviderStateMixin {
     const sizedBoxSpace = SizedBox(height: 24);
 
     return MaterialApp(
-      theme: ThemeData(primaryColor: COLORPRIMARYLIGTH),
+      theme: ThemeData(primaryColor: Theme.of(context).primaryColor),
       home: Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(0),
+            child: AppBar(
+              elevation: 0.0,
+              backgroundColor: Color(0xffF5F5F5),
+              brightness: Brightness.light,
+            )),
         body: Center(
           child: Form(
             key: _formKey,
@@ -134,7 +142,8 @@ class FormRegisterState extends State<Register> with TickerProviderStateMixin {
                       labelText: "Correo electrónico",
                       labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
                       focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2)),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor, width: 2)),
                     ),
                     onSaved: (value) {
                       _nombre = value;
@@ -195,28 +204,51 @@ class FormRegisterState extends State<Register> with TickerProviderStateMixin {
                     },
                   ),
                   sizedBoxSpace,
-                  Row(),
-                  Container(
-                    alignment: Alignment.bottomRight,
-                    child: RaisedButton(
-                      textColor: Colors.white,
-                      color: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
+                  Divider(),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(_createRouter());
+                          },
+                          child: Text(
+                            "ATRÁS",
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        ),
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text('Usuario o Contraseña incorrectos'),
-                          ));
-                        }
-                      },
-                      child: Text(
-                        'SIGUIENTE',
-                        style: TextStyle(
-                            fontFamily: 'RobotoMono-Regular'),
+                      SizedBox(
+                        width: 130,
                       ),
-                    ),
+                      Container(
+                        alignment: Alignment.bottomRight,
+                        child: RaisedButton(
+                          textColor: Colors.white,
+                          color: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                content:
+                                    Text('Usuario o Contraseña incorrectos'),
+                              ));
+                            }
+                          },
+                          child: Text(
+                            'SIGUIENTE',
+                            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   sizedBoxSpace,
                 ],
@@ -227,4 +259,20 @@ class FormRegisterState extends State<Register> with TickerProviderStateMixin {
       ),
     );
   }
+}
+
+Route _createRouter() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(50.0, 0.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
 }

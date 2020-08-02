@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Imandra/AndroidStudioProjects/pamiksa/lib/src/providers/themes/consts.dart' show COLORPRIMARYLIGTH, INTRO_SMS;
+import 'package:pamiksa/src/providers/themes/consts.dart'
+    show COLORPRIMARYLIGTH, INTRO_SMS;
 import 'package:pamiksa/src/ui/login/login.dart';
 
 class Intro extends StatelessWidget {
   static const URI = '/intro';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,6 +13,13 @@ class Intro extends StatelessWidget {
         primaryColor: Theme.of(context).primaryColor,
       ),
       home: Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(0),
+            child: AppBar(
+              elevation: 0.0,
+              backgroundColor: Color(0xffF5F5F5),
+              brightness: Brightness.light,
+            )),
         body: Center(
           child: Stack(
             children: <Widget>[
@@ -48,7 +57,7 @@ class IntroText extends StatelessWidget {
         height: 190,
         width: 300,
         child: Text(
-          INTRO_SMS,
+          "Tú comida favorita a domicilio",
           style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
           textAlign: TextAlign.center,
         ),
@@ -76,7 +85,8 @@ class IntroButton extends StatelessWidget {
           },
           child: Text(
             'COMENZAR',
-            style: TextStyle(fontFamily: 'RobotoMono-Regular', fontWeight: FontWeight.w900),
+            style: TextStyle(
+                fontFamily: 'RobotoMono-Regular', fontWeight: FontWeight.w900),
           ),
         ),
       ),
@@ -88,6 +98,14 @@ Route _createRouter() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return child;
+        var begin = Offset(50.0, 0.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
       });
 }

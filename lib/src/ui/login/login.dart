@@ -67,6 +67,7 @@ class LoginP extends State<Login> {
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(0),
               child: AppBar(
+                elevation: 0.0,
                 backgroundColor: Theme.of(context).primaryColor,
                 brightness: Brightness.dark,
               )),
@@ -159,7 +160,7 @@ class LoginP extends State<Login> {
                   ),
                   GestureDetector(
                     child: Text(
-                      "Regístrate",
+                      "Crear cuenta",
                       style: TextStyle(
                           decoration: TextDecoration.underline,
                           color: Theme.of(context).primaryColor,
@@ -182,6 +183,14 @@ Route _createRouter() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => Register(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return child;
+        var begin = Offset(50.0, 0.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+        var tween =
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
       });
 }
