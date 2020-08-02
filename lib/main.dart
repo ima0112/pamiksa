@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/intro.dart';
-import 'package:pamiksa/consts.dart' show APP_NAME;
+import 'package:pamiksa/src/app.dart';
+import 'package:pamiksa/src/providers/themes/theme_manager.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: APP_NAME,
-      home: Scaffold(
-        body: Intro(),
-      )
-    );
-  }
-}
-
+void main() => runApp(MultiProvider(
+  providers: [ChangeNotifierProvider(create: (_) => ThemeManager())],
+  child: MyApp(),
+));
