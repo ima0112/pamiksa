@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/intro',
       routes: {
         Intro.URI: (context) => Intro(),
-        Register.URI: (context) => Register(),
+        RegisterData.URI: (context) => RegisterData(),
       },
     );
   }

@@ -2,18 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'file:///C:/Users/Imandra/AndroidStudioProjects/pamiksa/lib/src/providers/themes/consts.dart'
-    show COLORPRIMARYLIGTH, REGISTRER_SMS;
 import 'package:pamiksa/src/ui/login/login.dart';
 
-class Register extends StatefulWidget {
+class RegisterData extends StatefulWidget {
   static const URI = '/register';
 
   @override
-  FormRegisterState createState() => new FormRegisterState();
+  FormRegisterDataState createState() => new FormRegisterDataState();
 }
 
-class FormRegisterState extends State<Register> with TickerProviderStateMixin {
+class FormRegisterDataState extends State<RegisterData> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState<String>>();
   List<String> _provincias = ['Matanzas', 'La Habana'];
@@ -96,7 +94,7 @@ class FormRegisterState extends State<Register> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final cursorColor = Theme.of(context).primaryColor;
-    const sizedBoxSpace = SizedBox(height: 24);
+    const sizedBoxSpace = SizedBox(height: 50);
 
     return MaterialApp(
       theme: ThemeData(primaryColor: Theme.of(context).primaryColor),
@@ -108,153 +106,161 @@ class FormRegisterState extends State<Register> with TickerProviderStateMixin {
               backgroundColor: Color(0xffF5F5F5),
               brightness: Brightness.light,
             )),
-        body: Center(
-          child: Form(
-            key: _formKey,
-            child: Container(
+        body: ListView(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 100),
+              child: Text(
+                "Crear cuenta",
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Form(
+              key: _formKey,
+              child: Container(
+//                color: Colors.blue,
+                margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
+                padding: EdgeInsets.only(
+                    top: 50.0, bottom: 170, right: 16.0, left: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    sizedBoxSpace,
+                    TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      cursorColor: cursorColor,
+                      style: TextStyle(
+                          fontFamily: 'RobotoMono-Regular',
+                          color: Colors.black54,
+                          fontSize: 16),
+                      decoration: InputDecoration(
+                        helperText: "",
+                        icon: Icon(Icons.email),
+                        filled: false,
+                        fillColor: Colors.white24,
+                        labelText: "Correo electrónico",
+                        labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2)),
+                      ),
+                      onSaved: (value) {
+                        _nombre = value;
+                      },
+                      validator: (value) => _validateEmail(value),
+                    ),
+                    SizedBox(height: 25,),
+                    TextFormField(
+                      key: _passKey,
+                      cursorColor: cursorColor,
+                      style: TextStyle(
+                          fontFamily: 'RobotoMono-Regular',
+                          color: Colors.black54,
+                          fontSize: 16),
+                      obscureText: _obscureText,
+                      maxLength: 20,
+                      validator: (value) => _validatePassword(value),
+                      decoration: new InputDecoration(
+                        border: const UnderlineInputBorder(),
+                        filled: false,
+                        labelText: 'Contraseña',
+                        icon: Icon(Icons.lock),
+                        suffixIcon: new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                          child: new Icon(_obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                        ),
+                      ),
+                      onChanged: (String value) {
+                        setState(() {
+                          _password = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 25,),
+                    TextFormField(
+                      cursorColor: cursorColor,
+                      style: TextStyle(
+                          fontFamily: 'RobotoMono-Regular',
+                          color: Colors.black54,
+                          fontSize: 16),
+                      obscureText: _obscureText,
+                      maxLength: 20,
+                      validator: (value) => _validatePasswordTwo(value),
+                      decoration: new InputDecoration(
+                        border: const UnderlineInputBorder(),
+                        filled: false,
+                        labelText: 'Verificar contraseña',
+                        icon: Icon(Icons.lock),
+                      ),
+                      onChanged: (String value) {
+                        setState(() {
+                          _passwordtwo = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Divider(),
+            SizedBox(height: 6,),
+            Container(
+//              color: Colors.amber,
               margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
-              padding: EdgeInsets.only(
-                  top: 50.0, bottom: 0, right: 16.0, left: 16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  sizedBoxSpace,
-                  Text(
-                    "Crear cuenta",
-                    style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+              padding:
+                  EdgeInsets.only(top: 0, bottom: 0, right: 16.0, left: 16.0),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop(_createRouter());
+                      },
+                      child: Text(
+                        "ATRÁS",
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
+                    ),
                   ),
                   SizedBox(
-                    height: 0,
+                    width: 130,
                   ),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    cursorColor: cursorColor,
-                    style: TextStyle(
-                        fontFamily: 'RobotoMono-Regular',
-                        color: Colors.black54,
-                        fontSize: 16),
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      filled: false,
-                      fillColor: Colors.white24,
-                      labelText: "Correo electrónico",
-                      labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor, width: 2)),
-                    ),
-                    onSaved: (value) {
-                      _nombre = value;
-                    },
-                    validator: (value) => _validateEmail(value),
-                  ),
-                  TextFormField(
-                    key: _passKey,
-                    cursorColor: cursorColor,
-                    style: TextStyle(
-                        fontFamily: 'RobotoMono-Regular',
-                        color: Colors.black54,
-                        fontSize: 16),
-                    obscureText: _obscureText,
-                    maxLength: 20,
-                    validator: (value) => _validatePassword(value),
-                    decoration: new InputDecoration(
-                      border: const UnderlineInputBorder(),
-                      filled: false,
-                      labelText: 'Contraseña',
-                      icon: Icon(Icons.lock),
-                      suffixIcon: new GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
-                        child: new Icon(_obscureText
-                            ? Icons.visibility
-                            : Icons.visibility_off),
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    child: RaisedButton(
+                      textColor: Colors.white,
+                      color: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Usuario o Contraseña incorrectos'),
+                          ));
+                        }
+                      },
+                      child: Text(
+                        'SIGUIENTE',
+                        style: TextStyle(fontFamily: 'RobotoMono-Regular'),
                       ),
                     ),
-                    onChanged: (String value) {
-                      setState(() {
-                        _password = value;
-                      });
-                    },
                   ),
-                  TextFormField(
-                    cursorColor: cursorColor,
-                    style: TextStyle(
-                        fontFamily: 'RobotoMono-Regular',
-                        color: Colors.black54,
-                        fontSize: 16),
-                    obscureText: _obscureText,
-                    maxLength: 20,
-                    validator: (value) => _validatePasswordTwo(value),
-                    decoration: new InputDecoration(
-                      border: const UnderlineInputBorder(),
-                      filled: false,
-                      labelText: 'Verificar contraseña',
-                      icon: Icon(Icons.lock),
-                    ),
-                    onChanged: (String value) {
-                      setState(() {
-                        _passwordtwo = value;
-                      });
-                    },
-                  ),
-                  sizedBoxSpace,
-                  Divider(),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.bottomLeft,
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop(_createRouter());
-                          },
-                          child: Text(
-                            "ATRÁS",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 130,
-                      ),
-                      Container(
-                        alignment: Alignment.bottomRight,
-                        child: RaisedButton(
-                          textColor: Colors.white,
-                          color: Theme.of(context).primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text('Usuario o Contraseña incorrectos'),
-                              ));
-                            }
-                          },
-                          child: Text(
-                            'SIGUIENTE',
-                            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  sizedBoxSpace,
                 ],
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

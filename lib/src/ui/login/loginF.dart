@@ -255,5 +255,5 @@ _saveToken(String token, String refreshToken, BuildContext context) async {
   prefs.save('token', token);
   prefs.save('refreshToken', refreshToken);
   Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (_) => Register()));
+      context, MaterialPageRoute(builder: (_) => RegisterData()));
 }

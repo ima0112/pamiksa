@@ -46,7 +46,7 @@ class LoginP extends State<Login> {
           loadToken();
           if (token != null) {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => Register()));
+                context, MaterialPageRoute(builder: (_) => RegisterData()));
           }
         });
       });
@@ -141,12 +141,13 @@ class LoginP extends State<Login> {
                   '¿ Olvidó su contraseña ?',
                   style: TextStyle(
                       color: Color(0xff6200EA),
-                      fontSize: 14,
+                      decoration: TextDecoration.underline,
+                      fontSize: 15,
                       fontWeight: FontWeight.w700),
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -155,7 +156,7 @@ class LoginP extends State<Login> {
                     '¿ No tiene un usuario ? ',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 14,
+                        fontSize: 15,
                         fontWeight: FontWeight.normal),
                   ),
                   GestureDetector(
@@ -164,7 +165,7 @@ class LoginP extends State<Login> {
                       style: TextStyle(
                           decoration: TextDecoration.underline,
                           color: Theme.of(context).primaryColor,
-                          fontSize: 14,
+                          fontSize: 15,
                           fontWeight: FontWeight.w700),
                     ),
                     onTap: () {
@@ -181,7 +182,7 @@ class LoginP extends State<Login> {
 
 Route _createRouter() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => Register(),
+      pageBuilder: (context, animation, secondaryAnimation) => RegisterData(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(50.0, 0.0);
         var end = Offset.zero;
