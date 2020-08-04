@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/ui/login/login.dart';
+import 'package:pamiksa/src/ui/register/register_location.dart';
 
 class RegisterData extends StatefulWidget {
   static const URI = '/register';
@@ -63,18 +64,6 @@ class FormRegisterDataState extends State<RegisterData> with TickerProviderState
   _validateNombre(String value) {
     if (value.isEmpty) {
       return '¡Ingrese su nombre!';
-    }
-  }
-
-  _validateProvincia(String value) {
-    if (value.isEmpty) {
-      return '¡Ingrese una provincia!';
-    }
-  }
-
-  _validateMunicipio(String value) {
-    if (value.isEmpty) {
-      return '¡Ingrese un municipio!';
     }
   }
 
@@ -210,35 +199,31 @@ class FormRegisterDataState extends State<RegisterData> with TickerProviderState
                 ),
               ),
             ),
+            SizedBox(height: 5,),
             Divider(),
-            SizedBox(height: 6,),
             Container(
 //              color: Colors.amber,
-              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
+              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
               padding:
-                  EdgeInsets.only(top: 0, bottom: 0, right: 16.0, left: 16.0),
+              EdgeInsets.only(top: 0, bottom: 0, right: 16.0, left: 16.0),
               child: Row(
                 children: <Widget>[
-                  Container(
-                    child: FlatButton(
+                  FlatButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop(_createRouter());
+                        Navigator.of(context).pop(LoginPage());
                       },
                       child: Text(
                         "ATRÁS",
                         style: TextStyle(color: Theme.of(context).primaryColor),
                       ),
-                    ),
                   ),
                   SizedBox(
                     width: 130,
                   ),
-                  Container(
-                    alignment: Alignment.bottomRight,
-                    child: RaisedButton(
+                  RaisedButton(
                       textColor: Colors.white,
                       color: Theme.of(context).primaryColor,
                       shape: RoundedRectangleBorder(
@@ -246,16 +231,13 @@ class FormRegisterDataState extends State<RegisterData> with TickerProviderState
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text('Usuario o Contraseña incorrectos'),
-                          ));
+                          Navigator.of(context).push(_createRouter());
                         }
                       },
                       child: Text(
                         'SIGUIENTE',
                         style: TextStyle(fontFamily: 'RobotoMono-Regular'),
                       ),
-                    ),
                   ),
                 ],
               ),
@@ -269,13 +251,13 @@ class FormRegisterDataState extends State<RegisterData> with TickerProviderState
 
 Route _createRouter() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
+      pageBuilder: (context, animation, secondaryAnimation) => RegisterLocation(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(50.0, 0.0);
         var end = Offset.zero;
         var curve = Curves.ease;
         var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
           child: child,

@@ -5,6 +5,7 @@ import 'package:pamiksa/src/providers/themes/consts.dart'
     show APP_NAME, COLORPRIMARYLIGTH;
 import 'package:pamiksa/src/ui/register/register_data.dart';
 import 'package:pamiksa/src/ui/intro/intro.dart';
+import 'package:pamiksa/src/ui/register/register_location.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         Intro.URI: (context) => Intro(),
         RegisterData.URI: (context) => RegisterData(),
+        RegisterLocation.URI: (context) => RegisterLocation(),
       },
     );
   }

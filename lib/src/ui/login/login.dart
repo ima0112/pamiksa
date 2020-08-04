@@ -1,8 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src//shared/servidor.dart' show URL, ACCESS_TOKEN;
 import 'package:pamiksa/src//shared/widget/waveclipper.dart';
-import 'file:///C:/Users/Imandra/AndroidStudioProjects/pamiksa/lib/src/providers/themes/consts.dart';
 import 'package:pamiksa/src/ui/login/loginF.dart';
 import 'package:pamiksa/src/ui/register/register_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,123 +61,134 @@ class LoginP extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return GraphQLProvider(
-        client: client,
-        child: CacheProvider(
-            child: Scaffold(
-          appBar: PreferredSize(
-              preferredSize: Size.fromHeight(0),
-              child: AppBar(
-                elevation: 0.0,
-                backgroundColor: Theme.of(context).primaryColor,
-                brightness: Brightness.dark,
-              )),
-          backgroundColor: Colors.white,
-          body: ListView(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  ClipPath(
-                    clipper: WaveClipper2(),
-                    child: Container(
-                      child: Column(),
-                      width: double.infinity,
-                      height: 300,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [Color(0xff7C4DFF), Color(0xff6200EA)])),
-                    ),
-                  ),
-                  ClipPath(
-                    clipper: WaveClipper3(),
-                    child: Container(
-                      child: Column(),
-                      width: double.infinity,
-                      height: 300,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [Color(0xff6200EA), Color(0xff5C4DFF)])),
-                    ),
-                  ),
-                  ClipPath(
-                    clipper: WaveClipper1(),
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Icon(
-                            Icons.fastfood,
-                            color: Colors.white,
-                            size: 60,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Pamiksa',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 30),
-                          )
-                        ],
+    return MaterialApp(
+      theme: ThemeData(
+          primaryColor: Theme.of(context).primaryColor,
+          fontFamily: "RobotoMono-Regular"),
+      home: GraphQLProvider(
+          client: client,
+          child: CacheProvider(
+              child: Scaffold(
+            appBar: PreferredSize(
+                preferredSize: Size.fromHeight(0),
+                child: AppBar(
+                  elevation: 0.0,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  brightness: Brightness.dark,
+                )),
+            backgroundColor: Colors.white,
+            body: ListView(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    ClipPath(
+                      clipper: WaveClipper2(),
+                      child: Container(
+                        child: Column(),
+                        width: double.infinity,
+                        height: 300,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                          Color(0xff7C4DFF),
+                          Color(0xff6200EA)
+                        ])),
                       ),
-                      width: double.infinity,
-                      height: 300,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [Color(0xff6200EA), Color(0xff7C4DFF)])),
                     ),
-                  )
-                ],
-              ),
-              FormLogin(),
-              SizedBox(
-                height: 18,
-              ),
-              Center(
-                child: Text(
-                  '¿ Olvidó su contraseña ?',
-                  style: TextStyle(
-                      color: Color(0xff6200EA),
-                      decoration: TextDecoration.underline,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700),
+                    ClipPath(
+                      clipper: WaveClipper3(),
+                      child: Container(
+                        child: Column(),
+                        width: double.infinity,
+                        height: 300,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                          Color(0xff6200EA),
+                          Color(0xff5C4DFF)
+                        ])),
+                      ),
+                    ),
+                    ClipPath(
+                      clipper: WaveClipper1(),
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Icon(
+                              Icons.fastfood,
+                              color: Colors.white,
+                              size: 60,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              'Pamiksa',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 30),
+                            )
+                          ],
+                        ),
+                        width: double.infinity,
+                        height: 300,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                          Color(0xff6200EA),
+                          Color(0xff7C4DFF)
+                        ])),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '¿ No tiene un usuario ? ',
+                FormLogin(),
+                SizedBox(
+                  height: 18,
+                ),
+                Center(
+                  child: Text(
+                    '¿ Has olvidado tu contraseña ?',
                     style: TextStyle(
-                        color: Colors.black,
+                        color: Color(0xff6200EA),
+                        decoration: TextDecoration.underline,
                         fontSize: 15,
-                        fontWeight: FontWeight.normal),
+                        fontWeight: FontWeight.bold),
                   ),
-                  GestureDetector(
-                    child: Text(
-                      "Crear cuenta",
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      '¿ No tiene un usuario ? ',
                       style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black,
                           fontSize: 15,
-                          fontWeight: FontWeight.w700),
+                          fontWeight: FontWeight.bold),
                     ),
-                    onTap: () {
-                      Navigator.of(context).push(_createRouter());
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
-        )));
+                    GestureDetector(
+                      child: Text(
+                        "Crear cuenta",
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(_createRouter());
+                      },
+                    )
+                  ],
+                )
+              ],
+            ),
+          ))),
+    );
   }
 }
 
@@ -188,7 +200,7 @@ Route _createRouter() {
         var end = Offset.zero;
         var curve = Curves.ease;
         var tween =
-        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
           child: child,

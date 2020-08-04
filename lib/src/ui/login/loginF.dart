@@ -76,8 +76,8 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                 cursorColor: cursorColor,
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
-                    fontFamily: 'RobotoMono-Regular',
-                    color: Colors.black54,
+//                    fontFamily: 'RobotoMono-Regular',
+//                    color: Colors.black54,
                     fontSize: 16),
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
@@ -97,10 +97,10 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
               ),
               TextFormField(
                 cursorColor: cursorColor,
-                style: TextStyle(
-                    fontFamily: 'RobotoMono-Regular',
-                    color: Colors.black54,
-                    fontSize: 16),
+//                style: TextStyle(
+//                    fontFamily: 'RobotoMono-Regular',
+//                    color: Colors.black54,
+//                    fontSize: 16),
                 obscureText: _obscureText,
                 maxLength: 20,
                 validator: (value) => _validatePassword(value),

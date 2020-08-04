@@ -81,7 +81,7 @@ class IntroButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
           ),
           onPressed: () {
-            Navigator.of(context).pushReplacement(_createRouter());
+            Navigator.of(context).push(_createRouter());
           },
           child: Text(
             'COMENZAR',
