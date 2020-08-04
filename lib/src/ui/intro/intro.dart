@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/providers/themes/consts.dart'
-    show COLORPRIMARYLIGTH, INTRO_SMS;
 import 'package:pamiksa/src/ui/login/login.dart';
+import 'package:flutter/services.dart';
 
 class Intro extends StatelessWidget {
   static const URI = '/intro';
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Theme.of(context).primaryColor,
-      ),
-      home: Scaffold(
+    return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(0),
             child: AppBar(
@@ -29,8 +24,7 @@ class Intro extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -81,7 +75,7 @@ class IntroButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
           ),
           onPressed: () {
-            Navigator.of(context).push(_createRouter());
+            Navigator.of(context).pushReplacement(_createRouter());
           },
           child: Text(
             'COMENZAR',

@@ -27,16 +27,16 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
          children: [
            sizedBoxSpace,
            Container(
-             padding: EdgeInsets.only(top: 100),
+             padding: EdgeInsets.only(top: 50),
              child: Text(
                "Crear cuenta",
                style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
                textAlign: TextAlign.center,
              ),
            ),
-           sizedBoxSpace,
+           SizedBox(height: 112,),
            Container(
-             height: 480,
+             height: 470,
              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
              padding: EdgeInsets.only(
                  top: 0, bottom: 0, right: 16.0, left: 16.0),
@@ -66,7 +66,7 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
                      );
                    }).toList(),
                  ),
-//                    SizedBox(height: 45,),
+                 SizedBox(height: 25,),
                  DropdownButtonFormField(
                    hint: Text('Municipio*'),
                    decoration: InputDecoration(
@@ -95,9 +95,7 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
              ),
            ),
            Divider(),
-           SizedBox(
-             height: 4,
-           ),
+           SizedBox(height: 2,),
            Container(
 //              color: Colors.amber,
              alignment: Alignment.bottomCenter,
@@ -111,7 +109,7 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
                      borderRadius: BorderRadius.circular(25),
                    ),
                    onPressed: () {
-                     Navigator.of(context).pop(RegisterData());
+                     Navigator.pop(context);
                    },
                    child: Text(
                      "ATRÁS",

@@ -90,11 +90,7 @@ class FormRegisterLocationState extends State<RegisterLocation> {
     final cursorColor = Theme.of(context).primaryColor;
     const sizedBoxSpace = SizedBox(height: 50);
 
-    return MaterialApp(
-      theme: ThemeData(
-          primaryColor: Theme.of(context).primaryColor,
-          fontFamily: 'RobotoMono-Regular'),
-      home: Scaffold(
+    return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(0),
             child: AppBar(
@@ -103,8 +99,7 @@ class FormRegisterLocationState extends State<RegisterLocation> {
               brightness: Brightness.light,
             )),
         body: RegisterLocationForm(),
-      ),
-    );
+      );
   }
 }
 
