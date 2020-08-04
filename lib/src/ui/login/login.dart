@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src//shared/servidor.dart' show URL, ACCESS_TOKEN;
 import 'package:pamiksa/src//shared/widget/waveclipper.dart';
-import 'package:pamiksa/src/ui/login/loginF.dart';
-import 'package:pamiksa/src/ui/register/register_data.dart';
+import 'package:pamiksa/src/ui/login/login_form.dart';
+import 'package:pamiksa/src/ui/register/register_data/register_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 

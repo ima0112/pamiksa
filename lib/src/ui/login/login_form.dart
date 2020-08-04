@@ -3,7 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src//shared/graphql/mutations/loginM.dart';
 import 'package:pamiksa/src//shared/utils.dart';
 import 'package:pamiksa/src/models/user.dart';
-import 'package:pamiksa/src/ui/register/register_data.dart';
+import 'package:pamiksa/src/ui/register/register_data/register_data.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
