@@ -76,8 +76,6 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                 cursorColor: cursorColor,
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
-//                    fontFamily: 'RobotoMono-Regular',
-//                    color: Colors.black54,
                     fontSize: 16),
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),

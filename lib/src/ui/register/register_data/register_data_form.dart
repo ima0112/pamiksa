@@ -8,6 +8,9 @@ class RegisterDataForm extends StatefulWidget {
 class RegisterDataFormState extends State<RegisterDataForm> {
   final _passKey = GlobalKey<FormFieldState<String>>();
 
+  String correo;
+  String password;
+  String passwordtwo;
   bool _obscureText = true;
 
   _validateEmail(String value) {
@@ -50,27 +53,10 @@ class RegisterDataFormState extends State<RegisterDataForm> {
     return null;
   }
 
-  _validateNombre(String value) {
-    if (value.isEmpty) {
-      return '¡Ingrese su nombre!';
-    }
-  }
-
-  _validateDireccion(String value) {
-    if (value.isEmpty) {
-      return '¡Ingrese una dirección!';
-    }
-  }
-
-  String _nombre;
-  String _direccion;
-  String _password;
-  String _passwordtwo;
-
   @override
   Widget build(BuildContext context) {
     final cursorColor = Theme.of(context).primaryColor;
-    const sizedBoxSpace = SizedBox(height: 50);
+    const sizedBoxSpace = SizedBox(height: 25);
 
     return Container(
       margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
@@ -96,13 +82,11 @@ class RegisterDataFormState extends State<RegisterDataForm> {
                       color: Theme.of(context).primaryColor, width: 2)),
             ),
             onSaved: (value) {
-              _nombre = value;
+              correo = value;
             },
             validator: (value) => _validateEmail(value),
           ),
-          SizedBox(
-            height: 25,
-          ),
+          sizedBoxSpace,
           TextFormField(
             key: _passKey,
             cursorColor: cursorColor,
@@ -130,13 +114,11 @@ class RegisterDataFormState extends State<RegisterDataForm> {
             ),
             onChanged: (String value) {
               setState(() {
-                _password = value;
+                password = value;
               });
             },
           ),
-          SizedBox(
-            height: 25,
-          ),
+          sizedBoxSpace,
           TextFormField(
             cursorColor: cursorColor,
             style: TextStyle(
@@ -154,7 +136,7 @@ class RegisterDataFormState extends State<RegisterDataForm> {
             ),
             onChanged: (String value) {
               setState(() {
-                _passwordtwo = value;
+                passwordtwo = value;
               });
             },
           ),

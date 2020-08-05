@@ -12,20 +12,31 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
   List<String> _municipios = ['Cárdenas'];
   String _selectedprovincia;
   String _selectedmunicipio;
+  String direccion;
+
+  _validateDireccion(String value) {
+    if (value.isEmpty) {
+      return '¡Ingrese su dirección!';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final cursorColor = Theme.of(context).primaryColor;
 
     return Container(
         margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
         child: Column(
           children: [
-            SizedBox(height: 16,),
             DropdownButtonFormField(
               decoration: InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: "Provincia*",
+                labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                icon: Icon(Icons.location_city),
                 helperText: "",
               ),
-              hint: Text('Provincia*'),
+//              hint: Text('Provincia*'),
               style: TextStyle(
                   fontFamily: 'RobotoMono-Regular',
                   color: Colors.black54,
@@ -46,11 +57,14 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
               }).toList(),
             ),
             SizedBox(
-              height: 36,
+              height: 20,
             ),
             DropdownButtonFormField(
-              hint: Text('Municipio*'),
               decoration: InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: "Municipio*",
+                labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                icon: Icon(Icons.near_me),
                 helperText: "",
               ),
               style: TextStyle(
@@ -71,6 +85,32 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
                   value: location,
                 );
               }).toList(),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            TextFormField(
+              textCapitalization: TextCapitalization.words,
+              cursorColor: cursorColor,
+              style: TextStyle(
+                  fontFamily: 'RobotoMono-Regular',
+                  color: Colors.black54,
+                  fontSize: 16),
+              decoration: InputDecoration(
+                helperText: "",
+                icon: Icon(Icons.location_on),
+                filled: false,
+                fillColor: Colors.white24,
+                labelText: "Dirección*",
+                labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor, width: 2)),
+              ),
+              onSaved: (value) {
+                direccion = value;
+              },
+              validator: (value) => _validateDireccion(value),
             ),
           ],
         ),

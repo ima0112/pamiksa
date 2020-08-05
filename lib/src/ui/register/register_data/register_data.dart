@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:pamiksa/src/ui/login/login.dart';
+import 'package:pamiksa/src/ui/register/register.dart';
 import 'package:pamiksa/src/ui/register/register_data/register_data_form.dart';
 import 'package:pamiksa/src/ui/register/register_location/register_location.dart';
+
+import '../calendar.dart';
+import '../register_form.dart';
 
 class RegisterDataPage extends StatelessWidget {
   static const URI = '/registerdata';
@@ -19,10 +22,10 @@ class RegisterDataPage extends StatelessWidget {
 
 class RegisterData extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new FormRegisterDataState();
+  State<StatefulWidget> createState() => new RegisterDataState();
 }
 
-class FormRegisterDataState extends State<RegisterData>{
+class RegisterDataState extends State<RegisterData>{
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -118,7 +121,7 @@ class FormRegisterDataState extends State<RegisterData>{
 
 Route _createRouter() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => RegisterLocation(),
+      pageBuilder: (context, animation, secondaryAnimation) => RegisterPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(50.0, 0.0);
         var end = Offset.zero;

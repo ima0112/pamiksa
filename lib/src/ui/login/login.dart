@@ -181,7 +181,7 @@ class LoginP extends State<Login> {
 
 Route _createRouter() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => RegisterData(),
+      pageBuilder: (context, animation, secondaryAnimation) => RegisterDataPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(50.0, 0.0);
         var end = Offset.zero;

@@ -17,25 +17,17 @@ class RegisterLocationPage extends StatelessWidget {
 class RegisterLocation extends StatefulWidget {
 
   @override
-  State<StatefulWidget> createState() => new FormRegisterLocationState();
+  State<StatefulWidget> createState() => new RegisterLocationState();
 }
 
-class FormRegisterLocationState extends State<RegisterLocation> {
+class RegisterLocationState extends State<RegisterLocation> {
   final _formKey = GlobalKey<FormState>();
-
-  _validateNombre(String value) {
-    if (value.isEmpty) {
-      return '¡Ingrese su nombre!';
-    }
-  }
-
-  String _nombre;
-  String _direccion;
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AppBar(
