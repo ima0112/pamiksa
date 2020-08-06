@@ -60,7 +60,6 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final cursorColor = Theme.of(context).primaryColor;
 
     return Form(
         key: _formKey,
@@ -73,7 +72,6 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               TextFormField(
-                cursorColor: cursorColor,
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
                     fontSize: 16),
@@ -94,7 +92,6 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                 height: 20,
               ),
               TextFormField(
-                cursorColor: cursorColor,
 //                style: TextStyle(
 //                    fontFamily: 'RobotoMono-Regular',
 //                    color: Colors.black54,

@@ -11,6 +11,7 @@ final appThemeData = {
       brightness: Brightness.light,
       elevation: 5.0,
     ),
+    cursorColor: Color(0xff6200EA),
     hoverColor: Color(0xff6200EA),
     primaryColor: Color(0xff6200EA),
     bottomAppBarColor: Color(0xff6200EA),

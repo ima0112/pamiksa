@@ -47,7 +47,10 @@ class RegisterDataFormState extends State<RegisterDataForm> {
     if (value.isEmpty) {
       return '¡Ingrese una contraseña!';
     }
-    if (pass.value != value || value.length < 8) {
+    if (value.length < 8) {
+      return '¡Debe poseer al menos 8 caracteres!';
+    }
+    if (pass.value != value) {
       return '¡Las contraseñas no coinciden!';
     }
     return null;
@@ -55,7 +58,6 @@ class RegisterDataFormState extends State<RegisterDataForm> {
 
   @override
   Widget build(BuildContext context) {
-    final cursorColor = Theme.of(context).primaryColor;
     const sizedBoxSpace = SizedBox(height: 25);
 
     return Container(
@@ -65,7 +67,6 @@ class RegisterDataFormState extends State<RegisterDataForm> {
           SizedBox(height: 5,),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
-            cursorColor: cursorColor,
             style: TextStyle(
                 fontFamily: 'RobotoMono-Regular',
                 color: Colors.black54,
@@ -89,7 +90,6 @@ class RegisterDataFormState extends State<RegisterDataForm> {
           sizedBoxSpace,
           TextFormField(
             key: _passKey,
-            cursorColor: cursorColor,
             style: TextStyle(
                 fontFamily: 'RobotoMono-Regular',
                 color: Colors.black54,
@@ -120,7 +120,6 @@ class RegisterDataFormState extends State<RegisterDataForm> {
           ),
           sizedBoxSpace,
           TextFormField(
-            cursorColor: cursorColor,
             style: TextStyle(
                 fontFamily: 'RobotoMono-Regular',
                 color: Colors.black54,

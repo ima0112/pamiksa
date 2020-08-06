@@ -4,10 +4,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/ui/register/register.dart';
 import 'package:pamiksa/src/ui/register/register_data/register_data_form.dart';
-import 'package:pamiksa/src/ui/register/register_location/register_location.dart';
-
-import '../calendar.dart';
-import '../register_form.dart';
 
 class RegisterDataPage extends StatelessWidget {
   static const URI = '/registerdata';

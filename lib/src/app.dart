@@ -8,6 +8,7 @@ import 'package:pamiksa/src/ui/register/register_data/register_data.dart';
 import 'package:pamiksa/src/ui/intro/intro.dart';
 import 'package:pamiksa/src/ui/register/register_location/register_location.dart';
 import 'package:provider/provider.dart';
+//import 'package:flutter_loca';
 
 class MyApp extends StatelessWidget {
   @override
@@ -20,6 +21,12 @@ class MyApp extends StatelessWidget {
       darkTheme: context.watch<ThemeManager>().themeData,
       theme: context.watch<ThemeManager>().themeData,
       initialRoute: '/intro',
+      localizationsDelegates: [
+//        GlobalMater
+      ],
+      supportedLocales: [
+        const Locale('es', 'CU')
+      ],
       routes: {
         Intro.URI: (context) => Intro(),
         RegisterDataPage.URI: (context) => RegisterDataPage(),

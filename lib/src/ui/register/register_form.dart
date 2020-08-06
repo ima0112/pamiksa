@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'calendar.dart';
+import 'package:intl/intl.dart';
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -10,7 +9,9 @@ class RegisterForm extends StatefulWidget {
 
 class RegisterFormState extends State<RegisterForm> {
   String nombre;
-  DateTime _selectedfecha;
+  static int years = DateTime.now().year - 18;
+  DateTime selectedDate =
+      DateTime(years, DateTime.now().month, DateTime.now().day);
 
   _validateNombre(String value) {
     if (value.isEmpty) {
@@ -18,27 +19,31 @@ class RegisterFormState extends State<RegisterForm> {
     }
   }
 
-  void _datePickerDialog() {
-    DateTime now = DateTime.now();
-    showDatePicker(
+  void _datePickerDialog(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: now,
-        firstDate: DateTime(2000),
-        lastDate: DateTime.now());
+        initialDate: selectedDate,
+        firstDate: DateTime(1900),
+        lastDate: selectedDate);
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
   }
 
   @override
   Widget build(BuildContext context) {
-    final cursorColor = Theme.of(context).primaryColor;
+//    String _formattedate = new DateFormat().add_yMMMMd().format(selectedDate);
 
     return Container(
       margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
       child: Column(
         children: [
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
           TextFormField(
             textCapitalization: TextCapitalization.words,
-            cursorColor: cursorColor,
             style: TextStyle(
                 fontFamily: 'RobotoMono-Regular',
                 color: Colors.black54,
@@ -62,36 +67,27 @@ class RegisterFormState extends State<RegisterForm> {
           SizedBox(
             height: 25,
           ),
-          TextFormField(
-            keyboardType: TextInputType.datetime,
-            cursorColor: cursorColor,
-            style: TextStyle(
-                fontFamily: 'RobotoMono-Regular',
-                color: Colors.black54,
-                fontSize: 16),
-            decoration: InputDecoration(
-              helperText: "",
-              icon: Icon(Icons.calendar_today),
-              suffixIcon: GestureDetector(
-                onTap: (){
-                  _datePickerDialog;
-                },
-                  child: Icon(Icons.arrow_drop_down),
+          InkWell(
+            child: GestureDetector(
+              child: InputDecorator(
+                decoration: InputDecoration(
+                    labelText: "Fecha de nacimiento*",
+                    enabled: true,
+                    icon: Icon(Icons.calendar_today)),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Text(
+                          "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
+                      Icon(Icons.arrow_drop_down),
+                    ]),
               ),
-              filled: false,
-              fillColor: Colors.white24,
-              labelText: "Fecha de nacimiento*",
-              labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor, width: 2)),
+              onTap: () {
+                _datePickerDialog(context);
+              },
             ),
-            onSaved: (value) {
-              nombre = value;
-            },
-            validator: (value) => _validateNombre(value),
           ),
-//          LAWidget(),
         ],
       ),
     );

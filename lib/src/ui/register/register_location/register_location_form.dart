@@ -22,7 +22,6 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
 
   @override
   Widget build(BuildContext context) {
-    final cursorColor = Theme.of(context).primaryColor;
 
     return Container(
         margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
@@ -91,7 +90,6 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
             ),
             TextFormField(
               textCapitalization: TextCapitalization.words,
-              cursorColor: cursorColor,
               style: TextStyle(
                   fontFamily: 'RobotoMono-Regular',
                   color: Colors.black54,
