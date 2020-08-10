@@ -36,9 +36,9 @@ dependencies:
   path:
   shared_preferences:
   intl:
-  flutter_datetime_picker:
-  flutter_rounded_date_picker:
-  flutter_localizations:
+#  flutter_datetime_picker:
+#  flutter_rounded_date_picker:
+#  flutter_localizations:
   #  google_maps_flutter: ^0.5.28+1
   #  flutter_paystack: ^1.0.3+1
   #  google_sign_in: ^4.5.1
