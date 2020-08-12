@@ -4,6 +4,6 @@ import 'package:pamiksa/src/providers/themes/theme_manager.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MultiProvider(
-  providers: [ChangeNotifierProvider(create: (_) => ThemeManager())],
-  child: MyApp(),
-));
+      providers: [ChangeNotifierProvider(create: (_) => ThemeManager())],
+      child: MyApp(),
+    ));

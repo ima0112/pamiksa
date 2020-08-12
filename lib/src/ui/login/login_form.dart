@@ -3,7 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src//shared/graphql/mutations/loginM.dart';
 import 'package:pamiksa/src//shared/utils.dart';
 import 'package:pamiksa/src/models/user.dart';
-import 'package:pamiksa/src/ui/register/register_data.dart';
+import 'package:pamiksa/src/ui/register/register_data/register_data.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,7 +60,6 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final cursorColor = Theme.of(context).primaryColor;
 
     return Form(
         key: _formKey,
@@ -73,11 +72,8 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               TextFormField(
-                cursorColor: cursorColor,
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(
-                    fontFamily: 'RobotoMono-Regular',
-                    color: Colors.black54,
                     fontSize: 16),
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
@@ -96,11 +92,10 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                 height: 20,
               ),
               TextFormField(
-                cursorColor: cursorColor,
-                style: TextStyle(
-                    fontFamily: 'RobotoMono-Regular',
-                    color: Colors.black54,
-                    fontSize: 16),
+//                style: TextStyle(
+//                    fontFamily: 'RobotoMono-Regular',
+//                    color: Colors.black54,
+//                    fontSize: 16),
                 obscureText: _obscureText,
                 maxLength: 20,
                 validator: (value) => _validatePassword(value),
@@ -255,5 +250,5 @@ _saveToken(String token, String refreshToken, BuildContext context) async {
   prefs.save('token', token);
   prefs.save('refreshToken', refreshToken);
   Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (_) => Register()));
+      context, MaterialPageRoute(builder: (_) => RegisterData()));
 }

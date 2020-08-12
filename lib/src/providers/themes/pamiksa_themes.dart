@@ -4,13 +4,14 @@ enum AppTheme { White, Dark }
 
 final appThemeData = {
   AppTheme.White: ThemeData(
-    fontFamily: 'Roboto',
+    fontFamily: 'RobotoMono-Regular',
     brightness: Brightness.light,
     appBarTheme: AppBarTheme(
       color: Color(0xff6200EA),
       brightness: Brightness.light,
       elevation: 5.0,
     ),
+    cursorColor: Color(0xff6200EA),
     hoverColor: Color(0xff6200EA),
     primaryColor: Color(0xff6200EA),
     bottomAppBarColor: Color(0xff6200EA),
@@ -21,7 +22,7 @@ final appThemeData = {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   ),
   AppTheme.Dark: ThemeData(
-    fontFamily: 'Roboto',
+    fontFamily: 'RobotoMono-Regular',
     brightness: Brightness.dark,
     appBarTheme: AppBarTheme(
       color: Color(0xff202020),

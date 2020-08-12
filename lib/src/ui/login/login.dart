@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src//shared/servidor.dart' show URL, ACCESS_TOKEN;
 import 'package:pamiksa/src//shared/widget/waveclipper.dart';
-import 'file:///C:/Users/Imandra/AndroidStudioProjects/pamiksa/lib/src/providers/themes/consts.dart';
-import 'package:pamiksa/src/ui/login/loginF.dart';
-import 'package:pamiksa/src/ui/register/register_data.dart';
+import 'package:pamiksa/src/ui/login/login_form.dart';
+import 'package:pamiksa/src/ui/register/register_data/register_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
@@ -46,7 +45,7 @@ class LoginP extends State<Login> {
           loadToken();
           if (token != null) {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => Register()));
+                context, MaterialPageRoute(builder: (_) => RegisterData()));
           }
         });
       });
@@ -67,6 +66,7 @@ class LoginP extends State<Login> {
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(0),
               child: AppBar(
+                elevation: 0.0,
                 backgroundColor: Theme.of(context).primaryColor,
                 brightness: Brightness.dark,
               )),
@@ -137,15 +137,16 @@ class LoginP extends State<Login> {
               ),
               Center(
                 child: Text(
-                  '¿ Olvidó su contraseña ?',
+                  '¿ Has olvidado tu contraseña ?',
                   style: TextStyle(
                       color: Color(0xff6200EA),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700),
+                      decoration: TextDecoration.underline,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -154,17 +155,17 @@ class LoginP extends State<Login> {
                     '¿ No tiene un usuario ? ',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
                     child: Text(
-                      "Regístrate",
+                      "Crear cuenta",
                       style: TextStyle(
                           decoration: TextDecoration.underline,
                           color: Theme.of(context).primaryColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
                       Navigator.of(context).push(_createRouter());
@@ -180,8 +181,16 @@ class LoginP extends State<Login> {
 
 Route _createRouter() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => Register(),
+      pageBuilder: (context, animation, secondaryAnimation) => RegisterDataPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return child;
+        var begin = Offset(50.0, 0.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
       });
 }
