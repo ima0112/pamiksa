@@ -2,25 +2,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:pamiksa/src/ui/register/register_data_person/register.dart';
-import 'package:pamiksa/src/ui/register/register_data/register_data_form.dart';
+import 'package:pamiksa/src/ui/register/register_data_person/register_form.dart';
+import 'package:pamiksa/src/ui/register/register_location/register_location.dart';
+import 'package:pamiksa/src/ui/register/register_location/register_location_form.dart';
 
-class RegisterDataPage extends StatelessWidget {
+class RegisterDataPersonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    return RegisterData();
+    return Register();
   }
 }
 
-class RegisterData extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new RegisterDataState();
+  State<StatefulWidget> createState() => new RegisterState();
 }
 
-class RegisterDataState extends State<RegisterData> {
+class RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
+
+  _validateNombre(String value) {
+    if (value.isEmpty) {
+      return '¡Ingrese su nombre!';
+    }
+  }
+
+  String _nombre;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +60,7 @@ class RegisterDataState extends State<RegisterData> {
                   margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
                   child: Form(
                     key: _formKey,
-                    child: RegisterDataForm(),
+                    child: RegisterForm(),
                   ),
                 ),
               ),
@@ -105,7 +114,7 @@ class RegisterDataState extends State<RegisterData> {
 Route _createRouter() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          RegisterDataPersonPage(),
+          RegisterLocationPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(50.0, 0.0);
         var end = Offset.zero;

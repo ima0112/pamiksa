@@ -65,8 +65,7 @@ flutter:
   assets:
     - assets/documents/
     - assets/gif/
-    - assets/images/deliverypurple.png
-    - assets/images/clip.png
+    - assets/images/
     - assets/videos/
 
   fonts:

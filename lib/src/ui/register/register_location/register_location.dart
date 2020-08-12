@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:pamiksa/src/ui/register/register_location/register_location_form.dart';
 
 class RegisterLocationPage extends StatelessWidget {
-  static const URI = '/registerlocation';
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -14,8 +12,8 @@ class RegisterLocationPage extends StatelessWidget {
     return RegisterLocation();
   }
 }
-class RegisterLocation extends StatefulWidget {
 
+class RegisterLocation extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new RegisterLocationState();
 }
@@ -25,7 +23,6 @@ class RegisterLocationState extends State<RegisterLocation> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -35,80 +32,69 @@ class RegisterLocationState extends State<RegisterLocation> {
             backgroundColor: Color(0xffF5F5F5),
             brightness: Brightness.light,
           )),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 100,
-            ),
-            Container(
-              child: Text(
-                "Crear cuenta",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
-                textAlign: TextAlign.center,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Text(
+                  "Crear cuenta",
+                  style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Container(
-              height: 500,
-              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
-              padding: EdgeInsets.only(
-                  top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
-              child: Form(
-                key: _formKey,
-                child: RegisterLocationForm(),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: RegisterLocationForm(),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 45,
-            ),
-            Divider(),
-            SizedBox(height: 6,),
-            Container(
-              height: 40,
-              alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-              padding: EdgeInsets.only(
-                  top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
-              child: Row(
-                children: <Widget>[
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
+              Divider(),
+              Container(
+                margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                padding: EdgeInsets.only(
+                    top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "ATRÁS",
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "ATRÁS",
-                      style: TextStyle(color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 130,
-                  ),
-                  RaisedButton(
-                    textColor: Colors.white,
-                    color: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
+                    RaisedButton(
+                      textColor: Colors.white,
+                      color: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
 //                          Navigator.of(context).push(_createRouter());
-                      }
-                    },
-                    child: Text(
-                      'SIGUIENTE',
-                      style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                        }
+                      },
+                      child: Text(
+                        'SIGUIENTE',
+                        style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

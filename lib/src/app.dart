@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:pamiksa/src/providers/themes/theme_manager.dart';
 import 'package:pamiksa/src/providers/themes/consts.dart'
     show APP_NAME;
-import 'package:pamiksa/src/ui/register/register.dart';
+import 'package:pamiksa/src/ui/register/register_data_person/register.dart';
 import 'package:pamiksa/src/ui/register/register_data/register_data.dart';
 import 'package:pamiksa/src/ui/intro/intro.dart';
 import 'package:pamiksa/src/ui/register/register_location/register_location.dart';
@@ -21,10 +21,10 @@ class MyApp extends StatelessWidget {
       theme: context.watch<ThemeManager>().themeData,
       initialRoute: '/intro',
       routes: {
-        Intro.URI: (context) => Intro(),
-        RegisterDataPage.URI: (context) => RegisterDataPage(),
-        RegisterLocationPage.URI: (context) => RegisterLocationPage(),
-        RegisterPage.URI: (context) => RegisterPage(),
+        "/intro": (context) => Intro(),
+        "/register_data": (context) => RegisterDataPage(),
+        "/register_data_person": (context) => RegisterDataPersonPage(),
+        "/register_location": (context) => RegisterLocationPage(),
       },
     );
   }

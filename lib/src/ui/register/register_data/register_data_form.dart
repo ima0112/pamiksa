@@ -62,84 +62,87 @@ class RegisterDataFormState extends State<RegisterDataForm> {
 
     return Container(
       margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-      child: Column(
-        children: [
-          SizedBox(height: 5,),
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
-                fontFamily: 'RobotoMono-Regular',
-                color: Colors.black54,
-                fontSize: 16),
-            decoration: InputDecoration(
-              helperText: "",
-              icon: Icon(Icons.email),
-              filled: false,
-              fillColor: Colors.white24,
-              labelText: "Correo electrónico",
-              labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor, width: 2)),
-            ),
-            onSaved: (value) {
-              correo = value;
-            },
-            validator: (value) => _validateEmail(value),
-          ),
-          sizedBoxSpace,
-          TextFormField(
-            key: _passKey,
-            style: TextStyle(
-                fontFamily: 'RobotoMono-Regular',
-                color: Colors.black54,
-                fontSize: 16),
-            obscureText: _obscureText,
-            maxLength: 20,
-            validator: (value) => _validatePassword(value),
-            decoration: new InputDecoration(
-              border: const UnderlineInputBorder(),
-              filled: false,
-              labelText: 'Contraseña',
-              icon: Icon(Icons.lock),
-              suffixIcon: new GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _obscureText = !_obscureText;
-                  });
-                },
-                child: new Icon(
-                    _obscureText ? Icons.visibility : Icons.visibility_off),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 25.0, 16.0, 16.0),
+        child: Column(
+          children: [
+            SizedBox(height: 5,),
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              style: TextStyle(
+                  fontFamily: 'RobotoMono-Regular',
+                  color: Colors.black54,
+                  fontSize: 16),
+              decoration: InputDecoration(
+                helperText: "",
+                icon: Icon(Icons.email),
+                filled: false,
+                fillColor: Colors.white24,
+                labelText: "Correo electrónico",
+                labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor, width: 2)),
               ),
+              onSaved: (value) {
+                correo = value;
+              },
+              validator: (value) => _validateEmail(value),
             ),
-            onChanged: (String value) {
-              setState(() {
-                password = value;
-              });
-            },
-          ),
-          sizedBoxSpace,
-          TextFormField(
-            style: TextStyle(
-                fontFamily: 'RobotoMono-Regular',
-                color: Colors.black54,
-                fontSize: 16),
-            obscureText: _obscureText,
-            maxLength: 20,
-            validator: (value) => _validatePasswordTwo(value),
-            decoration: new InputDecoration(
-              border: const UnderlineInputBorder(),
-              filled: false,
-              labelText: 'Verificar contraseña',
-              icon: Icon(Icons.lock),
+            // sizedBoxSpace,
+            TextFormField(
+              key: _passKey,
+              style: TextStyle(
+                  fontFamily: 'RobotoMono-Regular',
+                  color: Colors.black54,
+                  fontSize: 16),
+              obscureText: _obscureText,
+              maxLength: 20,
+              validator: (value) => _validatePassword(value),
+              decoration: new InputDecoration(
+                border: const UnderlineInputBorder(),
+                filled: false,
+                labelText: 'Contraseña',
+                icon: Icon(Icons.lock),
+                suffixIcon: new GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  child: new Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off),
+                ),
+              ),
+              onChanged: (String value) {
+                setState(() {
+                  password = value;
+                });
+              },
             ),
-            onChanged: (String value) {
-              setState(() {
-                passwordtwo = value;
-              });
-            },
-          ),
-        ],
+            // sizedBoxSpace,
+            TextFormField(
+              style: TextStyle(
+                  fontFamily: 'RobotoMono-Regular',
+                  color: Colors.black54,
+                  fontSize: 16),
+              obscureText: _obscureText,
+              maxLength: 20,
+              validator: (value) => _validatePasswordTwo(value),
+              decoration: new InputDecoration(
+                border: const UnderlineInputBorder(),
+                filled: false,
+                labelText: 'Verificar contraseña',
+                icon: Icon(Icons.lock),
+              ),
+              onChanged: (String value) {
+                setState(() {
+                  passwordtwo = value;
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
