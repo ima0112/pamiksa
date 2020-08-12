@@ -8,12 +8,11 @@ class RegisterForm extends StatefulWidget {
 }
 
 class RegisterFormState extends State<RegisterForm> {
-  
-  static int years = DateTime.now().year - 18;
-  DateTime selectedDate =
-      DateTime(years, DateTime.now().month, DateTime.now().day);
-      
   String nombre;
+
+static int years = DateTime.now().year - 18;
+    DateTime selectedDate =
+        DateTime(years, DateTime.now().month, DateTime.now().day);
 
   _validateNombre(String value) {
     if (value.isEmpty) {
@@ -21,17 +20,18 @@ class RegisterFormState extends State<RegisterForm> {
     }
   }
 
-  void _datePickerDialog(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    Future<Null> _datePickerDialog(BuildContext context) async {
+      final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(1900),
-        lastDate: selectedDate);
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
-  }
+        lastDate: DateTime(years, DateTime.now().month, DateTime.now().day),
+      );
+      if (picked != null)
+        setState(() {
+          selectedDate = picked;
+        });
+    }
 
   @override
   Widget build(BuildContext context) {

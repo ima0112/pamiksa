@@ -63,7 +63,7 @@ class RegisterDataFormState extends State<RegisterDataForm> {
     return Container(
       margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 25.0, 16.0, 16.0),
+        padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
         child: Column(
           children: [
             SizedBox(height: 5,),

@@ -32,7 +32,7 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
               DropdownButtonFormField(
                 decoration: InputDecoration(
                   border: UnderlineInputBorder(),
-                  labelText: "Provincia*",
+                  labelText: "Provincia",
                   labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
                   icon: Icon(Icons.location_city),
                   helperText: "",
@@ -59,7 +59,7 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
               DropdownButtonFormField(
                 decoration: InputDecoration(
                   border: UnderlineInputBorder(),
-                  labelText: "Municipio*",
+                  labelText: "Municipio",
                   labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
                   icon: Icon(Icons.near_me),
                   helperText: "",
@@ -94,7 +94,7 @@ class RegisterLocationFormState extends State<RegisterLocationForm> {
                   icon: Icon(Icons.location_on),
                   filled: false,
                   fillColor: Colors.white24,
-                  labelText: "Dirección*",
+                  labelText: "Dirección",
                   labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
