@@ -21,6 +21,55 @@ class RegisterData extends StatefulWidget {
 
 class RegisterDataState extends State<RegisterData> {
   final _formKey = GlobalKey<FormState>();
+  final _passKey = GlobalKey<FormFieldState<String>>();
+  final _correoCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
+
+  String passwordtwo;
+  bool _obscureText = true;
+
+  _validateEmail(String value) {
+    if (value.isEmpty) {
+      return '¡Ingrese un correo electrónico!';
+    }
+    // Regex para validación de email
+    String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+        "\\@" +
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+        "(" +
+        "\\." +
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+        ")+";
+    RegExp regExp = new RegExp(p);
+    if (regExp.hasMatch(value)) {
+      return null;
+    }
+    return '¡El correo electrónico no es válido!';
+  }
+
+  _validatePassword(String value) {
+    if (value.isEmpty) {
+      return '¡Ingrese una contraseña!';
+    }
+    if (value.length < 8) {
+      return '¡Debe poseer al menos 8 caracteres!';
+    }
+    return null;
+  }
+
+  _validatePasswordTwo(String value) {
+    final pass = _passKey.currentState;
+    if (value.isEmpty) {
+      return '¡Ingrese una contraseña!';
+    }
+    if (value.length < 8) {
+      return '¡Debe poseer al menos 8 caracteres!';
+    }
+    if (pass.value != value) {
+      return '¡Las contraseñas no coinciden!';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +83,7 @@ class RegisterDataState extends State<RegisterData> {
             brightness: Brightness.light,
           )),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
         child: Container(
           child: Column(
             children: <Widget>[
@@ -51,7 +100,89 @@ class RegisterDataState extends State<RegisterData> {
                   margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
                   child: Form(
                     key: _formKey,
-                    child: RegisterDataForm(),
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 5,
+                            ),
+                            TextFormField(
+                              controller: _correoCtrl,
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(
+                                  fontFamily: 'RobotoMono-Regular',
+                                  color: Colors.black54,
+                                  fontSize: 16),
+                              decoration: InputDecoration(
+                                helperText: "",
+                                icon: Icon(Icons.email),
+                                filled: false,
+                                fillColor: Colors.white24,
+                                labelText: "Correo electrónico",
+                                labelStyle:
+                                    TextStyle(fontFamily: 'RobotoMono-Regular'),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                        width: 2)),
+                              ),
+                              validator: (value) => _validateEmail(value),
+                            ),
+                            // sizedBoxSpace,
+                            TextFormField(
+                              controller: _passwordCtrl,
+                              key: _passKey,
+                              style: TextStyle(
+                                  fontFamily: 'RobotoMono-Regular',
+                                  color: Colors.black54,
+                                  fontSize: 16),
+                              obscureText: _obscureText,
+                              maxLength: 20,
+                              validator: (value) => _validatePassword(value),
+                              decoration: new InputDecoration(
+                                border: const UnderlineInputBorder(),
+                                filled: false,
+                                labelText: 'Contraseña',
+                                icon: Icon(Icons.lock),
+                                suffixIcon: new GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _obscureText = !_obscureText;
+                                    });
+                                  },
+                                  child: new Icon(_obscureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                ),
+                              ),
+                            ),
+                            TextFormField(
+                              style: TextStyle(
+                                  fontFamily: 'RobotoMono-Regular',
+                                  color: Colors.black54,
+                                  fontSize: 16),
+                              obscureText: _obscureText,
+                              maxLength: 20,
+                              validator: (value) => _validatePasswordTwo(value),
+                              decoration: new InputDecoration(
+                                border: const UnderlineInputBorder(),
+                                filled: false,
+                                labelText: 'Verificar contraseña',
+                                icon: Icon(Icons.lock),
+                              ),
+                              onChanged: (String value) {
+                                setState(() {
+                                  passwordtwo = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -83,7 +214,11 @@ class RegisterDataState extends State<RegisterData> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          Navigator.of(context).push(_createRouter());
+                          Navigator.pushNamed(context, "/register_data_person",
+                              arguments: {
+                                'email': "${_correoCtrl.text}",
+                                'password': "${_passwordCtrl.text}"
+                              });
                         }
                       },
                       child: Text(

@@ -57,6 +57,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
   GlobalKey _globalKey = GlobalKey();
   double _width = double.maxFinite;
   dynamic returnData;
+  
 
   @override
   Widget build(BuildContext context) {
