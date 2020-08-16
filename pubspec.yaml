@@ -21,9 +21,10 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  flutter_facebook_login: ^1.2.0
   flutter:
     sdk: flutter
+  bloc: ^6.0.2
+  equatable: ^1.2.3
   url_launcher: ^5.5.0
   image_picker: ^0.6.7+4
   local_auth: ^0.6.2+3
@@ -36,6 +37,7 @@ dependencies:
   path:
   shared_preferences:
   intl:
+  device_info: ^0.4.2+6
 #  flutter_datetime_picker:
 #  flutter_rounded_date_picker:
 #  flutter_localizations:

@@ -3,7 +3,6 @@ import 'package:pamiksa/src/ui/login/login.dart';
 import 'package:flutter/services.dart';
 
 class Intro extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,18 +15,16 @@ class Intro extends StatelessWidget {
             )),
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 50.0),
             child: Column(
               children: <Widget>[
-                IntroPhoto(),
-                IntroText(),
-                SizedBox(height: 80.0,),
-                IntroButton()
-              ],
+                IntroPhoto(), 
+                IntroText(), 
+                Spacer(flex: 1),
+                IntroButton()],
             ),
           ),
-        )
-      );
+        ));
   }
 }
 
@@ -46,8 +43,6 @@ class IntroText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 190,
-      width: 300,
       child: Text(
         "Tú comida favorita a domicilio",
         style: TextStyle(fontFamily: 'Roboto', fontSize: 30),

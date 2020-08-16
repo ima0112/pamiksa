@@ -22,6 +22,7 @@ class Register extends StatefulWidget {
 
 class RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
+  Map data;
 
   _validateNombre(String value) {
     if (value.isEmpty) {
@@ -29,10 +30,32 @@ class RegisterState extends State<Register> {
     }
   }
 
+  final _nombreCtrl = TextEditingController();
+  final _nacCtrl = TextEditingController();
+
+  static int years = DateTime.now().year - 18;
+  DateTime selectedDate =
+      DateTime(years, DateTime.now().month, DateTime.now().day);
+
+  Future<Null> _datePickerDialog(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(years, DateTime.now().month, DateTime.now().day),
+    );
+    if (picked != null)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
   String _nombre;
 
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -43,7 +66,7 @@ class RegisterState extends State<Register> {
             brightness: Brightness.light,
           )),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
         child: Container(
           child: Column(
             children: <Widget>[
@@ -60,7 +83,63 @@ class RegisterState extends State<Register> {
                   margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
                   child: Form(
                     key: _formKey,
-                    child: RegisterForm(),
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 5,
+                            ),
+                            TextFormField(
+                              controller: _nombreCtrl,
+                              textCapitalization: TextCapitalization.words,
+                              style: TextStyle(
+                                  fontFamily: 'RobotoMono-Regular',
+                                  color: Colors.black54,
+                                  fontSize: 16),
+                              decoration: InputDecoration(
+                                helperText: "",
+                                icon: Icon(Icons.person),
+                                filled: false,
+                                fillColor: Colors.white24,
+                                labelText: "Nombre y Apellidos",
+                                labelStyle:
+                                    TextStyle(fontFamily: 'RobotoMono-Regular'),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                        width: 2)),
+                              ),
+                              validator: (value) => _validateNombre(value),
+                            ),
+                            InkWell(
+                              child: GestureDetector(
+                                child: InputDecorator(
+                                  decoration: InputDecoration(
+                                      labelText: "Fecha de nacimiento*",
+                                      enabled: true,
+                                      icon: Icon(Icons.calendar_today)),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Text(
+                                            "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
+                                        Icon(Icons.arrow_drop_down),
+                                      ]),
+                                ),
+                                onTap: () {
+                                  _datePickerDialog(context);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -92,7 +171,13 @@ class RegisterState extends State<Register> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          Navigator.of(context).push(_createRouter());
+                          Navigator.pushNamed(context, "/register_location",
+                              arguments: {
+                                'email': data['email'],
+                                'password': data['password'],
+                                'name': "${_nombreCtrl.text}",
+                                'birthday': "${selectedDate}"
+                              });
                         }
                       },
                       child: Text(
