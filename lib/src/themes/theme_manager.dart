@@ -1,9 +1,12 @@
+import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-enum AppTheme { White, Dark }
+class ThemeCubit extends Cubit<ThemeData> {
+  /// {@macro brightness_cubit}
+  ThemeCubit() : super(_lightTheme);
 
-final appThemeData = {
-  AppTheme.White: ThemeData(
+  static final _lightTheme = ThemeData(
     fontFamily: 'RobotoMono-Regular',
     brightness: Brightness.light,
     appBarTheme: AppBarTheme(
@@ -20,8 +23,9 @@ final appThemeData = {
     cardColor: Color(0xffffffff),
     scaffoldBackgroundColor: Color(0xffffffff),
     visualDensity: VisualDensity.adaptivePlatformDensity,
-  ),
-  AppTheme.Dark: ThemeData(
+  );
+
+  static final _darkTheme = ThemeData(
     fontFamily: 'RobotoMono-Regular',
     brightness: Brightness.dark,
     appBarTheme: AppBarTheme(
@@ -37,5 +41,5 @@ final appThemeData = {
     cardColor: Color(0xff202020),
     scaffoldBackgroundColor: Color(0xff121212),
     visualDensity: VisualDensity.adaptivePlatformDensity,
-  ),
-};
+  );
+}

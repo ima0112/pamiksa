@@ -1,8 +1,13 @@
 import 'dart:async';
-
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:device_info/device_info.dart';
+import 'package:pamiksa/src/models/device.dart';
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -10,8 +15,11 @@ class VerificationPage extends StatefulWidget {
 }
 
 class _VerificationPageState extends State<VerificationPage> {
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  Map<String, dynamic> _deviceData = <String, dynamic>{};
   final _formKey = GlobalKey<FormState>();
   bool _isButtonDisabled;
+  bool _isOpacity;
   String code;
   Map data;
   Timer _timer;
@@ -31,8 +39,10 @@ class _VerificationPageState extends State<VerificationPage> {
       oneSec,
       (Timer timer) => setState(
         () {
-          if (_start < 1) {
+          if (_start < 0) {
             _isButtonDisabled = false;
+            _isOpacity = true;
+            _start = 60;
             timer.cancel();
           } else {
             minutesStr =
@@ -49,6 +59,7 @@ class _VerificationPageState extends State<VerificationPage> {
   void initState() {
     super.initState();
     _isButtonDisabled = true;
+    _isOpacity = false;
     startTimer();
   }
 
@@ -123,7 +134,15 @@ class _VerificationPageState extends State<VerificationPage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  onPressed: _isButtonDisabled ? null : startTimer,
+                  onPressed: _isButtonDisabled
+                      ? null
+                      : () {
+                          setState(() {
+                            _isButtonDisabled = true;
+                            _isOpacity = false;
+                            fetchData();
+                          });
+                        },
                   child: Text(
                     'REENVIAR CÓDIGO',
                     style: TextStyle(
@@ -134,13 +153,73 @@ class _VerificationPageState extends State<VerificationPage> {
                 SizedBox(
                   height: 5.0,
                 ),
-                Text("Reenviar código en ${minutesStr}: ${secondsStr}",
-                    style: TextStyle(color: Colors.black45)),
+                Opacity(
+                  opacity: _isOpacity ? 0.0 : 1.0,
+                  child: Text(
+                    "Reenviar código en ${minutesStr}: ${secondsStr}",
+                    style: TextStyle(color: Colors.black45),
+                  ),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void fetchData() async {
+    startTimer();
+    await initPlatformState();
+    print(_deviceData);
+  }
+
+  Future<void> initPlatformState() async {
+    Map<String, dynamic> deviceData;
+
+    try {
+      if (Platform.isAndroid) {
+        deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+      } else if (Platform.isIOS) {
+        deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+      }
+    } on PlatformException {
+      deviceData = <String, dynamic>{
+        'Error:': 'Failed to get platform version.'
+      };
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _deviceData = deviceData;
+    });
+  }
+
+  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
+    return <String, dynamic>{
+      // 'version.sdkInt': build.version.sdkInt,
+      'version.release': build.version.release,
+      'brand': build.brand,
+      'id': build.id,
+      'model': build.model,
+    };
+  }
+
+  Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
+    return <String, dynamic>{
+      'name': data.name,
+      'systemName': data.systemName,
+      'systemVersion': data.systemVersion,
+      'model': data.model,
+      'localizedModel': data.localizedModel,
+      'identifierForVendor': data.identifierForVendor,
+      'isPhysicalDevice': data.isPhysicalDevice,
+      'utsname.sysname:': data.utsname.sysname,
+      'utsname.nodename:': data.utsname.nodename,
+      'utsname.release:': data.utsname.release,
+      'utsname.version:': data.utsname.version,
+      'utsname.machine:': data.utsname.machine,
+    };
   }
 }

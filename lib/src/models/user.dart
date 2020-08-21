@@ -1,36 +1,26 @@
 class User {
   String fullName;
-  String userId;
-  String telephone;
-  String phone;
-  String ci;
+  String adress;
+  DateTime birthday;
   String email;
-  String address;
-  String businessUserProvincia;
-  String businessUserMunicipio;
+  String password;
+  String photo;
 
   User(
       {this.fullName,
-      this.userId,
-      this.telephone,
-      this.phone,
-      this.ci,
+      this.adress,
+      this.birthday,
       this.email,
-      this.address,
-      this.businessUserProvincia,
-      this.businessUserMunicipio});
+      this.password,
+      this.photo});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      fullName: json['fullName'],
-      userId: json['userId'],
-      telephone: json['telephone'],
-      phone: json['phone'],
-      ci: json['ci'],
-      email: json['email'],
-      address: json['address'],
-      businessUserProvincia: json['businessUserProvincia'],
-      businessUserMunicipio: json['businessUserMunicipio'],
-    );
+        fullName: json['fullName'],
+        adress: json['adress'],
+        birthday: json['birthday'],
+        email: json['email'],
+        password: json['password'],
+        photo: json['photo']);
   }
 }
