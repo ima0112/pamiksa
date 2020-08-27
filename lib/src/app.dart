@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/themes/theme_manager.dart';
-import 'package:pamiksa/src/themes/consts.dart' show APP_NAME;
-import 'package:pamiksa/src/ui/register/register_data_person/register.dart';
-import 'package:pamiksa/src/ui/register/register_data/register_data.dart';
-import 'package:pamiksa/src/ui/intro/intro.dart';
-import 'package:pamiksa/src/ui/register/register_location/register_location.dart';
-import 'package:pamiksa/src/ui/register/verification.dart';
+import 'package:pamiksa/src/ui/themes/theme_manager.dart';
+import 'package:pamiksa/src/ui/themes/consts.dart' show APP_NAME;
+import 'package:pamiksa/src/ui/views/register/loading.dart';
+import 'package:pamiksa/src/ui/views/register/register_data_person/register.dart';
+import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
+import 'package:pamiksa/src/ui/views/intro/intro.dart';
+import 'package:pamiksa/src/ui/views/register/register_location/register_location.dart';
+import 'package:pamiksa/src/ui/views/register/verification.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
             "/register_data_person": (context) => RegisterDataPersonPage(),
             "/register_location": (context) => RegisterLocationPage(),
             "/verificar": (context) => VerificationPage(),
+            "/load": (context) => Loading()
           },
         );
       }),

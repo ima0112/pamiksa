@@ -39,6 +39,7 @@ dependencies:
   shared_preferences:
   intl:
   device_info: ^0.4.2+6
+  connectivity: ^0.4.9+2
 #  flutter_datetime_picker:
 #  flutter_rounded_date_picker:
 #  flutter_localizations:

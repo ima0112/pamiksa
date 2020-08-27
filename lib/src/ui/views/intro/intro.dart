@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/ui/login/login.dart';
+import 'package:pamiksa/src/ui/views/login/login.dart';
 import 'package:flutter/services.dart';
 
 class Intro extends StatelessWidget {
@@ -18,10 +18,11 @@ class Intro extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 50.0),
             child: Column(
               children: <Widget>[
-                IntroPhoto(), 
-                IntroText(), 
+                IntroPhoto(),
+                IntroText(),
                 Spacer(flex: 1),
-                IntroButton()],
+                IntroButton()
+              ],
             ),
           ),
         ));

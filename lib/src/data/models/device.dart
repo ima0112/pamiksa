@@ -1,6 +1,6 @@
 class Device {
   String platform;
-  double systemVersion;
+  String systemVersion;
   String deviceId;
   String model;
 

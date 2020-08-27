@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:pamiksa/src/ui/register/register_data_person/register.dart';
-import 'package:pamiksa/src/ui/register/register_data/register_data_form.dart';
+import 'package:pamiksa/src/data/models/device.dart';
+import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/data/widget/alertDialog.dart';
+import 'package:pamiksa/src/ui/views/register/register_data_person/register.dart';
+import 'package:pamiksa/src/ui/views/register/register_data/register_data_form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterDataPage extends StatelessWidget {
   @override
@@ -22,9 +26,12 @@ class RegisterData extends StatefulWidget {
 class RegisterDataState extends State<RegisterData> {
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState<String>>();
-  final _correoCtrl = TextEditingController();
-  final _passwordCtrl = TextEditingController();
 
+  User user = User();
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  String correo;
+  String password;
   String passwordtwo;
   bool _obscureText = true;
 
@@ -110,7 +117,6 @@ class RegisterDataState extends State<RegisterData> {
                               height: 5,
                             ),
                             TextFormField(
-                              controller: _correoCtrl,
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyle(
                                   fontFamily: 'RobotoMono-Regular',
@@ -130,10 +136,13 @@ class RegisterDataState extends State<RegisterData> {
                                         width: 2)),
                               ),
                               validator: (value) => _validateEmail(value),
+                              onChanged: (String value) {
+                                setState(() {
+                                  correo = value;
+                                });
+                              },
                             ),
-                            // sizedBoxSpace,
                             TextFormField(
-                              controller: _passwordCtrl,
                               key: _passKey,
                               style: TextStyle(
                                   fontFamily: 'RobotoMono-Regular',
@@ -142,6 +151,11 @@ class RegisterDataState extends State<RegisterData> {
                               obscureText: _obscureText,
                               maxLength: 20,
                               validator: (value) => _validatePassword(value),
+                              onChanged: (String value) {
+                                setState(() {
+                                  password = value;
+                                });
+                              },
                               decoration: new InputDecoration(
                                 border: const UnderlineInputBorder(),
                                 filled: false,
@@ -214,11 +228,8 @@ class RegisterDataState extends State<RegisterData> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          Navigator.pushNamed(context, "/register_data_person",
-                              arguments: {
-                                'email': "${_correoCtrl.text}",
-                                'password': "${_passwordCtrl.text}"
-                              });
+                          Navigator.push(context, _createRouter());
+                          addData();
                         }
                       },
                       child: Text(
@@ -234,6 +245,13 @@ class RegisterDataState extends State<RegisterData> {
         ),
       ),
     );
+  }
+
+  addData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('email', correo);
+    preferences.setString('password', password);
+    print({preferences.get('email'), preferences.get('password')});
   }
 }
 
