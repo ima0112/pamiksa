@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:pamiksa/src/ui/register/register_data_person/register_form.dart';
-import 'package:pamiksa/src/ui/register/register_location/register_location.dart';
-import 'package:pamiksa/src/ui/register/register_location/register_location_form.dart';
+import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/ui/views/register/register_data_person/register_form.dart';
+import 'package:pamiksa/src/ui/views/register/register_location/register_location.dart';
+import 'package:pamiksa/src/ui/views/register/register_location/register_location_form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterDataPersonPage extends StatelessWidget {
   @override
@@ -22,16 +24,14 @@ class Register extends StatefulWidget {
 
 class RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
-  Map data;
+  String nombre;
+  User user = User();
 
   _validateNombre(String value) {
     if (value.isEmpty) {
       return '¡Ingrese su nombre!';
     }
   }
-
-  final _nombreCtrl = TextEditingController();
-  final _nacCtrl = TextEditingController();
 
   static int years = DateTime.now().year - 18;
   DateTime selectedDate =
@@ -50,12 +50,8 @@ class RegisterState extends State<Register> {
       });
   }
 
-  String _nombre;
-
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -93,7 +89,6 @@ class RegisterState extends State<Register> {
                               height: 5,
                             ),
                             TextFormField(
-                              controller: _nombreCtrl,
                               textCapitalization: TextCapitalization.words,
                               style: TextStyle(
                                   fontFamily: 'RobotoMono-Regular',
@@ -113,12 +108,17 @@ class RegisterState extends State<Register> {
                                         width: 2)),
                               ),
                               validator: (value) => _validateNombre(value),
+                              onChanged: (String value) {
+                                setState(() {
+                                  nombre = value;
+                                });
+                              },
                             ),
                             InkWell(
                               child: GestureDetector(
                                 child: InputDecorator(
                                   decoration: InputDecoration(
-                                      labelText: "Fecha de nacimiento*",
+                                      labelText: "Fecha de nacimiento",
                                       enabled: true,
                                       icon: Icon(Icons.calendar_today)),
                                   child: Row(
@@ -171,13 +171,8 @@ class RegisterState extends State<Register> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          Navigator.pushNamed(context, "/register_location",
-                              arguments: {
-                                'email': data['email'],
-                                'password': data['password'],
-                                'name': "${_nombreCtrl.text}",
-                                'birthday': "${selectedDate}"
-                              });
+                          Navigator.push(context, _createRouter());
+                          addData();
                         }
                       },
                       child: Text(
@@ -193,6 +188,18 @@ class RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  addData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('name', nombre);
+    preferences.setString('birthday', selectedDate.toString());
+    print({
+      preferences.get('email'),
+      preferences.get('password'),
+      preferences.get('name'),
+      preferences.get('birthday')
+    });
   }
 }
 

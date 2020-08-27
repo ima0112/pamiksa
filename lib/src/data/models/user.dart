@@ -1,7 +1,7 @@
 class User {
   String fullName;
   String adress;
-  DateTime birthday;
+  String birthday;
   String email;
   String password;
   String photo;

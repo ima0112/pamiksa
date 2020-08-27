@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/shared/utils.dart';
-import 'package:pamiksa/src/ui/login/login.dart';
+import 'package:pamiksa/src/data/utils.dart';
+import 'package:pamiksa/src/ui/views/login/login.dart';
 
 SharedPref pref = new SharedPref();
 

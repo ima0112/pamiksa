@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src//shared/servidor.dart' show URL, ACCESS_TOKEN;
-import 'package:pamiksa/src//shared/widget/waveclipper.dart';
-import 'package:pamiksa/src/ui/login/login_form.dart';
-import 'package:pamiksa/src/ui/register/register_data/register_data.dart';
+import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
+// import 'package:pamiksa/src/resouces/servidor.dart' show URL, ACCESS_TOKEN;
+import 'package:pamiksa/src/data/widget/waveclipper.dart';
+import 'package:pamiksa/src/ui/views/login/login_form.dart';
+import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
@@ -24,11 +25,11 @@ class Login extends StatefulWidget {
 }
 
 class LoginP extends State<Login> {
-  static HttpLink httplink =
-      HttpLink(uri: URL, headers: {'AccessToken': ACCESS_TOKEN});
+  // static HttpLink httplink =
+  //     HttpLink(uri: URL, headers: {'AccessToken': ACCESS_TOKEN});
 
-  ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
-      GraphQLClient(cache: InMemoryCache(), link: httplink));
+  // ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
+  //     GraphQLClient(cache: InMemoryCache(), link: httplink));
 
   String msg = '';
   bool valid = true;
@@ -60,7 +61,7 @@ class LoginP extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-        client: client,
+        client: GraphQLConfiguration.client,
         child: CacheProvider(
             child: Scaffold(
           appBar: PreferredSize(
@@ -181,7 +182,8 @@ class LoginP extends State<Login> {
 
 Route _createRouter() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => RegisterDataPage(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          RegisterDataPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(50.0, 0.0);
         var end = Offset.zero;

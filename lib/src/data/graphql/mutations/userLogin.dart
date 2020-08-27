@@ -1,4 +1,4 @@
-final String businessLogin = r"""
+final String userLogin = r"""
       mutation BusinessLogin($email: String!, $password: String!){
         businessLogin(email: $email, password: $password){
           token

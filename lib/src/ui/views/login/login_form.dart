@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src//shared/graphql/mutations/loginM.dart';
-import 'package:pamiksa/src//shared/utils.dart';
-import 'package:pamiksa/src/models/user.dart';
-import 'package:pamiksa/src/ui/register/register_data/register_data.dart';
+import 'package:pamiksa/src/data/graphql/mutations/userLogin.dart';
+import 'package:pamiksa/src/data/utils.dart';
+import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,11 +57,9 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
   GlobalKey _globalKey = GlobalKey();
   double _width = double.maxFinite;
   dynamic returnData;
-  
 
   @override
   Widget build(BuildContext context) {
-
     return Form(
         key: _formKey,
         child: Container(
@@ -74,8 +72,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
             children: <Widget>[
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
-                style: TextStyle(
-                    fontSize: 16),
+                style: TextStyle(fontSize: 16),
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'Correo electrónico',
@@ -126,7 +123,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
               ),
               Mutation(
                 options: MutationOptions(
-                    documentNode: gql(businessLogin),
+                    documentNode: gql(userLogin),
                     update: (Cache cache, QueryResult result) {
                       return cache;
                     },
