@@ -12,6 +12,7 @@ import 'package:pamiksa/src/data/graphql/mutations/sendVerificationCode.dart';
 import 'package:pamiksa/src/data/graphql/mutations/signUp.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/data/route.dart';
 import 'package:pamiksa/src/ui/views/register/register_location/register_location_form.dart';
 import 'package:pamiksa/src/ui/views/register/verification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +37,7 @@ class RegisterLocationState extends State<RegisterLocation> {
 
   User user = User();
   Device device = Device();
+  Ruta ruta = Ruta();
 
   Map<String, dynamic> _deviceData = <String, dynamic>{};
 
@@ -221,7 +223,8 @@ class RegisterLocationState extends State<RegisterLocation> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  Navigator.push(context, _createRouter());
+                                  Navigator.push(context,
+                                      ruta.createRouter(VerificationPage()));
                                   randomCode();
                                   runMutation({'code': code, 'email': correo});
                                   print({code, correo});
@@ -264,22 +267,5 @@ class RegisterLocationState extends State<RegisterLocation> {
   void obtenerPreferences() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     correo = preferences.get('email');
-  }
-
-  Route _createRouter() {
-    return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            VerificationPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          var begin = Offset(50.0, 0.0);
-          var end = Offset.zero;
-          var curve = Curves.ease;
-          var tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          return SlideTransition(
-            position: animation.drive(tween),
-            child: child,
-          );
-        });
   }
 }

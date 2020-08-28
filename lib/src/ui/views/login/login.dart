@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
+import 'package:pamiksa/src/data/route.dart';
 // import 'package:pamiksa/src/resouces/servidor.dart' show URL, ACCESS_TOKEN;
 import 'package:pamiksa/src/data/widget/waveclipper.dart';
 import 'package:pamiksa/src/ui/views/login/login_form.dart';
@@ -35,6 +36,7 @@ class LoginP extends State<Login> {
   bool valid = true;
   SharedPreferences _prefs;
   String token;
+  Ruta ruta = Ruta();
 
   @override
   initState() {
@@ -169,7 +171,8 @@ class LoginP extends State<Login> {
                           fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
-                      Navigator.of(context).push(_createRouter());
+                      Navigator.of(context)
+                          .push(ruta.createRouter(RegisterDataPage()));
                     },
                   )
                 ],
@@ -178,21 +181,4 @@ class LoginP extends State<Login> {
           ),
         )));
   }
-}
-
-Route _createRouter() {
-  return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          RegisterDataPage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(50.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      });
 }

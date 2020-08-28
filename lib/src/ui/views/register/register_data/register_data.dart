@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/data/route.dart';
 import 'package:pamiksa/src/data/widget/alertDialog.dart';
 import 'package:pamiksa/src/ui/views/register/register_data_person/register.dart';
 import 'package:pamiksa/src/ui/views/register/register_data/register_data_form.dart';
@@ -28,6 +29,7 @@ class RegisterDataState extends State<RegisterData> {
   final _passKey = GlobalKey<FormFieldState<String>>();
 
   User user = User();
+  Ruta ruta = Ruta();
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   String correo;
@@ -228,7 +230,8 @@ class RegisterDataState extends State<RegisterData> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          Navigator.push(context, _createRouter());
+                          Navigator.push(context,
+                              ruta.createRouter(RegisterDataPersonPage()));
                           addData();
                         }
                       },
@@ -253,21 +256,4 @@ class RegisterDataState extends State<RegisterData> {
     preferences.setString('password', password);
     print({preferences.get('email'), preferences.get('password')});
   }
-}
-
-Route _createRouter() {
-  return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          RegisterDataPersonPage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(50.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      });
 }

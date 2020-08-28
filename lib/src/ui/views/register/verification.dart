@@ -26,8 +26,6 @@ class VerificationPage extends StatefulWidget {
 
 class _VerificationPageState extends State<VerificationPage> {
   final _formKey = GlobalKey<FormState>();
-  final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  Map<String, dynamic> _deviceData = <String, dynamic>{};
   Device device = Device();
   bool _isButtonDisabled;
   bool _isTimerOver;
@@ -42,7 +40,7 @@ class _VerificationPageState extends State<VerificationPage> {
   String code;
   String verificationCode;
   int newCode;
-  dynamic _runMutation;
+  String userId;
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -50,10 +48,10 @@ class _VerificationPageState extends State<VerificationPage> {
       oneSec,
       (Timer timer) => setState(
         () {
-          if (_start < 0) {
+          if (_start < 1) {
+            timer.cancel();
             _isTimerOver = true;
             _start = 60;
-            timer.cancel();
           } else {
             minutesStr =
                 ((_start / 60) % 60).floor().toString().padLeft(2, '0');
@@ -69,9 +67,7 @@ class _VerificationPageState extends State<VerificationPage> {
   void initState() {
     super.initState();
     _isButtonDisabled = true;
-    _isTimerOver = false;
-    startTimer();
-    fetchData();
+    _isTimerOver = true;
   }
 
   @override
@@ -154,6 +150,10 @@ class _VerificationPageState extends State<VerificationPage> {
                                           _hasError = true;
                                           _isButtonDisabled = true;
                                         });
+                                      } else if (code.length < 6) {
+                                        setState(() {
+                                          _isButtonDisabled = true;
+                                        });
                                       }
                                     }),
                                 SizedBox(
@@ -174,6 +174,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                       ),
                                       onPressed: _isTimerOver
                                           ? () {
+                                              startTimer();
                                               setState(() {
                                                 if (_hasError == true) {
                                                   _hasError = false;
@@ -182,7 +183,6 @@ class _VerificationPageState extends State<VerificationPage> {
                                                 _isButtonDisabled = true;
                                                 code = null;
                                               });
-                                              startTimer();
                                               randomCode();
                                               runMutation({
                                                 'code': newCode,
@@ -213,7 +213,17 @@ class _VerificationPageState extends State<VerificationPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Mutation(
-                          options: MutationOptions(documentNode: gql(singUp)),
+                          options: MutationOptions(
+                              documentNode: gql(singUp),
+                              onCompleted: (dynamic resultData) {
+                                if (resultData != null) {
+                                  userId = (resultData['signUp']['user']['id']);
+                                  saveId(userId);
+                                  print(userId);
+                                } else {
+                                  print('No data from request');
+                                }
+                              }),
                           builder:
                               (RunMutation runMutation, QueryResult result) {
                             return RaisedButton(
@@ -234,8 +244,8 @@ class _VerificationPageState extends State<VerificationPage> {
                                         'provinceFk': 1,
                                         'municipalityFk': 1
                                       });
-                                      Navigator.pushNamed(context, "/load");
-                                      print("_isButtonDisabled = false");
+                                      Navigator.pushNamed(
+                                          context, "/register_complete");
                                     },
                               child: Text(
                                 'SIGUIENTE',
@@ -255,49 +265,6 @@ class _VerificationPageState extends State<VerificationPage> {
         ),
       ),
     );
-  }
-
-  void fetchData() async {
-    await initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    Map<String, dynamic> deviceData;
-
-    try {
-      if (Platform.isAndroid) {
-        AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-        setState(() {
-          device.platform = 'Android';
-          device.deviceId = androidInfo.id;
-          device.model = '${androidInfo.brand} ' + '${androidInfo.model}';
-          device.systemVersion = androidInfo.version.release;
-        });
-      } else if (Platform.isIOS) {
-        deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
-      }
-    } on PlatformException {
-      deviceData = <String, dynamic>{
-        'Error:': 'Failed to get platform version.'
-      };
-    }
-  }
-
-  Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
-    return <String, dynamic>{
-      'name': data.name,
-      'systemName': data.systemName,
-      'systemVersion': data.systemVersion,
-      'model': data.model,
-      'localizedModel': data.localizedModel,
-      'identifierForVendor': data.identifierForVendor,
-      'isPhysicalDevice': data.isPhysicalDevice,
-      'utsname.sysname:': data.utsname.sysname,
-      'utsname.nodename:': data.utsname.nodename,
-      'utsname.release:': data.utsname.release,
-      'utsname.version:': data.utsname.version,
-      'utsname.machine:': data.utsname.machine,
-    };
   }
 
   addData(int random) async {
@@ -323,26 +290,8 @@ class _VerificationPageState extends State<VerificationPage> {
     user.email = preferences.get('email');
   }
 
-  // loading() async {
-  //   Stack(
-  //     children: <Widget>[
-  //       Opacity(
-  //           opacity: 0.3,
-  //           child: ModalBarrier(dismissible: false, color: Colors.grey)),
-  //       Center(
-  //           child: CircularProgressIndicator(
-  //         strokeWidth: 3,
-  //       ))
-  //     ],
-  //   );
-  //   await _runMutation({
-  //     'fullName': "ima",
-  //     'email': "ia@hsv.b",
-  //     'password': "65465464",
-  //     'birthday': "2020",
-  //     'adress': "dfgd",
-  //     'provinceFk': 1,
-  //     'municipalityFk': 1
-  //   });
-  // }
+  void saveId(String id) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('user_id', id);
+  }
 }

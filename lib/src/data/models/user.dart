@@ -1,4 +1,5 @@
 class User {
+  String id;
   String fullName;
   String adress;
   String birthday;
@@ -7,7 +8,8 @@ class User {
   String photo;
 
   User(
-      {this.fullName,
+      {this.id,
+      this.fullName,
       this.adress,
       this.birthday,
       this.email,
@@ -16,6 +18,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
+        id: json['id'],
         fullName: json['fullName'],
         adress: json['adress'],
         birthday: json['birthday'],
