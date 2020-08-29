@@ -16,23 +16,20 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return BlocProvider(
-      create: (_) => ThemeCubit(),
-      child: BlocBuilder<ThemeCubit, ThemeData>(builder: (_, theme) {
-        return MaterialApp(
-          title: APP_NAME,
-          theme: theme,
-          initialRoute: '/intro',
-          routes: {
-            "/intro": (context) => Intro(),
-            "/register_data": (context) => RegisterDataPage(),
-            "/register_data_person": (context) => RegisterDataPersonPage(),
-            "/register_location": (context) => RegisterLocationPage(),
-            "/verificar": (context) => VerificationPage(),
-            "/register_complete": (context) => RegisterCompletePage()
-          },
-        );
-      }),
-    );
+    return BlocBuilder<ThemeCubit, ThemeData>(builder: (_, theme) {
+      return MaterialApp(
+        title: APP_NAME,
+        theme: theme,
+        initialRoute: '/intro',
+        routes: {
+          "/intro": (context) => Intro(),
+          "/register_data": (context) => RegisterDataPage(),
+          "/register_data_person": (context) => RegisterDataPersonPage(),
+          "/register_location": (context) => RegisterLocationPage(),
+          "/verificar": (context) => VerificationPage(),
+          "/register_complete": (context) => RegisterCompletePage()
+        },
+      );
+    });
   }
 }

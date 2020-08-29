@@ -22,7 +22,7 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
   Map<String, dynamic> _deviceData = <String, dynamic>{};
   User user = User();
   Device device = Device();
-  String id;
+  String _id;
 
   void initState() {
     super.initState();
@@ -70,14 +70,13 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
                               borderRadius: BorderRadius.circular(25),
                             ),
                             onPressed: () {
-                              // runMutation({
-                              //   'platform': device.platform,
-                              //   'systemVersion': device.systemVersion,
-                              //   'deviceId': device.deviceId,
-                              //   'model': device.model,
-                              //   'userFk': id
-                              // });
-                              print(id);
+                              runMutation({
+                                'platform': device.platform,
+                                'systemVersion': device.systemVersion,
+                                'deviceId': device.deviceId,
+                                'model': device.model,
+                                'userFk': _id
+                              });
                               // Navigator.of(context)
                               //     .pushReplacement(ruta.createRouter(LoginPage()));
                             },
@@ -133,7 +132,9 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
 
   void obtenerPreferences() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    id = preferences.getString('user_id');
+    setState(() {
+      _id = preferences.get('user_id');
+    });
   }
 
   void fetchData() async {

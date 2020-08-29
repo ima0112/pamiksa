@@ -40,7 +40,7 @@ class _VerificationPageState extends State<VerificationPage> {
   String code;
   String verificationCode;
   int newCode;
-  String userId;
+  String _userId;
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -68,6 +68,7 @@ class _VerificationPageState extends State<VerificationPage> {
     super.initState();
     _isButtonDisabled = true;
     _isTimerOver = true;
+    obtenerPreferences();
   }
 
   @override
@@ -78,9 +79,6 @@ class _VerificationPageState extends State<VerificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      obtenerPreferences();
-    });
     return GraphQLProvider(
       client: GraphQLConfiguration.client,
       child: CacheProvider(
@@ -217,9 +215,11 @@ class _VerificationPageState extends State<VerificationPage> {
                               documentNode: gql(singUp),
                               onCompleted: (dynamic resultData) {
                                 if (resultData != null) {
-                                  userId = (resultData['signUp']['user']['id']);
-                                  saveId(userId);
-                                  print(userId);
+                                  _userId =
+                                      (resultData['signUp']['user']['id']);
+                                  saveId();
+                                  Navigator.pushNamed(
+                                      context, "/register_complete");
                                 } else {
                                   print('No data from request');
                                 }
@@ -244,8 +244,6 @@ class _VerificationPageState extends State<VerificationPage> {
                                         'provinceFk': 1,
                                         'municipalityFk': 1
                                       });
-                                      Navigator.pushNamed(
-                                          context, "/register_complete");
                                     },
                               child: Text(
                                 'SIGUIENTE',
@@ -282,16 +280,18 @@ class _VerificationPageState extends State<VerificationPage> {
 
   void obtenerPreferences() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    verificationCode = preferences.get('code');
-    user.fullName = preferences.get('name');
-    user.password = preferences.get('password');
-    user.adress = preferences.get('adress');
-    user.birthday = preferences.get('birthday');
-    user.email = preferences.get('email');
+    setState(() {
+      verificationCode = preferences.get('code');
+      user.fullName = preferences.get('name');
+      user.password = preferences.get('password');
+      user.adress = preferences.get('adress');
+      user.birthday = preferences.get('birthday');
+      user.email = preferences.get('email');
+    });
   }
 
-  void saveId(String id) async {
+  void saveId() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('user_id', id);
+    preferences.setString('user_id', _userId);
   }
 }
