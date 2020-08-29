@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 import 'package:pamiksa/src/ui/themes/consts.dart' show APP_NAME;
 import 'package:pamiksa/src/ui/views/register/register_complete.dart';
-import 'package:pamiksa/src/ui/views/register/register_data_person/register.dart';
-import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
+import 'package:pamiksa/src/ui/views/register/register_password.dart';
+import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
+import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'package:pamiksa/src/ui/views/intro/intro.dart';
-import 'package:pamiksa/src/ui/views/register/register_location/register_location.dart';
+import 'package:pamiksa/src/ui/views/register/register_location.dart';
 import 'package:pamiksa/src/ui/views/register/verification.dart';
 
 class MyApp extends StatelessWidget {
@@ -23,8 +24,9 @@ class MyApp extends StatelessWidget {
         initialRoute: '/intro',
         routes: {
           "/intro": (context) => Intro(),
-          "/register_data": (context) => RegisterDataPage(),
-          "/register_data_person": (context) => RegisterDataPersonPage(),
+          "/register_email": (context) => RegisterEmailPage(),
+          "/register_password": (context) => RegisterPasswordPage(),
+          "/register_data_person": (context) => RegisterPersonalInfoPage(),
           "/register_location": (context) => RegisterLocationPage(),
           "/verificar": (context) => VerificationPage(),
           "/register_complete": (context) => RegisterCompletePage()

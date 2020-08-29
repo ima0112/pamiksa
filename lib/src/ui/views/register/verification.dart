@@ -16,6 +16,7 @@ import 'package:pamiksa/src/data/graphql/mutations/signUp.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
+import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,21 +27,26 @@ class VerificationPage extends StatefulWidget {
 
 class _VerificationPageState extends State<VerificationPage> {
   final _formKey = GlobalKey<FormState>();
-  Device device = Device();
-  bool _isButtonDisabled;
-  bool _isTimerOver;
-  Timer _timer;
   static int _start = 60;
+
+  Device device = Device();
+  Shared preferences = Shared();
+  User user = User();
+  Timer _timer;
+
   String minutesStr = ((_start / 60) % 60).floor().toString().padLeft(2, '0');
   String secondsStr = (_start % 60).floor().toString().padLeft(2, '0');
-  User user = User();
-  bool _isLoading = false;
-  bool _hasError = false;
   String correo;
   String code;
   String verificationCode;
-  int newCode;
   String _userId;
+
+  bool _isLoading = false;
+  bool _hasError = false;
+  bool _isButtonDisabled;
+  bool _isTimerOver;
+
+  int newCode;
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -212,18 +218,21 @@ class _VerificationPageState extends State<VerificationPage> {
                       children: <Widget>[
                         Mutation(
                           options: MutationOptions(
-                              documentNode: gql(singUp),
-                              onCompleted: (dynamic resultData) {
-                                if (resultData != null) {
-                                  _userId =
-                                      (resultData['signUp']['user']['id']);
-                                  saveId();
-                                  Navigator.pushNamed(
-                                      context, "/register_complete");
-                                } else {
-                                  print('No data from request');
-                                }
-                              }),
+                            documentNode: gql(singUp),
+                            onCompleted: (dynamic resultData) {
+                              if (resultData != null) {
+                                _userId = (resultData['signUp']['user']['id']);
+                                saveId();
+                                Navigator.pushNamed(
+                                    context, "/register_complete");
+                              } else {
+                                print('No data from request');
+                              }
+                            },
+                            onError: (error) {
+                              print(error.graphqlErrors[0].message);
+                            },
+                          ),
                           builder:
                               (RunMutation runMutation, QueryResult result) {
                             return RaisedButton(
@@ -266,8 +275,7 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   addData(int random) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('code', random.toString());
+    await preferences.save('code', random.toString());
   }
 
   void randomCode() async {
@@ -279,19 +287,18 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void obtenerPreferences() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    verificationCode = await preferences.read('code');
+    user.fullName = await preferences.read('name');
+    user.password = await preferences.read('password');
+    user.adress = await preferences.read('adress');
+    user.birthday = await preferences.read('birthday');
+    String email = await preferences.read('email');
     setState(() {
-      verificationCode = preferences.get('code');
-      user.fullName = preferences.get('name');
-      user.password = preferences.get('password');
-      user.adress = preferences.get('adress');
-      user.birthday = preferences.get('birthday');
-      user.email = preferences.get('email');
+      user.email = email;
     });
   }
 
   void saveId() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('user_id', _userId);
+    await preferences.save('user_id', _userId);
   }
 }

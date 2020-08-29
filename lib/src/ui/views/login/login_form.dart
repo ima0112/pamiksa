@@ -3,7 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/mutations/userLogin.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
+import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -248,5 +248,5 @@ _saveToken(String token, String refreshToken, BuildContext context) async {
   prefs.save('token', token);
   prefs.save('refreshToken', refreshToken);
   Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (_) => RegisterData()));
+      context, MaterialPageRoute(builder: (_) => RegisterEmailPage()));
 }

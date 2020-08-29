@@ -2,54 +2,52 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/route.dart';
-import 'package:pamiksa/src/ui/views/register/register_data_person/register_form.dart';
-import 'package:pamiksa/src/ui/views/register/register_location/register_location.dart';
-import 'package:pamiksa/src/ui/views/register/register_location/register_location_form.dart';
+import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/data/widget/alertDialog.dart';
+import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RegisterDataPersonPage extends StatelessWidget {
+class RegisterPasswordPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-
-    return Register();
-  }
+  State<StatefulWidget> createState() => new RegisterPasswordState();
 }
 
-class Register extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => new RegisterState();
-}
-
-class RegisterState extends State<Register> {
+class RegisterPasswordState extends State<RegisterPasswordPage> {
   final _formKey = GlobalKey<FormState>();
-  String nombre;
-  User user = User();
-  Ruta ruta = Ruta();
+  final _passKey = GlobalKey<FormFieldState<String>>();
 
-  _validateNombre(String value) {
+  Ruta ruta = Ruta();
+  Shared preferences = Shared();
+
+  String password;
+  String passwordtwo;
+  bool _obscureText = true;
+
+  _validatePassword(String value) {
     if (value.isEmpty) {
-      return '¡Ingrese su nombre!';
+      return '¡Ingrese una contraseña!';
     }
+    if (value.length < 8) {
+      return '¡Debe poseer al menos 8 caracteres!';
+    }
+    return null;
   }
 
-  static int years = DateTime.now().year - 18;
-  DateTime selectedDate =
-      DateTime(years, DateTime.now().month, DateTime.now().day);
-
-  Future<Null> _datePickerDialog(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(years, DateTime.now().month, DateTime.now().day),
-    );
-    if (picked != null)
-      setState(() {
-        selectedDate = picked;
-      });
+  _validatePasswordTwo(String value) {
+    final pass = _passKey.currentState;
+    if (value.isEmpty) {
+      return '¡Ingrese una contraseña!';
+    }
+    if (value.length < 8) {
+      return '¡Debe poseer al menos 8 caracteres!';
+    }
+    if (pass.value != value) {
+      return '¡Las contraseñas no coinciden!';
+    }
+    return null;
   }
 
   @override
@@ -91,52 +89,55 @@ class RegisterState extends State<Register> {
                               height: 5,
                             ),
                             TextFormField(
-                              textCapitalization: TextCapitalization.words,
+                              key: _passKey,
                               style: TextStyle(
                                   fontFamily: 'RobotoMono-Regular',
                                   color: Colors.black54,
                                   fontSize: 16),
-                              decoration: InputDecoration(
-                                helperText: "",
-                                icon: Icon(Icons.person),
-                                filled: false,
-                                fillColor: Colors.white24,
-                                labelText: "Nombre y Apellidos",
-                                labelStyle:
-                                    TextStyle(fontFamily: 'RobotoMono-Regular'),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor,
-                                        width: 2)),
-                              ),
-                              validator: (value) => _validateNombre(value),
+                              obscureText: _obscureText,
+                              maxLength: 20,
+                              validator: (value) => _validatePassword(value),
                               onChanged: (String value) {
                                 setState(() {
-                                  nombre = value;
+                                  password = value;
                                 });
                               },
-                            ),
-                            InkWell(
-                              child: GestureDetector(
-                                child: InputDecorator(
-                                  decoration: InputDecoration(
-                                      labelText: "Fecha de nacimiento",
-                                      enabled: true,
-                                      icon: Icon(Icons.calendar_today)),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Text(
-                                            "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
-                                        Icon(Icons.arrow_drop_down),
-                                      ]),
+                              decoration: new InputDecoration(
+                                border: const UnderlineInputBorder(),
+                                filled: false,
+                                labelText: 'Contraseña',
+                                icon: Icon(Icons.lock),
+                                suffixIcon: new GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _obscureText = !_obscureText;
+                                    });
+                                  },
+                                  child: new Icon(_obscureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
                                 ),
-                                onTap: () {
-                                  _datePickerDialog(context);
-                                },
                               ),
+                            ),
+                            TextFormField(
+                              style: TextStyle(
+                                  fontFamily: 'RobotoMono-Regular',
+                                  color: Colors.black54,
+                                  fontSize: 16),
+                              obscureText: _obscureText,
+                              maxLength: 20,
+                              validator: (value) => _validatePasswordTwo(value),
+                              decoration: new InputDecoration(
+                                border: const UnderlineInputBorder(),
+                                filled: false,
+                                labelText: 'Verificar contraseña',
+                                icon: Icon(Icons.lock),
+                              ),
+                              onChanged: (String value) {
+                                setState(() {
+                                  passwordtwo = value;
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -174,7 +175,7 @@ class RegisterState extends State<Register> {
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           Navigator.push(context,
-                              ruta.createRouter(RegisterLocationPage()));
+                              ruta.createRouter(RegisterPersonalInfoPage()));
                           addData();
                         }
                       },
@@ -194,14 +195,7 @@ class RegisterState extends State<Register> {
   }
 
   addData() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('name', nombre);
-    preferences.setString('birthday', selectedDate.toString());
-    print({
-      preferences.get('email'),
-      preferences.get('password'),
-      preferences.get('name'),
-      preferences.get('birthday')
-    });
+    await preferences.save('password', password);
+    print({await preferences.read('password')});
   }
 }

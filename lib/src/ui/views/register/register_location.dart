@@ -13,31 +13,23 @@ import 'package:pamiksa/src/data/graphql/mutations/signUp.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/route.dart';
-import 'package:pamiksa/src/ui/views/register/register_location/register_location_form.dart';
+import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/views/register/verification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RegisterLocationPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-
-    return RegisterLocation();
-  }
-}
-
-class RegisterLocation extends StatefulWidget {
+class RegisterLocationPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new RegisterLocationState();
 }
 
-class RegisterLocationState extends State<RegisterLocation> {
+class RegisterLocationState extends State<RegisterLocationPage> {
   final _formKey = GlobalKey<FormState>();
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   User user = User();
   Device device = Device();
   Ruta ruta = Ruta();
+  Shared preferences = Shared();
 
   Map<String, dynamic> _deviceData = <String, dynamic>{};
 
@@ -251,9 +243,8 @@ class RegisterLocationState extends State<RegisterLocation> {
   }
 
   addData(int random) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('adress', direccion);
-    preferences.setString('code', random.toString());
+    await preferences.save('adress', direccion);
+    await preferences.save('code', random.toString());
   }
 
   void randomCode() async {
@@ -265,7 +256,6 @@ class RegisterLocationState extends State<RegisterLocation> {
   }
 
   void obtenerPreferences() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    correo = preferences.get('email');
+    correo = await preferences.read('email');
   }
 }

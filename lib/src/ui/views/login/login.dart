@@ -5,7 +5,7 @@ import 'package:pamiksa/src/data/route.dart';
 // import 'package:pamiksa/src/resouces/servidor.dart' show URL, ACCESS_TOKEN;
 import 'package:pamiksa/src/data/widget/waveclipper.dart';
 import 'package:pamiksa/src/ui/views/login/login_form.dart';
-import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
+import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
@@ -47,8 +47,8 @@ class LoginP extends State<Login> {
           this._prefs = prefs;
           loadToken();
           if (token != null) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => RegisterData()));
+            // Navigator.pushReplacement(
+            //     context, MaterialPageRoute(builder: (_) => RegisterEmailPage()));
           }
         });
       });
@@ -172,7 +172,7 @@ class LoginP extends State<Login> {
                     ),
                     onTap: () {
                       Navigator.of(context)
-                          .push(ruta.createRouter(RegisterDataPage()));
+                          .push(ruta.createRouter(RegisterEmailPage()));
                     },
                   )
                 ],
