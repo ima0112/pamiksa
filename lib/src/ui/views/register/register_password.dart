@@ -114,8 +114,8 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                                     });
                                   },
                                   child: new Icon(_obscureText
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
+                                      ? Icons.visibility_off
+                                      : Icons.visibility),
                                 ),
                               ),
                             ),

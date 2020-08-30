@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:pamiksa/src/data/graphql/mutations/singIn.dart';
 import 'package:pamiksa/src/data/graphql/mutations/userLogin.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/ui/views/inicio.dart';
 import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'dart:async';
 
@@ -123,7 +125,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
               ),
               Mutation(
                 options: MutationOptions(
-                    documentNode: gql(userLogin),
+                    documentNode: gql(singIn),
                     update: (Cache cache, QueryResult result) {
                       return cache;
                     },
@@ -131,7 +133,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                       if (resultData != null) {
                         returnData = resultData;
                         User usuario =
-                            User.fromJson(resultData['businessLogin']['user']);
+                            User.fromJson(resultData['signIn']['user']);
                         print(usuario);
                       } else {
                         print('No data from request');
@@ -229,8 +231,8 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
       setState(() {
         if (returnData != null) {
           _state = 2;
-          _saveToken(returnData['businessLogin']['token'],
-              returnData['businessLogin']['refreshToken'], context);
+          _saveToken(returnData['signIn']['token'],
+              returnData['signIn']['refreshToken'], context);
         } else {
           _state = 0;
           _width = double.maxFinite;
@@ -248,5 +250,5 @@ _saveToken(String token, String refreshToken, BuildContext context) async {
   prefs.save('token', token);
   prefs.save('refreshToken', refreshToken);
   Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (_) => RegisterEmailPage()));
+      context, MaterialPageRoute(builder: (_) => InicioPage()));
 }

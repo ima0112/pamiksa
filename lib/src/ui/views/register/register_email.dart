@@ -26,6 +26,7 @@ class RegisterEmailState extends State<RegisterEmailPage> {
   Shared preferences = Shared();
 
   String correo;
+  bool _isUsersExists = false;
 
   _validateEmail(String value) {
     if (value.isEmpty) {
@@ -95,6 +96,10 @@ class RegisterEmailState extends State<RegisterEmailPage> {
                                       color: Colors.black54,
                                       fontSize: 16),
                                   decoration: InputDecoration(
+                                    errorMaxLines: 3,
+                                    errorText: _isUsersExists
+                                        ? "¡Ya existe una cuenta usando este correo electrónico! Prueba con otro."
+                                        : null,
                                     helperText: "",
                                     icon: Icon(Icons.email),
                                     filled: false,
@@ -143,23 +148,39 @@ class RegisterEmailState extends State<RegisterEmailPage> {
                                 color: Theme.of(context).primaryColor),
                           ),
                         ),
-                        RaisedButton(
-                          textColor: Colors.white,
-                          color: Theme.of(context).primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              Navigator.push(context,
-                                  ruta.createRouter(RegisterPasswordPage()));
-                              addData();
-                            }
+                        Query(
+                          options: QueryOptions(
+                              documentNode: gql(userExists),
+                              variables: {'email': correo}),
+                          builder: (result, {fetchMore, refetch}) {
+                            return RaisedButton(
+                              textColor: Colors.white,
+                              color: Theme.of(context).primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  if (result.data['userExists'] == true) {
+                                    setState(() {
+                                      _isUsersExists = true;
+                                    });
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        ruta.createRouter(
+                                            RegisterPasswordPage()));
+                                    addData();
+                                  }
+                                }
+                              },
+                              child: Text(
+                                'SIGUIENTE',
+                                style:
+                                    TextStyle(fontFamily: 'RobotoMono-Regular'),
+                              ),
+                            );
                           },
-                          child: Text(
-                            'SIGUIENTE',
-                            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                          ),
                         )
                       ],
                     ),

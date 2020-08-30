@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:device_info/device_info.dart';
@@ -10,6 +11,7 @@ import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
 import 'package:pamiksa/src/data/graphql/mutations/sendDeviceInfo.dart';
 import 'package:pamiksa/src/data/graphql/mutations/sendVerificationCode.dart';
 import 'package:pamiksa/src/data/graphql/mutations/signUp.dart';
+import 'package:pamiksa/src/data/graphql/query/userLocation.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/route.dart';
@@ -33,13 +35,19 @@ class RegisterLocationState extends State<RegisterLocationPage> {
 
   Map<String, dynamic> _deviceData = <String, dynamic>{};
 
-  List<String> _provincias = ['Matanzas'];
-  List<String> _municipios = ['Cárdenas'];
+  // List<String> _provincias = ['Matanzas'];
+  // List<String> _municipios = ['Cárdenas'];
+  List provinces = new List();
+  List municipality = new List();
+  List municipalities = new List();
+  List municipalitySelected = new List();
   String _selectedprovincia;
   String _selectedmunicipio;
   String direccion;
   String correo;
   int code;
+  String provinceId;
+  int municipalityId;
 
   _validateDireccion(String value) {
     if (value.isEmpty) {
@@ -49,9 +57,6 @@ class RegisterLocationState extends State<RegisterLocationPage> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      obtenerPreferences();
-    });
     return GraphQLProvider(
       client: GraphQLConfiguration.client,
       child: CacheProvider(
@@ -86,96 +91,131 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                               const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
                           child: Container(
                             margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
-                            child: Column(
-                              children: [
-                                DropdownButtonFormField(
-                                  decoration: InputDecoration(
-                                    border: UnderlineInputBorder(),
-                                    labelText: "Provincia",
-                                    labelStyle: TextStyle(
-                                        fontFamily: 'RobotoMono-Regular'),
-                                    icon: Icon(Icons.location_city),
-                                    helperText: "",
-                                  ),
-                                  style: TextStyle(
-                                      fontFamily: 'RobotoMono-Regular',
-                                      color: Colors.black54,
-                                      fontSize: 16),
-                                  value: _selectedprovincia,
-                                  onChanged: (String value) {
-                                    setState(() {
-                                      _selectedprovincia = value;
-                                    });
-                                  },
-                                  validator: (value) => value == null
-                                      ? '¡Escoge tu provincia!'
-                                      : null,
-                                  items: _provincias.map((location) {
-                                    return DropdownMenuItem(
-                                      child: new Text(location),
-                                      value: location,
-                                    );
-                                  }).toList(),
-                                ),
-                                DropdownButtonFormField(
-                                  decoration: InputDecoration(
-                                    border: UnderlineInputBorder(),
-                                    labelText: "Municipio",
-                                    labelStyle: TextStyle(
-                                        fontFamily: 'RobotoMono-Regular'),
-                                    icon: Icon(Icons.near_me),
-                                    helperText: "",
-                                  ),
-                                  style: TextStyle(
-                                      fontFamily: 'RobotoMono-Regular',
-                                      color: Colors.black54,
-                                      fontSize: 16),
-                                  value: _selectedmunicipio,
-                                  onChanged: (String value) {
-                                    setState(() {
-                                      _selectedmunicipio = value;
-                                    });
-                                  },
-                                  validator: (value) => value == null
-                                      ? '¡Escoge tu municipio!'
-                                      : null,
-                                  items: _municipios.map((location) {
-                                    return DropdownMenuItem(
-                                      child: new Text(location),
-                                      value: location,
-                                    );
-                                  }).toList(),
-                                ),
-                                TextFormField(
-                                  textCapitalization: TextCapitalization.words,
-                                  style: TextStyle(
-                                      fontFamily: 'RobotoMono-Regular',
-                                      color: Colors.black54,
-                                      fontSize: 16),
-                                  decoration: InputDecoration(
-                                    helperText: "",
-                                    icon: Icon(Icons.location_on),
-                                    filled: false,
-                                    fillColor: Colors.white24,
-                                    labelText: "Dirección",
-                                    labelStyle: TextStyle(
-                                        fontFamily: 'RobotoMono-Regular'),
-                                    focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            width: 2)),
-                                  ),
-                                  onChanged: (String value) {
-                                    setState(() {
-                                      direccion = value;
-                                    });
-                                  },
-                                  validator: (value) =>
-                                      _validateDireccion(value),
-                                ),
-                              ],
-                            ),
+                            child: Query(
+                                options: QueryOptions(
+                                    documentNode: gql(userLocation)),
+                                builder: (result, {fetchMore, refetch}) {
+                                  if (result.data == null) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                  provinces = result.data['provinces'];
+                                  // municipality = provinces
+                                  //     .map((e) => e['municipality'])
+                                  //     .toList();
+                                  // municipality.forEach((element) {
+                                  //   element.forEach((elementInside) {
+                                  //     municipalities.add(elementInside);
+                                  //   });
+                                  // });
+                                  return Column(
+                                    children: [
+                                      DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                          border: UnderlineInputBorder(),
+                                          labelText: "Provincia",
+                                          labelStyle: TextStyle(
+                                              fontFamily: 'RobotoMono-Regular'),
+                                          icon: Icon(Icons.location_city),
+                                          helperText: "",
+                                        ),
+                                        style: TextStyle(
+                                            fontFamily: 'RobotoMono-Regular',
+                                            color: Colors.black54,
+                                            fontSize: 16),
+                                        onChanged: (dynamic value) {
+                                          if (value != provinceId) {
+                                            provinceId = value;
+                                            municipalitySelected.clear();
+                                            setState(() {
+                                              municipality.forEach((e) {
+                                                e.forEach((e) {
+                                                  municipalitySelected.add(e);
+                                                });
+                                              });
+                                            });
+                                            print({
+                                              "minicipalitySelected",
+                                              municipalitySelected
+                                            });
+                                          }
+                                          // setState(() {
+                                          //   municipality.forEach((element) {
+                                          //     if (element['provinceFk'] ==
+                                          //         value) {
+                                          //       municipalitySelected
+                                          //           .add(element);
+                                          //     }
+                                          //   });
+                                          // });
+                                        },
+                                        validator: (value) => value == null
+                                            ? '¡Escoge tu provincia!'
+                                            : null,
+                                        items: provinces.map((e) {
+                                          municipality.add(e['municipality']);
+                                          return DropdownMenuItem(
+                                            child: new Text(e['name']),
+                                            value: e['id'],
+                                          );
+                                        }).toList(),
+                                      ),
+                                      DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                          border: UnderlineInputBorder(),
+                                          labelText: "Municipio",
+                                          labelStyle: TextStyle(
+                                              fontFamily: 'RobotoMono-Regular'),
+                                          icon: Icon(Icons.near_me),
+                                          helperText: "",
+                                        ),
+                                        style: TextStyle(
+                                            fontFamily: 'RobotoMono-Regular',
+                                            color: Colors.black54,
+                                            fontSize: 16),
+                                        onChanged: (dynamic value) {},
+                                        validator: (value) => value == null
+                                            ? '¡Escoge tu municipio!'
+                                            : null,
+                                        items: municipalitySelected.map((e) {
+                                          return DropdownMenuItem(
+                                            child: new Text(e['name']),
+                                            value: e['id'],
+                                          );
+                                        }).toList(),
+                                      ),
+                                      TextFormField(
+                                        textCapitalization:
+                                            TextCapitalization.words,
+                                        style: TextStyle(
+                                            fontFamily: 'RobotoMono-Regular',
+                                            color: Colors.black54,
+                                            fontSize: 16),
+                                        decoration: InputDecoration(
+                                          helperText: "",
+                                          icon: Icon(Icons.location_on),
+                                          filled: false,
+                                          fillColor: Colors.white24,
+                                          labelText: "Dirección",
+                                          labelStyle: TextStyle(
+                                              fontFamily: 'RobotoMono-Regular'),
+                                          focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  width: 2)),
+                                        ),
+                                        onChanged: (String value) {
+                                          setState(() {
+                                            direccion = value;
+                                          });
+                                        },
+                                        validator: (value) =>
+                                            _validateDireccion(value),
+                                      ),
+                                    ],
+                                  );
+                                }),
                           ),
                         ),
                       ),
@@ -253,9 +293,5 @@ class RegisterLocationState extends State<RegisterLocationPage> {
     var randomizer = new Random();
     code = min + randomizer.nextInt(max - min);
     addData(code);
-  }
-
-  void obtenerPreferences() async {
-    correo = await preferences.read('email');
   }
 }

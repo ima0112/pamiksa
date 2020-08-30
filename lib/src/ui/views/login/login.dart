@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
 import 'package:pamiksa/src/data/route.dart';
-// import 'package:pamiksa/src/resouces/servidor.dart' show URL, ACCESS_TOKEN;
 import 'package:pamiksa/src/data/widget/waveclipper.dart';
+import 'package:pamiksa/src/ui/views/inicio.dart';
 import 'package:pamiksa/src/ui/views/login/login_form.dart';
 import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,12 +26,6 @@ class Login extends StatefulWidget {
 }
 
 class LoginP extends State<Login> {
-  // static HttpLink httplink =
-  //     HttpLink(uri: URL, headers: {'AccessToken': ACCESS_TOKEN});
-
-  // ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
-  //     GraphQLClient(cache: InMemoryCache(), link: httplink));
-
   String msg = '';
   bool valid = true;
   SharedPreferences _prefs;
@@ -47,8 +41,8 @@ class LoginP extends State<Login> {
           this._prefs = prefs;
           loadToken();
           if (token != null) {
-            // Navigator.pushReplacement(
-            //     context, MaterialPageRoute(builder: (_) => RegisterEmailPage()));
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => InicioPage()));
           }
         });
       });
