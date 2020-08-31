@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/mutations/sendVerificationCode.dart';
 import 'package:pamiksa/src/data/graphql/mutations/sendDeviceInfo.dart';
@@ -19,6 +20,8 @@ import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pamiksa/src/blocs/Timer/bloc.dart';
+import 'package:pamiksa/src/blocs/Timer/ticker.dart';
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -34,8 +37,6 @@ class _VerificationPageState extends State<VerificationPage> {
   User user = User();
   Timer _timer;
 
-  String minutesStr = ((_start / 60) % 60).floor().toString().padLeft(2, '0');
-  String secondsStr = (_start % 60).floor().toString().padLeft(2, '0');
   String correo;
   String code;
   String verificationCode;
@@ -48,26 +49,26 @@ class _VerificationPageState extends State<VerificationPage> {
 
   int newCode;
 
-  void startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) => setState(
-        () {
-          if (_start < 1) {
-            timer.cancel();
-            _isTimerOver = true;
-            _start = 60;
-          } else {
-            minutesStr =
-                ((_start / 60) % 60).floor().toString().padLeft(2, '0');
-            secondsStr = (_start % 60).floor().toString().padLeft(2, '0');
-            _start = _start - 1;
-          }
-        },
-      ),
-    );
-  }
+  // void startTimer() {
+  //   const oneSec = const Duration(seconds: 1);
+  //   _timer = new Timer.periodic(
+  //     oneSec,
+  //     (Timer timer) => setState(
+  //       () {
+  //         if (_start < 1) {
+  //           timer.cancel();
+  //           _isTimerOver = true;
+  //           _start = 60;
+  //         } else {
+  //           minutesStr =
+  //               ((_start / 60) % 60).floor().toString().padLeft(2, '0');
+  //           secondsStr = (_start % 60).floor().toString().padLeft(2, '0');
+  //           _start = _start - 1;
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
 
   @override
   void initState() {
@@ -168,38 +169,17 @@ class _VerificationPageState extends State<VerificationPage> {
                                       documentNode: gql(sendVerificationCode)),
                                   builder: (RunMutation runMutation,
                                       QueryResult result) {
-                                    return FlatButton.icon(
-                                      textColor: _isTimerOver
-                                          ? Theme.of(context).primaryColor
-                                          : Colors.grey,
-                                      icon: Icon(Icons.refresh),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      onPressed: _isTimerOver
-                                          ? () {
-                                              startTimer();
-                                              setState(() {
-                                                if (_hasError == true) {
-                                                  _hasError = false;
-                                                }
-                                                _isTimerOver = false;
-                                                _isButtonDisabled = true;
-                                                code = null;
-                                              });
-                                              randomCode();
-                                              runMutation({
-                                                'code': newCode,
-                                                'email': user.email
-                                              });
-                                              print(newCode);
-                                            }
-                                          : null,
-                                      label: Text(
-                                        _isTimerOver
-                                            ? "Reenviar código"
-                                            : "Reenviar código en ${minutesStr}: ${secondsStr}",
-                                      ),
+                                    return BlocBuilder<TimerBloc, TimerState>(
+                                      builder: (context, state) {
+                                        return BlocBuilder<TimerBloc,
+                                            TimerState>(
+                                          buildWhen: (previousState, state) =>
+                                              state.runtimeType !=
+                                              previousState.runtimeType,
+                                          builder: (context, state) =>
+                                              Actions(),
+                                        );
+                                      },
                                     );
                                   },
                                 )
@@ -300,5 +280,62 @@ class _VerificationPageState extends State<VerificationPage> {
 
   void saveId() async {
     await preferences.save('user_id', _userId);
+  }
+}
+
+class Actions extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: _mapStateToActionButtons(
+        color: Theme.of(context).primaryColor,
+        timerBloc: BlocProvider.of<TimerBloc>(context),
+      ),
+    );
+  }
+
+  List<Widget> _mapStateToActionButtons({
+    TimerBloc timerBloc,
+    Color color,
+  }) {
+    final TimerState currentState = timerBloc.state;
+    if (currentState is TimerInitial) {
+      return [
+        FlatButton.icon(
+          textColor: color,
+          icon: Icon(Icons.refresh),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          onPressed: () {
+            timerBloc.add(TimerStarted(duration: currentState.duration));
+          },
+          label: Text("Reenviar código"),
+        )
+      ];
+    }
+    if (currentState is TimerRunInProgress) {
+      final String minutesStr = ((timerBloc.state.duration / 60) % 60)
+          .floor()
+          .toString()
+          .padLeft(2, '0');
+      final String secondsStr =
+          (timerBloc.state.duration % 60).floor().toString().padLeft(2, '0');
+      return [
+        FlatButton.icon(
+          textColor: Colors.grey,
+          icon: Icon(Icons.refresh),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          onPressed: () {
+            timerBloc.add(TimerStarted(duration: currentState.duration));
+          },
+          label: Text("Reenviar código en $minutesStr:$secondsStr"),
+        )
+      ];
+    }
+    return [];
   }
 }

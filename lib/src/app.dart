@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         title: APP_NAME,
         theme: theme,
-        initialRoute: '/register_location',
+        initialRoute: '/intro',
         routes: {
           "/intro": (context) => Intro(),
           "/register_email": (context) => RegisterEmailPage(),
