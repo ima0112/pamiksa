@@ -186,8 +186,8 @@ class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
   }
 
   addData() async {
-    await preferences.save('name', nombre);
-    await preferences.save('birthday', selectedDate.toString());
+    await preferences.saveString('name', nombre);
+    await preferences.saveString('birthday', selectedDate.toString());
     print({
       await preferences.read('email'),
       await preferences.read('password'),

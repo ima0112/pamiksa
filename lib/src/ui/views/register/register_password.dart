@@ -195,7 +195,7 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
   }
 
   addData() async {
-    await preferences.save('password', password);
+    await preferences.saveString('password', password);
     print({await preferences.read('password')});
   }
 }

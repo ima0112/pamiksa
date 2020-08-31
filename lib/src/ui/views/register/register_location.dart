@@ -283,8 +283,8 @@ class RegisterLocationState extends State<RegisterLocationPage> {
   }
 
   addData(int random) async {
-    await preferences.save('adress', direccion);
-    await preferences.save('code', random.toString());
+    await preferences.saveString('adress', direccion);
+    await preferences.saveString('code', random.toString());
   }
 
   void randomCode() async {

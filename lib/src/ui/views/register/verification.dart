@@ -255,7 +255,7 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   addData(int random) async {
-    await preferences.save('code', random.toString());
+    await preferences.saveString('code', random.toString());
   }
 
   void randomCode() async {
@@ -279,7 +279,7 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void saveId() async {
-    await preferences.save('user_id', _userId);
+    await preferences.saveString('user_id', _userId);
   }
 }
 

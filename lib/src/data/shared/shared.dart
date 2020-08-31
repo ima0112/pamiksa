@@ -6,9 +6,14 @@ class Shared {
     return prefs.get(key);
   }
 
-  save(String key, value) async {
+  saveString(String key, value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
+  }
+
+  saveBool(String key, value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(key, value);
   }
 
   remove(String key) async {

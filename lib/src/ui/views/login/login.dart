@@ -10,8 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
 class LoginPage extends StatelessWidget {
-  static const URI = '/login';
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

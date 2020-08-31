@@ -195,7 +195,7 @@ class RegisterEmailState extends State<RegisterEmailPage> {
   }
 
   addData() async {
-    await preferences.save('email', correo);
+    await preferences.saveString('email', correo);
     print({await preferences.read('email')});
   }
 }
