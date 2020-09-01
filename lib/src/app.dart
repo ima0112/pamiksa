@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 import 'package:pamiksa/src/ui/themes/consts.dart' show APP_NAME;
+import 'package:pamiksa/src/ui/views/home/home.dart';
 import 'package:pamiksa/src/ui/views/register/loading.dart';
 import 'package:pamiksa/src/ui/views/register/register_data_person/register.dart';
 import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
@@ -22,14 +23,15 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: APP_NAME,
           theme: theme,
-          initialRoute: '/intro',
+          initialRoute: '/home',
           routes: {
             "/intro": (context) => Intro(),
             "/register_data": (context) => RegisterDataPage(),
             "/register_data_person": (context) => RegisterDataPersonPage(),
             "/register_location": (context) => RegisterLocationPage(),
             "/verificar": (context) => VerificationPage(),
-            "/load": (context) => Loading()
+            "/load": (context) => Loading(),
+            "/home": (context) => Home()
           },
         );
       }),
