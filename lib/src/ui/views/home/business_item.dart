@@ -1,3 +1,4 @@
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,128 +50,92 @@ class _BusinessItemState extends State<BusinessItem> {
           height: 10,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+          padding: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
           child: Column(
             children: <Widget>[
-              /*Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "${this.widget.name}",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => showModalBottomSheet(
-                          context: context,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
+              Container(
+                color: Colors.deepPurpleAccent,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 17.5,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: AssetImage("assets/images/profile.png"),
+                    ),
+                    SizedBox(
+                      width: 6,
+                    ),
+                    Expanded(
+                      child: Container(child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                "${this.widget.name}",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                          builder: (context) => Container(
-                                height: 200,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(25.0),
-                                        topRight: const Radius.circular(25.0),
-                                      )),
-                                  child: Center(
-                                    child: Text("Probando"),
-                                  ),
+                          Row(
+                            children: <Widget>[
+                              Flexible(
+                                child: RichText(
+                                  overflow: TextOverflow.ellipsis,
+                                  strutStyle: StrutStyle(fontSize: 12.0),
+                                  text: TextSpan(
+                                      text: "${this.widget.adress}",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 12)),
                                 ),
-                              )),
-                      borderRadius: BorderRadius.circular(15),
-                      child: Icon(Icons.keyboard_arrow_down),
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
+                      flex: 4,
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Flexible(
-                    child: RichText(
-                      overflow: TextOverflow.ellipsis,
-                      strutStyle: StrutStyle(fontSize: 12.0),
-                      text: TextSpan(text: "${this.widget.adress}", style: TextStyle(color: Colors.black)),
-                    ),
-                  )
-                ],
-              ),*/
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  "${this.widget.name}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Flexible(
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    strutStyle: StrutStyle(fontSize: 12.0),
-                                    text: TextSpan(text: "${this.widget.adress}", style: TextStyle(color: Colors.black)),
+                    /*Spacer(
+                      flex: 1,
+                    ),*/
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
                                   ),
-                                ),
-                              ],
-                            )
-                          ],
-                        )),
-                    flex: 9,
-                  ),
-                  Spacer(
-                    flex: 1,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () => showModalBottomSheet(
-                                context: context,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                builder: (context) => Container(
-                                      height: 200,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft:
-                                                  const Radius.circular(25.0),
-                                              topRight:
-                                                  const Radius.circular(25.0),
-                                            )),
-                                        child: Center(
-                                          child: Text("Probando"),
+                                  builder: (context) => Container(
+                                        height: 200,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft:
+                                                    const Radius.circular(25.0),
+                                                topRight:
+                                                    const Radius.circular(25.0),
+                                              )),
+                                          child: Center(
+                                            child: Text("Probando"),
+                                          ),
                                         ),
-                                      ),
-                                    )),
-                            borderRadius: BorderRadius.circular(15),
-                            child: Icon(Icons.keyboard_arrow_down),
+                                      )),
+                              borderRadius: BorderRadius.circular(15),
+                              child: Icon(Icons.keyboard_arrow_down),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-                crossAxisAlignment: CrossAxisAlignment.start,
+                    )
+                  ],
+                ),
               )
             ],
           ),
@@ -182,8 +147,8 @@ class _BusinessItemState extends State<BusinessItem> {
           children: <Widget>[
             Image.asset("assets/images/${this.widget.photo}"),
             Positioned(
-                bottom: 15,
-                right: 15,
+                bottom: 12,
+                right: 12,
                 child:
                     Icon(Icons.favorite_border, color: Colors.white, size: 25)),
           ],
@@ -191,34 +156,36 @@ class _BusinessItemState extends State<BusinessItem> {
         SizedBox(
           height: 10,
         ),
-        Container(
-          padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 4.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "Costo de envio: ${this.widget.deliveryPrice} CUP",
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      color: Colors.grey[200],
-                      child: Text(
-                        "${this.widget.valoration}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+        Padding(
+          padding: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  color: Colors.deepPurpleAccent,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Costo de envio: ${this.widget.deliveryPrice} CUP",
                       ),
-                    ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          color: Colors.grey[200],
+                          child: Text(
+                            "${this.widget.valoration}",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(
