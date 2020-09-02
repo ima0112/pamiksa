@@ -1,3 +1,5 @@
+import 'package:pamiksa/src/data/models/businessOwner.dart';
+
 class Business {
   String id;
   String name;
@@ -6,9 +8,7 @@ class Business {
   String phone;
   String email;
   String photo;
-  String businessOwnerFk;
-  String provinceFk;
-  String municipalityFk;
+  BusinessOwner businessOwnerFk;
   double deliveryPrice;
   double valoration;
 
@@ -22,9 +22,7 @@ class Business {
       this.deliveryPrice,
       this.photo,
       this.businessOwnerFk,
-      this.provinceFk,
-      this.valoration,
-      this.municipalityFk});
+      this.valoration,});
 
   factory Business.fromJson(Map<String, dynamic> json) {
     return Business(
@@ -36,12 +34,11 @@ class Business {
       valoration: json['valoration'],
       email: json['email'],
       photo: json['photo'],
-      businessOwnerFk: json['businessOwnerFk'],
-      provinceFk: json['provinceFk'],
-      municipalityFk: json['municipalityFk'],
     );
   }
 
   @override
-  String toString() {}
+  String toString() {
+    return 'Nombre: ${this.name}, ';
+  }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pamiksa/src/blocs/home_bloc.dart';
+import 'package:pamiksa/src/data/models/businessOwner.dart';
 
 class BusinessItem extends StatefulWidget {
   String id;
@@ -13,9 +14,7 @@ class BusinessItem extends StatefulWidget {
   String phone;
   String email;
   String photo;
-  String businessOwnerFk;
-  String provinceFk;
-  String municipalityFk;
+  BusinessOwner businessOwnerFk;
   double valoration;
   double deliveryPrice;
 
@@ -29,9 +28,7 @@ class BusinessItem extends StatefulWidget {
       this.photo,
       this.deliveryPrice,
       this.valoration,
-      this.businessOwnerFk,
-      this.provinceFk,
-      this.municipalityFk});
+      this.businessOwnerFk,});
 
   @override
   _BusinessItemState createState() => _BusinessItemState();
