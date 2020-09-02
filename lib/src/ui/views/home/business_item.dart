@@ -50,105 +50,102 @@ class _BusinessItemState extends State<BusinessItem> {
           height: 10,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: Column(
             children: <Widget>[
-              Container(
-                color: Colors.deepPurpleAccent,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 17.5,
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: AssetImage("assets/images/profile.png"),
-                    ),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    Expanded(
-                      child: Container(child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                "${this.widget.name}",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Flexible(
-                                child: RichText(
-                                  overflow: TextOverflow.ellipsis,
-                                  strutStyle: StrutStyle(fontSize: 12.0),
-                                  text: TextSpan(
-                                      text: "${this.widget.adress}",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 12)),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      )),
-                      flex: 4,
-                    ),
-                    /*Spacer(
-                      flex: 1,
-                    ),*/
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () => showModalBottomSheet(
-                                  context: context,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                  ),
-                                  builder: (context) => Container(
-                                        height: 200,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.only(
-                                                topLeft:
-                                                    const Radius.circular(25.0),
-                                                topRight:
-                                                    const Radius.circular(25.0),
-                                              )),
-                                          child: Center(
-                                            child: Text("Probando"),
-                                          ),
-                                        ),
-                                      )),
-                              borderRadius: BorderRadius.circular(15),
-                              child: Icon(Icons.keyboard_arrow_down),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 17.5,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: AssetImage("assets/images/profile.png"),
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  Expanded(
+                    child: Container(child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "${this.widget.name}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Flexible(
+                              child: RichText(
+                                overflow: TextOverflow.ellipsis,
+                                strutStyle: StrutStyle(fontSize: 12.0),
+                                text: TextSpan(
+                                    text: "${this.widget.adress}",
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 12)),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    )),
+                    flex: 4,
+                  ),
+                  /*Spacer(
+                    flex: 1,
+                  ),*/
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () => showModalBottomSheet(
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                builder: (context) => Container(
+                                      height: 200,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.only(
+                                              topLeft:
+                                                  const Radius.circular(25.0),
+                                              topRight:
+                                                  const Radius.circular(25.0),
+                                            )),
+                                        child: Center(
+                                          child: Text("Probando"),
+                                        ),
+                                      ),
+                                    )),
+                            borderRadius: BorderRadius.circular(15),
+                            child: Icon(Icons.keyboard_arrow_down),
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               )
             ],
           ),
         ),
         SizedBox(
-          height: 14,
+          height: 10,
         ),
         Stack(
           children: <Widget>[
             Image.asset("assets/images/${this.widget.photo}"),
             Positioned(
-                bottom: 12,
-                right: 12,
+                bottom: 10,
+                right: 10,
                 child:
                     Icon(Icons.favorite_border, color: Colors.white, size: 25)),
           ],
@@ -157,41 +154,46 @@ class _BusinessItemState extends State<BusinessItem> {
           height: 10,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: Container(
+            //color: Colors.deepPurpleAccent,
             child: Column(
               children: <Widget>[
-                Container(
-                  color: Colors.deepPurpleAccent,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Costo de envio: ${this.widget.deliveryPrice} CUP",
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Container(
-                          padding: EdgeInsets.all(5),
-                          color: Colors.grey[200],
-                          child: Text(
-                            "${this.widget.valoration}",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "Costo de envio: ${this.widget.deliveryPrice} CUP",
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        color: Colors.grey[200],
+                        child: Text(
+                          "${this.widget.valoration}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Horario: 7:30AM - 8:00PM",
+                    ),
+                  ],
+                )
               ],
             ),
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 14,
         ),
-        Divider(),
       ],
     );
   }
