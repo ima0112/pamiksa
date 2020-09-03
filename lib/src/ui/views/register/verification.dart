@@ -16,7 +16,7 @@ import 'package:pamiksa/src/data/graphql/mutations/sendDeviceInfo.dart';
 import 'package:pamiksa/src/data/graphql/mutations/signUp.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
+import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';

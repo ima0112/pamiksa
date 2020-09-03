@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         title: APP_NAME,
         theme: theme,
-        initialRoute: '/splash',
+        initialRoute: '/login',
         routes: {
           "/splash": (context) => SplashScreen(),
           "/intro": (context) => Intro(),

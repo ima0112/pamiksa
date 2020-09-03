@@ -72,56 +72,58 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(fontSize: 16),
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Correo electrónico',
-                  filled: false,
-                  icon: Icon(Icons.email),
-                ),
-                onChanged: (String value) {
-                  setState(() {
-                    _email = value;
-                  });
-                },
-                validator: (value) => _validateEmail(value),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-//                style: TextStyle(
-//                    fontFamily: 'RobotoMono-Regular',
-//                    color: Colors.black54,
-//                    fontSize: 16),
-                obscureText: _obscureText,
-                maxLength: 20,
-                validator: (value) => _validatePassword(value),
-                decoration: new InputDecoration(
-                  border: const UnderlineInputBorder(),
-                  filled: false,
-                  labelText: 'Contraseña',
-                  icon: Icon(Icons.lock),
-                  suffixIcon: new GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                    child: new Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off),
+              Expanded(
+                flex: 2,
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 16),
+                  decoration: const InputDecoration(
+                    helperText: "",
+                    border: UnderlineInputBorder(),
+                    labelText: 'Correo electrónico',
+                    filled: false,
+                    icon: Icon(Icons.email),
                   ),
+                  onChanged: (String value) {
+                    setState(() {
+                      _email = value;
+                    });
+                  },
+                  validator: (value) => _validateEmail(value),
                 ),
-                onChanged: (String value) {
-                  setState(() {
-                    _password = value;
-                  });
-                },
+              ),
+              Expanded(
+                flex: 2,
+                child: TextFormField(
+                  obscureText: _obscureText,
+                  maxLength: 20,
+                  validator: (value) => _validatePassword(value),
+                  decoration: new InputDecoration(
+                    helperText: "",
+                    border: const UnderlineInputBorder(),
+                    filled: false,
+                    labelText: 'Contraseña',
+                    icon: Icon(Icons.lock),
+                    suffixIcon: new GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                      child: new Icon(_obscureText
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                    ),
+                  ),
+                  onChanged: (String value) {
+                    setState(() {
+                      _password = value;
+                    });
+                  },
+                ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Mutation(
                 options: MutationOptions(
@@ -140,40 +142,43 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                       }
                     }),
                 builder: (RunMutation mutation, QueryResult result) {
-                  return Center(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: PhysicalModel(
-                        elevation: 2,
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(25),
-                        child: Container(
-                          key: _globalKey,
-                          height: 45,
-                          width: _width,
-                          child: RaisedButton(
-                            textColor: Colors.white,
-                            color: Theme.of(context).primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
+                  return Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: PhysicalModel(
+                          elevation: 2,
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(25),
+                          child: Container(
+                            key: _globalKey,
+                            height: 45,
+                            width: _width,
+                            child: RaisedButton(
+                              textColor: Colors.white,
+                              color: Theme.of(context).primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              padding: EdgeInsets.all(0),
+                              child: setUpButtonChild(),
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  mutation(
+                                      {'email': _email, 'password': _password});
+                                  setState(() {
+                                    if (_state == 0) {
+                                      animateButton(mutation);
+                                    } else {
+                                      _state = 0;
+                                      _width = _width;
+                                    }
+                                  });
+                                }
+                              },
+                              elevation: 0,
                             ),
-                            padding: EdgeInsets.all(0),
-                            child: setUpButtonChild(),
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                mutation(
-                                    {'email': _email, 'password': _password});
-                                setState(() {
-                                  if (_state == 0) {
-                                    animateButton(mutation);
-                                  } else {
-                                    _state = 0;
-                                    _width = _width;
-                                  }
-                                });
-                              }
-                            },
-                            elevation: 0,
                           ),
                         ),
                       ),
@@ -186,8 +191,6 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
         ));
   }
 
-//  if (_formKey.currentState.validate()) {
-//  mutation({'email': _email, 'password': _password});
   setUpButtonChild() {
     if (_state == 0) {
       return Text(
