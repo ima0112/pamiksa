@@ -7,7 +7,7 @@ class BusinessRepository {
 
   BusinessRepository({@required this.client}) : assert(client != null);
 
-  Future<QueryResult> business() async {
+  Future<QueryResult> fetchBusiness() async {
     final WatchQueryOptions _options = WatchQueryOptions(
       documentNode: gql(queries.business),
       fetchResults: true,

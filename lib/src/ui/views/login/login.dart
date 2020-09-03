@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
+import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 // import 'package:pamiksa/src/resouces/servidor.dart' show URL, ACCESS_TOKEN;
-import 'package:pamiksa/src/data/widget/waveclipper.dart';
 import 'package:pamiksa/src/ui/views/login/login_form.dart';
 import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
+import 'package:pamiksa/src/ui/widgets/waveclipper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 

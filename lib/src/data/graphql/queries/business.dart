@@ -1,4 +1,4 @@
-String business = r"""query FetchBusiness {
+String business = r"""query{
   business {
     id
     name

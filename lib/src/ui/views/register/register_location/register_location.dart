@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
+import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/graphql/mutations/sendDeviceInfo.dart';
 import 'package:pamiksa/src/data/graphql/mutations/sendVerificationCode.dart';
 import 'package:pamiksa/src/data/graphql/mutations/signUp.dart';

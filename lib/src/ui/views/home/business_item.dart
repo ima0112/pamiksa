@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
-import 'package:pamiksa/src/blocs/home_bloc.dart';
-import 'package:pamiksa/src/data/models/businessOwner.dart';
+import 'file:///C:/Users/Developer/Projects/pamiksa/lib/src/blocs/home/home_bloc.dart';
+import 'package:pamiksa/src/data/models/business_owner.dart';
 
 class BusinessItem extends StatefulWidget {
   String id;
@@ -14,7 +14,7 @@ class BusinessItem extends StatefulWidget {
   String phone;
   String email;
   String photo;
-  BusinessOwner businessOwnerFk;
+  BusinessOwnersModel businessOwnerFk;
   double valoration;
   double deliveryPrice;
 

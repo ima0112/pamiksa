@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
+import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/graphql/mutations/signUp.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';

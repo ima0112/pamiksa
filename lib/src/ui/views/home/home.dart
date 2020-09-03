@@ -122,9 +122,9 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/home_bloc.dart';
+import 'file:///C:/Users/Developer/Projects/pamiksa/lib/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/data/models/business.dart';
-import 'package:pamiksa/src/data/models/businessOwner.dart';
+import 'package:pamiksa/src/data/models/business_owner.dart';
 import 'package:pamiksa/src/ui/views/home/business_item.dart';
 
 class Home extends StatelessWidget {
@@ -132,12 +132,12 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Business> listBusiness = [
-      Business(
+    List<BusinessModel> listBusiness = [
+      BusinessModel(
         id: "1",
         name: "Don",
         adress: "Avenida 9na #706 entre Cristina y Minervaaaaaaaaaa",
-        businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+        businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
         description: "Lo mas sabroso de la comida cubana a tu alcanse",
         email: "don@gmail.com",
         phone: "45567800",
@@ -145,11 +145,11 @@ class Home extends StatelessWidget {
         deliveryPrice: 25.7,
         photo: "carne_hamburguesa1.jpg",
       ),
-      Business(
+      BusinessModel(
         id: "2",
         name: "Hamburguesera Pepitos",
         adress: "Cespedes #7 entre Cristina y Minerva",
-        businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+        businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
         description: "Quieres Hamburguesas, pues echa pa k.",
         email: "don@gmail.com",
         phone: "45567800",
@@ -157,11 +157,11 @@ class Home extends StatelessWidget {
         deliveryPrice: 25.7,
         photo: "hamburguesa.jpg",
       ),
-      Business(
+      BusinessModel(
         id: "3",
         name: "TuHotDog",
         adress: "Cristina #6 entre Aiyon y Cespedes",
-        businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+        businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
         description: "Los mejores HotDogs de Cardenas.",
         email: "don@gmail.com",
         phone: "45567800",
@@ -169,11 +169,11 @@ class Home extends StatelessWidget {
         deliveryPrice: 25.7,
         photo: "hotdogs.jpg",
       ),
-      Business(
+      BusinessModel(
         id: "4",
         name: "DinoPizzas",
         adress: "Saez #100 entre Cristina y Velasquez",
-        businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+        businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
         description:
             "De todos los tamannos y todos los sabores la pizza que tu quieres esta aki.",
         email: "don@gmail.com",
@@ -182,11 +182,11 @@ class Home extends StatelessWidget {
         photo: "pizza.jpg",
         valoration: 2.8,
       ),
-      Business(
+      BusinessModel(
         id: "4",
         name: "DinoPizzas",
         adress: "Saez #100 entre Cristina y Velasquez",
-        businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+        businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
         description:
             "De todos los tamannos y todos los sabores la pizza que tu quieres esta aki.",
         email: "don@gmail.com",
@@ -195,11 +195,11 @@ class Home extends StatelessWidget {
         photo: "pizza.jpg",
         valoration: 2.8,
       ),
-      Business(
+      BusinessModel(
         id: "4",
         name: "DinoPizzas",
         adress: "Saez #100 entre Cristina y Velasquez",
-        businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+        businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
         description:
             "De todos los tamannos y todos los sabores la pizza que tu quieres esta aki.",
         email: "don@gmail.com",
@@ -208,11 +208,11 @@ class Home extends StatelessWidget {
         photo: "pizza.jpg",
         valoration: 2.8,
       ),
-      Business(
+      BusinessModel(
         id: "4",
         name: "DinoPizzas",
         adress: "Saez #100 entre Cristina y Velasquez",
-        businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+        businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
         description:
             "De todos los tamannos y todos los sabores la pizza que tu quieres esta aki.",
         email: "don@gmail.com",
@@ -221,11 +221,11 @@ class Home extends StatelessWidget {
         photo: "pizza.jpg",
         valoration: 2.8,
       ),
-      Business(
+      BusinessModel(
         id: "4",
         name: "DinoPizzas",
         adress: "Saez #100 entre Cristina y Velasquez",
-        businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+        businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
         description:
             "De todos los tamannos y todos los sabores la pizza que tu quieres esta aki.",
         email: "don@gmail.com",
@@ -234,11 +234,11 @@ class Home extends StatelessWidget {
         photo: "pizza.jpg",
         valoration: 2.8,
       ),
-      Business(
+      BusinessModel(
           id: "4",
           name: "DinoPizzas",
           adress: "Saez #100 entre Cristina y Velasquez",
-          businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+          businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
           description:
               "De todos los tamannos y todos los sabores la pizza que tu quieres esta aki.",
           email: "don@gmail.com",
@@ -246,11 +246,11 @@ class Home extends StatelessWidget {
           phone: "45567800",
           photo: "pizza.jpg",
           valoration: 2.8),
-      Business(
+      BusinessModel(
         id: "4",
         name: "DinoPizzas",
         adress: "Saez #100 entre Cristina y Velasquez",
-        businessOwnerFk: BusinessOwner(id: "1", ci: "2"),
+        businessOwner: BusinessOwnersModel(id: "1", ci: "2"),
         description:
             "De todos los tamannos y todos los sabores la pizza que tu quieres esta aki.",
         email: "don@gmail.com",
@@ -301,14 +301,13 @@ class Actions extends StatelessWidget {
     homeBloc = BlocProvider.of<HomeBloc>(context);
     final HomeState currentState = homeBloc.state;
     if (currentState is HomeInitial) {
-      homeBloc.add(FetchBusiness());
+      homeBloc.add(FetchBusinessEvent());
       return Center(
         child: CircularProgressIndicator(),
       );
     }
-    if (currentState is BusinessFetchedState) {
-      final List<Business> businessData = currentState.businessResults;
-      print('BusinessData in Home: ${businessData.length}');
+    if (currentState is LoadedBusinessState) {
+      final List<BusinessModel> businessData = currentState.results;
       return SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[
@@ -341,8 +340,9 @@ class Actions extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
                         Chip(
-                            avatar: Icon(Icons.filter_list),
-                            label: Text("Filtrar")),
+                          avatar: Icon(Icons.filter_list),
+                          label: Text("Filtrar"),
+                        ),
                         SizedBox(width: 10),
                         Chip(
                           label: Text("Para Recojer"),

@@ -1,6 +1,6 @@
-import 'package:pamiksa/src/data/models/businessOwner.dart';
+import 'package:pamiksa/src/data/models/business_owner.dart';
 
-class Business {
+class BusinessModel {
   String id;
   String name;
   String description;
@@ -8,37 +8,25 @@ class Business {
   String phone;
   String email;
   String photo;
-  BusinessOwner businessOwnerFk;
+  BusinessOwnersModel businessOwner;
   double deliveryPrice;
   double valoration;
 
-  Business(
-      {this.id,
-      this.name,
-      this.description,
-      this.adress,
-      this.phone,
-      this.email,
-      this.deliveryPrice,
-      this.photo,
-      this.businessOwnerFk,
-      this.valoration,});
-
-  factory Business.fromJson(Map<String, dynamic> json) {
-    return Business(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      adress: json['adress'],
-      phone: json['phone'],
-      valoration: json['valoration'],
-      email: json['email'],
-      photo: json['photo'],
-    );
-  }
+  BusinessModel({
+    this.id,
+    this.name,
+    this.description,
+    this.adress,
+    this.phone,
+    this.email,
+    this.deliveryPrice,
+    this.photo,
+    this.businessOwner,
+    this.valoration,
+  });
 
   @override
   String toString() {
-    return 'Nombre: ${this.name}, ';
+    return 'Id: ${this.id},Nombre: ${this.name}, Description: ${this.description}, Adress: ${this.adress}, Phone: ${this.phone}, Email: ${this.email}, DeliveryPrice: ${this.deliveryPrice}, Photo: ${this.photo}, BusinessOwner{id: ${this.businessOwner.id}, ci: ${this.businessOwner.ci}, Valoration: ${this.valoration}';
   }
 }

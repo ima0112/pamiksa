@@ -4,7 +4,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/widget/alertDialog.dart';
 import 'package:pamiksa/src/ui/views/register/register_data_person/register.dart';
 import 'package:pamiksa/src/ui/views/register/register_data/register_data_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';

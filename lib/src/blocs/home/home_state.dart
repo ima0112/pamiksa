@@ -15,12 +15,12 @@ class BusinessOptionsPulsedState extends HomeState {
   List<Object> get props => throw UnimplementedError();
 }
 
-class BusinessFetchedState extends HomeState {
-  final List<Business> businessResults;
+class LoadedBusinessState extends HomeState {
+  final List<BusinessModel> results;
 
-  BusinessFetchedState({@required this.businessResults})
-      : assert(businessResults != null),
-        super([businessResults]);
+  LoadedBusinessState({@required this.results})
+      : assert(results != null),
+        super([results]);
 
   @override
   // TODO: implement props

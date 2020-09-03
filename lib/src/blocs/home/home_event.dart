@@ -10,7 +10,7 @@ class BusinessOptionsPulsed extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-class FetchBusiness extends HomeEvent {
+class FetchBusinessEvent extends HomeEvent {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
