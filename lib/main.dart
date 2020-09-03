@@ -12,7 +12,7 @@ void main() => runApp(MultiBlocProvider(
           create: (_) => ThemeCubit(),
         ),
         BlocProvider(
-            create: (context) => HomeBloc(
+            create: (_) => HomeBloc(
                 BusinessRepository(client: GraphQLConfiguration().clients())))
       ],
       child: MyApp(),

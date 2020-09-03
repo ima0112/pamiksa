@@ -122,6 +122,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_skeleton/flutter_skeleton.dart';
 import 'file:///C:/Users/Developer/Projects/pamiksa/lib/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/data/models/business.dart';
 import 'package:pamiksa/src/data/models/business_owner.dart';
@@ -303,8 +304,67 @@ class Actions extends StatelessWidget {
     if (currentState is HomeInitial) {
       homeBloc.add(FetchBusinessEvent());
       return Center(
-        child: CircularProgressIndicator(),
-      );
+          child: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              snap: true,
+              pinned: true,
+              forceElevated: true,
+              floating: true,
+              elevation: 1.0,
+              title: Text(
+                "Pamiksa",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {}),
+              ],
+              expandedHeight: 2 * kToolbarHeight,
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.only(top: kToolbarHeight),
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        Chip(
+                          avatar: Icon(Icons.filter_list),
+                          label: Text("Filtrar"),
+                        ),
+                        SizedBox(width: 10),
+                        Chip(
+                          label: Text("Para Recojer"),
+                          avatar: Icon(Icons.store),
+                        ),
+                        SizedBox(width: 10),
+                        Chip(
+                          label: Text("A Domicilio"),
+                          avatar: Icon(Icons.directions_bike),
+                        )
+                      ],
+                    )),
+              ),
+            ),
+            SliverList(
+                delegate: SliverChildListDelegate([
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            ]))
+          ],
+        ),
+      ));
     }
     if (currentState is LoadedBusinessState) {
       final List<BusinessModel> businessData = currentState.results;
@@ -365,7 +425,7 @@ class Actions extends StatelessWidget {
                 itemCount: businessData.length,
                 itemBuilder: (_, index) => BusinessItem(
                   name: businessData[index].name,
-                  photo: "pizza.jpg",
+                  photo: businessData[index].photo,
                   adress: businessData[index].adress,
                   valoration: businessData[index].valoration,
                   deliveryPrice: businessData[index].deliveryPrice,

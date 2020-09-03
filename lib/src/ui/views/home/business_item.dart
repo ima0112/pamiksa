@@ -139,7 +139,10 @@ class _BusinessItemState extends State<BusinessItem> {
         ),
         Stack(
           children: <Widget>[
-            Image.asset("assets/images/${this.widget.photo}"),
+            FadeInImage(
+              placeholder: AssetImage("assets/images/pizza.jpg"),
+              image: NetworkImage("http://192.168.0.2:8000/images/${this.widget.photo}"),
+            ),
             Positioned(
                 bottom: 10,
                 right: 10,
