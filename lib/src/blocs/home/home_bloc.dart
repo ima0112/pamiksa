@@ -41,7 +41,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               description: e['description'],
               phone: e['phone'],
               businessOwner: BusinessOwnersModel(
-                  id: e['businessOwner']['id'], ci: e['businessOwner']['ci']),
+                  id: e['businessOwner']['id'],
+                  ci: e['businessOwner']['ci']),
             ))
         .toList();
     yield LoadedBusinessState(results: businessModel);

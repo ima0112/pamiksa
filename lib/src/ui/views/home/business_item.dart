@@ -140,6 +140,9 @@ class _BusinessItemState extends State<BusinessItem> {
         Stack(
           children: <Widget>[
             FadeInImage(
+              width: 500,
+              fit: BoxFit.cover,
+              height: 225,
               placeholder: AssetImage("assets/images/pizza.jpg"),
               image: NetworkImage("http://192.168.0.2:8000/images/${this.widget.photo}"),
             ),

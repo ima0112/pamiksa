@@ -27,6 +27,6 @@ class BusinessModel {
 
   @override
   String toString() {
-    return 'Id: ${this.id},Nombre: ${this.name}, Description: ${this.description}, Adress: ${this.adress}, Phone: ${this.phone}, Email: ${this.email}, DeliveryPrice: ${this.deliveryPrice}, Photo: ${this.photo}, BusinessOwner{id: ${this.businessOwner.id}, ci: ${this.businessOwner.ci}, Valoration: ${this.valoration}';
+    return 'Id: ${this.id}, Nombre: ${this.name}, Description: ${this.description}, Adress: ${this.adress}, Phone: ${this.phone}, Email: ${this.email}, DeliveryPrice: ${this.deliveryPrice}, Photo: ${this.photo}, BusinessOwner{id: ${this.businessOwner.id}, ci: ${this.businessOwner.ci}, Valoration: ${this.valoration}';
   }
 }
