@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/data/graphql/mutations/singIn.dart';
-import 'package:pamiksa/src/data/graphql/mutations/userLogin.dart';
+import 'package:pamiksa/src/data/graphql/mutations/user.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/ui/views/inicio.dart';
@@ -134,9 +133,6 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                     onCompleted: (dynamic resultData) {
                       if (resultData != null) {
                         returnData = resultData;
-                        User usuario =
-                            User.fromJson(resultData['signIn']['user']);
-                        print(usuario);
                       } else {
                         print('No data from request');
                       }

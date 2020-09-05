@@ -11,17 +11,20 @@ import 'package:flutter/services.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:pamiksa/src/blocs/Timer/timer_bloc.dart';
 import 'package:pamiksa/src/data/graphql/mutations/sendVerificationCode.dart';
-import 'package:pamiksa/src/data/graphql/mutations/sendDeviceInfo.dart';
-import 'package:pamiksa/src/data/graphql/mutations/signUp.dart';
+import 'package:pamiksa/src/data/graphql/mutations/device.dart';
+import 'package:pamiksa/src/data/graphql/mutations/user.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pamiksa/src/blocs/Timer/bloc.dart';
 import 'package:pamiksa/src/blocs/Timer/ticker.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -29,12 +32,13 @@ class VerificationPage extends StatefulWidget {
 }
 
 class _VerificationPageState extends State<VerificationPage> {
+  final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
   static int _start = 60;
 
-  Device device = Device();
+  DeviceModel device = DeviceModel();
   Shared preferences = Shared();
-  User user = User();
+  UserModel user = UserModel();
   Timer _timer;
 
   String correo;
@@ -48,27 +52,6 @@ class _VerificationPageState extends State<VerificationPage> {
   bool _isTimerOver;
 
   int newCode;
-
-  // void startTimer() {
-  //   const oneSec = const Duration(seconds: 1);
-  //   _timer = new Timer.periodic(
-  //     oneSec,
-  //     (Timer timer) => setState(
-  //       () {
-  //         if (_start < 1) {
-  //           timer.cancel();
-  //           _isTimerOver = true;
-  //           _start = 60;
-  //         } else {
-  //           minutesStr =
-  //               ((_start / 60) % 60).floor().toString().padLeft(2, '0');
-  //           secondsStr = (_start % 60).floor().toString().padLeft(2, '0');
-  //           _start = _start - 1;
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
 
   @override
   void initState() {

@@ -6,40 +6,47 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
 import 'package:pamiksa/src/data/models/province.dart';
-import 'package:pamiksa/src/data/repositories/repository.dart';
+import 'package:pamiksa/src/data/repositories/remote/provinces_repository.dart';
 
 part 'location_event.dart';
 part 'location_state.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
-  final Repository repository;
-  List<Province> provinces;
-  LocationBloc(this.repository) : super(LocationInitial());
+  final ProvincesRepository provincesRepository;
+  List<ProvinceModel> province = List();
+  LocationBloc(this.provincesRepository) : super(LocationInitial());
 
   @override
   Stream<LocationState> mapEventToState(
     LocationEvent event,
   ) async* {
-    if (event is FetchLocations) {
-      yield* _mapFetchLocationsToState(event);
+    if (event is FetchProvincesEvent) {
+      yield* _mapFetchProvincesEvent(event);
     }
   }
 
-  Stream<LocationState> _mapFetchLocationsToState(FetchLocations event) async* {
-    final queryResults = await this.repository.userLocation();
-    final List<dynamic> provinces =
-        queryResults.data['provinces'] as List<dynamic>;
-    print(provinces);
-    final List<Province> listOfProvince = provinces
-        .map((dynamic e) => Province(
-              id: e['id'] as String,
-              name: e['name'] as String,
-              municipalities: e['municipality'] as List<dynamic>,
-            ))
-        .toList();
+  Stream<LocationState> _mapFetchProvincesEvent(
+      FetchProvincesEvent event) async* {
+    final response = await this.provincesRepository.userLocation();
+    final List provincesData = response.data['provinces'] as List;
+    print(provincesData);
 
-    this.provinces = listOfProvince;
-    print(listOfProvince);
-    yield LocationsFetched(results: listOfProvince);
+    provincesData.forEach((element) {
+      List<MunicipalityModel> municipios = List();
+      element['municipality'].forEach((element) {
+        MunicipalityModel municipio = MunicipalityModel(
+            id: element['id'],
+            name: element['name'],
+            provinceFk: element['provinceFk']);
+        municipios.add(municipio as MunicipalityModel);
+      });
+      ProvinceModel provinceModel = ProvinceModel(
+          id: element['id'], name: element['name'], municipalities: municipios);
+      province.add(provinceModel);
+    });
+
+    print(province);
+
+    yield LoadedLocationsState(results: province);
   }
 }

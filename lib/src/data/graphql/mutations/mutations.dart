@@ -1,5 +1,3 @@
-export './sendDeviceInfo.dart';
+export 'device.dart';
 export './sendVerificationCode.dart';
-export './signUp.dart';
-export './singIn.dart';
-export './userLogin.dart';
+export 'user.dart';

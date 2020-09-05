@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
-class SplashScreen extends StatefulWidget {
+class SplashScreenPage extends StatefulWidget {
   @override
   SplashScreenState createState() => SplashScreenState();
 }
 
-class SplashScreenState extends State<SplashScreen> {
+class SplashScreenState extends State<SplashScreenPage> {
+  final NavigationService navigationService = locator<NavigationService>();
   SharedPreferences _preferences;
   bool _showIntro;
 
@@ -18,9 +22,9 @@ class SplashScreenState extends State<SplashScreen> {
           this._preferences = prefs;
           loadShowIntro();
           if (_showIntro == null) {
-            Navigator.of(context).pushNamed("/intro");
+            navigationService.navigateTo(routes.IntroRoute);
           } else if (_showIntro == false) {
-            Navigator.of(context).pushNamed("/login");
+            navigationService.navigateTo(routes.LoginRoute);
           }
         });
       });

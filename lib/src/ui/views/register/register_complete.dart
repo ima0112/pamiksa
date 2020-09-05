@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
-import 'package:pamiksa/src/data/graphql/mutations/sendDeviceInfo.dart';
-import 'package:pamiksa/src/data/graphql/mutations/signUp.dart';
+import 'package:pamiksa/src/data/graphql/mutations/device.dart';
+import 'package:pamiksa/src/data/graphql/mutations/user.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterCompletePage extends StatefulWidget {
@@ -18,10 +20,11 @@ class RegisterCompletePage extends StatefulWidget {
 }
 
 class _RegisterCompletePageState extends State<RegisterCompletePage> {
+  final NavigationService navigationService = locator<NavigationService>();
   final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};
-  User user = User();
-  Device device = Device();
+  UserModel user = UserModel();
+  DeviceModel device = DeviceModel();
   String _id;
 
   void initState() {

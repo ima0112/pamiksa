@@ -6,14 +6,14 @@ import 'package:graphql/client.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
 import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
 
-class Repository {
+class ProvincesRepository {
   final GraphQLClient client;
 
-  Repository({@required this.client}) : assert(client != null);
+  ProvincesRepository({@required this.client}) : assert(client != null);
 
   Future<QueryResult> userLocation() async {
     final WatchQueryOptions _options = WatchQueryOptions(
-      documentNode: parseString(queries.userLocation),
+      documentNode: gql(queries.userLocation),
       fetchResults: true,
     );
 

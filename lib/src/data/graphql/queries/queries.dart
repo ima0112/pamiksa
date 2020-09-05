@@ -1,2 +1,1 @@
-export './userExists.dart';
-export './userLocation.dart';
+export 'user.dart';

@@ -4,13 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/blocs/Location/location_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
-import 'package:pamiksa/src/data/route.dart';
-import 'package:pamiksa/src/data/widget/waveclipper.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/views/inicio.dart';
 import 'package:pamiksa/src/ui/views/login/login_form.dart';
 import 'package:pamiksa/src/ui/views/register/register_email.dart';
+import 'package:pamiksa/src/ui/widget/waveclipper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,11 +20,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  final NavigationService navigationService = locator<NavigationService>();
   String msg = '';
   bool valid = true;
   SharedPreferences _prefs;
   String token;
-  Ruta ruta = Ruta();
 
   @override
   initState() {
@@ -153,15 +155,20 @@ class LoginPageState extends State<LoginPage> {
                             fontSize: 14,
                             fontWeight: FontWeight.bold),
                       ),
-                      BlocBuilder<LocationBloc, LocationState>(
-                        builder: (context, state) {
-                          return BlocBuilder<LocationBloc, LocationState>(
-                            buildWhen: (previousState, state) =>
-                                state.runtimeType != previousState.runtimeType,
-                            builder: (context, state) => Actions(),
-                          );
+                      GestureDetector(
+                        child: Text(
+                          "Crear cuenta",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () {
+                          navigationService
+                              .navigateTo(routes.RegisterEmailRoute);
                         },
-                      ),
+                      )
                     ],
                   )
                 ],
@@ -169,47 +176,5 @@ class LoginPageState extends State<LoginPage> {
             ),
           ),
         )));
-  }
-}
-
-class Actions extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: _mapStateToActionButtons(
-          color: Theme.of(context).primaryColor,
-          locationBloc: BlocProvider.of<LocationBloc>(context),
-          context: context,
-          ruta: Ruta()),
-    );
-  }
-
-  List<Widget> _mapStateToActionButtons({
-    LocationBloc locationBloc,
-    Color color,
-    BuildContext context,
-    Ruta ruta,
-  }) {
-    final LocationState currentState = locationBloc.state;
-    if (currentState is LocationInitial) {
-      return [
-        GestureDetector(
-          child: Text(
-            "Crear cuenta",
-            style: TextStyle(
-                decoration: TextDecoration.underline,
-                color: color,
-                fontSize: 14,
-                fontWeight: FontWeight.bold),
-          ),
-          onTap: () {
-            locationBloc.add(FetchLocations());
-            Navigator.of(context).push(ruta.createRouter(RegisterEmailPage()));
-          },
-        )
-      ];
-    }
-    return [];
   }
 }

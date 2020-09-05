@@ -9,9 +9,8 @@ abstract class TimerEvent extends Equatable {
 
 class TimerStarted extends TimerEvent {
   final int duration;
-  final User user;
 
-  const TimerStarted({@required this.duration, this.user});
+  const TimerStarted({@required this.duration});
 
   @override
   String toString() => "TimerStarted { duration: $duration }";

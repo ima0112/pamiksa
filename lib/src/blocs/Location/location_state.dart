@@ -9,10 +9,10 @@ abstract class LocationState extends Equatable {
 
 class LocationInitial extends LocationState {}
 
-class LocationsFetched extends LocationState {
-  final List<Province> results;
+class LoadedLocationsState extends LocationState {
+  final List<ProvinceModel> results;
 
-  LocationsFetched({@required this.results})
+  LoadedLocationsState({@required this.results})
       : assert(results != null),
         super([results]);
 

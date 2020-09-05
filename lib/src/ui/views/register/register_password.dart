@@ -4,10 +4,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/route.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class RegisterPasswordPage extends StatefulWidget {
   @override
@@ -15,10 +17,10 @@ class RegisterPasswordPage extends StatefulWidget {
 }
 
 class RegisterPasswordState extends State<RegisterPasswordPage> {
+  final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState<String>>();
 
-  Ruta ruta = Ruta();
   Shared preferences = Shared();
 
   String password;
@@ -173,8 +175,8 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          Navigator.push(context,
-                              ruta.createRouter(RegisterPersonalInfoPage()));
+                          navigationService
+                              .navigateTo(routes.RegisterPersonalInfoRoute);
                           addData();
                         }
                       },

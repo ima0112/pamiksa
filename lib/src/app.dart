@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 import 'package:pamiksa/src/ui/themes/consts.dart' show APP_NAME;
-import 'package:pamiksa/src/ui/views/login/login.dart';
-import 'package:pamiksa/src/ui/views/register/register_complete.dart';
-import 'package:pamiksa/src/ui/views/register/register_password.dart';
-import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
-import 'package:pamiksa/src/ui/views/register/register_email.dart';
-import 'package:pamiksa/src/ui/views/intro/intro.dart';
-import 'package:pamiksa/src/ui/views/register/register_location.dart';
-import 'package:pamiksa/src/ui/views/register/verification.dart';
-import 'package:pamiksa/src/ui/views/splashScreen/SplashScreen.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/router.dart' as router;
 
 class MyApp extends StatelessWidget {
   @override
@@ -23,18 +18,9 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         title: APP_NAME,
         theme: theme,
-        initialRoute: '/login',
-        routes: {
-          "/splash": (context) => SplashScreen(),
-          "/intro": (context) => Intro(),
-          "/login": (context) => LoginPage(),
-          "/register_email": (context) => RegisterEmailPage(),
-          "/register_password": (context) => RegisterPasswordPage(),
-          "/register_data_person": (context) => RegisterPersonalInfoPage(),
-          "/register_location": (context) => RegisterLocationPage(),
-          "/verificar": (context) => VerificationPage(),
-          "/register_complete": (context) => RegisterCompletePage()
-        },
+        onGenerateRoute: router.generateRoute,
+        initialRoute: routes.SplashRoute,
+        navigatorKey: locator<NavigationService>().navigatorKey,
       );
     });
   }

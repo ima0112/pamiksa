@@ -2,23 +2,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/Location/location_bloc.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/route.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/views/register/register_location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class RegisterPersonalInfoPage extends StatefulWidget {
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => RegisterPersonalInfoPage());
+  }
+
   @override
   State<StatefulWidget> createState() => new RegisterPersonalInfoState();
 }
 
 class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
+  final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
   String nombre;
 
-  User user = User();
-  Ruta ruta = Ruta();
+  UserModel user = UserModel();
   Shared preferences = Shared();
 
   _validateNombre(String value) {
@@ -46,6 +54,8 @@ class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -157,23 +167,30 @@ class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
                         style: TextStyle(color: Theme.of(context).primaryColor),
                       ),
                     ),
-                    RaisedButton(
-                      textColor: Colors.white,
-                      color: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          Navigator.push(context,
-                              ruta.createRouter(RegisterLocationPage()));
-                          addData();
-                        }
+                    BlocBuilder<LocationBloc, LocationState>(
+                      buildWhen: (previousState, state) =>
+                          state.runtimeType != previousState.runtimeType,
+                      builder: (context, state) {
+                        return RaisedButton(
+                          textColor: Colors.white,
+                          color: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              locationBloc.add(FetchProvincesEvent());
+                              navigationService
+                                  .navigateTo(routes.RegisterLocationRoute);
+                              addData();
+                            }
+                          },
+                          child: Text(
+                            'SIGUIENTE',
+                            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                          ),
+                        );
                       },
-                      child: Text(
-                        'SIGUIENTE',
-                        style: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                      ),
                     ),
                   ],
                 ),

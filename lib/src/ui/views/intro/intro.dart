@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/data/route.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/views/login/login.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
-class Intro extends StatefulWidget {
+class IntroPage extends StatefulWidget {
   @override
   _IntroState createState() => _IntroState();
 }
 
-class _IntroState extends State<Intro> {
-  Ruta ruta = Ruta();
+class _IntroState extends State<IntroPage> {
+  final NavigationService navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +44,7 @@ class _IntroState extends State<Intro> {
                     ),
                     onPressed: () {
                       saveShowIntro();
-                      Navigator.of(context)
-                          .pushReplacement(ruta.createRouter(LoginPage()));
+                      navigationService.navigateTo(routes.LoginRoute);
                     },
                     child: Text(
                       'COMENZAR',

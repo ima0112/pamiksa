@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:pamiksa/src/app.dart';
+import 'package:pamiksa/src/blocs/Register/register_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/route.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/views/register/register_password.dart';
 import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,13 +24,13 @@ class RegisterEmailPage extends StatefulWidget {
 }
 
 class RegisterEmailState extends State<RegisterEmailPage> {
+  final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
 
-  Ruta ruta = Ruta();
   Shared preferences = Shared();
+  RegisterBloc registerBloc;
 
   String correo;
-  bool _isUsersExists = false;
 
   _validateEmail(String value) {
     if (value.isEmpty) {
@@ -47,112 +52,108 @@ class RegisterEmailState extends State<RegisterEmailPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    registerBloc = BlocProvider.of<RegisterBloc>(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GraphQLProvider(
-      client: GraphQLConfiguration.client,
-      child: CacheProvider(
-        child: Scaffold(
-          resizeToAvoidBottomPadding: false,
-          appBar: PreferredSize(
-              preferredSize: Size.fromHeight(0),
-              child: AppBar(
-                elevation: 0.0,
-                backgroundColor: Color(0xffF5F5F5),
-                brightness: Brightness.light,
-              )),
-          body: Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      "Crear cuenta",
-                      style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
-                      child: Form(
-                        key: _formKey,
+    return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(0),
+            child: AppBar(
+              elevation: 0.0,
+              backgroundColor: Color(0xffF5F5F5),
+              brightness: Brightness.light,
+            )),
+        body: BlocBuilder<RegisterBloc, RegisterState>(
+          builder: (context, state) {
+            // registerBloc = BlocProvider.of<RegisterBloc>(context);
+            RegisterState currentState = registerBloc.state;
+            if (currentState is RegisterInitial) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          "Crear cuenta",
+                          style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
                         child: Container(
-                          margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  style: TextStyle(
-                                      fontFamily: 'RobotoMono-Regular',
-                                      color: Colors.black54,
-                                      fontSize: 16),
-                                  decoration: InputDecoration(
-                                    errorMaxLines: 3,
-                                    errorText: _isUsersExists
-                                        ? "¡Ya existe una cuenta usando este correo electrónico! Prueba con otro."
-                                        : null,
-                                    helperText: "",
-                                    icon: Icon(Icons.email),
-                                    filled: false,
-                                    fillColor: Colors.white24,
-                                    labelText: "Correo electrónico",
-                                    labelStyle: TextStyle(
-                                        fontFamily: 'RobotoMono-Regular'),
-                                    focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            width: 2)),
-                                  ),
-                                  validator: (value) => _validateEmail(value),
-                                  onChanged: (String value) {
-                                    setState(() {
-                                      correo = value;
-                                    });
-                                  },
-                                ),
-                              ],
+                          margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                              child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      0.0, 25.0, 0.0, 0.0),
+                                  child: Column(children: [
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    TextFormField(
+                                      keyboardType: TextInputType.emailAddress,
+                                      style: TextStyle(
+                                          fontFamily: 'RobotoMono-Regular',
+                                          color: Colors.black54,
+                                          fontSize: 16),
+                                      decoration: InputDecoration(
+                                        errorMaxLines: 3,
+                                        helperText: "",
+                                        icon: Icon(Icons.email),
+                                        filled: false,
+                                        fillColor: Colors.white24,
+                                        labelText: "Correo electrónico",
+                                        labelStyle: TextStyle(
+                                            fontFamily: 'RobotoMono-Regular'),
+                                        focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                width: 2)),
+                                      ),
+                                      validator: (value) =>
+                                          _validateEmail(value),
+                                      onChanged: (String value) {
+                                        correo = value;
+                                      },
+                                    )
+                                  ])),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Divider(),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                    padding: EdgeInsets.only(
-                        top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "ATRÁS",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        ),
-                        Query(
-                          options: QueryOptions(
-                              documentNode: gql(userExists),
-                              variables: {'email': correo}),
-                          builder: (result, {fetchMore, refetch}) {
-                            return RaisedButton(
+                      Divider(),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            FlatButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "ATRÁS",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                            ),
+                            RaisedButton(
                               textColor: Colors.white,
                               color: Theme.of(context).primaryColor,
                               shape: RoundedRectangleBorder(
@@ -160,17 +161,8 @@ class RegisterEmailState extends State<RegisterEmailPage> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  if (result.data['userExists'] == true) {
-                                    setState(() {
-                                      _isUsersExists = true;
-                                    });
-                                  } else {
-                                    Navigator.push(
-                                        context,
-                                        ruta.createRouter(
-                                            RegisterPasswordPage()));
-                                    addData();
-                                  }
+                                  registerBloc.add(CheckUserEmailEvent(correo));
+                                  addData();
                                 }
                               },
                               child: Text(
@@ -178,19 +170,134 @@ class RegisterEmailState extends State<RegisterEmailPage> {
                                 style:
                                     TextStyle(fontFamily: 'RobotoMono-Regular'),
                               ),
-                            );
-                          },
-                        )
-                      ],
-                    ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                ),
+              );
+            }
+            if (currentState is ExistsUserEmailState) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          "Crear cuenta",
+                          style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                              child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      0.0, 25.0, 0.0, 0.0),
+                                  child: Column(children: [
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    TextFormField(
+                                      keyboardType: TextInputType.emailAddress,
+                                      style: TextStyle(
+                                          fontFamily: 'RobotoMono-Regular',
+                                          color: Colors.black54,
+                                          fontSize: 16),
+                                      decoration: InputDecoration(
+                                        errorMaxLines: 3,
+                                        errorText:
+                                            "El correo ya está siendo usado. Prueba con otro",
+                                        helperText: "",
+                                        icon: Icon(Icons.email),
+                                        filled: false,
+                                        fillColor: Colors.white24,
+                                        labelText: "Correo electrónico",
+                                        labelStyle: TextStyle(
+                                            fontFamily: 'RobotoMono-Regular'),
+                                        focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                width: 2)),
+                                      ),
+                                      validator: (value) =>
+                                          _validateEmail(value),
+                                      onChanged: (String value) {
+                                        correo = value;
+                                      },
+                                    )
+                                  ])),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Divider(),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            FlatButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "ATRÁS",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                            ),
+                            RaisedButton(
+                              textColor: Colors.white,
+                              color: Theme.of(context).primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  // Navigator.push(
+                                  //     context,
+                                  //     ruta.createRouter(
+                                  //         RegisterPersonalInfoPage()));
+                                  registerBloc.add(CheckUserEmailEvent(correo));
+                                }
+                              },
+                              child: Text(
+                                'SIGUIENTE',
+                                style:
+                                    TextStyle(fontFamily: 'RobotoMono-Regular'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+            // if (currentState is NotExistsUserEmailState) {
+            //   // Navigator.push(
+            //   //     context, ruta.createRouter(RegisterPersonalInfoPage()));
+            //   // addData();
+            // }
+          },
+        ));
   }
 
   addData() async {
@@ -198,3 +305,26 @@ class RegisterEmailState extends State<RegisterEmailPage> {
     print({await preferences.read('email')});
   }
 }
+
+// class Actions extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: _mapStateToActionButtons(
+//         context: context,
+//         color: Theme.of(context).primaryColor,
+//         registerBloc: BlocProvider.of<RegisterBloc>(context),
+//       ),
+//     );
+//   }
+
+//   List<Widget> _mapStateToActionButtons({
+//     Color color,
+//     RegisterBloc registerBloc,
+//     BuildContext context,
+//   }) {
+//     final RegisterState currentState = registerBloc.state;
+
+//     return [];
+//   }
+// }
