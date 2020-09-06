@@ -1,34 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/app.dart';
-import 'package:pamiksa/src/blocs/Register/register_bloc.dart';
-import 'package:pamiksa/src/data/graphql/graphql_config.dart';
-import 'package:pamiksa/src/data/graphql/queries/queries.dart';
-import 'package:pamiksa/src/data/models/device.dart';
-import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/views/register/register_password.dart';
-import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterEmailPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new RegisterEmailState();
+  State<StatefulWidget> createState() => new RegisterEmailPageState();
 }
 
-class RegisterEmailState extends State<RegisterEmailPage> {
+class RegisterEmailPageState extends State<RegisterEmailPage> {
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
 
   Shared preferences = Shared();
-  RegisterBloc registerBloc;
+  RegisterEmailBloc registerEmailBloc;
 
   String correo;
 
@@ -54,7 +44,7 @@ class RegisterEmailState extends State<RegisterEmailPage> {
   @override
   void initState() {
     super.initState();
-    registerBloc = BlocProvider.of<RegisterBloc>(context);
+    registerEmailBloc = BlocProvider.of<RegisterEmailBloc>(context);
   }
 
   @override
@@ -68,10 +58,9 @@ class RegisterEmailState extends State<RegisterEmailPage> {
               backgroundColor: Color(0xffF5F5F5),
               brightness: Brightness.light,
             )),
-        body: BlocBuilder<RegisterBloc, RegisterState>(
+        body: BlocBuilder<RegisterEmailBloc, RegisterEmailState>(
           builder: (context, state) {
-            // registerBloc = BlocProvider.of<RegisterBloc>(context);
-            RegisterState currentState = registerBloc.state;
+            RegisterEmailState currentState = registerEmailBloc.state;
             if (currentState is RegisterInitial) {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
@@ -145,7 +134,7 @@ class RegisterEmailState extends State<RegisterEmailPage> {
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               onPressed: () {
-                                Navigator.pop(context);
+                                navigationService.goBack();
                               },
                               child: Text(
                                 "ATRÁS",
@@ -161,7 +150,8 @@ class RegisterEmailState extends State<RegisterEmailPage> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  registerBloc.add(CheckUserEmailEvent(correo));
+                                  registerEmailBloc
+                                      .add(CheckUserEmailEvent(correo));
                                   addData();
                                 }
                               },
@@ -270,11 +260,8 @@ class RegisterEmailState extends State<RegisterEmailPage> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     ruta.createRouter(
-                                  //         RegisterPersonalInfoPage()));
-                                  registerBloc.add(CheckUserEmailEvent(correo));
+                                  registerEmailBloc
+                                      .add(CheckUserEmailEvent(correo));
                                 }
                               },
                               child: Text(
@@ -291,11 +278,9 @@ class RegisterEmailState extends State<RegisterEmailPage> {
                 ),
               );
             }
-            // if (currentState is NotExistsUserEmailState) {
-            //   // Navigator.push(
-            //   //     context, ruta.createRouter(RegisterPersonalInfoPage()));
-            //   // addData();
-            // }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ));
   }
@@ -305,26 +290,3 @@ class RegisterEmailState extends State<RegisterEmailPage> {
     print({await preferences.read('email')});
   }
 }
-
-// class Actions extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: _mapStateToActionButtons(
-//         context: context,
-//         color: Theme.of(context).primaryColor,
-//         registerBloc: BlocProvider.of<RegisterBloc>(context),
-//       ),
-//     );
-//   }
-
-//   List<Widget> _mapStateToActionButtons({
-//     Color color,
-//     RegisterBloc registerBloc,
-//     BuildContext context,
-//   }) {
-//     final RegisterState currentState = registerBloc.state;
-
-//     return [];
-//   }
-// }

@@ -9,7 +9,7 @@ import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'package:pamiksa/src/ui/views/register/register_location.dart';
 import 'package:pamiksa/src/ui/views/register/register_password.dart';
 import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
-import 'package:pamiksa/src/ui/views/register/verification.dart';
+import 'package:pamiksa/src/ui/views/register/register_verification.dart';
 import 'package:pamiksa/src/ui/views/splashScreen/SplashScreen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {

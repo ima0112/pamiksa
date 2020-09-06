@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,21 +6,13 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/blocs/Location/location_bloc.dart';
+import 'package:pamiksa/src/blocs/location/location_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
-import 'package:pamiksa/src/data/graphql/mutations/device.dart';
-import 'package:pamiksa/src/data/graphql/mutations/sendVerificationCode.dart';
 import 'package:pamiksa/src/data/graphql/mutations/user.dart';
-import 'package:pamiksa/src/data/graphql/queries/queries.dart';
-import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
-import 'package:pamiksa/src/data/models/province.dart';
-import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/views/register/verification.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class RegisterLocationPage extends StatefulWidget {
@@ -35,14 +25,13 @@ class RegisterLocationState extends State<RegisterLocationPage> {
   final _formKey = GlobalKey<FormState>();
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
-  UserModel user = UserModel();
-  DeviceModel device = DeviceModel();
   Shared preferences = Shared();
+  LocationBloc locationBloc;
 
   Map<String, dynamic> _deviceData = <String, dynamic>{};
 
-  // List<String> _provincias = ['Matanzas'];
-  // List<String> _municipios = ['Cárdenas'];
+  List<String> _provincias = ['Matanzas'];
+  List<String> _municipios = ['Cárdenas'];
 
   List<MunicipalityModel> municipalitiesData = List();
   String _selectedprovincia;
@@ -62,12 +51,11 @@ class RegisterLocationState extends State<RegisterLocationPage> {
   void initState() {
     super.initState();
     obtenerPreferences();
+    locationBloc = BlocProvider.of<LocationBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
-    LocationState currentState = locationBloc.state;
     return GraphQLProvider(
       client: GraphQLConfiguration.client,
       child: CacheProvider(
@@ -108,9 +96,9 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                     state.runtimeType !=
                                     previousState.runtimeType,
                                 builder: (context, state) {
+                                  LocationState currentState =
+                                      locationBloc.state;
                                   if (currentState is LoadedLocationsState) {
-                                    List<ProvinceModel> provinceData =
-                                        currentState.results;
                                     return Column(
                                       children: [
                                         DropdownButtonFormField(
@@ -128,29 +116,15 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                               color: Colors.black54,
                                               fontSize: 16),
                                           onChanged: (dynamic value) {
-                                            if (value != provinceId) {
-                                              provinceId = value;
-                                              provinceData.forEach((element) {
-                                                element.municipalities
-                                                    .forEach((element) {
-                                                  if (element.provinceFk ==
-                                                      provinceId) {
-                                                    setState(() {
-                                                      municipalitiesData
-                                                          .add(element);
-                                                    });
-                                                  }
-                                                });
-                                              });
-                                            }
+                                            _selectedprovincia = value;
                                           },
                                           validator: (value) => value == null
                                               ? '¡Escoge tu provincia!'
                                               : null,
-                                          items: provinceData.map((e) {
+                                          items: _provincias.map((e) {
                                             return DropdownMenuItem(
-                                              child: new Text(e.name),
-                                              value: e.id,
+                                              child: new Text(e),
+                                              value: e,
                                             );
                                           }).toList(),
                                         ),
@@ -168,14 +142,16 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                               fontFamily: 'RobotoMono-Regular',
                                               color: Colors.black54,
                                               fontSize: 16),
-                                          onChanged: (dynamic value) {},
+                                          onChanged: (dynamic value) {
+                                            _selectedmunicipio = value;
+                                          },
                                           validator: (value) => value == null
                                               ? '¡Escoge tu municipio!'
                                               : null,
-                                          items: municipalitiesData.map((e) {
+                                          items: _municipios.map((e) {
                                             return DropdownMenuItem(
-                                              child: new Text(e.name),
-                                              value: e.id,
+                                              child: new Text(e),
+                                              value: e,
                                             );
                                           }).toList(),
                                         ),
@@ -202,9 +178,7 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                                     width: 2)),
                                           ),
                                           onChanged: (String value) {
-                                            setState(() {
-                                              direccion = value;
-                                            });
+                                            direccion = value;
                                           },
                                           validator: (value) =>
                                               _validateDireccion(value),
@@ -235,7 +209,7 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
+                            navigationService.goBack();
                           },
                           child: Text(
                             "ATRÁS",

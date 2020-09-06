@@ -1,19 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
-import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:device_info/device_info.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/blocs/Timer/timer_bloc.dart';
-import 'package:pamiksa/src/data/graphql/mutations/sendVerificationCode.dart';
-import 'package:pamiksa/src/data/graphql/mutations/device.dart';
+import 'package:pamiksa/src/blocs/timer/timer_bloc.dart';
+import 'package:pamiksa/src/blocs/register_verification/register_verification_bloc.dart';
 import 'package:pamiksa/src/data/graphql/mutations/user.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
@@ -21,9 +16,6 @@ import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pamiksa/src/blocs/Timer/ticker.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class VerificationPage extends StatefulWidget {
@@ -32,6 +24,7 @@ class VerificationPage extends StatefulWidget {
 }
 
 class _VerificationPageState extends State<VerificationPage> {
+  RegisterVerificationBloc registerVerificationBloc;
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
   static int _start = 60;
@@ -69,6 +62,8 @@ class _VerificationPageState extends State<VerificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    registerVerificationBloc =
+        BlocProvider.of<RegisterVerificationBloc>(context);
     return GraphQLProvider(
       client: GraphQLConfiguration.client,
       child: CacheProvider(
@@ -179,52 +174,26 @@ class _VerificationPageState extends State<VerificationPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Mutation(
-                          options: MutationOptions(
-                            documentNode: gql(singUp),
-                            onCompleted: (dynamic resultData) {
-                              if (resultData != null) {
-                                _userId = (resultData['signUp']['user']['id']);
-                                saveId();
-                                Navigator.pushNamed(
-                                    context, "/register_complete");
-                              } else {
-                                print('No data from request');
-                              }
-                            },
-                            onError: (error) {
-                              print(error.graphqlErrors[0].message);
-                            },
-                          ),
-                          builder:
-                              (RunMutation runMutation, QueryResult result) {
+                        BlocBuilder<RegisterVerificationBloc,
+                            RegisterVerificationState>(
+                          builder: (context, state) {
                             return RaisedButton(
-                              textColor: Colors.white,
-                              color: Theme.of(context).primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              onPressed: _isButtonDisabled
-                                  ? null
-                                  : () {
-                                      runMutation({
-                                        'fullName': user.fullName,
-                                        'email': user.email,
-                                        'password': user.password,
-                                        'birthday': user.birthday,
-                                        'adress': user.adress,
-                                        'provinceFk': 1,
-                                        'municipalityFk': 1
-                                      });
-                                    },
-                              child: Text(
-                                'SIGUIENTE',
-                                style:
-                                    TextStyle(fontFamily: 'RobotoMono-Regular'),
-                              ),
-                            );
+                                textColor: Colors.white,
+                                color: Theme.of(context).primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                onPressed: () {
+                                  registerVerificationBloc
+                                      .add(MutateUserEvent(userModel: user));
+                                },
+                                child: Text(
+                                  'SIGUIENTE',
+                                  style: TextStyle(
+                                      fontFamily: 'RobotoMono-Regular'),
+                                ));
                           },
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -259,10 +228,6 @@ class _VerificationPageState extends State<VerificationPage> {
     setState(() {
       user.email = email;
     });
-  }
-
-  void saveId() async {
-    await preferences.saveString('user_id', _userId);
   }
 }
 

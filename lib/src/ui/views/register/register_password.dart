@@ -2,13 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:pamiksa/src/data/models/device.dart';
-import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class RegisterPasswordPage extends StatefulWidget {
@@ -160,7 +156,7 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       onPressed: () {
-                        Navigator.pop(context);
+                        navigationService.goBack();
                       },
                       child: Text(
                         "ATRÁS",

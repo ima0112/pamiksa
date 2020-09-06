@@ -19,18 +19,4 @@ class ProvincesRepository {
 
     return await client.query(_options);
   }
-
-  // Future<QueryResult> toggleRepoStar(Repo repo) async {
-  //   var document =
-  //       repo.viewerHasStarred ? mutations.removeStar : mutations.addStar;
-
-  //   final MutationOptions _options = MutationOptions(
-  //     documentNode: parseString(document),
-  //     variables: <String, String>{
-  //       'starrableId': repo.id,
-  //     },
-  //   );
-
-  //   return await client.mutate(_options);
-  // }
 }

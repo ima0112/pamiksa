@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/blocs/Timer/ticker.dart';
-import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/random.dart';
+import 'package:pamiksa/src/blocs/timer/ticker.dart';
 
 part 'timer_event.dart';
 part 'timer_state.dart';

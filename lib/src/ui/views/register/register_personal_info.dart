@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/Location/location_bloc.dart';
-import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/blocs/location/location_bloc.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/views/register/register_location.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class RegisterPersonalInfoPage extends StatefulWidget {
@@ -23,10 +20,9 @@ class RegisterPersonalInfoPage extends StatefulWidget {
 
 class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
   final NavigationService navigationService = locator<NavigationService>();
+  LocationBloc locationBloc;
   final _formKey = GlobalKey<FormState>();
   String nombre;
-
-  UserModel user = UserModel();
   Shared preferences = Shared();
 
   _validateNombre(String value) {
@@ -53,9 +49,13 @@ class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
+  void initState() {
+    super.initState();
+    locationBloc = BlocProvider.of<LocationBloc>(context);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -160,7 +160,7 @@ class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       onPressed: () {
-                        Navigator.pop(context);
+                        navigationService.goBack();
                       },
                       child: Text(
                         "ATRÁS",
