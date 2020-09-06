@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/data/models/business.dart';
-
-import 'file:///C:/Users/Developer/Projects/pamiksa/lib/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/ui/views/home/business_item.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:pamiksa/src/ui/views/home/business_item_skeleton.dart';
@@ -65,7 +64,7 @@ class Actions extends StatelessWidget {
               floating: true,
               elevation: 1.0,
               title: Text(
-                "Pamiksa",
+                "Cargando...",
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
@@ -189,6 +188,76 @@ class Actions extends StatelessWidget {
           ],
         ),
       );
+    } else if (currentState is ConnectionFailedState) {
+      return Center(
+          child: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              snap: true,
+              pinned: true,
+              forceElevated: true,
+              floating: true,
+              elevation: 1.0,
+              title: Text(
+                "Sin Conexion...",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {}),
+              ],
+              expandedHeight: 2 * kToolbarHeight,
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.only(top: kToolbarHeight),
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        Chip(
+                          avatar: Icon(Icons.filter_list),
+                          label: Text("Filtrar"),
+                        ),
+                        SizedBox(width: 10),
+                        Chip(
+                          label: Text("Para Recojer"),
+                          avatar: Icon(Icons.store),
+                        ),
+                        SizedBox(width: 10),
+                        Chip(
+                          label: Text("A Domicilio"),
+                          avatar: Icon(Icons.directions_bike),
+                        )
+                      ],
+                    )),
+              ),
+            ),
+            SliverList(
+                delegate: SliverChildListDelegate([
+              Container(
+                //color: Colors.red,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    FlatButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.refresh),
+                        label: Text("Reintentar"))
+                  ],
+                ),
+              )
+            ]))
+          ],
+        ),
+      ));
     }
   }
 }

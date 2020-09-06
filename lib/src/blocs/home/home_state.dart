@@ -26,3 +26,9 @@ class LoadedBusinessState extends HomeState {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class ConnectionFailedState extends HomeState{
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}

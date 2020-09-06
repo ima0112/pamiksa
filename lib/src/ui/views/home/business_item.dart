@@ -1,9 +1,7 @@
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:like_button/like_button.dart';
-import 'file:///C:/Users/Developer/Projects/pamiksa/lib/src/blocs/home/home_bloc.dart';
+import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/data/models/business_owner.dart';
 
 class BusinessItem extends StatefulWidget {
@@ -143,7 +141,7 @@ class _BusinessItemState extends State<BusinessItem> {
               width: 500,
               fit: BoxFit.cover,
               height: 225,
-              placeholder: AssetImage("assets/images/pizza.jpg"),
+              placeholder: AssetImage("assets/images/loading.gif"),
               image: NetworkImage("http://192.168.0.2:8000/images/${this.widget.photo}"),
             ),
             Positioned(
