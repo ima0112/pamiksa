@@ -7,7 +7,7 @@ abstract class RegisterEmailState extends Equatable {
   List<Object> get props => [];
 }
 
-class RegisterInitial extends RegisterEmailState {}
+class RegisterEmailInitial extends RegisterEmailState {}
 
 class ExistsUserEmailState extends RegisterEmailState {}
 

@@ -36,9 +36,7 @@ class RegisterLocationState extends State<RegisterLocationPage> {
   List<MunicipalityModel> municipalitiesData = List();
   String _selectedprovincia;
   String _selectedmunicipio;
-  String direccion;
-  String correo;
-  int code;
+  String adress;
   String provinceId;
   int municipalityId;
 
@@ -50,12 +48,11 @@ class RegisterLocationState extends State<RegisterLocationPage> {
 
   void initState() {
     super.initState();
-    obtenerPreferences();
-    locationBloc = BlocProvider.of<LocationBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    locationBloc = BlocProvider.of<LocationBloc>(context);
     return GraphQLProvider(
       client: GraphQLConfiguration.client,
       child: CacheProvider(
@@ -178,7 +175,7 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                                     width: 2)),
                                           ),
                                           onChanged: (String value) {
-                                            direccion = value;
+                                            adress = value;
                                           },
                                           validator: (value) =>
                                               _validateDireccion(value),
@@ -230,11 +227,7 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  navigationService
-                                      .navigateTo(routes.VerificationRoute);
-                                  randomCode();
-                                  runMutation({'code': code, 'email': correo});
-                                  print({code, correo});
+                                  locationBloc.add(MutateCodeEvent(adress));
                                 }
                               },
                               child: Text(
@@ -255,22 +248,5 @@ class RegisterLocationState extends State<RegisterLocationPage> {
         ),
       ),
     );
-  }
-
-  addData(int random) async {
-    await preferences.saveString('adress', direccion);
-    await preferences.saveString('code', random.toString());
-  }
-
-  void randomCode() async {
-    int min = 100000;
-    int max = 999999;
-    var randomizer = new Random();
-    code = min + randomizer.nextInt(max - min);
-    addData(code);
-  }
-
-  void obtenerPreferences() async {
-    correo = await preferences.read('email');
   }
 }

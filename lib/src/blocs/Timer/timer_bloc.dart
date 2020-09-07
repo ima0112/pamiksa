@@ -1,8 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/register_verification/register_verification_bloc.dart';
 import 'package:pamiksa/src/blocs/timer/ticker.dart';
+import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:path/path.dart';
 
 part 'timer_event.dart';
 part 'timer_state.dart';
@@ -17,12 +23,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
       : assert(ticker != null),
         _ticker = ticker,
         super(TimerInitial(_duration));
-
-  @override
-  void onTransition(Transition<TimerEvent, TimerState> transition) {
-    print(transition);
-    super.onTransition(transition);
-  }
 
   @override
   Stream<TimerState> mapEventToState(

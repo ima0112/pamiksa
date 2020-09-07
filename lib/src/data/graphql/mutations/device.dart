@@ -1,7 +1,7 @@
 final String sendDeviceInfo = r"""
-mutation SendDeviceInfo ($platform: String!, $systemVersion: String!, $deviceId: String!, $model: String!, $userFk: ID!){
+mutation SendDeviceInfo ($plattform: String!, $systemVersion: String!, $deviceId: String!, $model: String!, $userFk: ID!){
   sendDeviceInfo(
-    plattform: $platform, 
+    plattform: $plattform, 
     systemVersion: $systemVersion, 
     deviceId: $deviceId, 
     model: $model, 

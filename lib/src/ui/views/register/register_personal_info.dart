@@ -22,8 +22,7 @@ class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
   final NavigationService navigationService = locator<NavigationService>();
   LocationBloc locationBloc;
   final _formKey = GlobalKey<FormState>();
-  String nombre;
-  Shared preferences = Shared();
+  String name;
 
   _validateNombre(String value) {
     if (value.isEmpty) {
@@ -114,7 +113,7 @@ class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
                               validator: (value) => _validateNombre(value),
                               onChanged: (String value) {
                                 setState(() {
-                                  nombre = value;
+                                  name = value;
                                 });
                               },
                             ),
@@ -179,10 +178,8 @@ class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
-                              locationBloc.add(FetchProvincesEvent());
-                              navigationService
-                                  .navigateTo(routes.RegisterLocationRoute);
-                              addData();
+                              locationBloc.add(FetchProvincesEvent(
+                                  name, selectedDate.toString()));
                             }
                           },
                           child: Text(
@@ -200,16 +197,5 @@ class RegisterPersonalInfoState extends State<RegisterPersonalInfoPage> {
         ),
       ),
     );
-  }
-
-  addData() async {
-    await preferences.saveString('name', nombre);
-    await preferences.saveString('birthday', selectedDate.toString());
-    print({
-      await preferences.read('email'),
-      await preferences.read('password'),
-      await preferences.read('name'),
-      await preferences.read('birthday')
-    });
   }
 }

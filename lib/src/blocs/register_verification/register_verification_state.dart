@@ -8,3 +8,5 @@ abstract class RegisterVerificationState extends Equatable {
 }
 
 class RegisterVerificationInitial extends RegisterVerificationState {}
+
+class IncorrectedVerificationCodeState extends RegisterVerificationState {}

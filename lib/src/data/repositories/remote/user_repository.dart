@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:gql/language.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
@@ -28,9 +27,11 @@ class UserRepository {
   Future<QueryResult> signUp(UserModel userModel) async {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.signUp),
-      // onCompleted: (data) {
-      //   print(data['signUp']['token']);
-      // },
+      onCompleted: (data) {
+        preferences.saveString('token', data['signUp']['token'].toString());
+        preferences.saveString(
+            'refreshToken', data['signUp']['refreshToken'].toString());
+      },
       variables: {
         'fullName': userModel.fullName,
         'email': userModel.email,
@@ -41,8 +42,13 @@ class UserRepository {
         'municipalityFk': 1
       },
     );
-    final result = await client.mutate(_options);
-    print(result.data.toString());
-    return result;
+    return await client.mutate(_options);
+  }
+
+  Future<QueryResult> sendVerificationCode(String code, String email) async {
+    final MutationOptions _options = MutationOptions(
+        documentNode: gql(mutations.sendVerificationCode),
+        variables: {'code': code, 'email': email});
+    return await client.mutate(_options);
   }
 }

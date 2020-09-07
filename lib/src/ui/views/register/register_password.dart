@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/register_password/register_password_bloc.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -17,7 +19,7 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState<String>>();
 
-  Shared preferences = Shared();
+  RegisterPasswordBloc registerPasswordBloc;
 
   String password;
   String passwordtwo;
@@ -49,6 +51,7 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    registerPasswordBloc = BlocProvider.of<RegisterPasswordBloc>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -171,9 +174,8 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          navigationService
-                              .navigateTo(routes.RegisterPersonalInfoRoute);
-                          addData();
+                          registerPasswordBloc
+                              .add(SaveUserPasswordEvent(password));
                         }
                       },
                       child: Text(
@@ -189,10 +191,5 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
         ),
       ),
     );
-  }
-
-  addData() async {
-    await preferences.saveString('password', password);
-    print({await preferences.read('password')});
   }
 }

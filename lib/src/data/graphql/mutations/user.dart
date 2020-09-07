@@ -36,6 +36,6 @@ mutation SingIn($email: String!, $password: String!){
 final String sendVerificationCode = r"""
 mutation SendVerificationCode ($code: String!, $email: String!){
   sendVerificationCode(
-    code: Scode, 
+    code: $code, 
     email: $email)
 } """;

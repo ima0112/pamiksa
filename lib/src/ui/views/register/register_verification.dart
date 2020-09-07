@@ -27,15 +27,13 @@ class _VerificationPageState extends State<VerificationPage> {
   RegisterVerificationBloc registerVerificationBloc;
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
-  static int _start = 60;
 
   DeviceModel device = DeviceModel();
   Shared preferences = Shared();
   UserModel user = UserModel();
   Timer _timer;
 
-  String correo;
-  String code;
+  String email;
   String verificationCode;
   String _userId;
 
@@ -90,7 +88,7 @@ class _VerificationPageState extends State<VerificationPage> {
                     child: Container(
                       margin: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 16.0),
                       child: Text(
-                        "Te hemos enviado un código de verificación a ${user.email}",
+                        "Te hemos enviado un código de verificación a ${email}",
                         style: TextStyle(color: Colors.black45),
                         textAlign: TextAlign.center,
                       ),
@@ -106,95 +104,121 @@ class _VerificationPageState extends State<VerificationPage> {
                             key: _formKey,
                             child: Column(
                               children: <Widget>[
-                                TextFormField(
-                                    initialValue: code,
-                                    maxLength: 6,
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      errorText: _hasError
-                                          ? "El código de verificación es incorrecto"
-                                          : null,
-                                      labelText: "Código de verificación",
-                                    ),
-                                    onChanged: (String value) {
-                                      code = value;
-                                      if (code.length == 6 &&
-                                          code == verificationCode.toString()) {
-                                        setState(() {
-                                          if (_hasError == true) {
-                                            _hasError = false;
-                                          }
-                                          _isButtonDisabled = false;
-                                        });
-                                        print("ok");
-                                      } else if (code.length == 6 &&
-                                          code != verificationCode.toString()) {
-                                        setState(() {
-                                          _hasError = true;
-                                          _isButtonDisabled = true;
-                                        });
-                                      } else if (code.length < 6) {
-                                        setState(() {
-                                          _isButtonDisabled = true;
-                                        });
-                                      }
-                                    }),
-                                SizedBox(
-                                  height: 25,
-                                ),
-                                Mutation(
-                                  options: MutationOptions(
-                                      documentNode: gql(sendVerificationCode)),
-                                  builder: (RunMutation runMutation,
-                                      QueryResult result) {
-                                    return BlocBuilder<TimerBloc, TimerState>(
+                                BlocBuilder<RegisterVerificationBloc,
+                                    RegisterVerificationState>(
+                                  builder: (context, state) {
+                                    return BlocBuilder<RegisterVerificationBloc,
+                                        RegisterVerificationState>(
+                                      buildWhen: (previousState, state) =>
+                                          state.runtimeType !=
+                                          previousState.runtimeType,
                                       builder: (context, state) {
-                                        return BlocBuilder<TimerBloc,
-                                            TimerState>(
-                                          buildWhen: (previousState, state) =>
-                                              state.runtimeType !=
-                                              previousState.runtimeType,
-                                          builder: (context, state) =>
-                                              Actions(),
-                                        );
+                                        if (state
+                                            is RegisterVerificationInitial) {
+                                          return TextFormField(
+                                              maxLength: 6,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                labelText:
+                                                    "Código de verificación",
+                                              ),
+                                              onChanged: (String value) {
+                                                if (value.length == 6) {
+                                                  registerVerificationBloc.add(
+                                                      CheckVerificationCodeEvent(
+                                                          value));
+                                                }
+                                                // code = value;
+                                                // if (code.length == 6 &&
+                                                //     code ==
+                                                //         verificationCode
+                                                //             .toString()) {
+                                                //   setState(() {
+                                                //     if (_hasError == true) {
+                                                //       _hasError = false;
+                                                //     }
+                                                //     _isButtonDisabled = false;
+                                                //   });
+                                                //   print("ok");
+                                                // } else if (code.length == 6 &&
+                                                //     code !=
+                                                //         verificationCode
+                                                //             .toString()) {
+                                                //   setState(() {
+                                                //     _hasError = true;
+                                                //     _isButtonDisabled = true;
+                                                //   });
+                                                // } else if (code.length < 6) {
+                                                //   setState(() {
+                                                //     _isButtonDisabled = true;
+                                                //   });
+                                                // }
+                                              });
+                                        }
+                                        if (state
+                                            is IncorrectedVerificationCodeState) {
+                                          return TextFormField(
+                                              maxLength: 6,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                errorText:
+                                                    "El código de verificación es incorrecto",
+                                                labelText:
+                                                    "Código de verificación",
+                                              ),
+                                              onChanged: (String value) {
+                                                registerVerificationBloc.add(
+                                                    CheckVerificationCodeEvent(
+                                                        value));
+                                                // code = value;
+                                                // if (code.length == 6 &&
+                                                //     code ==
+                                                //         verificationCode
+                                                //             .toString()) {
+                                                //   setState(() {
+                                                //     if (_hasError == true) {
+                                                //       _hasError = false;
+                                                //     }
+                                                //     _isButtonDisabled = false;
+                                                //   });
+                                                //   print("ok");
+                                                // } else if (code.length == 6 &&
+                                                //     code !=
+                                                //         verificationCode
+                                                //             .toString()) {
+                                                //   setState(() {
+                                                //     _hasError = true;
+                                                //     _isButtonDisabled = true;
+                                                //   });
+                                                // } else if (code.length < 6) {
+                                                //   setState(() {
+                                                //     _isButtonDisabled = true;
+                                                //   });
+                                                // }
+                                              });
+                                        }
                                       },
                                     );
                                   },
-                                )
+                                ),
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                BlocBuilder<TimerBloc, TimerState>(
+                                  builder: (context, state) {
+                                    return BlocBuilder<TimerBloc, TimerState>(
+                                      buildWhen: (previousState, state) =>
+                                          state.runtimeType !=
+                                          previousState.runtimeType,
+                                      builder: (context, state) => Actions(),
+                                    );
+                                  },
+                                ),
                               ],
                             )),
                       ),
-                    ),
-                  ),
-                  Divider(),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                    padding: EdgeInsets.only(
-                        top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        BlocBuilder<RegisterVerificationBloc,
-                            RegisterVerificationState>(
-                          builder: (context, state) {
-                            return RaisedButton(
-                                textColor: Colors.white,
-                                color: Theme.of(context).primaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                onPressed: () {
-                                  registerVerificationBloc
-                                      .add(MutateUserEvent(userModel: user));
-                                },
-                                child: Text(
-                                  'SIGUIENTE',
-                                  style: TextStyle(
-                                      fontFamily: 'RobotoMono-Regular'),
-                                ));
-                          },
-                        )
-                      ],
                     ),
                   ),
                 ],
@@ -206,27 +230,10 @@ class _VerificationPageState extends State<VerificationPage> {
     );
   }
 
-  addData(int random) async {
-    await preferences.saveString('code', random.toString());
-  }
-
-  void randomCode() async {
-    int min = 100000;
-    int max = 999999;
-    var randomizer = new Random();
-    newCode = min + randomizer.nextInt(max - min);
-    addData(newCode);
-  }
-
   void obtenerPreferences() async {
-    verificationCode = await preferences.read('code');
-    user.fullName = await preferences.read('name');
-    user.password = await preferences.read('password');
-    user.adress = await preferences.read('adress');
-    user.birthday = await preferences.read('birthday');
-    String email = await preferences.read('email');
+    String correo = await preferences.read('email');
     setState(() {
-      user.email = email;
+      email = correo;
     });
   }
 }
@@ -237,15 +244,17 @@ class Actions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: _mapStateToActionButtons(
-        color: Theme.of(context).primaryColor,
-        timerBloc: BlocProvider.of<TimerBloc>(context),
-      ),
+          color: Theme.of(context).primaryColor,
+          timerBloc: BlocProvider.of<TimerBloc>(context),
+          registerVeriicationBloc:
+              BlocProvider.of<RegisterVerificationBloc>(context)),
     );
   }
 
   List<Widget> _mapStateToActionButtons({
     TimerBloc timerBloc,
     Color color,
+    RegisterVerificationBloc registerVeriicationBloc,
   }) {
     final TimerState currentState = timerBloc.state;
     if (currentState is TimerInitial) {
@@ -258,6 +267,7 @@ class Actions extends StatelessWidget {
           ),
           onPressed: () {
             timerBloc.add(TimerStarted(duration: currentState.duration));
+            registerVeriicationBloc.add(MutateCodeEvent());
           },
           label: Text("Reenviar código"),
         )
@@ -277,9 +287,6 @@ class Actions extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          onPressed: () {
-            timerBloc.add(TimerStarted(duration: currentState.duration));
-          },
           label: Text("Reenviar código en $minutesStr:$secondsStr"),
         )
       ];

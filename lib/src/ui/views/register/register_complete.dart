@@ -1,18 +1,12 @@
-import 'dart:io';
-
-import 'package:device_info/device_info.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:pamiksa/src/blocs/register_complete/register_complete_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
-import 'package:pamiksa/src/data/graphql/mutations/device.dart';
-import 'package:pamiksa/src/data/graphql/mutations/user.dart';
-import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterCompletePage extends StatefulWidget {
   @override
@@ -21,20 +15,17 @@ class RegisterCompletePage extends StatefulWidget {
 
 class _RegisterCompletePageState extends State<RegisterCompletePage> {
   final NavigationService navigationService = locator<NavigationService>();
-  final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  Map<String, dynamic> _deviceData = <String, dynamic>{};
-  UserModel user = UserModel();
-  DeviceModel device = DeviceModel();
-  String _id;
+
+  UserModel userModel = UserModel();
+  RegisterCompleteBloc registerCompleteBloc;
 
   void initState() {
     super.initState();
-    fetchData();
-    obtenerPreferences();
   }
 
   @override
   Widget build(BuildContext context) {
+    registerCompleteBloc = BlocProvider.of<RegisterCompleteBloc>(context);
     return GraphQLProvider(
       client: GraphQLConfiguration.client,
       child: CacheProvider(
@@ -60,39 +51,37 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
                       flex: 1,
                     ),
                     Container(
-                      height: 45,
-                      width: 320,
-                      child: Mutation(
-                        options:
-                            MutationOptions(documentNode: gql(sendDeviceInfo)),
-                        builder: (RunMutation runMutation, QueryResult result) {
-                          return RaisedButton(
-                            textColor: Colors.white,
-                            color: Theme.of(context).primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            onPressed: () {
-                              runMutation({
-                                'platform': device.platform,
-                                'systemVersion': device.systemVersion,
-                                'deviceId': device.deviceId,
-                                'model': device.model,
-                                'userFk': _id
-                              });
-                              // Navigator.of(context)
-                              //     .pushReplacement(ruta.createRouter(LoginPage()));
-                            },
-                            child: Text(
-                              'REGISTRARME',
-                              style: TextStyle(
-                                  fontFamily: 'RobotoMono-Regular',
-                                  fontWeight: FontWeight.w900),
-                            ),
-                          );
-                        },
-                      ),
-                    )
+                        height: 45,
+                        width: 320,
+                        child: BlocBuilder<RegisterCompleteBloc,
+                            RegisterCompleteState>(
+                          builder: (context, state) {
+                            if (state is RegistercompleteInitial) {
+                              return RaisedButton(
+                                textColor: Colors.white,
+                                color: Theme.of(context).primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                onPressed: () {
+                                  registerCompleteBloc
+                                      .add(MutateUserandDeviceEvent(userModel));
+                                },
+                                child: Text(
+                                  'REGISTRARME',
+                                  style: TextStyle(
+                                      fontFamily: 'RobotoMono-Regular',
+                                      fontWeight: FontWeight.w900),
+                                ),
+                              );
+                            }
+                            if (state is SendingUserandDeviceDataState) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        ))
                   ],
                 ),
               ),
@@ -131,56 +120,5 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
           ]),
       textAlign: TextAlign.center,
     );
-  }
-
-  void obtenerPreferences() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      _id = preferences.get('user_id');
-    });
-  }
-
-  void fetchData() async {
-    await initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    Map<String, dynamic> deviceData;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-
-    try {
-      if (Platform.isAndroid) {
-        AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-        setState(() {
-          device.platform = "Android";
-          device.deviceId = androidInfo.id;
-          device.model = '${androidInfo.brand} ' + '${androidInfo.model}';
-          device.systemVersion = androidInfo.version.release;
-        });
-      } else if (Platform.isIOS) {
-        deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
-      }
-    } on PlatformException {
-      deviceData = <String, dynamic>{
-        'Error:': 'Failed to get platform version.'
-      };
-    }
-  }
-
-  Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
-    return <String, dynamic>{
-      'name': data.name,
-      'systemName': data.systemName,
-      'systemVersion': data.systemVersion,
-      'model': data.model,
-      'localizedModel': data.localizedModel,
-      'identifierForVendor': data.identifierForVendor,
-      'isPhysicalDevice': data.isPhysicalDevice,
-      'utsname.sysname:': data.utsname.sysname,
-      'utsname.nodename:': data.utsname.nodename,
-      'utsname.release:': data.utsname.release,
-      'utsname.version:': data.utsname.version,
-      'utsname.machine:': data.utsname.machine,
-    };
   }
 }
