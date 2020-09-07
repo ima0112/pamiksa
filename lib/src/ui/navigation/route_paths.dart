@@ -1,0 +1,10 @@
+const String SplashRoute = "/splash";
+const String IntroRoute = "/intro";
+const String LoginRoute = "/login";
+const String RegisterEmailRoute = "/register_email";
+const String RegisterPasswordRoute = "/register_password";
+const String RegisterPersonalInfoRoute = "/register_data_person";
+const String RegisterLocationRoute = "/register_location";
+const String RegisterCompleteRoute = "/register_complete";
+const String VerificationRoute = "/verification";
+const String InicioRoute = "/inicio";

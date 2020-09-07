@@ -1,16 +1,13 @@
-class Device {
+class DeviceModel {
   String platform;
   String systemVersion;
   String deviceId;
   String model;
 
-  Device({this.platform, this.deviceId, this.model, this.systemVersion});
+  DeviceModel({this.platform, this.deviceId, this.model, this.systemVersion});
 
-  factory Device.fromJson(Map<String, dynamic> json) {
-    return Device(
-        platform: json['platform'],
-        systemVersion: json['systemVersion'],
-        deviceId: json['deviceId'],
-        model: json['model']);
+  @override
+  String toString() {
+    return 'Plattform: ${this.platform}, SystemVersion: ${this.systemVersion}, DeviceId: ${this.deviceId}, Model: ${this.model}';
   }
 }

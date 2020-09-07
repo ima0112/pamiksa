@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/data/graphql/mutations/userLogin.dart';
+import 'package:pamiksa/src/data/graphql/mutations/user.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
+import 'package:pamiksa/src/ui/views/inicio.dart';
+import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,108 +71,110 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(fontSize: 16),
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Correo electrónico',
-                  filled: false,
-                  icon: Icon(Icons.email),
-                ),
-                onChanged: (String value) {
-                  setState(() {
-                    _email = value;
-                  });
-                },
-                validator: (value) => _validateEmail(value),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-//                style: TextStyle(
-//                    fontFamily: 'RobotoMono-Regular',
-//                    color: Colors.black54,
-//                    fontSize: 16),
-                obscureText: _obscureText,
-                maxLength: 20,
-                validator: (value) => _validatePassword(value),
-                decoration: new InputDecoration(
-                  border: const UnderlineInputBorder(),
-                  filled: false,
-                  labelText: 'Contraseña',
-                  icon: Icon(Icons.lock),
-                  suffixIcon: new GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                    child: new Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off),
+              Expanded(
+                flex: 2,
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 16),
+                  decoration: const InputDecoration(
+                    helperText: "",
+                    border: UnderlineInputBorder(),
+                    labelText: 'Correo electrónico',
+                    filled: false,
+                    icon: Icon(Icons.email),
                   ),
+                  onChanged: (String value) {
+                    setState(() {
+                      _email = value;
+                    });
+                  },
+                  validator: (value) => _validateEmail(value),
                 ),
-                onChanged: (String value) {
-                  setState(() {
-                    _password = value;
-                  });
-                },
+              ),
+              Expanded(
+                flex: 2,
+                child: TextFormField(
+                  obscureText: _obscureText,
+                  maxLength: 20,
+                  validator: (value) => _validatePassword(value),
+                  decoration: new InputDecoration(
+                    helperText: "",
+                    border: const UnderlineInputBorder(),
+                    filled: false,
+                    labelText: 'Contraseña',
+                    icon: Icon(Icons.lock),
+                    suffixIcon: new GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                      child: new Icon(_obscureText
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                    ),
+                  ),
+                  onChanged: (String value) {
+                    setState(() {
+                      _password = value;
+                    });
+                  },
+                ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Mutation(
                 options: MutationOptions(
-                    documentNode: gql(userLogin),
+                    documentNode: gql(singIn),
                     update: (Cache cache, QueryResult result) {
                       return cache;
                     },
                     onCompleted: (dynamic resultData) {
                       if (resultData != null) {
                         returnData = resultData;
-                        User usuario =
-                            User.fromJson(resultData['businessLogin']['user']);
-                        print(usuario);
                       } else {
                         print('No data from request');
                       }
                     }),
                 builder: (RunMutation mutation, QueryResult result) {
-                  return Center(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: PhysicalModel(
-                        elevation: 2,
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(25),
-                        child: Container(
-                          key: _globalKey,
-                          height: 45,
-                          width: _width,
-                          child: RaisedButton(
-                            textColor: Colors.white,
-                            color: Theme.of(context).primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
+                  return Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: PhysicalModel(
+                          elevation: 2,
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(25),
+                          child: Container(
+                            key: _globalKey,
+                            height: 45,
+                            width: _width,
+                            child: RaisedButton(
+                              textColor: Colors.white,
+                              color: Theme.of(context).primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              padding: EdgeInsets.all(0),
+                              child: setUpButtonChild(),
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  mutation(
+                                      {'email': _email, 'password': _password});
+                                  setState(() {
+                                    if (_state == 0) {
+                                      animateButton(mutation);
+                                    } else {
+                                      _state = 0;
+                                      _width = _width;
+                                    }
+                                  });
+                                }
+                              },
+                              elevation: 0,
                             ),
-                            padding: EdgeInsets.all(0),
-                            child: setUpButtonChild(),
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                mutation(
-                                    {'email': _email, 'password': _password});
-                                setState(() {
-                                  if (_state == 0) {
-                                    animateButton(mutation);
-                                  } else {
-                                    _state = 0;
-                                    _width = _width;
-                                  }
-                                });
-                              }
-                            },
-                            elevation: 0,
                           ),
                         ),
                       ),
@@ -184,8 +187,6 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
         ));
   }
 
-//  if (_formKey.currentState.validate()) {
-//  mutation({'email': _email, 'password': _password});
   setUpButtonChild() {
     if (_state == 0) {
       return Text(
@@ -229,8 +230,8 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
       setState(() {
         if (returnData != null) {
           _state = 2;
-          _saveToken(returnData['businessLogin']['token'],
-              returnData['businessLogin']['refreshToken'], context);
+          _saveToken(returnData['signIn']['token'],
+              returnData['signIn']['refreshToken'], context);
         } else {
           _state = 0;
           _width = double.maxFinite;
@@ -248,5 +249,5 @@ _saveToken(String token, String refreshToken, BuildContext context) async {
   prefs.save('token', token);
   prefs.save('refreshToken', refreshToken);
   Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (_) => RegisterData()));
+      context, MaterialPageRoute(builder: (_) => InicioPage()));
 }
