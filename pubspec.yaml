@@ -25,9 +25,14 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^6.0.1
   bloc: ^6.0.2
+  like_button: ^1.0.1
   equatable: ^1.2.3
   url_launcher: ^5.5.0
   image_picker: ^0.6.7+4
+#  image_crop: ^0.3.2
+  flutter_skeleton: ^0.1.0+1
+  shimmer: ^1.1.1
+  circular_profile_avatar: ^1.0.6
   local_auth: ^0.6.2+3
   graphql_flutter: ^3.0.0
   charts_flutter: ^0.9.0
@@ -78,6 +83,9 @@ flutter:
       fonts:
         - asset: assets/fonts/Roboto-Black.ttf
         - asset: assets/fonts/Roboto-Black.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular-slnt=0.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
