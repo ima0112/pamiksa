@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/views/login/login.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
-class Intro extends StatelessWidget {
+class IntroPage extends StatefulWidget {
+  @override
+  _IntroState createState() => _IntroState();
+}
+
+class _IntroState extends State<IntroPage> {
+  final NavigationService navigationService = locator<NavigationService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,31 +30,45 @@ class Intro extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 50.0),
             child: Column(
               children: <Widget>[
-                IntroPhoto(),
-                IntroText(),
+                introPhoto(),
+                introText(),
                 Spacer(flex: 1),
-                IntroButton()
+                Container(
+                  height: 45,
+                  width: 320,
+                  child: RaisedButton(
+                    textColor: Colors.white,
+                    color: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    onPressed: () {
+                      saveShowIntro();
+                      navigationService.navigateTo(routes.LoginRoute);
+                    },
+                    child: Text(
+                      'COMENZAR',
+                      style: TextStyle(
+                          fontFamily: 'RobotoMono-Regular',
+                          fontWeight: FontWeight.w900),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
         ));
   }
-}
 
-class IntroPhoto extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget introPhoto() {
     return Container(
       height: 190,
       width: 190,
       child: Image.asset('assets/images/deliverypurple.png'),
     );
   }
-}
 
-class IntroText extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget introText() {
     return Container(
       child: Text(
         "Tú comida favorita a domicilio",
@@ -51,45 +77,9 @@ class IntroText extends StatelessWidget {
       ),
     );
   }
-}
 
-class IntroButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 45,
-      width: 320,
-      child: RaisedButton(
-        textColor: Colors.white,
-        color: Theme.of(context).primaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-        onPressed: () {
-          Navigator.of(context).pushReplacement(_createRouter());
-        },
-        child: Text(
-          'COMENZAR',
-          style: TextStyle(
-              fontFamily: 'RobotoMono-Regular', fontWeight: FontWeight.w900),
-        ),
-      ),
-    );
+  void saveShowIntro() async {
+    Shared preferences = Shared();
+    preferences.saveBool('showIntro', false);
   }
-}
-
-Route _createRouter() {
-  return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(50.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      });
 }

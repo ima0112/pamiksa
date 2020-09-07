@@ -1,36 +1,26 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/data/graphql/graphqlConfig.dart';
-// import 'package:pamiksa/src/resouces/servidor.dart' show URL, ACCESS_TOKEN;
-import 'package:pamiksa/src/data/widget/waveclipper.dart';
+import 'package:pamiksa/src/blocs/Location/location_bloc.dart';
+import 'package:pamiksa/src/data/graphql/graphql_config.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/views/inicio.dart';
 import 'package:pamiksa/src/ui/views/login/login_form.dart';
-import 'package:pamiksa/src/ui/views/register/register_data/register_data.dart';
+import 'package:pamiksa/src/ui/views/register/register_email.dart';
+import 'package:pamiksa/src/ui/widget/waveclipper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
-class LoginPage extends StatelessWidget {
-  static const URI = '/login';
-
+class LoginPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-
-    return Login();
-  }
+  State<StatefulWidget> createState() => LoginPageState();
 }
 
-class Login extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => LoginP();
-}
-
-class LoginP extends State<Login> {
-  // static HttpLink httplink =
-  //     HttpLink(uri: URL, headers: {'AccessToken': ACCESS_TOKEN});
-
-  // ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
-  //     GraphQLClient(cache: InMemoryCache(), link: httplink));
-
+class LoginPageState extends State<LoginPage> {
+  final NavigationService navigationService = locator<NavigationService>();
   String msg = '';
   bool valid = true;
   SharedPreferences _prefs;
@@ -46,7 +36,7 @@ class LoginP extends State<Login> {
           loadToken();
           if (token != null) {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => RegisterData()));
+                context, MaterialPageRoute(builder: (_) => InicioPage()));
           }
         });
       });
@@ -72,127 +62,119 @@ class LoginP extends State<Login> {
                 brightness: Brightness.dark,
               )),
           backgroundColor: Colors.white,
-          body: ListView(
-            children: <Widget>[
-              Stack(
+          body: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+              child: Column(
                 children: <Widget>[
-                  ClipPath(
-                    clipper: WaveClipper2(),
-                    child: Container(
-                      child: Column(),
-                      width: double.infinity,
-                      height: 300,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [Color(0xff7C4DFF), Color(0xff6200EA)])),
-                    ),
-                  ),
-                  ClipPath(
-                    clipper: WaveClipper3(),
-                    child: Container(
-                      child: Column(),
-                      width: double.infinity,
-                      height: 300,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [Color(0xff6200EA), Color(0xff5C4DFF)])),
-                    ),
-                  ),
-                  ClipPath(
-                    clipper: WaveClipper1(),
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Icon(
-                            Icons.fastfood,
-                            color: Colors.white,
-                            size: 60,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Pamiksa',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 30),
-                          )
-                        ],
+                  Stack(
+                    children: <Widget>[
+                      ClipPath(
+                        clipper: WaveClipper2(),
+                        child: Container(
+                          child: Column(),
+                          width: double.infinity,
+                          height: 300,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                            Color(0xff7C4DFF),
+                            Color(0xff6200EA)
+                          ])),
+                        ),
                       ),
-                      width: double.infinity,
-                      height: 300,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [Color(0xff6200EA), Color(0xff7C4DFF)])),
-                    ),
-                  )
-                ],
-              ),
-              FormLogin(),
-              SizedBox(
-                height: 18,
-              ),
-              Center(
-                child: Text(
-                  '¿ Has olvidado tu contraseña ?',
-                  style: TextStyle(
-                      color: Color(0xff6200EA),
-                      decoration: TextDecoration.underline,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '¿ No tiene un usuario ? ',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
+                      ClipPath(
+                        clipper: WaveClipper3(),
+                        child: Container(
+                          child: Column(),
+                          width: double.infinity,
+                          height: 300,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                            Color(0xff6200EA),
+                            Color(0xff5C4DFF)
+                          ])),
+                        ),
+                      ),
+                      ClipPath(
+                        clipper: WaveClipper1(),
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 40,
+                              ),
+                              Icon(
+                                Icons.fastfood,
+                                color: Colors.white,
+                                size: 60,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'Pamiksa',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 30),
+                              )
+                            ],
+                          ),
+                          width: double.infinity,
+                          height: 300,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                            Color(0xff6200EA),
+                            Color(0xff7C4DFF)
+                          ])),
+                        ),
+                      )
+                    ],
                   ),
-                  GestureDetector(
+                  Expanded(flex: 1, child: FormLogin()),
+                  Center(
                     child: Text(
-                      "Crear cuenta",
+                      '¿ Has olvidado tu contraseña ?',
                       style: TextStyle(
+                          color: Color(0xff6200EA),
                           decoration: TextDecoration.underline,
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold),
                     ),
-                    onTap: () {
-                      Navigator.of(context).push(_createRouter());
-                    },
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        '¿ No tiene un usuario ? ',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                        child: Text(
+                          "Crear cuenta",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () {
+                          navigationService
+                              .navigateTo(routes.RegisterEmailRoute);
+                        },
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
         )));
   }
-}
-
-Route _createRouter() {
-  return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          RegisterDataPage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(50.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      });
 }

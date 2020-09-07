@@ -1,26 +1,27 @@
-class User {
+class UserModel {
+  String id;
   String fullName;
   String adress;
   String birthday;
   String email;
-  String password;
   String photo;
+  String password;
+  String provinceFk;
+  String municipalityFk;
 
-  User(
-      {this.fullName,
+  UserModel(
+      {this.id,
+      this.fullName,
       this.adress,
       this.birthday,
       this.email,
+      this.photo,
       this.password,
-      this.photo});
+      this.provinceFk,
+      this.municipalityFk});
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-        fullName: json['fullName'],
-        adress: json['adress'],
-        birthday: json['birthday'],
-        email: json['email'],
-        password: json['password'],
-        photo: json['photo']);
+  @override
+  String toString() {
+    return 'ID: ${this.id}, Nombre: ${this.fullName}, Password: ${this.password}, Adress: ${this.adress}, Birthday: ${this.birthday}, Email: ${this.email}, Photo: ${this.photo}, ProvinceFk: ${this.provinceFk}, MunicipalityFk: ${this.municipalityFk}';
   }
 }
