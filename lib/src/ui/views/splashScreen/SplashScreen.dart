@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/views/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
@@ -22,9 +23,10 @@ class SplashScreenState extends State<SplashScreenPage> {
           this._preferences = prefs;
           loadShowIntro();
           if (_showIntro == null) {
-            navigationService.navigateTo(routes.IntroRoute);
+            //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+            Navigator.pushReplacementNamed(context, routes.IntroRoute);
           } else if (_showIntro == false) {
-            navigationService.navigateTo(routes.LoginRoute);
+            Navigator.pushReplacementNamed(context, routes.LoginRoute);
           }
         });
       });

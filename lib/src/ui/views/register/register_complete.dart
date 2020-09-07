@@ -7,6 +7,7 @@ import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class RegisterCompletePage extends StatefulWidget {
   @override
@@ -66,6 +67,7 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
                                 onPressed: () {
                                   registerCompleteBloc
                                       .add(MutateUserandDeviceEvent(userModel));
+                                  Navigator.pushReplacementNamed(context, routes.HomeRoute);
                                 },
                                 child: Text(
                                   'REGISTRARME',

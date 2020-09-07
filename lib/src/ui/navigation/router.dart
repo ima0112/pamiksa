@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
-import 'package:pamiksa/src/ui/views/inicio.dart';
+import 'package:pamiksa/src/ui/views/home/home.dart';
 import 'package:pamiksa/src/ui/views/intro/intro.dart';
 import 'package:pamiksa/src/ui/views/login/login.dart';
 import 'package:pamiksa/src/ui/views/register/register_complete.dart';
@@ -33,14 +33,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return createRouter(RegisterCompletePage());
     case routes.VerificationRoute:
       return createRouter(VerificationPage());
-    case routes.InicioRoute:
-      return MaterialPageRoute(builder: (context) => InicioPage());
-    default:
-      return MaterialPageRoute(
-          builder: (context) => Scaffold(
-                  body: Center(
-                child: Text('No path for ${settings.name}'),
-              )));
+    case routes.HomeRoute:
+      return MaterialPageRoute(builder: (context) => Home());
   }
 }
 

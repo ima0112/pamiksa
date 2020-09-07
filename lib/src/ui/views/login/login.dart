@@ -6,7 +6,7 @@ import 'package:pamiksa/src/blocs/Location/location_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/views/inicio.dart';
+import 'package:pamiksa/src/ui/views/home/home.dart';
 import 'package:pamiksa/src/ui/views/login/login_form.dart';
 import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'package:pamiksa/src/ui/widget/waveclipper.dart';
@@ -35,8 +35,8 @@ class LoginPageState extends State<LoginPage> {
           this._prefs = prefs;
           loadToken();
           if (token != null) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => InicioPage()));
+            Navigator.pushReplacementNamed(
+                context, routes.HomeRoute);
           }
         });
       });
