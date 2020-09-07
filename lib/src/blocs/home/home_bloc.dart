@@ -23,7 +23,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async* {
     if (event is FetchBusinessEvent) {
       yield* _mapFetchBusinessEvent(event);
+    } else if (event is ChangeToInitialStateEvent) {
+      yield* _mapChangeToInitialStateEvent(event);
     }
+  }
+
+  Stream<HomeState> _mapChangeToInitialStateEvent(
+      ChangeToInitialStateEvent event) async* {
+    yield HomeInitial();
   }
 
   Stream<HomeState> _mapFetchBusinessEvent(FetchBusinessEvent event) async* {

@@ -15,3 +15,11 @@ class FetchBusinessEvent extends HomeEvent {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class ChangeToInitialStateEvent extends HomeEvent {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+

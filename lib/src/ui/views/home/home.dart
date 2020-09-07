@@ -201,7 +201,7 @@ class Actions extends StatelessWidget {
               floating: true,
               elevation: 1.0,
               title: Text(
-                "Sin Conexion...",
+                "Sin Conexión",
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
@@ -247,8 +247,24 @@ class Actions extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(
+                      height: 12.5,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: Text(
+                        "Parece que tienes problemas en la conexión. Compruébalo y prueba otra vez.",
+                        style: TextStyle(color: Colors.grey[700]),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                     FlatButton.icon(
-                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        onPressed: () {
+                          homeBloc.add(ChangeToInitialStateEvent());
+                        },
                         icon: Icon(Icons.refresh),
                         label: Text("Reintentar"))
                   ],
