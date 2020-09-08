@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/intro/intro_bloc.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/views/login/sign_in.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class IntroPage extends StatefulWidget {
@@ -13,10 +13,11 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroState extends State<IntroPage> {
-  final NavigationService navigationService = locator<NavigationService>();
+  IntroBloc introBloc;
 
   @override
   Widget build(BuildContext context) {
+    introBloc = BlocProvider.of<IntroBloc>(context);
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(0),
@@ -43,8 +44,7 @@ class _IntroState extends State<IntroPage> {
                       borderRadius: BorderRadius.circular(25),
                     ),
                     onPressed: () {
-                      saveShowIntro();
-                      navigationService.navigateTo(routes.LoginRoute);
+                      introBloc.add(NotShowIntroEvent());
                     },
                     child: Text(
                       'COMENZAR',
@@ -76,10 +76,5 @@ class _IntroState extends State<IntroPage> {
         textAlign: TextAlign.center,
       ),
     );
-  }
-
-  void saveShowIntro() async {
-    Shared preferences = Shared();
-    preferences.saveBool('showIntro', false);
   }
 }

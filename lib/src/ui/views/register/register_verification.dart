@@ -123,31 +123,6 @@ class _VerificationPageState extends State<VerificationPage> {
                                                   CheckVerificationCodeEvent(
                                                       value));
                                             }
-                                            // code = value;
-                                            // if (code.length == 6 &&
-                                            //     code ==
-                                            //         verificationCode
-                                            //             .toString()) {
-                                            //   setState(() {
-                                            //     if (_hasError == true) {
-                                            //       _hasError = false;
-                                            //     }
-                                            //     _isButtonDisabled = false;
-                                            //   });
-                                            //   print("ok");
-                                            // } else if (code.length == 6 &&
-                                            //     code !=
-                                            //         verificationCode
-                                            //             .toString()) {
-                                            //   setState(() {
-                                            //     _hasError = true;
-                                            //     _isButtonDisabled = true;
-                                            //   });
-                                            // } else if (code.length < 6) {
-                                            //   setState(() {
-                                            //     _isButtonDisabled = true;
-                                            //   });
-                                            // }
                                           });
                                     }
                                     if (state
@@ -164,31 +139,6 @@ class _VerificationPageState extends State<VerificationPage> {
                                             registerVerificationBloc.add(
                                                 CheckVerificationCodeEvent(
                                                     value));
-                                            // code = value;
-                                            // if (code.length == 6 &&
-                                            //     code ==
-                                            //         verificationCode
-                                            //             .toString()) {
-                                            //   setState(() {
-                                            //     if (_hasError == true) {
-                                            //       _hasError = false;
-                                            //     }
-                                            //     _isButtonDisabled = false;
-                                            //   });
-                                            //   print("ok");
-                                            // } else if (code.length == 6 &&
-                                            //     code !=
-                                            //         verificationCode
-                                            //             .toString()) {
-                                            //   setState(() {
-                                            //     _hasError = true;
-                                            //     _isButtonDisabled = true;
-                                            //   });
-                                            // } else if (code.length < 6) {
-                                            //   setState(() {
-                                            //     _isButtonDisabled = true;
-                                            //   });
-                                            // }
                                           });
                                     }
                                   },
