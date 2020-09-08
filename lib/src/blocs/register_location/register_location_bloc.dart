@@ -12,7 +12,7 @@ import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
-part 'location_event.dart';
+part 'register_location_event.dart';
 part 'register_location_state.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
@@ -83,6 +83,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         await this.userRepository.sendVerificationCode(email, code.toString());
 
     print({"response": response.data.toString(), "code": code, "email": email});
-    navigationService.navigateWithoutGoBack(routes.VerificationRoute);
+    navigationService.navigateAndRemoveUntil(
+        routes.VerificationRoute, routes.SplashRoute);
   }
 }
