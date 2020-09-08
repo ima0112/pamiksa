@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/blocs/intro/intro_bloc.dart';
-import 'package:pamiksa/src/blocs/location/location_bloc.dart';
+import 'package:pamiksa/src/blocs/register_location/register_location_bloc.dart';
 import 'package:pamiksa/src/blocs/register_complete/register_complete_bloc.dart';
 import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
 import 'package:pamiksa/src/blocs/register_password/register_password_bloc.dart';

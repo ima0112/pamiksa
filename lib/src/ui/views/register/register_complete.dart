@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/blocs/register_complete/register_complete_bloc.dart';
-import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
 class RegisterCompletePage extends StatefulWidget {
   @override
@@ -14,8 +10,6 @@ class RegisterCompletePage extends StatefulWidget {
 }
 
 class _RegisterCompletePageState extends State<RegisterCompletePage> {
-  final NavigationService navigationService = locator<NavigationService>();
-
   UserModel userModel = UserModel();
   RegisterCompleteBloc registerCompleteBloc;
 

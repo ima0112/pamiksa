@@ -31,31 +31,13 @@ class _VerificationPageState extends State<VerificationPage> {
   DeviceModel device = DeviceModel();
   Shared preferences = Shared();
   UserModel user = UserModel();
-  Timer _timer;
 
   String email;
-  String verificationCode;
-  String _userId;
-
-  bool _isLoading = false;
-  bool _hasError = false;
-  bool _isButtonDisabled;
-  bool _isTimerOver;
-
-  int newCode;
 
   @override
   void initState() {
     super.initState();
-    _isButtonDisabled = true;
-    _isTimerOver = true;
     obtenerPreferences();
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
   }
 
   @override
@@ -136,9 +118,11 @@ class _VerificationPageState extends State<VerificationPage> {
                                             labelText: "Código de verificación",
                                           ),
                                           onChanged: (String value) {
-                                            registerVerificationBloc.add(
-                                                CheckVerificationCodeEvent(
-                                                    value));
+                                            if (value.length == 6) {
+                                              registerVerificationBloc.add(
+                                                  CheckVerificationCodeEvent(
+                                                      value));
+                                            }
                                           });
                                     }
                                   },

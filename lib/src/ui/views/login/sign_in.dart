@@ -1,15 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/blocs/Location/location_bloc.dart';
-import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/views/home/home.dart';
 import 'package:pamiksa/src/ui/views/login/sign_in_form.dart';
-import 'package:pamiksa/src/ui/views/register/register_email.dart';
-import 'package:pamiksa/src/ui/widget/waveclipper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;

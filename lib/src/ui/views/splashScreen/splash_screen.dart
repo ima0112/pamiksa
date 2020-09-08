@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/splash_screen/splash_screen_bloc.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class SplashScreenPage extends StatefulWidget {
   @override

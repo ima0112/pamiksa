@@ -1,19 +1,14 @@
-import 'dart:math';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/blocs/location/location_bloc.dart';
-import 'package:pamiksa/src/data/graphql/graphql_config.dart';
-import 'package:pamiksa/src/data/graphql/mutations/user.dart';
+import 'package:pamiksa/src/blocs/register_location/register_location_bloc.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class RegisterLocationPage extends StatefulWidget {
   @override
