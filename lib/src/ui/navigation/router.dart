@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 import 'package:pamiksa/src/ui/views/home/home.dart';
 import 'package:pamiksa/src/ui/views/intro/intro.dart';
-import 'package:pamiksa/src/ui/views/login/login.dart';
+import 'package:pamiksa/src/ui/views/login/sign_in.dart';
 import 'package:pamiksa/src/ui/views/register/register_complete.dart';
 import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'package:pamiksa/src/ui/views/register/register_location.dart';
