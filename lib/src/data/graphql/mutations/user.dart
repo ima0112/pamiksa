@@ -24,11 +24,6 @@ mutation SingIn($email: String!, $password: String!){
     token
     user{
       id
-      fullName
-      adress
-      birthday
-      email
-      photo
     }
   }
 } """;

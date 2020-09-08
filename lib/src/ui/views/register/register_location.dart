@@ -76,8 +76,7 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                       style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
                     ),
                   ),
-                  Expanded(
-                    flex: 3,
+                  Flexible(
                     child: Form(
                       key: _formKey,
                       child: Container(

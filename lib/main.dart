@@ -7,6 +7,7 @@ import 'package:pamiksa/src/blocs/register_complete/register_complete_bloc.dart'
 import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
 import 'package:pamiksa/src/blocs/register_password/register_password_bloc.dart';
 import 'package:pamiksa/src/blocs/register_verification/register_verification_bloc.dart';
+import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
 import 'package:pamiksa/src/blocs/timer/ticker.dart';
 import 'package:pamiksa/src/blocs/timer/timer_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
@@ -46,6 +47,10 @@ void main() {
       BlocProvider(
         create: (context) => HomeBloc(
             BusinessRepository(client: GraphQLConfiguration().clients())),
+      ),
+      BlocProvider(
+        create: (context) => SignInBloc(
+            UserRepository(client: GraphQLConfiguration().clients())),
       )
     ],
     child: MyApp(),

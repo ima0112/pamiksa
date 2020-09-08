@@ -45,6 +45,21 @@ class UserRepository {
     return await client.mutate(_options);
   }
 
+  Future<QueryResult> signIn(String email, String password) async {
+    final MutationOptions _options = MutationOptions(
+      documentNode: gql(mutations.singIn),
+      onCompleted: (data) {
+        preferences.saveString('token', data['signIn']['token'].toString());
+        preferences.saveString(
+            'refreshToken', data['signIn']['refreshToken'].toString());
+      },
+      variables: {
+        'email': email, 'password': password
+      },
+    );
+    return await client.mutate(_options);
+  }
+
   Future<QueryResult> sendVerificationCode(String code, String email) async {
     final MutationOptions _options = MutationOptions(
         documentNode: gql(mutations.sendVerificationCode),
