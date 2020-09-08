@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/splash_screen/splash_screen_bloc.dart';
 
 class SplashScreenPage extends StatefulWidget {
   @override
@@ -10,28 +8,12 @@ class SplashScreenPage extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreenPage> {
-  final NavigationService navigationService = locator<NavigationService>();
-  SharedPreferences _preferences;
-  bool _showIntro;
+  SplashScreenBloc splashScreenBloc;
 
   void initState() {
     super.initState();
-    SharedPreferences.getInstance()
-      ..then((prefs) {
-        setState(() {
-          this._preferences = prefs;
-          loadShowIntro();
-          if (_showIntro == null) {
-            Navigator.pushReplacementNamed(context, routes.IntroRoute);
-          } else if (_showIntro == false) {
-            Navigator.pushReplacementNamed(context, routes.LoginRoute);
-          }
-        });
-      });
-  }
-
-  loadShowIntro() async {
-    this._showIntro = _preferences.getBool('showIntro') ?? null;
+    splashScreenBloc = BlocProvider.of<SplashScreenBloc>(context);
+    splashScreenBloc.add(NavigationFromSplashScreenEvent());
   }
 
   @override

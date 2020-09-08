@@ -57,7 +57,7 @@ class RegisterVerificationBloc
     String code = await preferences.read('code');
 
     if (event.code == code) {
-      navigationService.navigateTo(routes.RegisterCompleteRoute);
+      navigationService.navigateWithoutGoBack(routes.RegisterCompleteRoute);
     } else {
       yield IncorrectedVerificationCodeState();
     }

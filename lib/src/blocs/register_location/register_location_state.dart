@@ -1,4 +1,4 @@
-part of 'location_bloc.dart';
+part of 'register_location_bloc.dart';
 
 abstract class LocationState extends Equatable {
   const LocationState([List props = const []]);

@@ -57,7 +57,7 @@ class RegisterCompleteBloc
 
     await this.deviceRepository.sendDeviceInfo(deviceModel, userId);
 
-    //navigationService.navigateTo(routes.HomeRoute);
+    navigationService.navigateWithoutGoBack(routes.HomeRoute);
   }
 
   Future<void> initPlatformState() async {

@@ -11,7 +11,7 @@ import 'package:pamiksa/src/ui/views/register/register_location.dart';
 import 'package:pamiksa/src/ui/views/register/register_password.dart';
 import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
 import 'package:pamiksa/src/ui/views/register/register_verification.dart';
-import 'package:pamiksa/src/ui/views/splashScreen/SplashScreen.dart';
+import 'package:pamiksa/src/ui/views/splashScreen/splash_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
