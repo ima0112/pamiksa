@@ -214,30 +214,22 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                 color: Theme.of(context).primaryColor),
                           ),
                         ),
-                        Mutation(
-                          options: MutationOptions(
-                              documentNode: gql(sendVerificationCode)),
-                          builder:
-                              (RunMutation runMutation, QueryResult result) {
-                            return RaisedButton(
-                              textColor: Colors.white,
-                              color: Theme.of(context).primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  locationBloc.add(MutateCodeEvent(adress));
-                                }
-                              },
-                              child: Text(
-                                'SIGUIENTE',
-                                style:
-                                    TextStyle(fontFamily: 'RobotoMono-Regular'),
-                              ),
-                            );
+                        RaisedButton(
+                          textColor: Colors.white,
+                          color: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              locationBloc.add(MutateCodeEvent(adress));
+                            }
                           },
-                        ),
+                          child: Text(
+                            'SIGUIENTE',
+                            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                          ),
+                        )
                       ],
                     ),
                   ),

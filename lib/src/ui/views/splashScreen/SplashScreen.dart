@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/views/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
