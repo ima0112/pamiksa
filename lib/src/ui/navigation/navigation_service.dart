@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -7,6 +6,10 @@ class NavigationService {
 
   Future<dynamic> navigateTo(String routeName) {
     return navigatorKey.currentState.pushNamed(routeName);
+  }
+
+  Future<dynamic> navigateWithoutGoBack(String routeName) {
+    return navigatorKey.currentState.pushReplacementNamed(routeName);
   }
 
   void goBack() {

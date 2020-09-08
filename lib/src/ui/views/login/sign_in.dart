@@ -7,7 +7,7 @@ import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/views/home/home.dart';
-import 'package:pamiksa/src/ui/views/login/login_form.dart';
+import 'package:pamiksa/src/ui/views/login/sign_in_form.dart';
 import 'package:pamiksa/src/ui/views/register/register_email.dart';
 import 'package:pamiksa/src/ui/widget/waveclipper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,8 +35,7 @@ class LoginPageState extends State<LoginPage> {
           this._prefs = prefs;
           loadToken();
           if (token != null) {
-            Navigator.pushReplacementNamed(
-                context, routes.HomeRoute);
+            Navigator.pushReplacementNamed(context, routes.HomeRoute);
           }
         });
       });
@@ -54,6 +53,7 @@ class LoginPageState extends State<LoginPage> {
         client: GraphQLConfiguration.client,
         child: CacheProvider(
             child: Scaffold(
+          resizeToAvoidBottomPadding: false,
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(0),
               child: AppBar(
@@ -67,83 +67,38 @@ class LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
               child: Column(
                 children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      ClipPath(
-                        clipper: WaveClipper2(),
-                        child: Container(
-                          child: Column(),
-                          width: double.infinity,
-                          height: 300,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                            Color(0xff7C4DFF),
-                            Color(0xff6200EA)
-                          ])),
-                        ),
-                      ),
-                      ClipPath(
-                        clipper: WaveClipper3(),
-                        child: Container(
-                          child: Column(),
-                          width: double.infinity,
-                          height: 300,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                            Color(0xff6200EA),
-                            Color(0xff5C4DFF)
-                          ])),
-                        ),
-                      ),
-                      ClipPath(
-                        clipper: WaveClipper1(),
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 40,
-                              ),
-                              Icon(
-                                Icons.fastfood,
-                                color: Colors.white,
-                                size: 60,
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                'Pamiksa',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 30),
-                              )
-                            ],
-                          ),
-                          width: double.infinity,
-                          height: 300,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                            Color(0xff6200EA),
-                            Color(0xff7C4DFF)
-                          ])),
-                        ),
-                      )
-                    ],
+                  SizedBox(
+                    height: 40,
                   ),
-                  Expanded(flex: 1, child: FormLogin()),
+                  Image.asset(
+                    "assets/images/pamiksa_logo_violeta_sin_fondo.png",
+                    width: 80,
+                    height: 80,
+                  ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  Text("Pamiksa",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 35, letterSpacing: 1.0)),
+                  SizedBox(
+                    height: 100,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: FormLogin(),
+                  ),
                   Center(
                     child: Text(
                       '¿ Has olvidado tu contraseña ?',
                       style: TextStyle(
                           color: Color(0xff6200EA),
-                          decoration: TextDecoration.underline,
                           fontSize: 14,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(
-                    height: 15,
+                    height: 7.5,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +114,6 @@ class LoginPageState extends State<LoginPage> {
                         child: Text(
                           "Crear cuenta",
                           style: TextStyle(
-                              decoration: TextDecoration.underline,
                               color: Theme.of(context).primaryColor,
                               fontSize: 14,
                               fontWeight: FontWeight.bold),

@@ -22,7 +22,6 @@ class SplashScreenState extends State<SplashScreenPage> {
           this._preferences = prefs;
           loadShowIntro();
           if (_showIntro == null) {
-            //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
             Navigator.pushReplacementNamed(context, routes.IntroRoute);
           } else if (_showIntro == false) {
             Navigator.pushReplacementNamed(context, routes.LoginRoute);
