@@ -65,9 +65,9 @@ class LoginPageState extends State<LoginPage> {
                 width: 80,
                 height: 80,
               ),
-              // SizedBox(
-              //   height: 10,
-              // ),
+              SizedBox(
+                height: 10,
+              ),
               Text("Pamiksa",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,

@@ -84,6 +84,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     print({"response": response.data.toString(), "code": code, "email": email});
     navigationService.navigateAndRemoveUntil(
-        routes.VerificationRoute, routes.SplashRoute);
+        routes.VerificationRoute, routes.LoginRoute);
   }
 }
