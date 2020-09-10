@@ -57,6 +57,8 @@ class RegisterCompleteBloc
 
     await this.deviceRepository.sendDeviceInfo(deviceModel, userId);
 
+    await preferences.remove('password');
+
     navigationService.navigateAndRemoveUntil(
         routes.HomeRoute, routes.SplashRoute);
   }

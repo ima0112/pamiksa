@@ -57,6 +57,7 @@ class RegisterVerificationBloc
     String code = await preferences.read('code');
 
     if (event.code == code) {
+      preferences.remove('code');
       navigationService.navigateAndRemoveUntil(
           routes.RegisterCompleteRoute, routes.LoginRoute);
     } else {

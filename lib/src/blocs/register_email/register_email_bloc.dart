@@ -28,6 +28,7 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
 
   Stream<RegisterEmailState> _mapCheckUserEmailEvent(
       CheckUserEmailEvent event) async* {
+    yield LoadingState();
     final response = await this.userRepository.userExists(event.email);
 
     if (response.data['userExists'] == true) {
@@ -35,7 +36,9 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
     } else if (response.data['userExists'] == false) {
       await preferences.saveString('email', event.email);
       print({await preferences.read('email')});
-      navigationService.navigateTo(routes.RegisterPasswordRoute);
+      await navigationService.navigateTo(routes.RegisterPasswordRoute);
+
+      yield RegisterEmailInitial();
     }
   }
 }

@@ -38,8 +38,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   Stream<LocationState> _mapFetchProvincesEvent(
       FetchProvincesEvent event) async* {
-    await preferences.saveString('fullname', event.name);
-    await preferences.saveString('birthday', event.birthday);
+    yield LoadingState();
 
     final response = await this.provincesRepository.userLocation();
     final List provincesData = response.data['provinces'] as List;
@@ -66,7 +65,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     });
 
     yield LoadedLocationsState(results: province);
-    navigationService.navigateTo(routes.RegisterLocationRoute);
   }
 
   Stream<LocationState> _mapMutateCodeEvent(MutateCodeEvent event) async* {

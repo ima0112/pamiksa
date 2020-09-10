@@ -28,7 +28,6 @@ class RegisterLocationState extends State<RegisterLocationPage> {
   List<String> _provincias = ['Matanzas'];
   List<String> _municipios = ['Cárdenas'];
 
-  List<MunicipalityModel> municipalitiesData = List();
   String _selectedprovincia;
   String _selectedmunicipio;
   String adress;
@@ -43,11 +42,12 @@ class RegisterLocationState extends State<RegisterLocationPage> {
 
   void initState() {
     super.initState();
+    locationBloc = BlocProvider.of<LocationBloc>(context);
+    locationBloc.add(FetchProvincesEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    locationBloc = BlocProvider.of<LocationBloc>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -59,31 +59,33 @@ class RegisterLocationState extends State<RegisterLocationPage> {
           )),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Text(
-                  "Crear cuenta",
-                  style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
-                ),
-              ),
-              Flexible(
-                child: Form(
-                  key: _formKey,
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-                      child: Container(
-                          margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
-                          child: BlocBuilder<LocationBloc, LocationState>(
-                            buildWhen: (previousState, state) =>
-                                state.runtimeType != previousState.runtimeType,
-                            builder: (context, state) {
-                              LocationState currentState = locationBloc.state;
-                              if (currentState is LoadedLocationsState) {
-                                return Column(
+        child: BlocBuilder<LocationBloc, LocationState>(
+          builder: (context, state) {
+            if (state is LoadingState) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (state is LoadedLocationsState) {
+              return Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        "Crear cuenta",
+                        style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                      ),
+                    ),
+                    Flexible(
+                      child: Form(
+                        key: _formKey,
+                        child: Container(
+                          margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
+                            child: Container(
+                                margin:
+                                    EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
+                                child: Column(
                                   children: [
                                     DropdownButtonFormField(
                                       decoration: InputDecoration(
@@ -138,6 +140,7 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                       }).toList(),
                                     ),
                                     TextFormField(
+                                      initialValue: adress,
                                       textCapitalization:
                                           TextCapitalization.words,
                                       style: TextStyle(
@@ -165,59 +168,58 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                           _validateDireccion(value),
                                     ),
                                   ],
-                                );
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
+                                )),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Divider(),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                      padding: EdgeInsets.only(
+                          top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            onPressed: () {
+                              navigationService.goBack();
+                            },
+                            child: Text(
+                              "ATRÁS",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ),
+                          RaisedButton(
+                            textColor: Colors.white,
+                            color: Theme.of(context).primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                locationBloc.add(MutateCodeEvent(adress));
                               }
                             },
-                          )),
-                    ),
-                  ),
-                ),
-              ),
-              Divider(),
-              Container(
-                margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                padding: EdgeInsets.only(
-                    top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      onPressed: () {
-                        navigationService.goBack();
-                      },
-                      child: Text(
-                        "ATRÁS",
-                        style: TextStyle(color: Theme.of(context).primaryColor),
+                            child: Text(
+                              'SIGUIENTE',
+                              style:
+                                  TextStyle(fontFamily: 'RobotoMono-Regular'),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    RaisedButton(
-                      textColor: Colors.white,
-                      color: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          locationBloc.add(MutateCodeEvent(adress));
-                        }
-                      },
-                      child: Text(
-                        'SIGUIENTE',
-                        style: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                      ),
-                    )
                   ],
                 ),
-              ),
-            ],
-          ),
+              );
+            }
+            return Center(child: CircularProgressIndicator());
+          },
         ),
       ),
     );

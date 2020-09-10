@@ -89,6 +89,7 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                               height: 5,
                             ),
                             TextFormField(
+                              initialValue: password,
                               key: _passKey,
                               style: TextStyle(
                                   fontFamily: 'RobotoMono-Regular',
@@ -98,9 +99,7 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                               maxLength: 20,
                               validator: (value) => _validatePassword(value),
                               onChanged: (String value) {
-                                setState(() {
-                                  password = value;
-                                });
+                                password = value;
                               },
                               decoration: new InputDecoration(
                                 border: const UnderlineInputBorder(),
@@ -120,6 +119,7 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                               ),
                             ),
                             TextFormField(
+                              initialValue: passwordtwo,
                               style: TextStyle(
                                   fontFamily: 'RobotoMono-Regular',
                                   color: Colors.black54,
@@ -134,9 +134,7 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                                 icon: Icon(Icons.lock),
                               ),
                               onChanged: (String value) {
-                                setState(() {
-                                  passwordtwo = value;
-                                });
+                                passwordtwo = value;
                               },
                             ),
                           ],

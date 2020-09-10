@@ -7,6 +7,7 @@ import 'package:pamiksa/src/blocs/register_location/register_location_bloc.dart'
 import 'package:pamiksa/src/blocs/register_complete/register_complete_bloc.dart';
 import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
 import 'package:pamiksa/src/blocs/register_password/register_password_bloc.dart';
+import 'package:pamiksa/src/blocs/register_personal_info/register_personal_info_bloc.dart';
 import 'package:pamiksa/src/blocs/register_verification/register_verification_bloc.dart';
 import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
 import 'package:pamiksa/src/blocs/splash_screen/splash_screen_bloc.dart';
@@ -30,6 +31,7 @@ void main() {
       BlocProvider(create: (context) => TimerBloc(ticker: Ticker())),
       BlocProvider(create: (context) => SplashScreenBloc()),
       BlocProvider(create: (context) => IntroBloc()),
+      BlocProvider(create: (context) => RegisterPersonalInfoBloc()),
       BlocProvider(
           create: (context) => LocationBloc(
               ProvincesRepository(client: GraphQLConfiguration().clients()),
