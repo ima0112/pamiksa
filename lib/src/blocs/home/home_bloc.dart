@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pamiksa/src/data/models/business.dart';
-import 'package:pamiksa/src/data/models/business_owner.dart';
 import 'package:pamiksa/src/data/repositories/remote/business_repository.dart';
 
 part 'home_event.dart';
@@ -45,17 +44,37 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                   id: e['id'],
                   name: e['name'],
                   adress: e['adress'],
-                  valoration: 4.5,
-                  deliveryPrice: 25.7,
+                  valoration: e['valoration'],
+                  deliveryPrice: e['deliveryPrice'].toDouble(),
+                  valorationsQuantity: e['valorationsQuantity'],
+                  valorationSum: e['valorationSum'],
                   email: e['email'],
                   photo: e['photo'],
                   description: e['description'],
                   phone: e['phone'],
-                  businessOwner: BusinessOwnersModel(
-                      id: e['businessOwner']['id'],
-                      ci: e['businessOwner']['ci']),
                 ))
             .toList();
+        businessRepository.clear();
+        businessModel.forEach((element) {
+          businessRepository.insert('Business', element.toMap());
+        });
+        /*List<Map<String, dynamic>> resultado = await businessRepository.all();
+        List<BusinessModel> retorno = List();
+        retorno = resultado
+            .map((e) => BusinessModel(
+                  id: e['id'].toString(),
+                  name: e['name'],
+                  adress: e['adress'],
+                  valoration: e['valoration'],
+                  deliveryPrice: e['deliveryPrice'].toDouble(),
+                  valorationsQuantity: e['valorationsQuantity'],
+                  valorationSum: e['valorationSum'],
+                  email: e['email'],
+                  photo: e['photo'],
+                  description: e['description'],
+                  phone: e['phone'],
+                ))
+            .toList();*/
         yield LoadedBusinessState(results: businessModel);
       }
     } catch (error) {
