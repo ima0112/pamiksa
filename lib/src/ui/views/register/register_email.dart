@@ -129,6 +129,7 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                                         }
                                         if (state is ExistsUserEmailState) {
                                           return TextFormField(
+                                            initialValue: email,
                                             keyboardType:
                                                 TextInputType.emailAddress,
                                             style: TextStyle(
@@ -139,7 +140,7 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                                             decoration: InputDecoration(
                                               errorMaxLines: 3,
                                               errorText:
-                                                  "Este correo ya está siendo usado. Prueba con otro.",
+                                                  "¡Ya existe una cuenta usando este correo electrónico! Prueba con otro.",
                                               helperText: "",
                                               icon: Icon(Icons.email),
                                               filled: false,
