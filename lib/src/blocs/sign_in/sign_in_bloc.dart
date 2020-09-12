@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/data/models/device.dart';
@@ -24,6 +26,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   Stream<SignInState> mapEventToState(
     SignInEvent event,
   ) async* {
+    if (event is CheckConnectionEvent) {
+      yield* _mapCheckConnectionEvent(event);
+    }
     if (event is MutateSignInEvent) {
       yield* _mapMutateSignInEvent(event);
     }
@@ -43,12 +48,24 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       if (response.hasException) {
         yield CredentialsErrorState();
+        await Future.delayed(Duration(seconds: 2));
+        yield SignInInitial();
       } else {
         navigationService.navigateWithoutGoBack(routes.HomeRoute);
       }
     } catch (error) {
       print({"Error": error});
       yield CredentialsErrorState();
+      await Future.delayed(Duration(seconds: 2));
+      yield SignInInitial();
     }
+  }
+
+  Stream<SignInState> _mapCheckConnectionEvent(
+      CheckConnectionEvent event) async* {
+    navigationService.navigateTo(routes.RegisterEmailRoute);
+    // yield ConnectionFailedState();
+    // await Future.delayed(Duration(seconds: 2));
+    // yield SignInInitial();
   }
 }

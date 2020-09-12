@@ -56,6 +56,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               TextFormField(
+                initialValue: _email,
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(fontSize: 16),
                 decoration: const InputDecoration(
@@ -74,6 +75,7 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                 height: 30,
               ),
               TextFormField(
+                initialValue: _password,
                 obscureText: _obscureText,
                 maxLength: 20,
                 validator: (value) => _validatePassword(value),
@@ -105,26 +107,11 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                 height: 45,
                 child: BlocBuilder<SignInBloc, SignInState>(
                     builder: (context, state) {
-                  if (state is SignInInitial) {
+                  if (state is SignInInitial ||
+                      state is CredentialsErrorState ||
+                      state is ConnectionFailedState) {
                     return RaisedButton(
                       child: Text("INICIAR SESIÓN"),
-                      textColor: Colors.white,
-                      color: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          signInBloc.add(MutateSignInEvent(
-                              email: _email, password: _password));
-                        }
-                      },
-                      elevation: 0,
-                    );
-                  } else if (state is CredentialsErrorState) {
-                    return RaisedButton.icon(
-                      icon: Icon(Icons.refresh),
-                      label: Text("REINTENTAR"),
                       textColor: Colors.white,
                       color: Theme.of(context).primaryColor,
                       shape: RoundedRectangleBorder(
