@@ -7,6 +7,7 @@ import 'package:pamiksa/src/blocs/register_location/register_location_bloc.dart'
 import 'package:pamiksa/src/blocs/register_personal_info/register_personal_info_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterPersonalInfoPage extends StatefulWidget {
   static Route route() {
@@ -36,6 +37,7 @@ class RegisterPersonalInfoPageState extends State<RegisterPersonalInfoPage> {
   Future<Null> _datePickerDialog(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
+      locale: const Locale("es", "CU"),
       initialDate: selectedDate,
       firstDate: DateTime(1900),
       lastDate: DateTime(years, DateTime.now().month, DateTime.now().day),

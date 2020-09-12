@@ -47,7 +47,7 @@ class LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 backgroundColor: Colors.black54,
-                duration: Duration(seconds: 2)));
+                duration: Duration(seconds: 5)));
           }
           if (state is CredentialsErrorState) {
             Scaffold.of(context).showSnackBar(SnackBar(
@@ -60,7 +60,7 @@ class LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 backgroundColor: Colors.black54,
-                duration: Duration(seconds: 2)));
+                duration: Duration(seconds: 5)));
           }
         },
         child: SafeArea(

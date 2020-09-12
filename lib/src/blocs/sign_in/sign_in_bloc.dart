@@ -48,16 +48,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       if (response.hasException) {
         yield CredentialsErrorState();
-        await Future.delayed(Duration(seconds: 2));
-        yield SignInInitial();
       } else {
         navigationService.navigateWithoutGoBack(routes.HomeRoute);
       }
     } catch (error) {
       print({"Error": error});
       yield CredentialsErrorState();
-      await Future.delayed(Duration(seconds: 2));
-      yield SignInInitial();
     }
   }
 
