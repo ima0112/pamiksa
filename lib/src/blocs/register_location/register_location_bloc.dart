@@ -10,6 +10,7 @@ import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/data/random.dart' as random;
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 part 'register_location_event.dart';
@@ -69,11 +70,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   Stream<LocationState> _mapMutateCodeEvent(MutateCodeEvent event) async* {
     String email = await preferences.read('email');
-
-    int min = 100000;
-    int max = 999999;
-    var randomizer = new Random();
-    int code = min + randomizer.nextInt(max - min);
+    int code = await random.randomCode();
 
     await preferences.saveString('code', code.toString());
     await preferences.saveString('adress', event.adress);
