@@ -42,8 +42,10 @@ class LoginPageState extends State<LoginPage> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Icon(Icons.warning),
-                    Text("Parece que tienes un problema con la conexión"),
+                    Expanded(child: Icon(Icons.warning)),
+                    Expanded(
+                        child: Text(
+                            "Parece que tienes un problema con la conexión")),
                   ],
                 ),
                 backgroundColor: Colors.black54,
@@ -54,9 +56,12 @@ class LoginPageState extends State<LoginPage> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Icon(Icons.warning),
-                    Text(
-                        "El correo electrónico o la contraseña son incorrectos"),
+                    Expanded(child: Icon(Icons.warning)),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                          "El correo electrónico o la contraseña son incorrectos"),
+                    ),
                   ],
                 ),
                 backgroundColor: Colors.black54,
@@ -65,31 +70,31 @@ class LoginPageState extends State<LoginPage> {
         },
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+            padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 20.0),
             child: Column(
               children: <Widget>[
-                SizedBox(
-                  height: 40,
+                Expanded(
+                  flex: 1,
+                  child: Image.asset(
+                    "assets/images/pamiksa_logo_violeta_sin_fondo.png",
+                    width: 80,
+                    height: 80,
+                  ),
                 ),
-                Image.asset(
-                  "assets/images/pamiksa_logo_violeta_sin_fondo.png",
-                  width: 80,
-                  height: 80,
+                Expanded(
+                  flex: 1,
+                  child: Text("Pamiksa",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 35,
+                          letterSpacing: 1.0)),
                 ),
-                SizedBox(
-                  height: 10,
+                Spacer(
+                  flex: 1,
                 ),
-                Text("Pamiksa",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35,
-                        letterSpacing: 1.0)),
-                SizedBox(
-                  height: 100,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: FormLogin(),
+                FormLogin(),
+                Spacer(
+                  flex: 1,
                 ),
                 Center(
                   child: Text(

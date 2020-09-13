@@ -51,86 +51,87 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
     signInBloc = BlocProvider.of<SignInBloc>(context);
     return Form(
         key: _formKey,
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                initialValue: _email,
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(fontSize: 16),
-                decoration: const InputDecoration(
-                  helperText: "",
-                  border: UnderlineInputBorder(),
-                  labelText: 'Correo electrónico',
-                  filled: false,
-                  icon: Icon(Icons.email),
-                ),
-                onChanged: (String value) {
-                  _email = value;
-                },
-                validator: (value) => _validateEmail(value),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                initialValue: _password,
-                obscureText: _obscureText,
-                maxLength: 20,
-                validator: (value) => _validatePassword(value),
-                decoration: new InputDecoration(
-                  helperText: "",
-                  border: const UnderlineInputBorder(),
-                  filled: false,
-                  labelText: 'Contraseña',
-                  icon: Icon(Icons.lock),
-                  suffixIcon: new GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                    child: new Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                TextFormField(
+                  initialValue: _email,
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 16),
+                  decoration: const InputDecoration(
+                    helperText: "",
+                    border: UnderlineInputBorder(),
+                    labelText: 'Correo electrónico',
+                    filled: false,
+                    icon: Icon(Icons.email),
                   ),
+                  onChanged: (String value) {
+                    _email = value;
+                  },
+                  validator: (value) => _validateEmail(value),
                 ),
-                onChanged: (String value) {
-                  _password = value;
-                },
-              ),
-              SizedBox(
-                height: 60,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 45,
-                child: BlocBuilder<SignInBloc, SignInState>(
-                    builder: (context, state) {
-                  if (state is SignInInitial ||
-                      state is CredentialsErrorState ||
-                      state is ConnectionFailedState) {
-                    return RaisedButton(
-                      child: Text("INICIAR SESIÓN"),
-                      textColor: Colors.white,
-                      color: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          signInBloc.add(MutateSignInEvent(
-                              email: _email, password: _password));
-                        }
+                TextFormField(
+                  initialValue: _password,
+                  obscureText: _obscureText,
+                  maxLength: 20,
+                  validator: (value) => _validatePassword(value),
+                  decoration: new InputDecoration(
+                    helperText: "",
+                    border: const UnderlineInputBorder(),
+                    filled: false,
+                    labelText: 'Contraseña',
+                    icon: Icon(Icons.lock),
+                    suffixIcon: new GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
                       },
-                      elevation: 0,
-                    );
-                  } else if (state is WaitingSignInResponseState) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                }),
-              ),
-            ],
+                      child: new Icon(_obscureText
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                    ),
+                  ),
+                  onChanged: (String value) {
+                    _password = value;
+                  },
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 45,
+                  child: BlocBuilder<SignInBloc, SignInState>(
+                      builder: (context, state) {
+                    if (state is SignInInitial ||
+                        state is CredentialsErrorState ||
+                        state is ConnectionFailedState) {
+                      return RaisedButton(
+                        child: Text("INICIAR SESIÓN"),
+                        textColor: Colors.white,
+                        color: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            signInBloc.add(MutateSignInEvent(
+                                email: _email, password: _password));
+                          }
+                        },
+                        elevation: 0,
+                      );
+                    } else if (state is WaitingSignInResponseState) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }),
+                ),
+              ],
+            ),
           ),
         ));
   }
