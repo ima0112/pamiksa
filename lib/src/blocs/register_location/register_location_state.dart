@@ -19,5 +19,3 @@ class LoadedLocationsState extends LocationState {
   @override
   String toString() => 'ReposLoaded: { Github Repositories: $results }';
 }
-
-class LoadingState extends LocationState {}

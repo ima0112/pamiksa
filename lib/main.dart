@@ -59,7 +59,8 @@ void main() {
       BlocProvider(
         create: (context) => SignInBloc(
             UserRepository(client: GraphQLConfiguration().clients()),
-            DeviceRepository(client: GraphQLConfiguration().clients())),
+            DeviceRepository(client: GraphQLConfiguration().clients()),
+            RegisterDataRepository(client: GraphQLConfiguration().clients())),
       )
     ],
     child: MyApp(),

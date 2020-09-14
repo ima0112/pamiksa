@@ -26,9 +26,6 @@ class RegisterPersonalInfoBloc
     if (event is SaveUserPersonalInfoEvent) {
       yield* _mapSaveUserPersonalInfoEvent(event);
     }
-    if (event is TakeDateEvent) {
-      yield* _mapTakeDateEvent(event);
-    }
     if (event is SelectDateEvent) {
       yield DateSelectedState();
     }
@@ -40,21 +37,5 @@ class RegisterPersonalInfoBloc
     await preferences.saveString('birthday', event.birthday);
 
     navigationService.navigateTo(routes.RegisterLocationRoute);
-  }
-
-  Stream<RegisterPersonalInfoState> _mapTakeDateEvent(
-      TakeDateEvent event) async* {
-    yield LoadingState();
-
-    final response = await this.registerDataRepository.registerData();
-
-    String date = response.data['dateNow'];
-    int year = int.parse(date.substring(0, 4)) - 18;
-    int month = int.parse(date.substring(5, 7));
-    int day = int.parse(date.substring(8));
-
-    print({"date": date, "year": year, "month": month, "day": day});
-
-    yield DateTakenState(year, month, day);
   }
 }

@@ -29,43 +29,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   Stream<LocationState> mapEventToState(
     LocationEvent event,
   ) async* {
-    if (event is FetchProvincesEvent) {
-      yield* _mapFetchProvincesEvent(event);
-    }
     if (event is MutateCodeEvent) {
       yield* _mapMutateCodeEvent(event);
     }
-  }
-
-  Stream<LocationState> _mapFetchProvincesEvent(
-      FetchProvincesEvent event) async* {
-    yield LoadingState();
-
-    final response = await this.provincesRepository.userLocation();
-    final List provincesData = response.data['provinces'] as List;
-
-    provincesData.forEach((element) {
-      List<MunicipalityModel> municipios = List();
-      element['municipality'].forEach((element) {
-        MunicipalityModel municipio = MunicipalityModel(
-            id: element['id'],
-            name: element['name'],
-            provinceFk: element['provinceFk']);
-        municipios.add(municipio);
-      });
-      ProvinceModel provinceModel = ProvinceModel(
-          id: element['id'], name: element['name'], municipalities: municipios);
-      province.add(provinceModel);
-    });
-
-    print({
-      await preferences.read('email'),
-      await preferences.read('password'),
-      await preferences.read('fullname'),
-      await preferences.read('birthday')
-    });
-
-    yield LoadedLocationsState(results: province);
   }
 
   Stream<LocationState> _mapMutateCodeEvent(MutateCodeEvent event) async* {

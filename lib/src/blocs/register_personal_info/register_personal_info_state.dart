@@ -18,5 +18,3 @@ class DateTakenState extends RegisterPersonalInfoState {
 }
 
 class DateSelectedState extends RegisterPersonalInfoState {}
-
-class LoadingState extends RegisterPersonalInfoState {}
