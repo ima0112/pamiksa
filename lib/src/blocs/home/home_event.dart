@@ -22,4 +22,12 @@ class ChangeToInitialStateEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+class BottomNavigationItemTappedEvent extends HomeEvent {
+  final int index;
 
+  BottomNavigationItemTappedEvent(this.index);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}

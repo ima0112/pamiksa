@@ -8,8 +8,11 @@ import 'package:shimmer/shimmer.dart';
 import 'package:pamiksa/src/ui/views/home/business_item_skeleton.dart';
 
 class Home extends StatelessWidget {
+  HomeBloc homeBloc;
+
   @override
   Widget build(BuildContext context) {
+    homeBloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
@@ -28,16 +31,29 @@ class Home extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.format_list_bulleted), title: Text("Inicio")),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.search), title: Text("Buscar")),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), title: Text("Cuenta")),
-        ],
+      bottomNavigationBar: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return BlocBuilder<HomeBloc, HomeState>(
+            buildWhen: (previousState, state) =>
+                state.runtimeType != previousState.runtimeType,
+            builder: (context, state) => BottomNavigationBar(
+              currentIndex: state.index,
+              backgroundColor: Colors.white,
+              selectedItemColor: Colors.deepPurpleAccent[700],
+              onTap: (index) =>
+                  homeBloc.add(BottomNavigationItemTappedEvent(index)),
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.format_list_bulleted),
+                    title: Text("Inicio")),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.search), title: Text("Buscar")),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.account_circle), title: Text("Cuenta")),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -187,6 +203,22 @@ class Actions extends StatelessWidget {
               )
             ]))
           ],
+        ),
+      );
+    } else if (currentState is ShowSecondState) {
+      return Center(
+        child: Text(
+          "Second View",
+          style: TextStyle(
+              letterSpacing: 2.0, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      );
+    } else if (currentState is ShowThirdState) {
+      return Center(
+        child: Text(
+          "Third View",
+          style: TextStyle(
+              letterSpacing: 2.0, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       );
     } else if (currentState is ConnectionFailedState) {
