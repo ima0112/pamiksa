@@ -17,6 +17,7 @@ import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/business_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/device_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/provinces_repository.dart';
+import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
@@ -31,7 +32,9 @@ void main() {
       BlocProvider(create: (context) => TimerBloc(ticker: Ticker())),
       BlocProvider(create: (context) => SplashScreenBloc()),
       BlocProvider(create: (context) => IntroBloc()),
-      BlocProvider(create: (context) => RegisterPersonalInfoBloc()),
+      BlocProvider(
+          create: (context) => RegisterPersonalInfoBloc(RegisterDataRepository(
+              client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => LocationBloc(
               ProvincesRepository(client: GraphQLConfiguration().clients()),

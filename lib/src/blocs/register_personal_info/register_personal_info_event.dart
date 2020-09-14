@@ -13,3 +13,7 @@ class SaveUserPersonalInfoEvent extends RegisterPersonalInfoEvent {
 
   SaveUserPersonalInfoEvent(this.fullname, this.birthday);
 }
+
+class SelectDateEvent extends RegisterPersonalInfoEvent {}
+
+class TakeDateEvent extends RegisterPersonalInfoEvent {}
