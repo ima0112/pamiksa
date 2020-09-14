@@ -14,6 +14,7 @@ class ThemeCubit extends Cubit<ThemeData> {
       brightness: Brightness.light,
       elevation: 0.0,
     ),
+    primarySwatch: Colors.deepPurple,
     cursorColor: Colors.deepPurpleAccent[700],
     hoverColor: Colors.deepPurpleAccent[700],
     primaryColor: Colors.deepPurpleAccent[700],

@@ -20,10 +20,10 @@ class RegisterPasswordBloc
   Stream<RegisterPasswordState> mapEventToState(
     RegisterPasswordEvent event,
   ) async* {
-    if (event is SaveUserPasswordEvent) yield* _mapSaveUserPAsswordEvent(event);
+    if (event is SaveUserPasswordEvent) yield* _mapSaveUserPasswordEvent(event);
   }
 
-  Stream<RegisterPasswordState> _mapSaveUserPAsswordEvent(
+  Stream<RegisterPasswordState> _mapSaveUserPasswordEvent(
       SaveUserPasswordEvent event) async* {
     await preferences.saveString('password', event.password);
     print({await preferences.read('password')});

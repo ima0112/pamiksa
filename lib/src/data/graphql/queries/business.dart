@@ -1,4 +1,5 @@
-String business = r"""query{
+String business = r"""
+query{
   business {
     id
     name

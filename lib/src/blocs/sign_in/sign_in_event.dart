@@ -14,3 +14,9 @@ class MutateSignInEvent extends SignInEvent {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class GetRegisterDataEvent extends SignInEvent {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
