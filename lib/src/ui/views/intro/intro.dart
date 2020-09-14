@@ -64,14 +64,14 @@ class _IntroState extends State<IntroPage> {
     return Container(
       height: 190,
       width: 190,
-      child: Image.asset('assets/images/deliverypurple.png'),
+      child: Image.asset('assets/images/enjoy_the_moment.jpg'),
     );
   }
 
   Widget introText() {
     return Container(
       child: Text(
-        "Tú comida favorita a domicilio",
+        "Disfruta el momento",
         style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
         textAlign: TextAlign.center,
       ),

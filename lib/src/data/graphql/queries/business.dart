@@ -4,13 +4,13 @@ query{
     id
     name
     description
-    businessOwner {
-      id
-      ci
-    }
     adress
     phone
     email
     photo
+    deliveryPrice
+    valorationsQuantity
+    valoration
+    valorationSum
   }
 }""";

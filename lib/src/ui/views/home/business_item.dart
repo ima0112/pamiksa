@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/home/home_bloc.dart';
-import 'package:pamiksa/src/data/models/business_owner.dart';
 
 class BusinessItem extends StatefulWidget {
   String id;
@@ -12,7 +11,6 @@ class BusinessItem extends StatefulWidget {
   String phone;
   String email;
   String photo;
-  BusinessOwnersModel businessOwnerFk;
   double valoration;
   double deliveryPrice;
 
@@ -25,8 +23,7 @@ class BusinessItem extends StatefulWidget {
       this.email,
       this.photo,
       this.deliveryPrice,
-      this.valoration,
-      this.businessOwnerFk,});
+      this.valoration});
 
   @override
   _BusinessItemState createState() => _BusinessItemState();
@@ -88,9 +85,6 @@ class _BusinessItemState extends State<BusinessItem> {
                     )),
                     flex: 4,
                   ),
-                  /*Spacer(
-                    flex: 1,
-                  ),*/
                   Expanded(
                     flex: 1,
                     child: Container(
