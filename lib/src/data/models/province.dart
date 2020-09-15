@@ -1,14 +1,19 @@
-import 'package:pamiksa/src/data/models/municipality.dart';
-
 class ProvinceModel {
   String id;
   String name;
-  List<MunicipalityModel> municipalities;
 
-  ProvinceModel({this.id, this.name, this.municipalities});
+  ProvinceModel({this.id, this.name});
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      'id': id,
+      'name': name,
+    };
+    return map;
+  }
 
   @override
   String toString() {
-    return 'ID: ${this.id}, Nombre: ${this.name}, Municipalities: ${this.municipalities}';
+    return 'ID: ${this.id}, Nombre: ${this.name}';
   }
 }

@@ -70,7 +70,7 @@ class LoginPageState extends State<LoginPage> {
           }
         },
         builder: (BuildContext context, SignInState state) {
-          if (state is WaitingSignInResponseState) {
+          if (state is LoadingSignState) {
             return Center(
               child: CircularProgressIndicator(),
             );

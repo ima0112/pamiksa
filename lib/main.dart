@@ -16,7 +16,8 @@ import 'package:pamiksa/src/blocs/timer/timer_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/business_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/device_repository.dart';
-import 'package:pamiksa/src/data/repositories/remote/provinces_repository.dart';
+import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
+import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
@@ -37,8 +38,10 @@ void main() {
               client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => LocationBloc(
-              ProvincesRepository(client: GraphQLConfiguration().clients()),
-              UserRepository(client: GraphQLConfiguration().clients()))),
+              ProvinceRepository(client: GraphQLConfiguration().clients()),
+              UserRepository(client: GraphQLConfiguration().clients()),
+              MunicipalityRepository(
+                  client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => RegisterEmailBloc(
               UserRepository(client: GraphQLConfiguration().clients()))),
@@ -60,7 +63,9 @@ void main() {
         create: (context) => SignInBloc(
             UserRepository(client: GraphQLConfiguration().clients()),
             DeviceRepository(client: GraphQLConfiguration().clients()),
-            RegisterDataRepository(client: GraphQLConfiguration().clients())),
+            RegisterDataRepository(client: GraphQLConfiguration().clients()),
+            ProvinceRepository(client: GraphQLConfiguration().clients()),
+            MunicipalityRepository(client: GraphQLConfiguration().clients())),
       )
     ],
     child: MyApp(),
