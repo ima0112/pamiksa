@@ -9,13 +9,18 @@ abstract class LocationState extends Equatable {
 
 class LocationInitial extends LocationState {}
 
-class LoadedLocationsState extends LocationState {
+class LoadedProvinceMunicipalityState extends LocationState {
   final List<ProvinceModel> results;
 
-  LoadedLocationsState({@required this.results})
+  LoadedProvinceMunicipalityState({@required this.results})
       : assert(results != null),
         super([results]);
+}
 
-  @override
-  String toString() => 'ReposLoaded: { Github Repositories: $results }';
+class MunicipalitiesLoadedState extends LocationState {
+  final List<MunicipalityModel> results;
+
+  MunicipalitiesLoadedState({@required this.results})
+      : assert(results != null),
+        super([results]);
 }

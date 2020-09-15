@@ -4,7 +4,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
 import 'package:pamiksa/src/data/models/device.dart';
+import 'package:pamiksa/src/data/models/municipality.dart';
+import 'package:pamiksa/src/data/models/province.dart';
 import 'package:pamiksa/src/data/repositories/remote/device_repository.dart';
+import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
+import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
@@ -18,14 +22,25 @@ part 'sign_in_event.dart';
 part 'sign_in_state.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
+  final NavigationService navigationService = locator<NavigationService>();
+
   final UserRepository userRepository;
   final DeviceRepository deviceRepository;
   final RegisterDataRepository registerDataRepository;
-  final NavigationService navigationService = locator<NavigationService>();
+  final ProvinceRepository provincesRepository;
+  final MunicipalityRepository municipalityRepository;
+
   DeviceModel deviceModel = DeviceModel();
+  List<ProvinceModel> provinceModel = List();
+  List<MunicipalityModel> municipalityModel = List();
   Shared preferences = Shared();
+
   SignInBloc(
-      this.userRepository, this.deviceRepository, this.registerDataRepository)
+      this.userRepository,
+      this.deviceRepository,
+      this.registerDataRepository,
+      this.provincesRepository,
+      this.municipalityRepository)
       : super(SignInInitial());
 
   @override
@@ -67,13 +82,35 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   Stream<SignInState> _mapCheckConnectionEvent(
       GetRegisterDataEvent event) async* {
     try {
-      yield WaitingSignInResponseState();
+      yield LoadingSignState();
 
       final response = await this.registerDataRepository.registerData();
 
       if (response.hasException) {
         yield ConnectionFailedState();
       } else {
+        final List provincesData = response.data['provinces'];
+        provinceModel = provincesData
+            .map((e) => ProvinceModel(
+                  id: e['id'],
+                  name: e['name'],
+                ))
+            .toList();
+        provincesRepository.clear();
+        provinceModel.forEach((element) {
+          provincesRepository.insert(element.toMap());
+        });
+
+        final List municipalityData = response.data['municipalities'];
+        municipalityModel = municipalityData
+            .map((e) => MunicipalityModel(
+                id: e['id'], name: e['name'], provinceFk: e['provinceFk']))
+            .toList();
+        municipalityRepository.clear();
+        municipalityModel.forEach((element) {
+          municipalityRepository.insert(element.toMap());
+        });
+
         String date = response.data['dateNow'];
         int year = int.parse(date.substring(0, 4)) - 18;
         int month = int.parse(date.substring(5, 7));
@@ -82,9 +119,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         preferences.saveInt('year', year);
         preferences.saveInt('month', month);
         preferences.saveInt('day', day);
-
-        List provinces = response.data['provinces'] as List;
-        List municipalities = response.data['municipalities'] as List;
 
         await navigationService.navigateTo(routes.RegisterEmailRoute);
         yield SignInInitial();
