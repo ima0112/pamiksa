@@ -14,3 +14,11 @@ class MutateCodeEvent extends LocationEvent {
 
   MutateCodeEvent(this.adress);
 }
+
+class FetchProvinceMunicipalityDataEvent extends LocationEvent {}
+
+class ProvinceSelectedEvent extends LocationEvent {
+  final String provinceFk;
+
+  ProvinceSelectedEvent(this.provinceFk);
+}

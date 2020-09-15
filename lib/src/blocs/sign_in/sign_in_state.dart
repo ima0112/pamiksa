@@ -26,3 +26,9 @@ class CredentialsErrorState extends SignInState {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class LoadingSignState extends SignInState {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
