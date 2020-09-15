@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -7,6 +10,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  Shared preferences = Shared();
+  final NavigationService navigationService = locator<NavigationService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +101,11 @@ class _SettingsState extends State<Settings> {
                                       borderRadius: BorderRadius.circular(30)),
                                 ),
                                 RaisedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    preferences.remove("token");
+                                    preferences.remove("refreshToken");
+                                    navigationService.navigateAndRemove("/login");
+                                  },
                                   color: Colors.deepPurpleAccent[700],
                                   elevation: 0.0,
                                   shape: RoundedRectangleBorder(
