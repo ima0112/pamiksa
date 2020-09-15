@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
-import 'package:pamiksa/src/data/models/business.dart';
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -29,7 +28,7 @@ class BusinessRepository {
   //Insert data to Table
   insert(table, data) async {
     var connection = await database;
-    return await connection.insert(table, data);
+    return await connection.transaction((txn) async => txn.insert(table, data));
   }
 
   //Clear database
@@ -38,8 +37,8 @@ class BusinessRepository {
     await connection
         .transaction((txn) async => txn.execute('DELETE FROM "Business"'));
   }
-  //Get all records
-  /*Future<List<Map>> all() async {
+//Get all records
+/*Future<List<Map>> all() async {
     var connection = await database;
     return await connection.transaction(
         (txn) async => await txn.rawQuery('SELECT * FROM "Business"'));
