@@ -52,7 +52,7 @@ class RegisterVerificationBloc
 
     if (event.code == code) {
       preferences.remove('code');
-      navigationService.navigateAndRemove(routes.LoginRoute);
+      navigationService.navigateAndRemoveUntil(routes.RegisterCompleteRoute);
     } else {
       yield IncorrectedVerificationCodeState();
     }

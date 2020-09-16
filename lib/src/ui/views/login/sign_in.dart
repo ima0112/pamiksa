@@ -14,17 +14,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  final NavigationService navigationService = locator<NavigationService>();
   SignInBloc signInBloc;
 
   @override
-  initState() {
+  void initState() {
+    signInBloc = BlocProvider.of<SignInBloc>(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    signInBloc = BlocProvider.of<SignInBloc>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
