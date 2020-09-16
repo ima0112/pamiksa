@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/data/models/business.dart';
 import 'package:pamiksa/src/ui/views/home/business_item.dart';
+import 'package:pamiksa/src/ui/views/home/settings.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:pamiksa/src/ui/views/home/business_item_skeleton.dart';
 
@@ -210,17 +211,14 @@ class Actions extends StatelessWidget {
         child: Text(
           "Second View",
           style: TextStyle(
-              letterSpacing: 2.0, fontSize: 20, fontWeight: FontWeight.bold),
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            letterSpacing: 2.0
+          ),
         ),
       );
     } else if (currentState is ShowThirdState) {
-      return Center(
-        child: Text(
-          "Third View",
-          style: TextStyle(
-              letterSpacing: 2.0, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      );
+      return Settings();
     } else if (currentState is ConnectionFailedState) {
       return Center(
           child: SafeArea(

@@ -14,11 +14,20 @@ class NavigationService {
 
   Future<dynamic> navigateAndRemoveUntil(
       String routeName, String routeNameUntil) {
-    return navigatorKey.currentState.pushNamedAndRemoveUntil(
-        routeName, ModalRoute.withName(routeNameUntil));
+    return navigatorKey.currentState
+        .pushNamedAndRemoveUntil(routeName, (route) => route == routeNameUntil);
+  }
+
+  Future<dynamic> navigateAndRemove(String routeName) {
+    return navigatorKey.currentState
+        .pushNamedAndRemoveUntil(routeName, (route) => false);
   }
 
   void goBack() {
     return navigatorKey.currentState.pop();
+  }
+
+  Future<dynamic> goBac(String routeName) {
+    return navigatorKey.currentState.popAndPushNamed(routeName);
   }
 }
