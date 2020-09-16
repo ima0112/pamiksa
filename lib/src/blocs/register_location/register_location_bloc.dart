@@ -54,8 +54,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         await this.userRepository.sendVerificationCode(email, code.toString());
 
     print({"response": response.data.toString(), "code": code, "email": email});
-    navigationService.navigateAndRemoveUntil(
-        routes.VerificationRoute, routes.LoginRoute);
+    navigationService.navigateAndRemove(routes.VerificationRoute);
   }
 
   Stream<LocationState> _mapFetchProvinceMunicipalityDataEvent(

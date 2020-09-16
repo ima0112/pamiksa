@@ -52,8 +52,7 @@ class RegisterVerificationBloc
 
     if (event.code == code) {
       preferences.remove('code');
-      navigationService.navigateAndRemoveUntil(
-          routes.RegisterCompleteRoute, routes.LoginRoute);
+      navigationService.navigateAndRemove(routes.LoginRoute);
     } else {
       yield IncorrectedVerificationCodeState();
     }
