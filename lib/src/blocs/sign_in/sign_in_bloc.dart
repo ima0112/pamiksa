@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
 import 'package:pamiksa/src/data/models/province.dart';
@@ -70,7 +67,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       if (response.hasException) {
         yield CredentialsErrorState();
       } else {
-        await navigationService.navigateWithoutGoBack(routes.HomeRoute);
+        navigationService.navigateWithoutGoBack(routes.HomeRoute);
         yield SignInInitial();
       }
     } catch (error) {

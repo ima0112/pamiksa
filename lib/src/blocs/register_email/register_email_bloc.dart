@@ -37,7 +37,6 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
       await preferences.saveString('email', event.email);
       print({await preferences.read('email')});
       await navigationService.navigateTo(routes.RegisterPasswordRoute);
-
       yield RegisterEmailInitial();
     }
   }

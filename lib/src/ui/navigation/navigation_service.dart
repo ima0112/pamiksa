@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pamiksa/src/ui/views/login/sign_in.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -12,14 +13,14 @@ class NavigationService {
     return navigatorKey.currentState.pushReplacementNamed(routeName);
   }
 
-  Future<dynamic> navigateAndRemoveUntil(
-      String routeName, String routeNameUntil) {
-    return navigatorKey.currentState.pushNamedAndRemoveUntil(routeName, (route) => route == routeNameUntil);
+  Future<dynamic> navigateAndRemoveUntil(String routeName) {
+    return navigatorKey.currentState
+        .pushNamedAndRemoveUntil(routeName, (route) => route is LoginPage);
   }
 
-  Future<dynamic> navigateAndRemove(
-      String routeName) {
-    return navigatorKey.currentState.pushNamedAndRemoveUntil(routeName, (route) => false);
+  Future<dynamic> navigateAndRemove(String routeName) {
+    return navigatorKey.currentState
+        .pushNamedAndRemoveUntil(routeName, (route) => false);
   }
 
   void goBack() {
