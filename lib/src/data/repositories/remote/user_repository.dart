@@ -5,6 +5,7 @@ import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
 import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
+import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/shared/shared.dart';
 
@@ -45,7 +46,8 @@ class UserRepository {
     return await client.mutate(_options);
   }
 
-  Future<QueryResult> signIn(String email, String password) async {
+  Future<QueryResult> signIn(
+      String email, String password, DeviceModel deviceModel) async {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.singIn),
       onCompleted: (data) {
@@ -54,7 +56,12 @@ class UserRepository {
             'refreshToken', data['signIn']['refreshToken'].toString());
       },
       variables: {
-        'email': email, 'password': password
+        'email': email,
+        'password': password,
+        'plattform': deviceModel.platform,
+        'systemVersion': deviceModel.systemVersion,
+        'deviceId': deviceModel.deviceId,
+        'model': deviceModel.model
       },
     );
     return await client.mutate(_options);
