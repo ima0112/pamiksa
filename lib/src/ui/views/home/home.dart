@@ -15,53 +15,52 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     homeBloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-            backgroundColor: Color(0xffF5F5F5),
-            brightness: Brightness.light,
-          )),
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          return BlocBuilder<HomeBloc, HomeState>(
-            buildWhen: (previousState, state) =>
-                state.runtimeType != previousState.runtimeType,
-            builder: (context, state) => Actions(),
-          );
-        },
-      ),
-      bottomNavigationBar: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          return BlocBuilder<HomeBloc, HomeState>(
-            buildWhen: (previousState, state) =>
-                state.runtimeType != previousState.runtimeType,
-            builder: (context, state) => BottomNavigationBar(
-              currentIndex: state.index,
-              backgroundColor: Colors.white,
-              selectedItemColor: Colors.deepPurpleAccent[700],
-              onTap: (index) =>
-                  homeBloc.add(BottomNavigationItemTappedEvent(index)),
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.format_list_bulleted),
-                    title: Text("Inicio")),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.search), title: Text("Buscar")),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.account_circle), title: Text("Cuenta")),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(0),
+            child: AppBar(
+              automaticallyImplyLeading: false,
+              elevation: 0.0,
+              backgroundColor: Color(0xffF5F5F5),
+              brightness: Brightness.light,
+            )),
+        body: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            return BlocBuilder<HomeBloc, HomeState>(
+              buildWhen: (previousState, state) =>
+                  state.runtimeType != previousState.runtimeType,
+              builder: (context, state) => Actions(),
+            );
+          },
+        ),
+        bottomNavigationBar: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) => BottomNavigationBar(
+            currentIndex: state.index,
+            backgroundColor: Colors.white,
+            selectedItemColor: Colors.deepPurpleAccent[700],
+            onTap: (index) =>
+                homeBloc.add(BottomNavigationItemTappedEvent(index)),
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.format_list_bulleted),
+                  title: Text("Inicio")),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.search), title: Text("Buscar")),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle), title: Text("Cuenta")),
+            ],
+          ),
+        ));
   }
 }
 
-class Actions extends StatelessWidget {
+class Actions extends StatefulWidget {
+  @override
+  _ActionsState createState() => _ActionsState();
+}
+
+class _ActionsState extends State<Actions> {
   final ScrollController _scrollController = ScrollController();
+
   HomeBloc homeBloc;
 
   @override
@@ -211,10 +210,7 @@ class Actions extends StatelessWidget {
         child: Text(
           "Second View",
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-            letterSpacing: 2.0
-          ),
+              fontWeight: FontWeight.bold, fontSize: 20, letterSpacing: 2.0),
         ),
       );
     } else if (currentState is ShowThirdState) {

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class FormLogin extends StatefulWidget {
   @override
@@ -10,6 +13,8 @@ class FormLogin extends StatefulWidget {
 class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
   SignInBloc signInBloc;
   final _formKey = GlobalKey<FormState>();
+  final NavigationService navigationService = locator<NavigationService>();
+
   bool _obscureText = true;
   String token;
 
@@ -47,8 +52,13 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
   dynamic returnData;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     signInBloc = BlocProvider.of<SignInBloc>(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Form(
         key: _formKey,
         child: Padding(
@@ -107,27 +117,24 @@ class FormLoginState extends State<FormLogin> with TickerProviderStateMixin {
                   height: 45,
                   child: BlocBuilder<SignInBloc, SignInState>(
                       builder: (context, state) {
-                    if (state is SignInInitial ||
-                        state is CredentialsErrorState ||
-                        state is ConnectionFailedState) {
-                      return RaisedButton(
-                        child: Text("INICIAR SESIÓN"),
-                        textColor: Colors.white,
-                        color: Theme.of(context).primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            signInBloc.add(MutateSignInEvent(
-                                email: _email, password: _password));
-                          }
-                        },
-                        elevation: 0,
-                      );
-                    } else if (state is WaitingSignInResponseState) {
+                    if (state is WaitingSignInResponseState) {
                       return Center(child: CircularProgressIndicator());
                     }
+                    return RaisedButton(
+                      child: Text("INICIAR SESIÓN"),
+                      textColor: Colors.white,
+                      color: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          signInBloc.add(MutateSignInEvent(
+                              email: _email, password: _password));
+                        }
+                      },
+                      elevation: 0,
+                    );
                   }),
                 ),
               ],
