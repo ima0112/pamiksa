@@ -14,7 +14,6 @@ class RegisterDataRepository {
       documentNode: gql(queries.register_data),
       fetchResults: true,
     );
-
     return await client.query(_options);
   }
 }

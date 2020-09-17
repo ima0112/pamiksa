@@ -69,7 +69,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       }
     } catch (error) {
       print({"Error": error});
-      yield CredentialsErrorState();
+      yield ConnectionFailedState();
     }
   }
 
