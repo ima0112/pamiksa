@@ -57,12 +57,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     try {
       await deviceInfo.initPlatformState(deviceModel);
 
-      final response =
-          await this.userRepository.signIn(event.email, event.password);
-
-      String userId = await response.data['signIn']['user']['id'];
-
-      await this.deviceRepository.sendDeviceInfo(deviceModel, userId);
+      final response = await this
+          .userRepository
+          .signIn(event.email, event.password, deviceModel);
 
       if (response.hasException) {
         yield CredentialsErrorState();
@@ -72,7 +69,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       }
     } catch (error) {
       print({"Error": error});
-      yield CredentialsErrorState();
+      yield ConnectionFailedState();
     }
   }
 
