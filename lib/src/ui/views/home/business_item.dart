@@ -57,7 +57,8 @@ class _BusinessItemState extends State<BusinessItem> {
                     width: 6,
                   ),
                   Expanded(
-                    child: Container(child: Column(
+                    child: Container(
+                        child: Column(
                       children: <Widget>[
                         Row(
                           children: <Widget>[
@@ -135,8 +136,9 @@ class _BusinessItemState extends State<BusinessItem> {
               width: 500,
               fit: BoxFit.cover,
               height: 225,
-              placeholder: AssetImage("assets/images/loading.gif"),
-              image: NetworkImage("http://192.168.0.2:8000/images/${this.widget.photo}"),
+              placeholder: AssetImage("assets/gif/loading.gif"),
+              image: NetworkImage(
+                  "http://192.168.0.2:8000/images/${this.widget.photo}"),
             ),
             Positioned(
                 bottom: 10,
