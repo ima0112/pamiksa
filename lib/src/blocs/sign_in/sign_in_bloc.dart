@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
 import 'package:pamiksa/src/data/models/province.dart';
@@ -60,22 +57,19 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     try {
       await deviceInfo.initPlatformState(deviceModel);
 
-      final response =
-          await this.userRepository.signIn(event.email, event.password);
-
-      String userId = await response.data['signIn']['user']['id'];
-
-      await this.deviceRepository.sendDeviceInfo(deviceModel, userId);
+      final response = await this
+          .userRepository
+          .signIn(event.email, event.password, deviceModel);
 
       if (response.hasException) {
         yield CredentialsErrorState();
       } else {
-        await navigationService.navigateWithoutGoBack(routes.HomeRoute);
+        navigationService.navigateWithoutGoBack(routes.HomeRoute);
         yield SignInInitial();
       }
     } catch (error) {
       print({"Error": error});
-      yield CredentialsErrorState();
+      yield ConnectionFailedState();
     }
   }
 

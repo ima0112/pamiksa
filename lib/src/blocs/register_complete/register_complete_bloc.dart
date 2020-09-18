@@ -59,7 +59,6 @@ class RegisterCompleteBloc
 
     await preferences.remove('password');
 
-    navigationService.navigateAndRemoveUntil(
-        routes.HomeRoute, routes.SplashRoute);
+    navigationService.navigateAndRemove(routes.HomeRoute);
   }
 }

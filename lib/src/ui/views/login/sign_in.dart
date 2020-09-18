@@ -14,17 +14,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  final NavigationService navigationService = locator<NavigationService>();
   SignInBloc signInBloc;
 
   @override
-  initState() {
+  void initState() {
+    signInBloc = BlocProvider.of<SignInBloc>(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    signInBloc = BlocProvider.of<SignInBloc>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -39,33 +38,12 @@ class LoginPageState extends State<LoginPage> {
         listener: (context, state) {
           if (state is ConnectionFailedState) {
             Scaffold.of(context).showSnackBar(SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Expanded(child: Icon(Icons.warning)),
-                    Expanded(
-                        flex: 3,
-                        child: Text(
-                            "Parece que tienes un problema con la conexión")),
-                  ],
-                ),
-                backgroundColor: Colors.black54,
+                content: Text("Parece que tienes un problema con la conexión"),
                 duration: Duration(seconds: 5)));
           }
           if (state is CredentialsErrorState) {
             Scaffold.of(context).showSnackBar(SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Expanded(child: Icon(Icons.warning)),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                          "El correo electrónico o la contraseña son incorrectos"),
-                    ),
-                  ],
-                ),
-                backgroundColor: Colors.black54,
+                content: Text("Credenciales incorrectas"),
                 duration: Duration(seconds: 5)));
           }
         },

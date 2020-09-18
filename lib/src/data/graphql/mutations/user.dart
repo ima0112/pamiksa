@@ -18,12 +18,17 @@ mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthd
 """;
 
 String singIn = r"""
-mutation SingIn($email: String!, $password: String!){
-  signIn(email: $email, password: $password){
+mutation SingIn($email: String!, $password: String!,  $plattform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
+  signIn(email: $email, password: $password, plattform: $plattform, systemVersion: $systemVersion, deviceId: $deviceId, model: $model){
     refreshToken
     token
     user{
       id
+      fullName
+      adress
+      photo
+      email
+      birthday
     }
   }
 } """;
