@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
@@ -10,11 +11,12 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  Shared preferences = Shared();
+  HomeBloc homeBloc;
   final NavigationService navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
+    homeBloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -102,9 +104,9 @@ class _SettingsState extends State<Settings> {
                                 ),
                                 RaisedButton(
                                   onPressed: () {
-                                    preferences.remove("token");
-                                    preferences.remove("refreshToken");
-                                    navigationService.navigateAndRemove("/login");
+                                    homeBloc.add(LogoutEvent());
+                                    // navigationService
+                                    //     .navigateAndRemove("/login");
                                   },
                                   color: Colors.deepPurpleAccent[700],
                                   elevation: 0.0,
