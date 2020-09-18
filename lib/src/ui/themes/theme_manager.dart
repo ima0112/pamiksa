@@ -7,6 +7,10 @@ class ThemeCubit extends Cubit<ThemeData> {
   ThemeCubit() : super(_lightTheme);
 
   static final _lightTheme = ThemeData(
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Colors.black,
+      behavior: SnackBarBehavior.fixed,
+    ),
     fontFamily: 'RobotoMono-Regular',
     brightness: Brightness.light,
     appBarTheme: AppBarTheme(
@@ -27,6 +31,10 @@ class ThemeCubit extends Cubit<ThemeData> {
   );
 
   static final _darkTheme = ThemeData(
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Colors.black,
+      behavior: SnackBarBehavior.fixed,
+    ),
     fontFamily: 'RobotoMono-Regular',
     brightness: Brightness.dark,
     appBarTheme: AppBarTheme(
