@@ -4,6 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/models/business.dart';
 import 'package:pamiksa/src/data/repositories/remote/business_repository.dart';
+import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
 part 'home_event.dart';
 
@@ -11,7 +14,10 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final BusinessRepository businessRepository;
+  final NavigationService navigationService = locator<NavigationService>();
+
   List<BusinessModel> businessModel;
+  Shared preferences = Shared();
 
   HomeBloc(this.businessRepository) : super(HomeInitial(0));
 
@@ -25,6 +31,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield* _mapChangeToInitialStateEvent(event);
     } else if (event is BottomNavigationItemTappedEvent) {
       yield* _mapBottomNavigationItemTappedEvent(event);
+    } else if (event is LogoutEvent) {
+      preferences.remove("token");
+      preferences.remove("refreshToken");
+      await navigationService.navigateAndRemove("/login");
+      yield HomeInitial(0);
     }
   }
 
