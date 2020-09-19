@@ -1,5 +1,5 @@
 final String signUp = r"""
-mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthday: Date!, $adress: String!, $provinceFk: ID!, $municipalityFk: ID!){
+mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthday: Date!, $adress: String!, $provinceFk: ID!, $municipalityFk: ID!,  $plattform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
   signUp(
     fullName: $fullName,
     email: $email,
@@ -7,18 +7,27 @@ mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthd
     birthday: $birthday,
     adress: $adress,
     provinceFk: $provinceFk,
-    municipalityFk: $municipalityFk){
+    municipalityFk: $municipalityFk,
+    plattform: $plattform, 
+    systemVersion: $systemVersion, 
+    deviceId: $deviceId, 
+    model: $model){
     refreshToken
     token
     user{
       id
+      fullName
+      adress
+      photo
+      email
+      birthday
     }
   }
 }
 """;
 
 String singIn = r"""
-mutation SingIn($email: String!, $password: String!,  $plattform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
+mutation SingIn($email: String!, $password: String!, $plattform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
   signIn(email: $email, password: $password, plattform: $plattform, systemVersion: $systemVersion, deviceId: $deviceId, model: $model){
     refreshToken
     token

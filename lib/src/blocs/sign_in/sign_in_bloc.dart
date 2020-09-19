@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
 import 'package:pamiksa/src/data/models/province.dart';
-import 'package:pamiksa/src/data/repositories/remote/device_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
@@ -22,7 +21,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final NavigationService navigationService = locator<NavigationService>();
 
   final UserRepository userRepository;
-  final DeviceRepository deviceRepository;
   final RegisterDataRepository registerDataRepository;
   final ProvinceRepository provincesRepository;
   final MunicipalityRepository municipalityRepository;
@@ -32,12 +30,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   List<MunicipalityModel> municipalityModel = List();
   Shared preferences = Shared();
 
-  SignInBloc(
-      this.userRepository,
-      this.deviceRepository,
-      this.registerDataRepository,
-      this.provincesRepository,
-      this.municipalityRepository)
+  SignInBloc(this.userRepository, this.registerDataRepository,
+      this.provincesRepository, this.municipalityRepository)
       : super(SignInInitial());
 
   @override
