@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_secure_storage: ^3.3.4
   flutter_bloc: ^6.0.1
   bloc: ^6.0.2
   equatable: ^1.2.3
@@ -44,7 +45,6 @@ dependencies:
   sqflite:
   path:
   shared_preferences:
-  # flutter_secure_storage: ^3.3.4
   intl:
   device_info: ^0.4.2+6
   connectivity: ^0.4.9+2
