@@ -44,6 +44,7 @@ dependencies:
   sqflite:
   path:
   shared_preferences:
+  flutter_secure_storage: ^3.3.4
   intl:
   device_info: ^0.4.2+6
   connectivity: ^0.4.9+2

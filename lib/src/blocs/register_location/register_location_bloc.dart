@@ -8,7 +8,7 @@ import 'package:pamiksa/src/data/models/province.dart';
 import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
-import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/random.dart' as random;

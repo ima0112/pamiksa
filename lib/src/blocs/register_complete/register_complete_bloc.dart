@@ -8,7 +8,7 @@ import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/repositories/remote/device_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
-import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;

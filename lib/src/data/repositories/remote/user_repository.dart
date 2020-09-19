@@ -7,7 +7,7 @@ import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
 import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/data/storage/shared.dart';
 
 class UserRepository {
   final GraphQLClient client;

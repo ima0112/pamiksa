@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/data/shared/shared.dart';
+import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
 
 class RegisterDataRepository {
