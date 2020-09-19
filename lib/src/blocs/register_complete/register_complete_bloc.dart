@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:device_info/device_info.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/repositories/remote/device_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
@@ -20,15 +18,13 @@ part 'register_complete_state.dart';
 class RegisterCompleteBloc
     extends Bloc<RegisterCompleteEvent, RegisterCompleteState> {
   final UserRepository userRepository;
-  final DeviceRepository deviceRepository;
   final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   final NavigationService navigationService = locator<NavigationService>();
 
   DeviceModel deviceModel = DeviceModel();
   Shared preferences = Shared();
 
-  RegisterCompleteBloc(this.userRepository, this.deviceRepository)
-      : super(RegistercompleteInitial());
+  RegisterCompleteBloc(this.userRepository) : super(RegistercompleteInitial());
 
   @override
   Stream<RegisterCompleteState> mapEventToState(
@@ -51,11 +47,8 @@ class RegisterCompleteBloc
     event.userModel.birthday = await preferences.read('birthday');
     event.userModel.email = await preferences.read('email');
 
-    final response = await this.userRepository.signUp(event.userModel);
-
-    String userId = await response.data['signUp']['user']['id'];
-
-    await this.deviceRepository.sendDeviceInfo(deviceModel, userId);
+    final response =
+        await this.userRepository.signUp(event.userModel, deviceModel);
 
     await preferences.remove('password');
 

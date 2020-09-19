@@ -25,7 +25,8 @@ class UserRepository {
     return await client.query(_options);
   }
 
-  Future<QueryResult> signUp(UserModel userModel) async {
+  Future<QueryResult> signUp(
+      UserModel userModel, DeviceModel deviceModel) async {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.signUp),
       onCompleted: (data) {
@@ -39,8 +40,12 @@ class UserRepository {
         'password': userModel.password,
         'birthday': userModel.birthday,
         'adress': userModel.adress,
-        'provinceFk': 1,
-        'municipalityFk': 1
+        'provinceFk': "da7cc85b-fb6c-4d46-b07c-0915a16a3461",
+        'municipalityFk': "a33e7289-fff9-44fd-b04a-d66bfe7227b4",
+        'plattform': deviceModel.platform,
+        'systemVersion': deviceModel.systemVersion,
+        'deviceId': deviceModel.deviceId,
+        'model': deviceModel.model
       },
     );
     return await client.mutate(_options);

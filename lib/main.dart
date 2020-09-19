@@ -15,7 +15,6 @@ import 'package:pamiksa/src/blocs/timer/ticker.dart';
 import 'package:pamiksa/src/blocs/timer/timer_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/business_repository.dart';
-import 'package:pamiksa/src/data/repositories/remote/device_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
@@ -50,8 +49,8 @@ void main() {
               UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => RegisterCompleteBloc(
-              UserRepository(client: GraphQLConfiguration().clients()),
-              DeviceRepository(client: GraphQLConfiguration().clients()))),
+                UserRepository(client: GraphQLConfiguration().clients()),
+              )),
       BlocProvider(
         create: (context) => RegisterPasswordBloc(),
       ),
@@ -62,7 +61,6 @@ void main() {
       BlocProvider(
         create: (context) => SignInBloc(
             UserRepository(client: GraphQLConfiguration().clients()),
-            DeviceRepository(client: GraphQLConfiguration().clients()),
             RegisterDataRepository(client: GraphQLConfiguration().clients()),
             ProvinceRepository(client: GraphQLConfiguration().clients()),
             MunicipalityRepository(client: GraphQLConfiguration().clients())),
