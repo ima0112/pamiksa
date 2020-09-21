@@ -44,6 +44,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     if (event is MutateSignInEvent) {
       yield* _mapMutateSignInEvent(event);
     }
+    yield SignInInitial();
   }
 
   Stream<SignInState> _mapMutateSignInEvent(MutateSignInEvent event) async* {
@@ -108,8 +109,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         preferences.saveInt('month', month);
         preferences.saveInt('day', day);
 
-        await navigationService.navigateTo(routes.RegisterEmailRoute);
-        yield SignInInitial();
+        navigationService.navigateTo(routes.RegisterEmailRoute);
       }
     } catch (error) {
       yield ConnectionFailedState();
