@@ -57,7 +57,8 @@ void main() {
       ),
       BlocProvider(
         create: (context) => HomeBloc(
-            BusinessRepository(client: GraphQLConfiguration().clients())),
+            BusinessRepository(client: GraphQLConfiguration().clients()),
+            UserRepository(client: GraphQLConfiguration().clients())),
       ),
       BlocProvider(
         create: (context) => SignInBloc(

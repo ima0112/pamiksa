@@ -1,19 +1,20 @@
 import 'dart:async';
 
+import 'package:device_info/device_info.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
 import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
+import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/storage/shared.dart';
 
 class UserRepository {
   final GraphQLClient client;
-  Shared preferences = Shared();
-  final storage = new FlutterSecureStorage();
+  DeviceModel deviceModel = DeviceModel();
+  final secureStorage = new FlutterSecureStorage();
 
   UserRepository({@required this.client}) : assert(client != null);
 
@@ -32,11 +33,11 @@ class UserRepository {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.signUp),
       onCompleted: (data) {
-        storage.write(key: "authToken", value: data['signUp']['token'].toString());
-        storage.write(key: "refreshToken", value: data['signUp']['refreshToken'].toString());
-        /*preferences.saveString('token', data['signUp']['token'].toString());
-        preferences.saveString(
-            'refreshToken', data['signUp']['refreshToken'].toString());*/
+        secureStorage.write(
+            key: "authToken", value: data['signUp']['token'].toString());
+        secureStorage.write(
+            key: "refreshToken",
+            value: data['signUp']['refreshToken'].toString());
       },
       variables: {
         'fullName': userModel.fullName,
@@ -55,16 +56,26 @@ class UserRepository {
     return await client.mutate(_options);
   }
 
+  Future<QueryResult> signOut() async {
+    await deviceInfo.initPlatformState(deviceModel);
+    final MutationOptions _options = MutationOptions(
+      documentNode: gql(mutations.signOut),
+      onCompleted: (data) {},
+      variables: {'deviceId': deviceModel.deviceId},
+    );
+    return await client.mutate(_options);
+  }
+
   Future<QueryResult> signIn(
       String email, String password, DeviceModel deviceModel) async {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.singIn),
       onCompleted: (data) {
-        /*preferences.saveString('token', data['signIn']['token'].toString());
-        preferences.saveString(
-            'refreshToken', data['signIn']['refreshToken'].toString());*/
-        storage.write(key: "authToken", value: data['signIn']['token'].toString());
-        storage.write(key: "refreshToken", value: data['signIn']['refreshToken'].toString());
+        secureStorage.write(
+            key: "authToken", value: data['signIn']['token'].toString());
+        secureStorage.write(
+            key: "refreshToken",
+            value: data['signIn']['refreshToken'].toString());
       },
       variables: {
         'email': email,
