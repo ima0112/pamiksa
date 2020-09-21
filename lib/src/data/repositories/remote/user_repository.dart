@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:device_info/device_info.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
@@ -60,7 +59,6 @@ class UserRepository {
     await deviceInfo.initPlatformState(deviceModel);
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.signOut),
-      onCompleted: (data) {},
       variables: {'deviceId': deviceModel.deviceId},
     );
     return await client.mutate(_options);
