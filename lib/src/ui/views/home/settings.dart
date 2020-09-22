@@ -105,8 +105,6 @@ class _SettingsState extends State<Settings> {
                                 RaisedButton(
                                   onPressed: () {
                                     homeBloc.add(LogoutEvent());
-                                    // navigationService
-                                    //     .navigateAndRemove("/login");
                                   },
                                   color: Colors.deepPurpleAccent[700],
                                   elevation: 0.0,

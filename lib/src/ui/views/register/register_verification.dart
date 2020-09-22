@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/blocs/timer/timer_bloc.dart';
+
 import 'package:pamiksa/src/blocs/register_verification/register_verification_bloc.dart';
 import 'package:pamiksa/src/data/graphql/mutations/user.dart';
 import 'package:pamiksa/src/data/models/device.dart';
@@ -18,6 +18,8 @@ import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+
+import '../../../blocs/Timer/timer_bloc.dart';
 
 class VerificationPage extends StatefulWidget {
   @override

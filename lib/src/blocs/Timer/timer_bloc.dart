@@ -3,18 +3,20 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/timer/ticker.dart';
+
+import 'ticker.dart';
+import 'ticker.dart';
 
 part 'timer_event.dart';
 part 'timer_state.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-  final Ticker _ticker;
+  final TickerPamiksa _ticker;
   static const int _duration = 60;
 
   StreamSubscription<int> _tickerSubscription;
 
-  TimerBloc({@required Ticker ticker})
+  TimerBloc({@required TickerPamiksa ticker})
       : assert(ticker != null),
         _ticker = ticker,
         super(TimerInitial(_duration));
