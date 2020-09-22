@@ -43,7 +43,7 @@ mutation SingIn($email: String!, $password: String!, $plattform: String!, $syste
 } """;
 
 String signOut = r"""
-mutation signOut($deviceId: String!){
+mutation signOut($deviceId: ID!){
   signOut(deviceId: $deviceId)
 }
 """;
