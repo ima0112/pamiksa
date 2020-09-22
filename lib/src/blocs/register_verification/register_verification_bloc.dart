@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -15,7 +16,7 @@ class RegisterVerificationBloc
     extends Bloc<RegisterVerificationEvent, RegisterVerificationState> {
   final UserRepository userRepository;
   final NavigationService navigationService = locator<NavigationService>();
-  Shared preferences = Shared();
+  SecureStorage secureStorage = SecureStorage();
   RegisterVerificationBloc(this.userRepository)
       : super(RegisterVerificationInitial());
 
@@ -35,10 +36,10 @@ class RegisterVerificationBloc
       MutateCodeEvent event) async* {
     yield RegisterVerificationInitial();
 
-    String email = await preferences.read('email');
+    String email = await secureStorage.read('email');
     int code = await random.randomCode();
 
-    await preferences.saveString('code', code.toString());
+    await secureStorage.save('code', code.toString());
 
     final response =
         await this.userRepository.sendVerificationCode(email, code.toString());
@@ -48,10 +49,10 @@ class RegisterVerificationBloc
 
   Stream<RegisterVerificationState> _mapCheckVerificationCodeEvent(
       CheckVerificationCodeEvent event) async* {
-    String code = await preferences.read('code');
+    String code = await secureStorage.read('code');
 
     if (event.code == code) {
-      preferences.remove('code');
+      secureStorage.remove('code');
       navigationService.navigateAndRemoveUntil(routes.RegisterCompleteRoute);
     } else {
       yield IncorrectedVerificationCodeState();

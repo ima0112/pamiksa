@@ -7,6 +7,7 @@ import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dar
 import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -29,6 +30,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   List<ProvinceModel> provinceModel = List();
   List<MunicipalityModel> municipalityModel = List();
   Shared preferences = Shared();
+  SecureStorage secureStorage = SecureStorage();
 
   SignInBloc(this.userRepository, this.registerDataRepository,
       this.provincesRepository, this.municipalityRepository)
@@ -44,6 +46,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     if (event is MutateSignInEvent) {
       yield* _mapMutateSignInEvent(event);
     }
+    yield SignInInitial();
   }
 
   Stream<SignInState> _mapMutateSignInEvent(MutateSignInEvent event) async* {
@@ -108,8 +111,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         preferences.saveInt('month', month);
         preferences.saveInt('day', day);
 
-        await navigationService.navigateTo(routes.RegisterEmailRoute);
-        yield SignInInitial();
+        navigationService.navigateTo(routes.RegisterEmailRoute);
       }
     } catch (error) {
       yield ConnectionFailedState();
