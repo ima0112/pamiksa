@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -12,6 +13,7 @@ part 'splash_screen_state.dart';
 
 class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   Shared preferences = Shared();
+  SecureStorage secureStorage = SecureStorage();
   final NavigationService navigationService = locator<NavigationService>();
   SplashScreenBloc() : super(SplashScreenInitial());
 
@@ -27,7 +29,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   Stream<SplashScreenState> _mapNavigationFromSplashScreenEvent(
       NavigationFromSplashScreenEvent event) async* {
     final showIntro = await preferences.read('showIntro');
-    final token = await preferences.read('token') ?? null;
+    final token = await secureStorage.read('authToken') ?? null;
     if (showIntro != false) {
       navigationService.navigateWithoutGoBack(routes.IntroRoute);
     } else if (token != null) {

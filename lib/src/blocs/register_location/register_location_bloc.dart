@@ -8,6 +8,7 @@ import 'package:pamiksa/src/data/models/province.dart';
 import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -24,7 +25,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final MunicipalityRepository municipalityRepository;
 
   List<ProvinceModel> province = List();
-  Shared preferences = Shared();
+  SecureStorage secureStorage = SecureStorage();
+
   LocationBloc(
       this.provinceRepository, this.userRepository, this.municipalityRepository)
       : super(LocationInitial());
@@ -45,11 +47,11 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Stream<LocationState> _mapMutateCodeEvent(MutateCodeEvent event) async* {
-    String email = await preferences.read('email');
+    String email = await secureStorage.read('email');
     int code = await random.randomCode();
 
-    await preferences.saveString('code', code.toString());
-    await preferences.saveString('adress', event.adress);
+    await secureStorage.save('code', code.toString());
+    await secureStorage.save('adress', event.adress);
     final response =
         await this.userRepository.sendVerificationCode(email, code.toString());
 

@@ -21,7 +21,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   List<BusinessModel> businessModel;
   final secureStorage = new FlutterSecureStorage();
 
-  HomeBloc(this.businessRepository, this.userRepository) : super(HomeInitial(0));
+  HomeBloc(this.businessRepository, this.userRepository)
+      : super(HomeInitial(0));
 
   @override
   Stream<HomeState> mapEventToState(

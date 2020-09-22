@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
-import 'package:pamiksa/src/data/storage/shared.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
@@ -15,7 +15,9 @@ class RegisterPersonalInfoBloc
     extends Bloc<RegisterPersonalInfoEvent, RegisterPersonalInfoState> {
   final NavigationService navigationService = locator<NavigationService>();
   final RegisterDataRepository registerDataRepository;
-  Shared preferences = Shared();
+
+  SecureStorage secureStorage = SecureStorage();
+
   RegisterPersonalInfoBloc(this.registerDataRepository)
       : super(RegisterPersonalInfoInitial());
 
@@ -33,8 +35,8 @@ class RegisterPersonalInfoBloc
 
   Stream<RegisterPersonalInfoState> _mapSaveUserPersonalInfoEvent(
       SaveUserPersonalInfoEvent event) async* {
-    await preferences.saveString('fullname', event.fullname);
-    await preferences.saveString('birthday', event.birthday);
+    await secureStorage.save('fullname', event.fullname);
+    await secureStorage.save('birthday', event.birthday);
 
     navigationService.navigateTo(routes.RegisterLocationRoute);
   }
