@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -22,7 +23,7 @@ class RegisterCompleteBloc
   final NavigationService navigationService = locator<NavigationService>();
 
   DeviceModel deviceModel = DeviceModel();
-  Shared preferences = Shared();
+  SecureStorage secureStorage = SecureStorage();
 
   RegisterCompleteBloc(this.userRepository) : super(RegistercompleteInitial());
 
@@ -41,16 +42,16 @@ class RegisterCompleteBloc
 
     await deviceInfo.initPlatformState(deviceModel);
 
-    event.userModel.fullName = await preferences.read('fullname');
-    event.userModel.password = await preferences.read('password');
-    event.userModel.adress = await preferences.read('adress');
-    event.userModel.birthday = await preferences.read('birthday');
-    event.userModel.email = await preferences.read('email');
+    event.userModel.fullName = await secureStorage.read('fullname');
+    event.userModel.password = await secureStorage.read('password');
+    event.userModel.adress = await secureStorage.read('adress');
+    event.userModel.birthday = await secureStorage.read('birthday');
+    event.userModel.email = await secureStorage.read('email');
 
     final response =
         await this.userRepository.signUp(event.userModel, deviceModel);
 
-    await preferences.remove('password');
+    await secureStorage.remove('password');
 
     navigationService.navigateAndRemove(routes.HomeRoute);
   }

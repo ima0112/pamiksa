@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pamiksa/src/data/storage/shared.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
@@ -14,7 +14,7 @@ part 'register_email_state.dart';
 class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
   final UserRepository userRepository;
   final NavigationService navigationService = locator<NavigationService>();
-  Shared preferences = Shared();
+  SecureStorage secureStorage = SecureStorage();
   RegisterEmailBloc(this.userRepository) : super(RegisterEmailInitial());
 
   @override
@@ -34,8 +34,8 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
     if (response.data['userExists'] == true) {
       yield ExistsUserEmailState();
     } else if (response.data['userExists'] == false) {
-      await preferences.saveString('email', event.email);
-      print({await preferences.read('email')});
+      await secureStorage.save('email', event.email);
+      print({await secureStorage.read('email')});
       await navigationService.navigateTo(routes.RegisterPasswordRoute);
       yield RegisterEmailInitial();
     }

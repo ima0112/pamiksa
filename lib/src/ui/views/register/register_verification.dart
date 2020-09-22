@@ -13,6 +13,7 @@ import 'package:pamiksa/src/data/graphql/mutations/user.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -29,8 +30,8 @@ class _VerificationPageState extends State<VerificationPage> {
   final _formKey = GlobalKey<FormState>();
 
   DeviceModel device = DeviceModel();
-  Shared preferences = Shared();
   UserModel user = UserModel();
+  SecureStorage secureStorage = SecureStorage();
 
   String email;
 
@@ -155,7 +156,7 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void obtenerPreferences() async {
-    String correo = await preferences.read('email');
+    String correo = await secureStorage.read('email');
     setState(() {
       email = correo;
     });

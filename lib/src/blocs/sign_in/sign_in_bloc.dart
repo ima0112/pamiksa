@@ -7,6 +7,7 @@ import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dar
 import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -29,6 +30,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   List<ProvinceModel> provinceModel = List();
   List<MunicipalityModel> municipalityModel = List();
   Shared preferences = Shared();
+  SecureStorage secureStorage = SecureStorage();
 
   SignInBloc(this.userRepository, this.registerDataRepository,
       this.provincesRepository, this.municipalityRepository)
