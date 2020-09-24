@@ -24,9 +24,8 @@ class _DevicesState extends State<Devices> {
       appBar: AppBar(
         title: Text(
           "Dispositivos",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.white,
         elevation: 0.0,
       ),
       body: BlocBuilder<DevicesBloc, DevicesState>(

@@ -68,7 +68,7 @@ class _SettingsState extends State<Settings> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.devices, color: Colors.black),
+            leading: Icon(Icons.devices),
             title: Text("Dispositivos"),
             onTap: () {
               devicesBloc.add(SetDeviceInitialEvent());
