@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterEmailPage extends StatefulWidget {
   @override

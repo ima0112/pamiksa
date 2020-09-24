@@ -77,7 +77,11 @@ class _BusinessItemState extends State<BusinessItem> {
                                 text: TextSpan(
                                     text: "${this.widget.adress}",
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 12)),
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .color,
+                                        fontSize: 12)),
                               ),
                             ),
                           ],
@@ -103,7 +107,8 @@ class _BusinessItemState extends State<BusinessItem> {
                                       height: 200,
                                       child: Container(
                                         decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            color: Theme.of(context)
+                                                .backgroundColor,
                                             borderRadius: BorderRadius.only(
                                               topLeft:
                                                   const Radius.circular(25.0),
@@ -167,7 +172,7 @@ class _BusinessItemState extends State<BusinessItem> {
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
                         padding: EdgeInsets.all(5),
-                        color: Colors.grey[200],
+                        color: Theme.of(context).backgroundColor,
                         child: Text(
                           "${this.widget.valoration}",
                           style: TextStyle(fontWeight: FontWeight.bold),

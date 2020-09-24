@@ -20,8 +20,6 @@ class Home extends StatelessWidget {
             child: AppBar(
               automaticallyImplyLeading: false,
               elevation: 0.0,
-              backgroundColor: Color(0xffF5F5F5),
-              brightness: Brightness.light,
             )),
         body: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
@@ -35,8 +33,6 @@ class Home extends StatelessWidget {
         bottomNavigationBar: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) => BottomNavigationBar(
             currentIndex: state.index,
-            backgroundColor: Colors.white,
-            selectedItemColor: Colors.deepPurpleAccent[700],
             onTap: (index) =>
                 homeBloc.add(BottomNavigationItemTappedEvent(index)),
             items: <BottomNavigationBarItem>[
@@ -74,7 +70,6 @@ class _ActionsState extends State<Actions> {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              backgroundColor: Colors.white,
               snap: true,
               pinned: true,
               forceElevated: true,
@@ -82,14 +77,14 @@ class _ActionsState extends State<Actions> {
               elevation: 1.0,
               title: Text(
                 "Cargando...",
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1.color,
+                    fontWeight: FontWeight.bold),
               ),
               actions: <Widget>[
                 IconButton(
                     icon: Icon(
                       Icons.shopping_cart,
-                      color: Colors.black,
                     ),
                     onPressed: () {}),
               ],
@@ -141,7 +136,6 @@ class _ActionsState extends State<Actions> {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              backgroundColor: Colors.white,
               snap: true,
               pinned: true,
               forceElevated: true,
@@ -149,14 +143,14 @@ class _ActionsState extends State<Actions> {
               elevation: 1.0,
               title: Text(
                 "Pamiksa",
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1.color,
+                    fontWeight: FontWeight.bold),
               ),
               actions: <Widget>[
                 IconButton(
                     icon: Icon(
                       Icons.shopping_cart,
-                      color: Colors.black,
                     ),
                     onPressed: () {}),
               ],
@@ -221,7 +215,6 @@ class _ActionsState extends State<Actions> {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              backgroundColor: Colors.white,
               snap: true,
               pinned: true,
               forceElevated: true,
@@ -229,14 +222,14 @@ class _ActionsState extends State<Actions> {
               elevation: 1.0,
               title: Text(
                 "Sin Conexión",
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1.color,
+                    fontWeight: FontWeight.bold),
               ),
               actions: <Widget>[
                 IconButton(
                     icon: Icon(
                       Icons.shopping_cart,
-                      color: Colors.black,
                     ),
                     onPressed: () {}),
               ],

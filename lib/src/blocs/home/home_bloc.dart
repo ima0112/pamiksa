@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pamiksa/src/data/models/business.dart';
 import 'package:pamiksa/src/data/repositories/remote/business_repository.dart';
-import 'package:pamiksa/src/data/storage/shared.dart';
+import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
@@ -15,12 +15,14 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final BusinessRepository businessRepository;
+  final UserRepository userRepository;
   final NavigationService navigationService = locator<NavigationService>();
 
   List<BusinessModel> businessModel;
-  Shared preferences = Shared();
+  final secureStorage = new FlutterSecureStorage();
 
-  HomeBloc(this.businessRepository) : super(HomeInitial(0));
+  HomeBloc(this.businessRepository, this.userRepository)
+      : super(HomeInitial(0));
 
   @override
   Stream<HomeState> mapEventToState(
@@ -33,10 +35,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else if (event is BottomNavigationItemTappedEvent) {
       yield* _mapBottomNavigationItemTappedEvent(event);
     } else if (event is LogoutEvent) {
-      preferences.remove("token");
-      preferences.remove("refreshToken");
-      await navigationService.navigateAndRemove("/login");
-      yield HomeInitial(0);
+      yield* _mapLogoutEvent(event);
     }
   }
 
@@ -133,5 +132,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (error) {
       yield ConnectionFailedState(0);
     }
+  }
+
+  Stream<HomeState> _mapLogoutEvent(LogoutEvent event) async* {
+    await userRepository.signOut();
+    secureStorage.delete(key: "authToken");
+    secureStorage.delete(key: "refreshToken");
+    await navigationService.navigateAndRemove("/login");
+    yield HomeInitial(0);
   }
 }

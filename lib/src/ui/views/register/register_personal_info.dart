@@ -7,6 +7,7 @@ import 'package:pamiksa/src/blocs/register_personal_info/register_personal_info_
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterPersonalInfoPage extends StatefulWidget {
   static Route route() {
@@ -19,8 +20,9 @@ class RegisterPersonalInfoPage extends StatefulWidget {
 
 class RegisterPersonalInfoPageState extends State<RegisterPersonalInfoPage> {
   final NavigationService navigationService = locator<NavigationService>();
-  RegisterPersonalInfoBloc registerPersonalInfoBloc;
   final _formKey = GlobalKey<FormState>();
+
+  RegisterPersonalInfoBloc registerPersonalInfoBloc;
   String name;
   DateTime date;
   DateTime selectedDate;

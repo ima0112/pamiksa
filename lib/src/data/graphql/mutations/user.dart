@@ -42,6 +42,12 @@ mutation SingIn($email: String!, $password: String!, $plattform: String!, $syste
   }
 } """;
 
+String signOut = r"""
+mutation signOut($deviceId: ID!){
+  signOut(deviceId: $deviceId)
+}
+""";
+
 final String sendVerificationCode = r"""
 mutation SendVerificationCode ($code: String!, $email: String!){
   sendVerificationCode(

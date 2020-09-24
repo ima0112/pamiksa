@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 import 'package:pamiksa/src/ui/views/home/home.dart';
+import 'package:pamiksa/src/ui/views/home/theme.dart';
 import 'package:pamiksa/src/ui/views/intro/intro.dart';
 import 'package:pamiksa/src/ui/views/login/sign_in.dart';
 import 'package:pamiksa/src/ui/views/register/register_complete.dart';
@@ -33,6 +34,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return createRouter(RegisterCompletePage());
     case routes.VerificationRoute:
       return createRouter(VerificationPage());
+    case routes.ThemeRoute:
+      return createRouter(ThemePage());
     case routes.HomeRoute:
       return MaterialPageRoute(builder: (context) => Home());
   }

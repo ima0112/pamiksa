@@ -19,7 +19,6 @@ part 'register_complete_state.dart';
 class RegisterCompleteBloc
     extends Bloc<RegisterCompleteEvent, RegisterCompleteState> {
   final UserRepository userRepository;
-  final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   final NavigationService navigationService = locator<NavigationService>();
 
   DeviceModel deviceModel = DeviceModel();
