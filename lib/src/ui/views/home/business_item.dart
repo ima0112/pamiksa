@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 
@@ -136,6 +137,7 @@ class _BusinessItemState extends State<BusinessItem> {
           height: 10,
         ),
         Stack(
+          alignment: AlignmentDirectional.bottomEnd,
           children: <Widget>[
             FadeInImage(
               width: 500,
@@ -145,11 +147,7 @@ class _BusinessItemState extends State<BusinessItem> {
               image: NetworkImage(
                   "http://192.168.0.2:8000/images/${this.widget.photo}"),
             ),
-            Positioned(
-                bottom: 10,
-                right: 10,
-                child:
-                    Icon(Icons.favorite_border, color: Colors.white, size: 25)),
+            IconButton(icon: Icon(Icons.favorite_border), onPressed: (){}, color: Colors.white, splashRadius: 1.0)
           ],
         ),
         SizedBox(
