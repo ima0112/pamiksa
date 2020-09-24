@@ -86,10 +86,10 @@ class UserRepository {
     return await client.mutate(_options);
   }
 
-  Future<QueryResult> sendVerificationCode(String code, String email) async {
+  Future<QueryResult> sendVerificationCode(String code, String email, String question) async {
     final MutationOptions _options = MutationOptions(
         documentNode: gql(mutations.sendVerificationCode),
-        variables: {'code': code, 'email': email});
+        variables: {'code': code, 'email': email, 'question': question});
     return await client.mutate(_options);
   }
 }
