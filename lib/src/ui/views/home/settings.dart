@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/views/home/theme.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -21,51 +23,58 @@ class _SettingsState extends State<Settings> {
       appBar: AppBar(
         title: Text(
           "Configuración",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Theme.of(context).textTheme.bodyText1.color,
+              fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.white,
         elevation: 1.0,
       ),
       body: Column(
         children: <Widget>[
           ListTile(
-            leading: Icon(Icons.account_circle, color: Colors.black),
+            leading: Icon(Icons.account_circle),
             title: Text("Cuenta"),
             onTap: () {},
             trailing: Icon(
               Icons.arrow_forward_ios,
+              color: Colors.grey,
               size: 15.0,
             ),
           ),
           ListTile(
-            leading: Icon(Icons.credit_card, color: Colors.black),
+            leading: Icon(Icons.credit_card),
             title: Text("Pedidos"),
             onTap: () {},
             trailing: Icon(
               Icons.arrow_forward_ios,
+              color: Colors.grey,
               size: 15.0,
             ),
           ),
           ListTile(
-            leading: Icon(Icons.palette, color: Colors.black),
+            leading: Icon(Icons.palette),
             title: Text("Tema"),
-            onTap: () {},
+            onTap: () {
+              navigationService.navigateTo(routes.ThemeRoute);
+            },
             trailing: Icon(
               Icons.arrow_forward_ios,
+              color: Colors.grey,
               size: 15.0,
             ),
           ),
           ListTile(
-            leading: Icon(Icons.help_outline, color: Colors.black),
+            leading: Icon(Icons.help_outline),
             title: Text("Ayuda"),
             onTap: () {},
             trailing: Icon(
               Icons.arrow_forward_ios,
+              color: Colors.grey,
               size: 15.0,
             ),
           ),
           ListTile(
-            leading: Icon(Icons.input, color: Colors.black),
+            leading: Icon(Icons.input),
             title: Text("Cerrar sesión"),
             onTap: () {
               AlertDialog alertDialog = AlertDialog(

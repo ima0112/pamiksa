@@ -12,6 +12,7 @@ import 'package:pamiksa/src/blocs/register_verification/register_verification_bl
 import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
 import 'package:pamiksa/src/blocs/splash_screen/splash_screen_bloc.dart';
 import 'package:pamiksa/src/blocs/Timer/ticker.dart';
+import 'package:pamiksa/src/blocs/theme/theme_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/business_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
@@ -19,7 +20,6 @@ import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 import 'src/blocs/Timer/timer_bloc.dart';
 
@@ -27,9 +27,7 @@ void main() {
   setupLocator();
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(
-        create: (context) => ThemeCubit(),
-      ),
+      BlocProvider(create: (context) => ThemeBloc()),
       BlocProvider(create: (context) => TimerBloc(ticker: TickerPamiksa())),
       BlocProvider(create: (context) => SplashScreenBloc()),
       BlocProvider(create: (context) => IntroBloc()),
