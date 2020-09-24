@@ -46,7 +46,7 @@ class UserRepository {
         'adress': userModel.adress,
         'provinceFk': "da7cc85b-fb6c-4d46-b07c-0915a16a3461",
         'municipalityFk': "a33e7289-fff9-44fd-b04a-d66bfe7227b4",
-        'plattform': deviceModel.platform,
+        'plattform': deviceModel.plattform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
         'model': deviceModel.model
@@ -55,11 +55,10 @@ class UserRepository {
     return await client.mutate(_options);
   }
 
-  Future<QueryResult> signOut() async {
-    await deviceInfo.initPlatformState(deviceModel);
+  Future<QueryResult> signOut(String deviceId) async {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.signOut),
-      variables: {'deviceId': deviceModel.deviceId},
+      variables: {'deviceId': deviceId},
     );
     return await client.mutate(_options);
   }
@@ -78,7 +77,7 @@ class UserRepository {
       variables: {
         'email': email,
         'password': password,
-        'plattform': deviceModel.platform,
+        'plattform': deviceModel.plattform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
         'model': deviceModel.model

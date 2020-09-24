@@ -44,6 +44,7 @@ class ConnectionFailedState extends HomeState {
 
 class ShowFirstState extends HomeState {
   final List<BusinessModel> results;
+
   ShowFirstState(int index, this.results) : super(index);
 
   @override
@@ -61,6 +62,14 @@ class ShowSecondState extends HomeState {
 
 class ShowThirdState extends HomeState {
   ShowThirdState(int index) : super(index);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class ShowDevicesState extends HomeState {
+  ShowDevicesState(int index) : super(index);
 
   @override
   // TODO: implement props

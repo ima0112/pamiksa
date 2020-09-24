@@ -11,7 +11,7 @@ Future<void> initPlatformState(DeviceModel deviceModel) async {
   try {
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-      deviceModel.platform = "Android";
+      deviceModel.plattform = "Android";
       deviceModel.deviceId = androidInfo.androidId;
       deviceModel.model = '${androidInfo.brand} ' + '${androidInfo.model}';
       deviceModel.systemVersion = androidInfo.version.release;

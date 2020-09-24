@@ -41,14 +41,14 @@ class BusinessModel {
     return map;
   }
 
-  BusinessModel.fromMap(Map<dynamic, dynamic> map) {
+  fromMap(Map<dynamic, dynamic> map) {
     id = map['id'];
     name = map['name'];
     description = map['description'];
     adress = map['adress'];
     phone = map['phone'];
     email = map['email'];
-    deliveryPrice = map['deliveryPrice'];
+    deliveryPrice = map['deliveryPrice'].toDouble();
     photo = map['photo'];
     valoration = map['valoration'];
     valorationSum = map['valorationSum'];

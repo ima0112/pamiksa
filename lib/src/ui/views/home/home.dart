@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
               BottomNavigationBarItem(
                   icon: Icon(Icons.search), title: Text("Buscar")),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.account_circle), title: Text("Cuenta")),
+                  icon: Icon(Icons.settings), title: Text("Ajustes")),
             ],
           ),
         ));
@@ -79,7 +79,7 @@ class _ActionsState extends State<Actions> {
               pinned: true,
               forceElevated: true,
               floating: true,
-              elevation: 1.0,
+              elevation: 2.0,
               title: Text(
                 "Cargando...",
                 style:
@@ -146,7 +146,7 @@ class _ActionsState extends State<Actions> {
               pinned: true,
               forceElevated: true,
               floating: true,
-              elevation: 1.0,
+              elevation: 2.0,
               title: Text(
                 "Pamiksa",
                 style:

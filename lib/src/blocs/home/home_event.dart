@@ -37,3 +37,9 @@ class LogoutEvent extends HomeEvent {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class ShowedDevicesEvent extends HomeEvent {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
