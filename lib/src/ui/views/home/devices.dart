@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/devices/devices_bloc.dart';
-import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
@@ -24,9 +23,11 @@ class _DevicesState extends State<Devices> {
       appBar: AppBar(
         title: Text(
           "Dispositivos",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Theme.of(context).textTheme.bodyText1.color,
+              fontWeight: FontWeight.bold),
         ),
-        elevation: 0.0,
+        elevation: 2.0,
       ),
       body: BlocBuilder<DevicesBloc, DevicesState>(
         builder: (context, state) {
@@ -225,9 +226,7 @@ class _DevicesState extends State<Devices> {
                                                   devicesBloc.add(SignOutEvent(
                                                       state.results[index]
                                                           .deviceId));
-                                                  setState(() {
-
-                                                  });
+                                                  setState(() {});
                                                   Navigator.pop(context);
                                                 },
                                                 color: Colors
@@ -569,9 +568,7 @@ class _DevicesState extends State<Devices> {
                                                   devicesBloc.add(SignOutEvent(
                                                       state.results[index]
                                                           .deviceId));
-                                                  setState(() {
-
-                                                  });
+                                                  setState(() {});
                                                   Navigator.pop(context);
                                                 },
                                                 color: Colors
