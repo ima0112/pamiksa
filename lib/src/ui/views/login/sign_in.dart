@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 import 'package:pamiksa/src/ui/views/login/sign_in_form.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
@@ -18,7 +19,6 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    signInBloc = BlocProvider.of<SignInBloc>(context);
     super.initState();
   }
 

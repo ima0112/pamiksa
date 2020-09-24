@@ -12,9 +12,11 @@ part 'splash_screen_event.dart';
 part 'splash_screen_state.dart';
 
 class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
+  final NavigationService navigationService = locator<NavigationService>();
+
   Shared preferences = Shared();
   SecureStorage secureStorage = SecureStorage();
-  final NavigationService navigationService = locator<NavigationService>();
+
   SplashScreenBloc() : super(SplashScreenInitial());
 
   @override
@@ -28,11 +30,18 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
 
   Stream<SplashScreenState> _mapNavigationFromSplashScreenEvent(
       NavigationFromSplashScreenEvent event) async* {
+    final int lightMode = await preferences.read('lightMode') ?? null;
+    final bool darkMode = await preferences.read('darkMode');
     final showIntro = await preferences.read('showIntro');
     final token = await secureStorage.read('authToken') ?? null;
+
     if (showIntro != false) {
       navigationService.navigateWithoutGoBack(routes.IntroRoute);
-    } else if (token != null) {
+    }
+    if (lightMode == null) {
+      await preferences.saveInt('lightMode', 0);
+    }
+    if (token != null) {
       navigationService.navigateWithoutGoBack(routes.HomeRoute);
     } else if (token == null) {
       navigationService.navigateWithoutGoBack(routes.LoginRoute);

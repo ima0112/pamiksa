@@ -8,6 +8,7 @@ import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterPasswordPage extends StatefulWidget {
   @override
@@ -20,7 +21,6 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
   final _passKey = GlobalKey<FormFieldState<String>>();
 
   RegisterPasswordBloc registerPasswordBloc;
-
   String password;
   String passwordtwo;
   bool _obscureText = true;

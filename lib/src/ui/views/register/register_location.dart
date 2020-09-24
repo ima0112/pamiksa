@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/register_location/register_location_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterLocationPage extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class RegisterLocationPage extends StatefulWidget {
 class RegisterLocationState extends State<RegisterLocationPage> {
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
+
   LocationBloc locationBloc;
 
   List<String> _provincias = ['Matanzas'];

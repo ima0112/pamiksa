@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/splash_screen/splash_screen_bloc.dart';
+import 'package:pamiksa/src/blocs/theme/theme_bloc.dart';
 
 class SplashScreenPage extends StatefulWidget {
   @override
@@ -9,10 +10,13 @@ class SplashScreenPage extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreenPage> {
   SplashScreenBloc splashScreenBloc;
+  ThemeBloc themeBloc;
 
   void initState() {
     super.initState();
+    themeBloc = BlocProvider.of<ThemeBloc>(context);
     splashScreenBloc = BlocProvider.of<SplashScreenBloc>(context);
+    themeBloc.add(LoadedThemeEvent());
     splashScreenBloc.add(NavigationFromSplashScreenEvent());
   }
 

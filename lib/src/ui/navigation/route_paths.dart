@@ -9,3 +9,4 @@ const String RegisterCompleteRoute = "/register_complete";
 const String VerificationRoute = "/verification";
 const String HomeRoute = "/home";
 const String DevicesRoute = "/devices";
+const String ThemeRoute = "/theme";

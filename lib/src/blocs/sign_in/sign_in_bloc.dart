@@ -58,6 +58,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           .userRepository
           .signIn(event.email, event.password, deviceModel);
 
+      preferences.saveInt('lightMode', 0);
+
       if (response.hasException) {
         yield CredentialsErrorState();
       } else {
