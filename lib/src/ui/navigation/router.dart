@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/views/home/devices.dart';
 import 'package:pamiksa/src/ui/views/home/home.dart';
 import 'package:pamiksa/src/ui/views/home/theme.dart';
 import 'package:pamiksa/src/ui/views/intro/intro.dart';
@@ -30,6 +31,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return createRouter(RegisterPersonalInfoPage());
     case routes.RegisterLocationRoute:
       return createRouter(RegisterLocationPage());
+    case routes.DevicesRoute:
+      return createRouter(Devices());
     case routes.RegisterCompleteRoute:
       return createRouter(RegisterCompletePage());
     case routes.VerificationRoute:
