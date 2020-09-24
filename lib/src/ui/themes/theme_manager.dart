@@ -20,7 +20,7 @@ class ThemeCubit extends Cubit<ThemeData> {
     ),
     primarySwatch: Colors.deepPurple,
     cursorColor: Colors.deepPurpleAccent[700],
-    hoverColor: Colors.deepPurpleAccent[700],
+    hoverColor: Colors.deepPurple[700],
     primaryColor: Colors.deepPurpleAccent[700],
     bottomAppBarColor: Colors.deepPurpleAccent[700],
     focusColor: Colors.deepPurpleAccent[700],

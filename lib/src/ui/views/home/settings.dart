@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/devices/devices_bloc.dart';
 import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -12,11 +13,13 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   HomeBloc homeBloc;
+  DevicesBloc devicesBloc;
   final NavigationService navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
     homeBloc = BlocProvider.of<HomeBloc>(context);
+    devicesBloc = BlocProvider.of<DevicesBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -24,7 +27,7 @@ class _SettingsState extends State<Settings> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
-        elevation: 1.0,
+        elevation: 1.5,
       ),
       body: Column(
         children: <Widget>[
@@ -50,6 +53,18 @@ class _SettingsState extends State<Settings> {
             leading: Icon(Icons.palette, color: Colors.black),
             title: Text("Tema"),
             onTap: () {},
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              size: 15.0,
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.devices, color: Colors.black),
+            title: Text("Dispositivos"),
+            onTap: () {
+              devicesBloc.add(SetDeviceInitialEvent());
+              homeBloc.add(ShowedDevicesEvent());
+            },
             trailing: Icon(
               Icons.arrow_forward_ios,
               size: 15.0,
