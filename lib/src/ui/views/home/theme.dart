@@ -29,7 +29,6 @@ class _ThemeState extends State<ThemePage> {
     themeBloc = BlocProvider.of<ThemeBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           "Tema",
           style: TextStyle(
