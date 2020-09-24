@@ -7,7 +7,7 @@ class DatabaseConnection {
     var directory = await getApplicationDocumentsDirectory();
     var path = join(directory.path, 'database.db');
     var database =
-        await openDatabase(path, version: 3, onCreate: _onCreatingDatabase);
+        await openDatabase(path, version: 1, onCreate: _onCreatingDatabase);
     return database;
   }
 
@@ -18,5 +18,6 @@ class DatabaseConnection {
         'CREATE TABLE "Provinces"(id character varying(255) NOT NULL,name character varying(255) NOT NULL,CONSTRAINT "Provinces_pkey" PRIMARY KEY (id),CONSTRAINT "Provinces_name_key" UNIQUE (name))');
     await database.execute(
         'CREATE TABLE "Municipalities"(id character varying(255) NOT NULL,name character varying(255),"provinceFk" character varying(255) NOT NULL,CONSTRAINT "Municipalities_pkey" PRIMARY KEY (id))');
+    await database.execute('CREATE TABLE "Sessions" (id character varying(255) NOT NULL,plattform character varying(255),"systemVersion" character varying(255),"deviceId" character varying(255),model character varying(255), CONSTRAINT "Devices_pkey" PRIMARY KEY (id))');
   }
 }
