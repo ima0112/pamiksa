@@ -49,8 +49,9 @@ mutation signOut($deviceId: ID!){
 """;
 
 final String sendVerificationCode = r"""
-mutation SendVerificationCode ($code: String!, $email: String!){
+mutation SendVerificationCode ($code: String!, $email: String!, question: String!){
   sendVerificationCode(
+    question: $question,
     code: $code, 
     email: $email)
 } """;

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dar
 import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
-import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/random.dart' as random;
@@ -53,7 +51,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     await secureStorage.save('code', code.toString());
     await secureStorage.save('adress', event.adress);
     final response =
-        await this.userRepository.sendVerificationCode(email, code.toString());
+        await this.userRepository.sendVerificationCode(email, code.toString(), "ResetPassword");
 
     print({"response": response.data.toString(), "code": code, "email": email});
     navigationService.navigateAndRemoveUntil(routes.VerificationRoute);
