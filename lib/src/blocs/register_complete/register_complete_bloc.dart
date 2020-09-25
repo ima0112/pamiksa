@@ -46,8 +46,7 @@ class RegisterCompleteBloc
     event.userModel.birthday = await secureStorage.read('birthday');
     event.userModel.email = await secureStorage.read('email');
 
-    final response =
-        await this.userRepository.signUp(event.userModel, deviceModel);
+    await this.userRepository.signUp(event.userModel, deviceModel);
 
     await secureStorage.remove('password');
 

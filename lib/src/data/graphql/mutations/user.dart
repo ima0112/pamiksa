@@ -48,9 +48,26 @@ mutation signOut($deviceId: ID!){
 }
 """;
 
+String resetPassword = r"""
+mutation ResetPassword($email: String!, $password: String!, $plattform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
+  resetPassword(email: $email, password: $password, plattform: $plattform, systemVersion: $systemVersion, deviceId: $deviceId, model: $model){
+    refreshToken
+    token
+    user{
+      id
+      fullName
+      adress
+      photo
+      email
+      birthday
+    }
+  }
+} """;
+
 final String sendVerificationCode = r"""
-mutation SendVerificationCode ($code: String!, $email: String!){
+mutation SendVerificationCode ($code: String!, $email: String!, $question: String!){
   sendVerificationCode(
     code: $code, 
-    email: $email)
+    email: $email,
+    question: $question)
 } """;

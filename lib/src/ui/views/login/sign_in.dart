@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 import 'package:pamiksa/src/ui/views/login/sign_in_form.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
@@ -15,6 +14,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  final NavigationService navigationService = locator<NavigationService>();
+
   SignInBloc signInBloc;
 
   @override
@@ -24,6 +25,7 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    signInBloc = BlocProvider.of<SignInBloc>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -81,13 +83,18 @@ class LoginPageState extends State<LoginPage> {
                   Spacer(
                     flex: 1,
                   ),
-                  Center(
-                    child: Text(
-                      '¿ Has olvidado tu contraseña ?',
-                      style: TextStyle(
-                          color: Color(0xff6200EA),
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      navigationService.navigateTo(routes.ForgotPasswordEmail);
+                    },
+                    child: Center(
+                      child: Text(
+                        '¿ Has olvidado tu contraseña ?',
+                        style: TextStyle(
+                            color: Color(0xff6200EA),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                   SizedBox(

@@ -86,10 +86,37 @@ class UserRepository {
     return await client.mutate(_options);
   }
 
+  Future<QueryResult> resetPassword(
+      String email, String password, DeviceModel deviceModel) async {
+    final MutationOptions _options = MutationOptions(
+      documentNode: gql(mutations.resetPassword),
+      onCompleted: (data) {
+        secureStorage.write(
+            key: "authToken", value: data['resetPassword']['token'].toString());
+        secureStorage.write(
+            key: "refreshToken",
+            value: data['resetPassword']['refreshToken'].toString());
+      },
+      variables: {
+        'email': email,
+        'password': password,
+        'plattform': deviceModel.plattform,
+        'systemVersion': deviceModel.systemVersion,
+        'deviceId': deviceModel.deviceId,
+        'model': deviceModel.model
+      },
+    );
+    return await client.mutate(_options);
+  }
+
   Future<QueryResult> sendVerificationCode(String code, String email) async {
     final MutationOptions _options = MutationOptions(
         documentNode: gql(mutations.sendVerificationCode),
-        variables: {'code': code, 'email': email});
+        variables: {
+          'code': code,
+          'email': email,
+          'question': "Aqui va la question"
+        });
     return await client.mutate(_options);
   }
 }

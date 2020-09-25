@@ -15,7 +15,7 @@ class NavigationService {
 
   Future<dynamic> navigateAndRemoveUntil(String routeName) {
     return navigatorKey.currentState
-        .pushNamedAndRemoveUntil(routeName, (route) => route is LoginPage);
+        .pushNamedAndRemoveUntil(routeName, ModalRoute.withName('/login'));
   }
 
   Future<dynamic> navigateAndRemove(String routeName) {

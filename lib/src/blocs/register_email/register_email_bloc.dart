@@ -29,6 +29,7 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
   Stream<RegisterEmailState> _mapCheckUserEmailEvent(
       CheckUserEmailEvent event) async* {
     yield LoadingState();
+
     final response = await this.userRepository.userExists(event.email);
 
     if (response.data['userExists'] == true) {

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
@@ -8,32 +9,34 @@ import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/random.dart' as random;
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
-part 'register_verification_event.dart';
-part 'register_verification_state.dart';
+part 'forgot_password_verification_event.dart';
+part 'forgot_password_verification_state.dart';
 
-class RegisterVerificationBloc
-    extends Bloc<RegisterVerificationEvent, RegisterVerificationState> {
+class ForgotPasswordVerificationBloc extends Bloc<
+    ForgotPasswordVerificationEvent, ForgotPasswordVerificationState> {
   final UserRepository userRepository;
   final NavigationService navigationService = locator<NavigationService>();
+
   SecureStorage secureStorage = SecureStorage();
-  RegisterVerificationBloc(this.userRepository)
-      : super(RegisterVerificationInitial());
+
+  ForgotPasswordVerificationBloc(this.userRepository)
+      : super(ForgotPasswordVerificationInitial());
 
   @override
-  Stream<RegisterVerificationState> mapEventToState(
-    RegisterVerificationEvent event,
+  Stream<ForgotPasswordVerificationState> mapEventToState(
+    ForgotPasswordVerificationEvent event,
   ) async* {
-    if (event is MutateCodeEvent) {
-      yield* _mapMutateCodeEvent(event);
+    if (event is MutateCodeFromForgotPasswordEvent) {
+      yield* _mapMutateCodeFromForgotPasswordEvent(event);
     }
-    if (event is CheckVerificationCodeEvent) {
-      yield* _mapCheckVerificationCodeEvent(event);
+    if (event is CheckVerificationFromForgotPasswordCodeEvent) {
+      yield* _mapCheckVerificationFromForgotPasswordCodeEvent(event);
     }
   }
 
-  Stream<RegisterVerificationState> _mapMutateCodeEvent(
-      MutateCodeEvent event) async* {
-    yield RegisterVerificationInitial();
+  Stream<ForgotPasswordVerificationState> _mapMutateCodeFromForgotPasswordEvent(
+      MutateCodeFromForgotPasswordEvent event) async* {
+    yield ForgotPasswordVerificationInitial();
 
     String email = await secureStorage.read('email');
     int code = await random.randomCode();
@@ -46,15 +49,16 @@ class RegisterVerificationBloc
     print({"response": response.data.toString(), "code": code, "email": email});
   }
 
-  Stream<RegisterVerificationState> _mapCheckVerificationCodeEvent(
-      CheckVerificationCodeEvent event) async* {
+  Stream<ForgotPasswordVerificationState>
+      _mapCheckVerificationFromForgotPasswordCodeEvent(
+          CheckVerificationFromForgotPasswordCodeEvent event) async* {
     String code = await secureStorage.read('code');
 
     if (event.code == code) {
       secureStorage.remove('code');
-      navigationService.navigateAndRemoveUntil(routes.RegisterCompleteRoute);
+      navigationService.navigateWithoutGoBack(routes.ForgotPassword);
     } else {
-      yield IncorrectedVerificationCodeState();
+      yield IncorrectedVerificationToForgotPasswordCodeState();
     }
   }
 }

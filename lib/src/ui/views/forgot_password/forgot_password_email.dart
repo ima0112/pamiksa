@@ -1,22 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
+import 'package:pamiksa/src/blocs/forgot_password_email/forgot_password_email_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
-class RegisterEmailPage extends StatefulWidget {
+class ForgotPasswordEmailPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new RegisterEmailPageState();
+  State<StatefulWidget> createState() => new ForgotPasswordEmailPageState();
 }
 
-class RegisterEmailPageState extends State<RegisterEmailPage> {
+class ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
 
-  RegisterEmailBloc registerEmailBloc;
+  ForgotPasswordEmailBloc forgotpasswordEmailBloc;
 
   String email;
 
@@ -46,7 +43,7 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
 
   @override
   Widget build(BuildContext context) {
-    registerEmailBloc = BlocProvider.of<RegisterEmailBloc>(context);
+    forgotpasswordEmailBloc = BlocProvider.of<ForgotPasswordEmailBloc>(context);
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: PreferredSize(
@@ -58,9 +55,10 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
             )),
         body: Padding(
             padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
-            child: BlocBuilder<RegisterEmailBloc, RegisterEmailState>(
+            child:
+                BlocBuilder<ForgotPasswordEmailBloc, ForgotPasswordEmailState>(
               builder: (context, state) {
-                if (state is LoadingState) {
+                if (state is LoadingForgotPasswordState) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
@@ -70,7 +68,7 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          "Crear cuenta",
+                          "Restablecer contraseña",
                           style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
                           textAlign: TextAlign.center,
                         ),
@@ -90,10 +88,11 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    BlocBuilder<RegisterEmailBloc,
-                                        RegisterEmailState>(
+                                    BlocBuilder<ForgotPasswordEmailBloc,
+                                        ForgotPasswordEmailState>(
                                       builder: (context, state) {
-                                        if (state is RegisterEmailInitial) {
+                                        if (state
+                                            is ForgotPasswordEmailInitial) {
                                           return TextFormField(
                                             initialValue: email,
                                             keyboardType:
@@ -127,7 +126,7 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                                             },
                                           );
                                         }
-                                        if (state is ExistsUserEmailState) {
+                                        if (state is NotExistsUserEmailState) {
                                           return TextFormField(
                                             initialValue: email,
                                             keyboardType:
@@ -140,7 +139,7 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                                             decoration: InputDecoration(
                                               errorMaxLines: 3,
                                               errorText:
-                                                  "¡Ya existe una cuenta usando este correo electrónico! Prueba con otro.",
+                                                  "¡No existe una cuenta usando este correo electrónico! Prueba con otro.",
                                               helperText: "",
                                               icon: Icon(Icons.email),
                                               filled: false,
@@ -200,8 +199,8 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  registerEmailBloc
-                                      .add(CheckUserEmailEvent(email));
+                                  forgotpasswordEmailBloc.add(
+                                      CheckPasswordByUserEmailEvent(email));
                                 }
                               },
                               child: Text(
