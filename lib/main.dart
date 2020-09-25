@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/devices/devices_bloc.dart';
+import 'package:pamiksa/src/blocs/forgot_password/forgot_password_bloc.dart';
+import 'package:pamiksa/src/blocs/forgot_password_email/forgot_password_email_bloc.dart';
+import 'package:pamiksa/src/blocs/forgot_password_verification/forgot_password_verification_bloc.dart';
 import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/blocs/intro/intro_bloc.dart';
 import 'package:pamiksa/src/blocs/register_location/register_location_bloc.dart';
@@ -22,6 +25,7 @@ import 'package:pamiksa/src/data/repositories/remote/register_data_repository.da
 import 'package:pamiksa/src/data/repositories/remote/sessions_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:path/path.dart';
 
 import 'src/blocs/Timer/timer_bloc.dart';
 
@@ -29,6 +33,15 @@ void main() {
   setupLocator();
   runApp(MultiBlocProvider(
     providers: [
+      BlocProvider(
+          create: (context) => ForgotPasswordBloc(
+              UserRepository(client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => ForgotPasswordVerificationBloc(
+              UserRepository(client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => ForgotPasswordEmailBloc(
+              UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(create: (context) => ThemeBloc()),
       BlocProvider(create: (context) => TimerBloc(ticker: TickerPamiksa())),
       BlocProvider(create: (context) => SplashScreenBloc()),

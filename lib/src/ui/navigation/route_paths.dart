@@ -10,3 +10,6 @@ const String VerificationRoute = "/verification";
 const String HomeRoute = "/home";
 const String DevicesRoute = "/devices";
 const String ThemeRoute = "/theme";
+const String ForgotPasswordEmail = "/forgot_password_email";
+const String ForgotPasswordVerification = "/forgot_password_verification";
+const String ForgotPassword = "/forgot_password";

@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/views/forgot_password/forgot_password.dart';
+import 'package:pamiksa/src/ui/views/forgot_password/forgot_password_email.dart';
+import 'package:pamiksa/src/ui/views/forgot_password/forgot_password_verification.dart';
 import 'package:pamiksa/src/ui/views/home/devices.dart';
 import 'package:pamiksa/src/ui/views/home/home.dart';
 import 'package:pamiksa/src/ui/views/home/theme.dart';
@@ -39,6 +42,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return createRouter(VerificationPage());
     case routes.ThemeRoute:
       return createRouter(ThemePage());
+    case routes.ForgotPasswordEmail:
+      return createRouter(ForgotPasswordEmailPage());
+    case routes.ForgotPasswordVerification:
+      return createRouter(ForgotPasswordVerificationPage());
+    case routes.ForgotPassword:
+      return createRouter(ForgotpasswordPage());
     case routes.HomeRoute:
       return MaterialPageRoute(builder: (context) => Home());
   }
