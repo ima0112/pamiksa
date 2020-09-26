@@ -41,7 +41,7 @@ class RegisterVerificationBloc
     await secureStorage.save('code', code.toString());
 
     final response =
-        await this.userRepository.sendVerificationCode(email, code.toString(), "ResetPassword");
+        await this.userRepository.sendVerificationCode(email, code.toString());
 
     print({"response": response.data.toString(), "code": code, "email": email});
   }

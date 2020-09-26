@@ -82,7 +82,9 @@ class _SettingsState extends State<Settings> {
           ListTile(
             leading: Icon(Icons.help_outline),
             title: Text("Ayuda"),
-            onTap: () {},
+            onTap: () {
+              navigationService.navigateTo(routes.HelpRoute);
+            },
             trailing: Icon(
               Icons.arrow_forward_ios,
               color: Colors.grey,
@@ -98,10 +100,8 @@ class _SettingsState extends State<Settings> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   content: Container(
-                      //color: Colors.grey,
                       height: 150,
                       child: Column(
-                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Expanded(
                             child: Text(

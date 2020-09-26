@@ -13,3 +13,7 @@ const String ThemeRoute = "/theme";
 const String ForgotPasswordEmail = "/forgot_password_email";
 const String ForgotPasswordVerification = "/forgot_password_verification";
 const String ForgotPassword = "/forgot_password";
+const String HelpRoute = "/help_route";
+const String PolicyRoute = "/policy";
+const String ConditionsRoute = "/conditions";
+const String FAQRoute = "/faq";

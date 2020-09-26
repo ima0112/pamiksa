@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 const APP_VERSION = 'v0.0.1';
 const APP_NAME = 'Pamiksa';
 const EMAIL = 'pamiksa@gmail.com';
