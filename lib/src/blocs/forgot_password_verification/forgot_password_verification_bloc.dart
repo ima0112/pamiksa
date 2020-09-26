@@ -36,8 +36,6 @@ class ForgotPasswordVerificationBloc extends Bloc<
 
   Stream<ForgotPasswordVerificationState> _mapMutateCodeFromForgotPasswordEvent(
       MutateCodeFromForgotPasswordEvent event) async* {
-    yield ForgotPasswordVerificationInitial();
-
     String email = await secureStorage.read('email');
     int code = await random.randomCode();
 
@@ -45,8 +43,10 @@ class ForgotPasswordVerificationBloc extends Bloc<
 
     final response =
         await this.userRepository.sendVerificationCode(email, code.toString());
-
-    print({"response": response.data.toString(), "code": code, "email": email});
+    if (response.hasException) {
+      print(response.exception.toString());
+    }
+    print({"response": response.data, "code": code, "email": email});
   }
 
   Stream<ForgotPasswordVerificationState>

@@ -65,13 +65,8 @@ mutation ResetPassword($email: String!, $password: String!, $plattform: String!,
 } """;
 
 final String sendVerificationCode = r"""
-<<<<<<< HEAD
-mutation SendVerificationCode ($code: String!, $email: String!, question: String!){
-=======
 mutation SendVerificationCode ($code: String!, $email: String!, $question: String!){
->>>>>>> feature/password
   sendVerificationCode(
-    question: $question,
     code: $code, 
     email: $email,
     question: $question)

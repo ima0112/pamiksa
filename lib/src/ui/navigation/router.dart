@@ -5,8 +5,12 @@ import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 import 'package:pamiksa/src/ui/views/forgot_password/forgot_password.dart';
 import 'package:pamiksa/src/ui/views/forgot_password/forgot_password_email.dart';
 import 'package:pamiksa/src/ui/views/forgot_password/forgot_password_verification.dart';
+import 'package:pamiksa/src/ui/views/home/conditions.dart';
 import 'package:pamiksa/src/ui/views/home/devices.dart';
+import 'package:pamiksa/src/ui/views/home/faq.dart';
+import 'package:pamiksa/src/ui/views/home/help.dart';
 import 'package:pamiksa/src/ui/views/home/home.dart';
+import 'package:pamiksa/src/ui/views/home/policy.dart';
 import 'package:pamiksa/src/ui/views/home/theme.dart';
 import 'package:pamiksa/src/ui/views/intro/intro.dart';
 import 'package:pamiksa/src/ui/views/login/sign_in.dart';
@@ -48,6 +52,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return createRouter(ForgotPasswordVerificationPage());
     case routes.ForgotPassword:
       return createRouter(ForgotpasswordPage());
+    case routes.HelpRoute:
+      return createRouter(HelpPage());
+    case routes.PolicyRoute:
+      return createRouter(PolicyPage());
+    case routes.ConditionsRoute:
+      return createRouter(ConditionsPage());
+    case routes.FAQRoute:
+      return createRouter(FAQPage());
     case routes.HomeRoute:
       return MaterialPageRoute(builder: (context) => Home());
   }

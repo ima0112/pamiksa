@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
 import 'package:pamiksa/src/data/models/province.dart';
 import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
@@ -24,6 +23,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   List<ProvinceModel> province = List();
   SecureStorage secureStorage = SecureStorage();
+  List<ProvinceModel> provinceReturn = List();
+  List<MunicipalityModel> municipalitiesReturn = new List();
 
   LocationBloc(
       this.provinceRepository, this.userRepository, this.municipalityRepository)
@@ -50,8 +51,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     await secureStorage.save('code', code.toString());
     await secureStorage.save('adress', event.adress);
+    await secureStorage.save('province', event.provinceId);
+    await secureStorage.save('municipality', event.municipalityId);
     final response =
-        await this.userRepository.sendVerificationCode(email, code.toString(), "ResetPassword");
+        await this.userRepository.sendVerificationCode(email, code.toString());
 
     print({"response": response.data.toString(), "code": code, "email": email});
     navigationService.navigateAndRemoveUntil(routes.VerificationRoute);
@@ -59,8 +62,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   Stream<LocationState> _mapFetchProvinceMunicipalityDataEvent(
       FetchProvinceMunicipalityDataEvent event) async* {
+    yield LoadingProvinceMunicipalityState();
+
     List<Map<String, dynamic>> provinceResult = await provinceRepository.all();
-    List<ProvinceModel> provinceReturn = List();
+
     provinceReturn = provinceResult
         .map((e) => ProvinceModel(
               id: e['id'].toString(),
@@ -68,21 +73,23 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
             ))
         .toList();
 
-    yield LoadedProvinceMunicipalityState(results: provinceReturn);
+    yield LoadedProvinceMunicipalityState(provinceReturn, municipalitiesReturn);
   }
 
   Stream<LocationState> _mapProvinceSelectedEvent(
       ProvinceSelectedEvent event) async* {
+    yield LoadedProvinceMunicipalityState(provinceReturn, municipalitiesReturn);
     List<Map<String, dynamic>> municipalitiesResult =
         await municipalityRepository.all();
-    List<MunicipalityModel> municipalitiesReturn = List();
+
     municipalitiesReturn = municipalitiesResult
         .map((e) => MunicipalityModel(
             id: e['id'].toString(),
             name: e['name'],
             provinceFk: e['provinceFk']))
+        .where((element) => element.provinceFk == event.provinceFk)
         .toList();
 
-    yield MunicipalitiesLoadedState(results: municipalitiesReturn);
+    yield MunicipalitiesLoadedState(municipalitiesReturn, provinceReturn);
   }
 }

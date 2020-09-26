@@ -45,11 +45,14 @@ class RegisterCompleteBloc
     event.userModel.adress = await secureStorage.read('adress');
     event.userModel.birthday = await secureStorage.read('birthday');
     event.userModel.email = await secureStorage.read('email');
+    event.userModel.province = await secureStorage.read('province');
+    event.userModel.municipality = await secureStorage.read('municipality');
 
     await this.userRepository.signUp(event.userModel, deviceModel);
 
     await secureStorage.remove('password');
 
     navigationService.navigateAndRemove(routes.HomeRoute);
+    print(event.userModel.toString());
   }
 }
