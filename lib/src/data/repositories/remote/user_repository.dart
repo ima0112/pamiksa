@@ -44,8 +44,8 @@ class UserRepository {
         'password': userModel.password,
         'birthday': userModel.birthday,
         'adress': userModel.adress,
-        'provinceFk': "da7cc85b-fb6c-4d46-b07c-0915a16a3461",
-        'municipalityFk': "a33e7289-fff9-44fd-b04a-d66bfe7227b4",
+        'provinceFk': userModel.province,
+        'municipalityFk': userModel.municipality,
         'plattform': deviceModel.plattform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
@@ -112,11 +112,7 @@ class UserRepository {
   Future<QueryResult> sendVerificationCode(String code, String email) async {
     final MutationOptions _options = MutationOptions(
         documentNode: gql(mutations.sendVerificationCode),
-        variables: {
-          'code': code,
-          'email': email,
-          'question': "Aqui va la question"
-        });
+        variables: {'code': code, 'email': email, 'question': 'question'});
     return await client.mutate(_options);
   }
 }

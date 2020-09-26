@@ -42,14 +42,15 @@ class ForgotPasswordVerificationPageState
 
   @override
   void initState() {
-    super.initState();
     obtenerPreferences();
+    forgotPasswordVerificationBloc =
+        BlocProvider.of<ForgotPasswordVerificationBloc>(context);
+    forgotPasswordVerificationBloc.add(MutateCodeFromForgotPasswordEvent());
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    forgotPasswordVerificationBloc =
-        BlocProvider.of<ForgotPasswordVerificationBloc>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(

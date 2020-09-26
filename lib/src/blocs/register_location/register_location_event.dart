@@ -11,8 +11,10 @@ class FetchProvincesEvent extends LocationEvent {}
 
 class MutateCodeEvent extends LocationEvent {
   final String adress;
+  final String provinceId;
+  final String municipalityId;
 
-  MutateCodeEvent(this.adress);
+  MutateCodeEvent(this.adress, this.provinceId, this.municipalityId);
 }
 
 class FetchProvinceMunicipalityDataEvent extends LocationEvent {}

@@ -23,11 +23,11 @@ class RegisterLocationState extends State<RegisterLocationPage> {
   List<String> _provincias = ['Matanzas'];
   List<String> _municipios = ['Cárdenas'];
 
-  String _selectedprovincia;
-  String _selectedmunicipio;
+  String selectedprovincia;
+  String selectedmunicipio;
   String adress;
-  String provinceId;
-  int municipalityId;
+  // String provinceId;
+  // int municipalityId;
 
   _validateDireccion(String value) {
     if (value.isEmpty) {
@@ -36,12 +36,13 @@ class RegisterLocationState extends State<RegisterLocationPage> {
   }
 
   void initState() {
+    locationBloc = BlocProvider.of<LocationBloc>(context);
+    locationBloc.add(FetchProvinceMunicipalityDataEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    locationBloc = BlocProvider.of<LocationBloc>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
@@ -55,6 +56,11 @@ class RegisterLocationState extends State<RegisterLocationPage> {
         padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
         child: BlocBuilder<LocationBloc, LocationState>(
           builder: (context, state) {
+            if (state is LoadingProvinceMunicipalityState) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return Container(
               child: Column(
                 children: <Widget>[
@@ -77,58 +83,60 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                   EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
                               child: Column(
                                 children: [
-                                  DropdownButtonFormField(
-                                    decoration: InputDecoration(
-                                      border: UnderlineInputBorder(),
-                                      labelText: "Provincia",
-                                      labelStyle: TextStyle(
-                                          fontFamily: 'RobotoMono-Regular'),
-                                      icon: Icon(Icons.location_city),
-                                      helperText: "",
-                                    ),
-                                    style: TextStyle(
-                                        fontFamily: 'RobotoMono-Regular',
-                                        color: Colors.black54,
-                                        fontSize: 16),
-                                    onChanged: (dynamic value) {
-                                      _selectedprovincia = value;
-                                    },
-                                    validator: (value) => value == null
-                                        ? '¡Escoge tu provincia!'
-                                        : null,
-                                    items: _provincias.map((e) {
-                                      return DropdownMenuItem(
-                                        child: new Text(e),
-                                        value: e,
-                                      );
-                                    }).toList(),
-                                  ),
-                                  DropdownButtonFormField(
-                                    decoration: InputDecoration(
-                                      border: UnderlineInputBorder(),
-                                      labelText: "Municipio",
-                                      labelStyle: TextStyle(
-                                          fontFamily: 'RobotoMono-Regular'),
-                                      icon: Icon(Icons.near_me),
-                                      helperText: "",
-                                    ),
-                                    style: TextStyle(
-                                        fontFamily: 'RobotoMono-Regular',
-                                        color: Colors.black54,
-                                        fontSize: 16),
-                                    onChanged: (dynamic value) {
-                                      _selectedmunicipio = value;
-                                    },
-                                    validator: (value) => value == null
-                                        ? '¡Escoge tu municipio!'
-                                        : null,
-                                    items: _municipios.map((e) {
-                                      return DropdownMenuItem(
-                                        child: new Text(e),
-                                        value: e,
-                                      );
-                                    }).toList(),
-                                  ),
+                                  provinces(),
+                                  municipalities(),
+                                  // DropdownButtonFormField(
+                                  //   decoration: InputDecoration(
+                                  //     border: UnderlineInputBorder(),
+                                  //     labelText: "Provincia",
+                                  //     labelStyle: TextStyle(
+                                  //         fontFamily: 'RobotoMono-Regular'),
+                                  //     icon: Icon(Icons.location_city),
+                                  //     helperText: "",
+                                  //   ),
+                                  //   style: TextStyle(
+                                  //       fontFamily: 'RobotoMono-Regular',
+                                  //       color: Colors.black54,
+                                  //       fontSize: 16),
+                                  //   onChanged: (dynamic value) {
+                                  //     _selectedprovincia = value;
+                                  //   },
+                                  //   validator: (value) => value == null
+                                  //       ? '¡Escoge tu provincia!'
+                                  //       : null,
+                                  //   items: _provincias.map((e) {
+                                  //     return DropdownMenuItem(
+                                  //       child: new Text(e),
+                                  //       value: e,
+                                  //     );
+                                  //   }).toList(),
+                                  // ),
+                                  // DropdownButtonFormField(
+                                  //   decoration: InputDecoration(
+                                  //     border: UnderlineInputBorder(),
+                                  //     labelText: "Municipio",
+                                  //     labelStyle: TextStyle(
+                                  //         fontFamily: 'RobotoMono-Regular'),
+                                  //     icon: Icon(Icons.near_me),
+                                  //     helperText: "",
+                                  //   ),
+                                  //   style: TextStyle(
+                                  //       fontFamily: 'RobotoMono-Regular',
+                                  //       color: Colors.black54,
+                                  //       fontSize: 16),
+                                  //   onChanged: (dynamic value) {
+                                  //     _selectedmunicipio = value;
+                                  //   },
+                                  //   validator: (value) => value == null
+                                  //       ? '¡Escoge tu municipio!'
+                                  //       : null,
+                                  //   items: _municipios.map((e) {
+                                  //     return DropdownMenuItem(
+                                  //       child: new Text(e),
+                                  //       value: e,
+                                  //     );
+                                  //   }).toList(),
+                                  // ),
                                   TextFormField(
                                     initialValue: adress,
                                     textCapitalization:
@@ -192,7 +200,8 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
-                              locationBloc.add(MutateCodeEvent(adress));
+                              locationBloc.add(MutateCodeEvent(adress,
+                                  selectedprovincia, selectedmunicipio));
                             }
                           },
                           child: Text(
@@ -209,6 +218,115 @@ class RegisterLocationState extends State<RegisterLocationPage> {
           },
         ),
       ),
+    );
+  }
+
+  Widget provinces() {
+    return BlocBuilder<LocationBloc, LocationState>(builder: (context, state) {
+      if (state is LoadedProvinceMunicipalityState) {
+        return DropdownButtonFormField(
+          decoration: InputDecoration(
+            border: UnderlineInputBorder(),
+            labelText: "Provincia",
+            labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+            icon: Icon(Icons.location_city),
+            helperText: "",
+          ),
+          style: TextStyle(
+              fontFamily: 'RobotoMono-Regular',
+              color: Colors.black54,
+              fontSize: 16),
+          onChanged: (dynamic value) {
+            if (selectedprovincia != value) {
+              selectedprovincia = value;
+              locationBloc.add(ProvinceSelectedEvent(value));
+            }
+          },
+          validator: (value) => value == null ? '¡Escoge tu provincia!' : null,
+          items: state.results.map((e) {
+            return DropdownMenuItem(
+              child: new Text(e.name),
+              value: e.id,
+            );
+          }).toList(),
+        );
+      } else if (state is MunicipalitiesLoadedState) {
+        return DropdownButtonFormField(
+          decoration: InputDecoration(
+            border: UnderlineInputBorder(),
+            labelText: "Provincia",
+            labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+            icon: Icon(Icons.location_city),
+            helperText: "",
+          ),
+          style: TextStyle(
+              fontFamily: 'RobotoMono-Regular',
+              color: Colors.black54,
+              fontSize: 16),
+          onChanged: (dynamic value) {
+            if (selectedprovincia != value) {
+              selectedprovincia = value;
+              locationBloc.add(ProvinceSelectedEvent(value));
+            }
+          },
+          validator: (value) => value == null ? '¡Escoge tu provincia!' : null,
+          items: state.provincesResults.map((e) {
+            return DropdownMenuItem(
+              child: new Text(e.name),
+              value: e.id,
+            );
+          }).toList(),
+        );
+      }
+      return Container();
+    });
+  }
+
+  Widget municipalities() {
+    return BlocBuilder<LocationBloc, LocationState>(
+      builder: (context, state) {
+        if (state is MunicipalitiesLoadedState) {
+          return DropdownButtonFormField(
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: "Municipio",
+              labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+              icon: Icon(Icons.location_city),
+              helperText: "",
+            ),
+            style: TextStyle(
+                fontFamily: 'RobotoMono-Regular',
+                color: Colors.black54,
+                fontSize: 16),
+            onChanged: (dynamic value) {
+              selectedmunicipio = value;
+            },
+            validator: (value) =>
+                value == null ? '¡Escoge tu provincia!' : null,
+            items: state.results.map((e) {
+              return DropdownMenuItem(
+                child: new Text(e.name),
+                value: e.id,
+              );
+            }).toList(),
+          );
+        }
+        return DropdownButtonFormField(
+          decoration: InputDecoration(
+            border: UnderlineInputBorder(),
+            labelText: "Municipio",
+            labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+            icon: Icon(Icons.location_city),
+            helperText: "",
+          ),
+          style: TextStyle(
+              fontFamily: 'RobotoMono-Regular',
+              color: Colors.black54,
+              fontSize: 16),
+          onChanged: (dynamic value) {},
+          validator: (value) => value == null ? '¡Escoge tu provincia!' : null,
+        );
+      },
     );
   }
 }

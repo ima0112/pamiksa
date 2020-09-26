@@ -11,16 +11,16 @@ class LocationInitial extends LocationState {}
 
 class LoadedProvinceMunicipalityState extends LocationState {
   final List<ProvinceModel> results;
+  final List<MunicipalityModel> municipalitiesResults;
 
-  LoadedProvinceMunicipalityState({@required this.results})
-      : assert(results != null),
-        super([results]);
+  LoadedProvinceMunicipalityState(this.results, this.municipalitiesResults);
 }
 
 class MunicipalitiesLoadedState extends LocationState {
   final List<MunicipalityModel> results;
+  final List<ProvinceModel> provincesResults;
 
-  MunicipalitiesLoadedState({@required this.results})
-      : assert(results != null),
-        super([results]);
+  MunicipalitiesLoadedState(this.results, this.provincesResults);
 }
+
+class LoadingProvinceMunicipalityState extends LocationState {}
