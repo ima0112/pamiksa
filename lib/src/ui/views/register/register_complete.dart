@@ -25,8 +25,8 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
             preferredSize: Size.fromHeight(0),
             child: AppBar(
               elevation: 0.0,
-              backgroundColor: Color(0xffF5F5F5),
-              brightness: Brightness.light,
+              backgroundColor: Theme.of(context).primaryColorLight,
+              brightness: Theme.of(context).appBarTheme.brightness,
             )),
         body: Center(
           child: Padding(

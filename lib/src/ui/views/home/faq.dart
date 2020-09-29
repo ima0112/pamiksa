@@ -10,11 +10,16 @@ class _FAQPageState extends State<FAQPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Preguntas Frecuentes",
-            style: TextStyle(
-                color: Theme.of(context).textTheme.bodyText1.color,
-                fontWeight: FontWeight.bold)),
-        elevation: 2.0,
+        backgroundColor: Theme.of(context).primaryColorLight,
+        bottom: PreferredSize(
+            child: AppBar(
+              title: Text("Preguntas Frecuentes",
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1.color,
+                      fontWeight: FontWeight.bold)),
+              elevation: 2.0,
+            ),
+            preferredSize: Size.fromHeight(0)),
       ),
     );
   }

@@ -51,7 +51,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.ForgotPasswordVerification:
       return createRouter(ForgotPasswordVerificationPage());
     case routes.ForgotPassword:
-      return createRouter(ForgotpasswordPage());
+      return createRouter(ForgotPasswordPage());
     case routes.HelpRoute:
       return createRouter(HelpPage());
     case routes.PolicyRoute:

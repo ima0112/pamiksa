@@ -29,13 +29,18 @@ class _ThemeState extends State<ThemePage> {
     themeBloc = BlocProvider.of<ThemeBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Tema",
-          style: TextStyle(
-              color: Theme.of(context).textTheme.bodyText1.color,
-              fontWeight: FontWeight.bold),
-        ),
-        elevation: 2.0,
+        backgroundColor: Theme.of(context).primaryColorLight,
+        bottom: PreferredSize(
+            child: AppBar(
+              title: Text(
+                "Tema",
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1.color,
+                    fontWeight: FontWeight.bold),
+              ),
+              elevation: 2.0,
+            ),
+            preferredSize: Size.fromHeight(0)),
       ),
       body: Column(
         children: [

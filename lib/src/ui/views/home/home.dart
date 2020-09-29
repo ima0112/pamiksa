@@ -18,6 +18,7 @@ class Home extends StatelessWidget {
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(0),
             child: AppBar(
+              backgroundColor: Theme.of(context).primaryColorLight,
               automaticallyImplyLeading: false,
               elevation: 0.0,
             )),

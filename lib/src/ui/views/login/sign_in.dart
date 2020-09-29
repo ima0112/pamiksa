@@ -35,17 +35,20 @@ class LoginPageState extends State<LoginPage> {
             backgroundColor: Theme.of(context).primaryColor,
             brightness: Brightness.dark,
           )),
-      backgroundColor: Colors.white,
       body: BlocConsumer<SignInBloc, SignInState>(
         listener: (context, state) {
           if (state is ConnectionFailedState) {
             Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text("Parece que tienes un problema con la conexión"),
+                content: Text(
+                  "Parece que tienes un problema con la conexión",
+                  style: TextStyle(color: Colors.white),
+                ),
                 duration: Duration(seconds: 5)));
           }
           if (state is CredentialsErrorState) {
             Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text("Credenciales incorrectas"),
+                content: Text("Credenciales incorrectas",
+                    style: TextStyle(color: Colors.white)),
                 duration: Duration(seconds: 5)));
           }
         },
@@ -104,15 +107,15 @@ class LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        '¿ No tiene un usuario ? ',
+                        '¿ No tienes cuenta ? ',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).textTheme.bodyText1.color,
                             fontSize: 14,
                             fontWeight: FontWeight.bold),
                       ),
                       GestureDetector(
                         child: Text(
-                          "Crear cuenta",
+                          "Crearte una cuenta",
                           style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontSize: 14,
