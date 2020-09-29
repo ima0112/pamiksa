@@ -1,7 +1,7 @@
 part of 'theme_bloc.dart';
 
 abstract class ThemeState extends Equatable {
-  final ThemeData themeData;
+  final ThemeMode themeData;
 
   const ThemeState(this.themeData);
 
@@ -10,15 +10,15 @@ abstract class ThemeState extends Equatable {
 }
 
 class ThemeInitial extends ThemeState {
-  final ThemeData themeData;
+  final ThemeMode themeData;
 
   ThemeInitial(this.themeData) : super(null);
 }
 
 class LightThemeState extends ThemeState {
-  LightThemeState(ThemeData themeData) : super(themeData);
+  LightThemeState(ThemeMode themeData) : super(themeData);
 }
 
 class DarkThemeState extends ThemeState {
-  DarkThemeState(ThemeData themeData) : super(themeData);
+  DarkThemeState(ThemeMode themeData) : super(themeData);
 }

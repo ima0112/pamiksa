@@ -145,7 +145,7 @@ class _BusinessItemState extends State<BusinessItem> {
               height: 225,
               placeholder: AssetImage("assets/gif/loading.gif"),
               image: NetworkImage(
-                  "http://192.168.0.2:12345/images/${this.widget.photo}"),
+                  "http://192.168.0.2:8000/images/${this.widget.photo}"),
             ),
             IconButton(
                 icon: Icon(Icons.favorite_border),

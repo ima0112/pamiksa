@@ -57,7 +57,7 @@ class _ThemeState extends State<ThemePage> {
   }
 
   void getPreferences() async {
-    int lightMode = await preferences.read('lightMode');
+    int lightMode = await preferences.read('themeMode');
     setState(() {
       value = lightMode;
     });

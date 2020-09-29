@@ -30,16 +30,11 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
 
   Stream<SplashScreenState> _mapNavigationFromSplashScreenEvent(
       NavigationFromSplashScreenEvent event) async* {
-    final int lightMode = await preferences.read('lightMode') ?? null;
-    final bool darkMode = await preferences.read('darkMode');
     final showIntro = await preferences.read('showIntro');
     final token = await secureStorage.read('authToken') ?? null;
 
     if (showIntro != false) {
       navigationService.navigateWithoutGoBack(routes.IntroRoute);
-    }
-    if (lightMode == null) {
-      await preferences.saveInt('lightMode', 0);
     }
     if (token != null) {
       navigationService.navigateWithoutGoBack(routes.HomeRoute);

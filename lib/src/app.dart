@@ -8,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pamiksa/src/ui/themes/consts.dart' show APP_NAME;
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 import 'package:pamiksa/src/ui/navigation/router.dart' as router;
+import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -21,7 +22,9 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [const Locale('es')],
         title: APP_NAME,
-        theme: state.themeData,
+        themeMode: state.themeData,
+        theme: appThemeData[ThemeMode.light],
+        darkTheme: appThemeData[ThemeMode.dark],
         onGenerateRoute: router.generateRoute,
         initialRoute: routes.SplashRoute,
         navigatorKey: locator<NavigationService>().navigatorKey,

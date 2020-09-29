@@ -4,7 +4,7 @@ import 'package:pamiksa/src/data/storage/shared.dart';
 enum AppTheme { Claro, Oscuro }
 
 final appThemeData = {
-  AppTheme.Claro: ThemeData(
+  ThemeMode.light: ThemeData(
     toggleableActiveColor: Colors.deepPurple,
     textTheme: TextTheme(
         bodyText1: TextStyle(color: Colors.black),
@@ -51,7 +51,7 @@ final appThemeData = {
         unselectedItemColor: Colors.black45),
     brightness: Brightness.light,
   ),
-  AppTheme.Oscuro: ThemeData(
+  ThemeMode.dark: ThemeData(
     toggleableActiveColor: Colors.deepPurple,
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: Color(0xff121212)),
     chipTheme: ChipThemeData(
