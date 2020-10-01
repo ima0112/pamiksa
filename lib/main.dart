@@ -25,12 +25,23 @@ import 'package:pamiksa/src/data/repositories/remote/register_data_repository.da
 import 'package:pamiksa/src/data/repositories/remote/sessions_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:path/path.dart';
+import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 import 'src/blocs/Timer/timer_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  String initialRoute = routes.LoginRoute;
+  bool isUserLoggedIn = await UserModel().isLoggedIn();
+
+  if (isUserLoggedIn) {
+    initialRoute = routes.HomeRoute;
+  }
+
   setupLocator();
+
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
@@ -86,6 +97,6 @@ void main() {
             MunicipalityRepository(client: GraphQLConfiguration().clients())),
       )
     ],
-    child: MyApp(),
+    child: MyApp(initialRoute: initialRoute),
   ));
 }

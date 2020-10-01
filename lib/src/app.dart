@@ -11,6 +11,10 @@ import 'package:pamiksa/src/ui/navigation/router.dart' as router;
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class MyApp extends StatelessWidget {
+  final String initialRoute;
+
+  const MyApp({Key key, @required this.initialRoute}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -26,7 +30,7 @@ class MyApp extends StatelessWidget {
         theme: appThemeData[ThemeMode.light],
         darkTheme: appThemeData[ThemeMode.dark],
         onGenerateRoute: router.generateRoute,
-        initialRoute: routes.SplashRoute,
+        initialRoute: routes.HomeRoute,
         navigatorKey: locator<NavigationService>().navigatorKey,
       );
     });

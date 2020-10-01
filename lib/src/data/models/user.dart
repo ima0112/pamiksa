@@ -1,3 +1,5 @@
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
+
 class UserModel {
   String id;
   String fullName;
@@ -19,6 +21,17 @@ class UserModel {
       this.password,
       this.province,
       this.municipality});
+
+  Future<bool> isLoggedIn() async {
+    SecureStorage secureStorage = SecureStorage();
+    final token = await secureStorage.read('authToken') ?? null;
+
+    if (token != null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   @override
   String toString() {

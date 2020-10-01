@@ -60,6 +60,7 @@ dependencies:
   #  flutter_search_bar: ^2.1.0
 
 dev_dependencies:
+  flutter_native_splash: ^0.1.9
   flutter_test:
     sdk: flutter
 
@@ -90,6 +91,10 @@ flutter:
     - family: Inter
       fonts:
         - asset: assets/fonts/Inter-Regular-slnt=0.ttf
+
+flutter_native_splash:
+  image: assets/images/logo.png
+  color: "ffffff"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
