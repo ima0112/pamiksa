@@ -2,10 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/pages/login_form/sign_in_form.dart';
 import 'package:flutter/services.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class LoginPage extends StatefulWidget {
@@ -15,8 +13,42 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final NavigationService navigationService = locator<NavigationService>();
+  final formKey = GlobalKey<FormState>();
 
   SignInBloc signInBloc;
+
+  String email;
+  String password;
+  bool obscureText = true;
+
+  String validateEmail(String value) {
+    if (value.isEmpty) {
+      return '¡Ingrese un correo electrónico!';
+    }
+    // Regex para validación de email
+    String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+        "\\@" +
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+        "(" +
+        "\\." +
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+        ")+";
+    RegExp regExp = new RegExp(p);
+    if (regExp.hasMatch(value)) {
+      return null;
+    }
+    return '¡El correo electrónico no es válido!';
+  }
+
+  String validatePassword(String value) {
+    if (value.isEmpty) {
+      return '¡Ingrese una contraseña!';
+    }
+    if (value.length < 8) {
+      return '¡Debe poseer al menos 8 caracteres!';
+    }
+    return null;
+  }
 
   @override
   void initState() {
@@ -36,6 +68,8 @@ class _LoginPageState extends State<LoginPage> {
             brightness: Brightness.dark,
           )),
       body: BlocConsumer<SignInBloc, SignInState>(
+        listenWhen: (previous, current) =>
+            current.runtimeType != previous.runtimeType,
         listener: (context, state) {
           if (state is ConnectionFailedState) {
             Scaffold.of(context).showSnackBar(SnackBar(
@@ -52,6 +86,8 @@ class _LoginPageState extends State<LoginPage> {
                 duration: Duration(seconds: 5)));
           }
         },
+        buildWhen: (previous, current) =>
+            current.runtimeType != previous.runtimeType,
         builder: (BuildContext context, SignInState state) {
           if (state is LoadingSignState) {
             return Center(
@@ -82,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                   Spacer(
                     flex: 1,
                   ),
-                  FormLogin(),
+                  loginForm(),
                   Spacer(
                     flex: 1,
                   ),
@@ -133,6 +169,95 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
       ),
+    );
+  }
+
+  Widget loginForm() {
+    return Form(
+        key: formKey,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                TextFormField(
+                  initialValue: email,
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 16),
+                  decoration: const InputDecoration(
+                    helperText: "",
+                    border: UnderlineInputBorder(),
+                    labelText: 'Correo electrónico',
+                    filled: false,
+                    icon: Icon(Icons.email),
+                  ),
+                  onChanged: (String value) {
+                    email = value;
+                  },
+                  validator: (value) => validateEmail(value),
+                ),
+                TextFormField(
+                  initialValue: password,
+                  obscureText: obscureText,
+                  maxLength: 20,
+                  validator: (value) => validatePassword(value),
+                  decoration: new InputDecoration(
+                    helperText: "",
+                    border: const UnderlineInputBorder(),
+                    filled: false,
+                    labelText: 'Contraseña',
+                    icon: Icon(Icons.lock),
+                    suffixIcon: new GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          obscureText = !obscureText;
+                        });
+                      },
+                      child: new Icon(obscureText
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                    ),
+                  ),
+                  onChanged: (String value) {
+                    password = value;
+                  },
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                SizedBox(
+                    width: double.infinity, height: 45, child: loginButton()),
+              ],
+            ),
+          ),
+        ));
+  }
+
+  Widget loginButton() {
+    return BlocBuilder<SignInBloc, SignInState>(
+      buildWhen: (previous, current) =>
+          current.runtimeType != previous.runtimeType,
+      builder: (context, state) {
+        if (state is WaitingSignInResponseState) {
+          return Center(child: CircularProgressIndicator());
+        }
+        return RaisedButton(
+          child: Text("INICIAR SESIÓN"),
+          textColor: Colors.white,
+          color: Theme.of(context).primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          onPressed: () async {
+            if (formKey.currentState.validate()) {
+              signInBloc
+                  .add(MutateSignInEvent(email: email, password: password));
+            }
+          },
+          elevation: 0,
+        );
+      },
     );
   }
 }
