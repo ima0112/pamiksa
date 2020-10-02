@@ -12,10 +12,10 @@ import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterPasswordPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new RegisterPasswordState();
+  State<StatefulWidget> createState() => new RegisterPasswordPageState();
 }
 
-class RegisterPasswordState extends State<RegisterPasswordPage> {
+class RegisterPasswordPageState extends State<RegisterPasswordPage> {
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState<String>>();

@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/views/login/sign_in_form.dart';
+import 'package:pamiksa/src/ui/pages/login_form/sign_in_form.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class LoginPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => LoginPageState();
+  State<StatefulWidget> createState() => _LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   final NavigationService navigationService = locator<NavigationService>();
 
   SignInBloc signInBloc;

@@ -44,7 +44,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       final response =
           await sessionsRepository.fetchSessions(deviceModel.deviceId);
       if (response.hasException) {
-        yield ConnectionFailedState();
+        yield DeviceConnectionFailedState();
       } else {
         final List businessData = response.data['devicesByUser'];
         devicesModelList = businessData
@@ -62,7 +62,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         yield LoadedDevicesState(devicesModelList, deviceModel);
       }
     } catch (error) {
-      yield ConnectionFailedState();
+      yield DeviceConnectionFailedState();
     }
   }
 
@@ -70,7 +70,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
     await deviceInfo.initPlatformState(deviceModel);
     final response = await sessionsRepository.signOutAll(deviceModel.deviceId);
     if (response.hasException) {
-      yield ConnectionFailedState();
+      yield DeviceConnectionFailedState();
     } else {
       sessionsRepository.clear();
       devicesModelList.clear();
@@ -83,14 +83,14 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       await deviceInfo.initPlatformState(deviceModel);
       final response = await userRepository.signOut(event.deviceId);
       if (response.hasException) {
-        yield ConnectionFailedState();
+        yield DeviceConnectionFailedState();
       } else {
         await sessionsRepository.deleteById(event.deviceId);
         devicesModelList.removeWhere((element) => element.deviceId == event.deviceId);
         yield SignOutState(devicesModelList, deviceModel);
       }
     } catch (error) {
-      yield ConnectionFailedState();
+      yield DeviceConnectionFailedState();
     }
   }
 }

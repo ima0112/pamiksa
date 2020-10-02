@@ -6,12 +6,12 @@ import 'package:pamiksa/src/blocs/devices/devices_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
-class Devices extends StatefulWidget {
+class DevicesPage extends StatefulWidget {
   @override
-  _DevicesState createState() => _DevicesState();
+  _DevicesPageState createState() => _DevicesPageState();
 }
 
-class _DevicesState extends State<Devices> {
+class _DevicesPageState extends State<DevicesPage> {
   DevicesBloc devicesBloc;
   final NavigationService navigationService = locator<NavigationService>();
   final ScrollController _scrollController = ScrollController();

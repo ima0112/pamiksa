@@ -7,7 +7,7 @@ abstract class RegisterVerificationEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class MutateCodeEvent extends RegisterVerificationEvent {}
+class RegisterVerificationMutateCodeEvent extends RegisterVerificationEvent {}
 
 class CheckVerificationCodeEvent extends RegisterVerificationEvent {
   final String code;

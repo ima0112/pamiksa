@@ -26,7 +26,7 @@ class LoadingDeviceData extends DevicesState {
   List<Object> get props => throw UnimplementedError();
 }
 
-class ConnectionFailedState extends DevicesState {
+class DeviceConnectionFailedState extends DevicesState {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();

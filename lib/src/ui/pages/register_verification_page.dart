@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-
-import 'package:pamiksa/src/blocs/register_verification/register_verification_bloc.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/graphql/mutations/user.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
@@ -20,7 +19,6 @@ import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
-import '../../../blocs/Timer/timer_bloc.dart';
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -142,7 +140,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                   buildWhen: (previousState, state) =>
                                       state.runtimeType !=
                                       previousState.runtimeType,
-                                  builder: (context, state) => Actions(),
+                                  builder: (context, state) => RegisterVerificationActions(),
                                 );
                               },
                             ),
@@ -166,7 +164,7 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 }
 
-class Actions extends StatelessWidget {
+class RegisterVerificationActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -174,7 +172,7 @@ class Actions extends StatelessWidget {
       children: _mapStateToActionButtons(
           color: Theme.of(context).primaryColor,
           timerBloc: BlocProvider.of<TimerBloc>(context),
-          registerVeriicationBloc:
+          registerVericationBloc:
               BlocProvider.of<RegisterVerificationBloc>(context)),
     );
   }
@@ -182,7 +180,7 @@ class Actions extends StatelessWidget {
   List<Widget> _mapStateToActionButtons({
     TimerBloc timerBloc,
     Color color,
-    RegisterVerificationBloc registerVeriicationBloc,
+    RegisterVerificationBloc registerVericationBloc,
   }) {
     final TimerState currentState = timerBloc.state;
     if (currentState is TimerInitial) {
@@ -195,7 +193,7 @@ class Actions extends StatelessWidget {
           ),
           onPressed: () {
             timerBloc.add(TimerStarted(duration: currentState.duration));
-            registerVeriicationBloc.add(MutateCodeEvent());
+            registerVericationBloc.add(RegisterVerificationMutateCodeEvent());
           },
           label: Text("Reenviar código"),
         )

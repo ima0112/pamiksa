@@ -1,14 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/home/home_bloc.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/models/business.dart';
-import 'package:pamiksa/src/ui/views/home/business_item.dart';
-import 'package:pamiksa/src/ui/views/home/settings.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:pamiksa/src/ui/views/home/business_item_skeleton.dart';
 
-class Home extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   HomeBloc homeBloc;
 
   @override
@@ -27,7 +29,7 @@ class Home extends StatelessWidget {
             return BlocBuilder<HomeBloc, HomeState>(
               buildWhen: (previousState, state) =>
                   state.runtimeType != previousState.runtimeType,
-              builder: (context, state) => Actions(),
+              builder: (context, state) => HomeActions(),
             );
           },
         ),
@@ -50,12 +52,12 @@ class Home extends StatelessWidget {
   }
 }
 
-class Actions extends StatefulWidget {
+class HomeActions extends StatefulWidget {
   @override
-  _ActionsState createState() => _ActionsState();
+  _HomeActionsState createState() => _HomeActionsState();
 }
 
-class _ActionsState extends State<Actions> {
+class _HomeActionsState extends State<HomeActions> {
   final ScrollController _scrollController = ScrollController();
 
   HomeBloc homeBloc;
@@ -124,7 +126,7 @@ class _ActionsState extends State<Actions> {
                 itemBuilder: (_, index) => Shimmer.fromColors(
                     baseColor: Colors.grey[300],
                     highlightColor: Colors.grey[200],
-                    child: BusinessItemSkeleton()),
+                    child: BusinessItemSkeletonPage()),
                 separatorBuilder: (_, __) => Divider(height: 0.0),
               )
             ]))
@@ -187,7 +189,7 @@ class _ActionsState extends State<Actions> {
                 controller: _scrollController,
                 shrinkWrap: true,
                 itemCount: businessData.length,
-                itemBuilder: (_, index) => BusinessItem(
+                itemBuilder: (_, index) => BusinessItemPage(
                   name: businessData[index].name,
                   photo: businessData[index].photo,
                   adress: businessData[index].adress,
@@ -209,8 +211,8 @@ class _ActionsState extends State<Actions> {
         ),
       );
     } else if (currentState is ShowThirdState) {
-      return Settings();
-    } else if (currentState is ConnectionFailedState) {
+      return SettingsPage();
+    } else if (currentState is HomeConnectionFailedState) {
       return Center(
           child: SafeArea(
         child: CustomScrollView(

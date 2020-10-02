@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
-class BusinessDetail extends StatelessWidget {
+class BusinessDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return _ContactCategory(

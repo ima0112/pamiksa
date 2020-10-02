@@ -2,25 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
-import 'package:pamiksa/src/ui/views/forgot_password/forgot_password.dart';
-import 'package:pamiksa/src/ui/views/forgot_password/forgot_password_email.dart';
-import 'package:pamiksa/src/ui/views/forgot_password/forgot_password_verification.dart';
-import 'package:pamiksa/src/ui/views/home/conditions.dart';
-import 'package:pamiksa/src/ui/views/home/devices.dart';
-import 'package:pamiksa/src/ui/views/home/faq.dart';
-import 'package:pamiksa/src/ui/views/home/help.dart';
-import 'package:pamiksa/src/ui/views/home/home.dart';
-import 'package:pamiksa/src/ui/views/home/policy.dart';
-import 'package:pamiksa/src/ui/views/home/theme.dart';
-import 'package:pamiksa/src/ui/views/intro/intro.dart';
-import 'package:pamiksa/src/ui/views/login/sign_in.dart';
-import 'package:pamiksa/src/ui/views/register/register_complete.dart';
-import 'package:pamiksa/src/ui/views/register/register_email.dart';
-import 'package:pamiksa/src/ui/views/register/register_location.dart';
-import 'package:pamiksa/src/ui/views/register/register_password.dart';
-import 'package:pamiksa/src/ui/views/register/register_personal_info.dart';
-import 'package:pamiksa/src/ui/views/register/register_verification.dart';
-import 'package:pamiksa/src/ui/views/splashScreen/splash_screen.dart';
+import 'package:pamiksa/src/ui/pages/forgot_password_page.dart';
+import 'package:pamiksa/src/ui/pages/forgot_password_email_page.dart';
+import 'package:pamiksa/src/ui/pages/forgot_password_verification_page.dart';
+import 'package:pamiksa/src/ui/pages/conditions_page.dart';
+import 'package:pamiksa/src/ui/pages/devices_page.dart';
+import 'package:pamiksa/src/ui/pages/faq_page.dart';
+import 'package:pamiksa/src/ui/pages/help_page.dart';
+import 'package:pamiksa/src/ui/pages/home_page.dart';
+import 'package:pamiksa/src/ui/pages/policy_page.dart';
+import 'package:pamiksa/src/ui/pages/theme_page.dart';
+import 'package:pamiksa/src/ui/pages/intro_page.dart';
+import 'package:pamiksa/src/ui/pages/sign_in_page.dart';
+import 'package:pamiksa/src/ui/pages/register_complete_page.dart';
+import 'package:pamiksa/src/ui/pages/register_email_page.dart';
+import 'package:pamiksa/src/ui/pages/register_location_page.dart';
+import 'package:pamiksa/src/ui/pages/register_password_page.dart';
+import 'package:pamiksa/src/ui/pages/register_personal_info_page.dart';
+import 'package:pamiksa/src/ui/pages/register_verification_page.dart';
+import 'package:pamiksa/src/ui/pages/splashScreen/splash_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -39,7 +39,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.RegisterLocationRoute:
       return createRouter(RegisterLocationPage());
     case routes.DevicesRoute:
-      return createRouter(Devices());
+      return createRouter(DevicesPage());
     case routes.RegisterCompleteRoute:
       return createRouter(RegisterCompletePage());
     case routes.VerificationRoute:
@@ -61,7 +61,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case routes.FAQRoute:
       return createRouter(FAQPage());
     case routes.HomeRoute:
-      return MaterialPageRoute(builder: (context) => Home());
+      return MaterialPageRoute(builder: (context) => HomePage());
   }
 }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pamiksa/src/ui/views/login/sign_in.dart';
+import 'package:pamiksa/src/ui/pages/sign_in_page.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

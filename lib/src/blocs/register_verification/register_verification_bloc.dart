@@ -23,7 +23,7 @@ class RegisterVerificationBloc
   Stream<RegisterVerificationState> mapEventToState(
     RegisterVerificationEvent event,
   ) async* {
-    if (event is MutateCodeEvent) {
+    if (event is RegisterVerificationMutateCodeEvent) {
       yield* _mapMutateCodeEvent(event);
     }
     if (event is CheckVerificationCodeEvent) {
@@ -32,7 +32,7 @@ class RegisterVerificationBloc
   }
 
   Stream<RegisterVerificationState> _mapMutateCodeEvent(
-      MutateCodeEvent event) async* {
+      RegisterVerificationMutateCodeEvent event) async* {
     yield RegisterVerificationInitial();
 
     String email = await secureStorage.read('email');

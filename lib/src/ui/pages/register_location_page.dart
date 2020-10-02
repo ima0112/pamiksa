@@ -11,10 +11,10 @@ import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterLocationPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new RegisterLocationState();
+  State<StatefulWidget> createState() => new RegisterLocationPageState();
 }
 
-class RegisterLocationState extends State<RegisterLocationPage> {
+class RegisterLocationPageState extends State<RegisterLocationPage> {
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
 
@@ -144,7 +144,7 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
-                              locationBloc.add(MutateCodeEvent(adress,
+                              locationBloc.add(LocationMutateCodeEvent(adress,
                                   selectedprovincia, selectedmunicipio));
                             }
                           },
