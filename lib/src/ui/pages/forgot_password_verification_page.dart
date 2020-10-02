@@ -20,7 +20,7 @@ import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
-import '../../../blocs/Timer/timer_bloc.dart';
+import '../../blocs/timer/timer_bloc.dart';
 
 class ForgotPasswordVerificationPage extends StatefulWidget {
   @override
@@ -57,8 +57,8 @@ class ForgotPasswordVerificationPageState
           preferredSize: Size.fromHeight(0),
           child: AppBar(
             elevation: 0.0,
-            backgroundColor: Color(0xffF5F5F5),
-            brightness: Brightness.light,
+            backgroundColor: Theme.of(context).primaryColorLight,
+            brightness: Theme.of(context).appBarTheme.brightness,
           )),
       body: Center(
         child: Padding(
@@ -147,7 +147,7 @@ class ForgotPasswordVerificationPageState
                                   buildWhen: (previousState, state) =>
                                       state.runtimeType !=
                                       previousState.runtimeType,
-                                  builder: (context, state) => Actions(),
+                                  builder: (context, state) => ForgotPasswordVerificationActions(),
                                 );
                               },
                             ),
@@ -171,7 +171,7 @@ class ForgotPasswordVerificationPageState
   }
 }
 
-class Actions extends StatelessWidget {
+class ForgotPasswordVerificationActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(

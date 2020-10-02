@@ -5,7 +5,6 @@ enum AppTheme { Claro, Oscuro }
 
 final appThemeData = {
   ThemeMode.light: ThemeData(
-    toggleableActiveColor: Colors.deepPurple,
     textTheme: TextTheme(
         bodyText1: TextStyle(color: Colors.black),
         bodyText2: TextStyle(color: Colors.black)),
@@ -39,6 +38,7 @@ final appThemeData = {
     cursorColor: Colors.deepPurpleAccent[700],
     hoverColor: Colors.deepPurple[700],
     primaryColor: Colors.deepPurpleAccent[700],
+    primaryColorLight: Colors.black12,
     bottomAppBarColor: Colors.deepPurpleAccent[700],
     focusColor: Colors.deepPurpleAccent[700],
     accentColor: Colors.deepPurpleAccent[700],
@@ -83,6 +83,7 @@ final appThemeData = {
     cursorColor: Color(0xff7C4DFF),
     hoverColor: Color(0xff7C4DFF),
     primaryColor: Colors.deepPurple,
+    primaryColorLight: Colors.black,
     bottomAppBarColor: Color(0xff7C4DFF),
     focusColor: Color(0xff7C4DFF),
     accentColor: Color(0xff7C4DFF),
@@ -96,21 +97,3 @@ final appThemeData = {
     brightness: Brightness.dark,
   )
 };
-
-// void toggleTheme() {
-//   emit(state.brightness == Brightness.dark ? _lightTheme : _darkTheme);
-// }
-
-// void lightTheme(int val) {
-//   emit(_lightTheme);
-//   preferences.saveInt('darkMode', false);
-// }
-
-// void darkTheme(int val) {
-//   emit(_darkTheme);
-//   preferences.saveInt('darkMode', true);
-// }
-
-// ThemeData lightThemeData() {
-//   return _lightTheme;
-// }

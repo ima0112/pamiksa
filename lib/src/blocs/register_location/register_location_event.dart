@@ -9,12 +9,12 @@ abstract class LocationEvent extends Equatable {
 
 class FetchProvincesEvent extends LocationEvent {}
 
-class MutateCodeEvent extends LocationEvent {
+class LocationMutateCodeEvent extends LocationEvent {
   final String adress;
   final String provinceId;
   final String municipalityId;
 
-  MutateCodeEvent(this.adress, this.provinceId, this.municipalityId);
+  LocationMutateCodeEvent(this.adress, this.provinceId, this.municipalityId);
 }
 
 class FetchProvinceMunicipalityDataEvent extends LocationEvent {}

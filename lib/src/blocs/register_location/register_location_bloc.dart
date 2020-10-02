@@ -34,7 +34,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   Stream<LocationState> mapEventToState(
     LocationEvent event,
   ) async* {
-    if (event is MutateCodeEvent) {
+    if (event is LocationMutateCodeEvent) {
       yield* _mapMutateCodeEvent(event);
     }
     if (event is FetchProvinceMunicipalityDataEvent) {
@@ -45,7 +45,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     }
   }
 
-  Stream<LocationState> _mapMutateCodeEvent(MutateCodeEvent event) async* {
+  Stream<LocationState> _mapMutateCodeEvent(LocationMutateCodeEvent event) async* {
     String email = await secureStorage.read('email');
     int code = await random.randomCode();
 

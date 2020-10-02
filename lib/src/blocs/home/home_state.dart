@@ -34,8 +34,8 @@ class LoadedBusinessState extends HomeState {
   List<Object> get props => throw UnimplementedError();
 }
 
-class ConnectionFailedState extends HomeState {
-  ConnectionFailedState(int index) : super(index);
+class HomeConnectionFailedState extends HomeState {
+  HomeConnectionFailedState(int index) : super(index);
 
   @override
   // TODO: implement props

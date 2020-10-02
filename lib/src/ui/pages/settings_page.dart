@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/devices/devices_bloc.dart';
@@ -6,15 +5,13 @@ import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
-import 'package:pamiksa/src/ui/views/home/theme.dart';
-import 'package:pamiksa/src/blocs/devices/devices_bloc.dart';
 
-class Settings extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
   @override
-  _SettingsState createState() => _SettingsState();
+  _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _SettingsState extends State<Settings> {
+class _SettingsPageState extends State<SettingsPage> {
   HomeBloc homeBloc;
   DevicesBloc devicesBloc;
   final NavigationService navigationService = locator<NavigationService>();

@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/home/home_bloc.dart';
 
-class BusinessItem extends StatefulWidget {
+class BusinessItemPage extends StatefulWidget {
   String id;
   String name;
   String description;
@@ -15,7 +15,7 @@ class BusinessItem extends StatefulWidget {
   double valoration;
   double deliveryPrice;
 
-  BusinessItem(
+  BusinessItemPage(
       {this.id,
       this.name,
       this.description,
@@ -27,10 +27,10 @@ class BusinessItem extends StatefulWidget {
       this.valoration});
 
   @override
-  _BusinessItemState createState() => _BusinessItemState();
+  _BusinessItemPageState createState() => _BusinessItemPageState();
 }
 
-class _BusinessItemState extends State<BusinessItem> {
+class _BusinessItemPageState extends State<BusinessItemPage> {
   HomeBloc homeBloc;
 
   @override

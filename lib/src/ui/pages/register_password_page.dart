@@ -12,10 +12,10 @@ import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterPasswordPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new RegisterPasswordState();
+  State<StatefulWidget> createState() => new RegisterPasswordPageState();
 }
 
-class RegisterPasswordState extends State<RegisterPasswordPage> {
+class RegisterPasswordPageState extends State<RegisterPasswordPage> {
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState<String>>();
@@ -58,8 +58,8 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
           preferredSize: Size.fromHeight(0),
           child: AppBar(
             elevation: 0.0,
-            backgroundColor: Color(0xffF5F5F5),
-            brightness: Brightness.light,
+            backgroundColor: Theme.of(context).primaryColorLight,
+            brightness: Theme.of(context).appBarTheme.brightness,
           )),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
@@ -91,10 +91,6 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                             TextFormField(
                               initialValue: password,
                               key: _passKey,
-                              style: TextStyle(
-                                  fontFamily: 'RobotoMono-Regular',
-                                  color: Colors.black54,
-                                  fontSize: 16),
                               obscureText: _obscureText,
                               maxLength: 20,
                               validator: (value) => _validatePassword(value),
@@ -120,10 +116,6 @@ class RegisterPasswordState extends State<RegisterPasswordPage> {
                             ),
                             TextFormField(
                               initialValue: passwordtwo,
-                              style: TextStyle(
-                                  fontFamily: 'RobotoMono-Regular',
-                                  color: Colors.black54,
-                                  fontSize: 16),
                               obscureText: _obscureText,
                               maxLength: 20,
                               validator: (value) => _validatePasswordTwo(value),

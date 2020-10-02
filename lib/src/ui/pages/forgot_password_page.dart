@@ -7,12 +7,12 @@ import 'package:pamiksa/src/blocs/forgot_password/forgot_password_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
-class ForgotpasswordPage extends StatefulWidget {
+class ForgotPasswordPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new ForgotpasswordState();
+  State<StatefulWidget> createState() => new ForgotpasswordPageState();
 }
 
-class ForgotpasswordState extends State<ForgotpasswordPage> {
+class ForgotpasswordPageState extends State<ForgotPasswordPage> {
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState<String>>();
@@ -56,8 +56,8 @@ class ForgotpasswordState extends State<ForgotpasswordPage> {
           preferredSize: Size.fromHeight(0),
           child: AppBar(
             elevation: 0.0,
-            backgroundColor: Color(0xffF5F5F5),
-            brightness: Brightness.light,
+            backgroundColor: Theme.of(context).primaryColorLight,
+            brightness: Theme.of(context).appBarTheme.brightness,
           )),
       body: BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
         builder: (context, state) {
@@ -93,10 +93,6 @@ class ForgotpasswordState extends State<ForgotpasswordPage> {
                                   TextFormField(
                                     initialValue: password,
                                     key: _passKey,
-                                    style: TextStyle(
-                                        fontFamily: 'RobotoMono-Regular',
-                                        color: Colors.black54,
-                                        fontSize: 16),
                                     obscureText: _obscureText,
                                     maxLength: 20,
                                     validator: (value) =>
@@ -123,10 +119,6 @@ class ForgotpasswordState extends State<ForgotpasswordPage> {
                                   ),
                                   TextFormField(
                                     initialValue: passwordtwo,
-                                    style: TextStyle(
-                                        fontFamily: 'RobotoMono-Regular',
-                                        color: Colors.black54,
-                                        fontSize: 16),
                                     obscureText: _obscureText,
                                     maxLength: 20,
                                     validator: (value) =>

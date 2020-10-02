@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BusinessItemSkeleton extends StatelessWidget {
+class BusinessItemSkeletonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(

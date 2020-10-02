@@ -11,10 +11,10 @@ import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterLocationPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new RegisterLocationState();
+  State<StatefulWidget> createState() => new RegisterLocationPageState();
 }
 
-class RegisterLocationState extends State<RegisterLocationPage> {
+class RegisterLocationPageState extends State<RegisterLocationPage> {
   final NavigationService navigationService = locator<NavigationService>();
   final _formKey = GlobalKey<FormState>();
 
@@ -49,8 +49,8 @@ class RegisterLocationState extends State<RegisterLocationPage> {
           preferredSize: Size.fromHeight(0),
           child: AppBar(
             elevation: 0.0,
-            backgroundColor: Color(0xffF5F5F5),
-            brightness: Brightness.light,
+            backgroundColor: Theme.of(context).primaryColorLight,
+            brightness: Theme.of(context).appBarTheme.brightness,
           )),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
@@ -85,66 +85,10 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                                 children: [
                                   provinces(),
                                   municipalities(),
-                                  // DropdownButtonFormField(
-                                  //   decoration: InputDecoration(
-                                  //     border: UnderlineInputBorder(),
-                                  //     labelText: "Provincia",
-                                  //     labelStyle: TextStyle(
-                                  //         fontFamily: 'RobotoMono-Regular'),
-                                  //     icon: Icon(Icons.location_city),
-                                  //     helperText: "",
-                                  //   ),
-                                  //   style: TextStyle(
-                                  //       fontFamily: 'RobotoMono-Regular',
-                                  //       color: Colors.black54,
-                                  //       fontSize: 16),
-                                  //   onChanged: (dynamic value) {
-                                  //     _selectedprovincia = value;
-                                  //   },
-                                  //   validator: (value) => value == null
-                                  //       ? '¡Escoge tu provincia!'
-                                  //       : null,
-                                  //   items: _provincias.map((e) {
-                                  //     return DropdownMenuItem(
-                                  //       child: new Text(e),
-                                  //       value: e,
-                                  //     );
-                                  //   }).toList(),
-                                  // ),
-                                  // DropdownButtonFormField(
-                                  //   decoration: InputDecoration(
-                                  //     border: UnderlineInputBorder(),
-                                  //     labelText: "Municipio",
-                                  //     labelStyle: TextStyle(
-                                  //         fontFamily: 'RobotoMono-Regular'),
-                                  //     icon: Icon(Icons.near_me),
-                                  //     helperText: "",
-                                  //   ),
-                                  //   style: TextStyle(
-                                  //       fontFamily: 'RobotoMono-Regular',
-                                  //       color: Colors.black54,
-                                  //       fontSize: 16),
-                                  //   onChanged: (dynamic value) {
-                                  //     _selectedmunicipio = value;
-                                  //   },
-                                  //   validator: (value) => value == null
-                                  //       ? '¡Escoge tu municipio!'
-                                  //       : null,
-                                  //   items: _municipios.map((e) {
-                                  //     return DropdownMenuItem(
-                                  //       child: new Text(e),
-                                  //       value: e,
-                                  //     );
-                                  //   }).toList(),
-                                  // ),
                                   TextFormField(
                                     initialValue: adress,
                                     textCapitalization:
                                         TextCapitalization.words,
-                                    style: TextStyle(
-                                        fontFamily: 'RobotoMono-Regular',
-                                        color: Colors.black54,
-                                        fontSize: 16),
                                     decoration: InputDecoration(
                                       helperText: "",
                                       icon: Icon(Icons.location_on),
@@ -200,7 +144,7 @@ class RegisterLocationState extends State<RegisterLocationPage> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
-                              locationBloc.add(MutateCodeEvent(adress,
+                              locationBloc.add(LocationMutateCodeEvent(adress,
                                   selectedprovincia, selectedmunicipio));
                             }
                           },
@@ -229,13 +173,11 @@ class RegisterLocationState extends State<RegisterLocationPage> {
             border: UnderlineInputBorder(),
             labelText: "Provincia",
             labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
-            icon: Icon(Icons.location_city),
+            icon: Icon(
+              Icons.location_city,
+            ),
             helperText: "",
           ),
-          style: TextStyle(
-              fontFamily: 'RobotoMono-Regular',
-              color: Colors.black54,
-              fontSize: 16),
           onChanged: (dynamic value) {
             if (selectedprovincia != value) {
               selectedprovincia = value;
@@ -259,10 +201,6 @@ class RegisterLocationState extends State<RegisterLocationPage> {
             icon: Icon(Icons.location_city),
             helperText: "",
           ),
-          style: TextStyle(
-              fontFamily: 'RobotoMono-Regular',
-              color: Colors.black54,
-              fontSize: 16),
           onChanged: (dynamic value) {
             if (selectedprovincia != value) {
               selectedprovincia = value;
@@ -294,10 +232,6 @@ class RegisterLocationState extends State<RegisterLocationPage> {
               icon: Icon(Icons.location_city),
               helperText: "",
             ),
-            style: TextStyle(
-                fontFamily: 'RobotoMono-Regular',
-                color: Colors.black54,
-                fontSize: 16),
             onChanged: (dynamic value) {
               selectedmunicipio = value;
             },
@@ -319,10 +253,6 @@ class RegisterLocationState extends State<RegisterLocationPage> {
             icon: Icon(Icons.location_city),
             helperText: "",
           ),
-          style: TextStyle(
-              fontFamily: 'RobotoMono-Regular',
-              color: Colors.black54,
-              fontSize: 16),
           onChanged: (dynamic value) {},
           validator: (value) => value == null ? '¡Escoge tu provincia!' : null,
         );

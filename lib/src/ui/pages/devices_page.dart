@@ -6,12 +6,12 @@ import 'package:pamiksa/src/blocs/devices/devices_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
-class Devices extends StatefulWidget {
+class DevicesPage extends StatefulWidget {
   @override
-  _DevicesState createState() => _DevicesState();
+  _DevicesPageState createState() => _DevicesPageState();
 }
 
-class _DevicesState extends State<Devices> {
+class _DevicesPageState extends State<DevicesPage> {
   DevicesBloc devicesBloc;
   final NavigationService navigationService = locator<NavigationService>();
   final ScrollController _scrollController = ScrollController();
@@ -21,13 +21,18 @@ class _DevicesState extends State<Devices> {
     devicesBloc = BlocProvider.of<DevicesBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Dispositivos",
-          style: TextStyle(
-              color: Theme.of(context).textTheme.bodyText1.color,
-              fontWeight: FontWeight.bold),
-        ),
-        elevation: 2.0,
+        backgroundColor: Theme.of(context).primaryColorLight,
+        bottom: PreferredSize(
+            child: AppBar(
+              title: Text(
+                "Dispositivos",
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1.color,
+                    fontWeight: FontWeight.bold),
+              ),
+              elevation: 2.0,
+            ),
+            preferredSize: Size.fromHeight(0)),
       ),
       body: BlocBuilder<DevicesBloc, DevicesState>(
         builder: (context, state) {
