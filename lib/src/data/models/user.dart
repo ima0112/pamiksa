@@ -27,9 +27,9 @@ class UserModel {
     final token = await secureStorage.read('authToken') ?? null;
 
     if (token != null) {
-      return false;
-    } else {
       return true;
+    } else {
+      return false;
     }
   }
 
