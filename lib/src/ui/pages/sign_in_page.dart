@@ -1,10 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/sign_in/sign_in_bloc.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -59,7 +58,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     signInBloc = BlocProvider.of<SignInBloc>(context);
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: true,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AppBar(
@@ -95,75 +95,83 @@ class _LoginPageState extends State<LoginPage> {
             );
           }
           return SafeArea(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 20.0),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      "assets/images/pamiksa_logo_violeta_sin_fondo.png",
-                      width: 80,
-                      height: 80,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text("Pamiksa",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 35,
-                            letterSpacing: 1.0)),
-                  ),
-                  Spacer(
-                    flex: 1,
-                  ),
-                  loginForm(),
-                  Spacer(
-                    flex: 1,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      navigationService.navigateTo(routes.ForgotPasswordEmail);
-                    },
-                    child: Center(
-                      child: Text(
-                        '¿ Has olvidado tu contraseña ?',
-                        style: TextStyle(
-                            color: Color(0xff6200EA),
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
+            top: true,
+            bottom: true,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 20.0),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: Image.asset(
+                        "assets/images/pamiksa_logo_violeta_sin_fondo.png",
+                        width: 80,
+                        height: 80,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 7.5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        '¿ No tienes cuenta ? ',
-                        style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1.color,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      GestureDetector(
-                        child: Text(
-                          "Crearte una cuenta",
+                    Expanded(
+                      flex: 1,
+                      child: Text("Pamiksa",
                           style: TextStyle(
-                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 35,
+                              letterSpacing: 1.0)),
+                    ),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    loginForm(),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        navigationService
+                            .navigateTo(Routes.ForgotPasswordEmail);
+                      },
+                      child: Center(
+                        child: Text(
+                          '¿ Has olvidado tu contraseña ?',
+                          style: TextStyle(
+                              color: Color(0xff6200EA),
                               fontSize: 14,
                               fontWeight: FontWeight.bold),
                         ),
-                        onTap: () {
-                          signInBloc.add(GetRegisterDataEvent());
-                        },
-                      )
-                    ],
-                  )
-                ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 7.5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          '¿ No tienes cuenta ? ',
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        GestureDetector(
+                          child: Text(
+                            "Crearte una cuenta",
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () {
+                            signInBloc.add(GetRegisterDataEvent());
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           );

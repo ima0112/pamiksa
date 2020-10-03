@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
         ),
         bottomNavigationBar: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) => BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
             currentIndex: state.index,
             onTap: (index) =>
                 homeBloc.add(BottomNavigationItemTappedEvent(index)),

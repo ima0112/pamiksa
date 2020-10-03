@@ -7,7 +7,7 @@ import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'forgot_password_email_event.dart';
 part 'forgot_password_email_state.dart';
@@ -42,7 +42,7 @@ class ForgotPasswordEmailBloc
       print({await secureStorage.read('email')});
       await secureStorage.save('code', code.toString());
       await navigationService
-          .navigateWithoutGoBack(routes.ForgotPasswordVerification);
+          .navigateWithoutGoBack(Routes.ForgotPasswordVerification);
       yield ForgotPasswordEmailInitial();
     } else if (response.data['userExists'] == false) {
       yield NotExistsUserEmailState();

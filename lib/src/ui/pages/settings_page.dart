@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/devices/devices_bloc.dart';
-import 'package:pamiksa/src/blocs/home/home_bloc.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -56,7 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
             leading: Icon(Icons.palette),
             title: Text("Tema"),
             onTap: () {
-              navigationService.navigateTo(routes.ThemeRoute);
+              navigationService.navigateTo(Routes.ThemeRoute);
             },
             trailing: Icon(
               Icons.arrow_forward_ios,
@@ -80,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
             leading: Icon(Icons.help_outline),
             title: Text("Ayuda"),
             onTap: () {
-              navigationService.navigateTo(routes.HelpRoute);
+              navigationService.navigateTo(Routes.HelpRoute);
             },
             trailing: Icon(
               Icons.arrow_forward_ios,

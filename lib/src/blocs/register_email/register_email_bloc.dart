@@ -6,7 +6,7 @@ import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'register_email_event.dart';
 part 'register_email_state.dart';
@@ -37,7 +37,7 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
     } else if (response.data['userExists'] == false) {
       await secureStorage.save('email', event.email);
       print({await secureStorage.read('email')});
-      await navigationService.navigateTo(routes.RegisterPasswordRoute);
+      await navigationService.navigateTo(Routes.RegisterPasswordRoute);
       yield RegisterEmailInitial();
     }
   }

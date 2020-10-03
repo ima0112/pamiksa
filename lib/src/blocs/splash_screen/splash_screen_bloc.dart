@@ -6,7 +6,7 @@ import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'splash_screen_event.dart';
 part 'splash_screen_state.dart';
@@ -34,12 +34,12 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     final token = await secureStorage.read('authToken') ?? null;
 
     if (showIntro != false) {
-      navigationService.navigateWithoutGoBack(routes.IntroRoute);
+      navigationService.navigateWithoutGoBack(Routes.IntroRoute);
     }
     if (token != null) {
-      navigationService.navigateWithoutGoBack(routes.HomeRoute);
+      navigationService.navigateWithoutGoBack(Routes.HomeRoute);
     } else if (token == null) {
-      navigationService.navigateWithoutGoBack(routes.LoginRoute);
+      navigationService.navigateWithoutGoBack(Routes.LoginRoute);
     }
   }
 }

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/theme/theme_bloc.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:pamiksa/src/ui/themes/consts.dart' show APP_NAME;
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
-import 'package:pamiksa/src/ui/navigation/router.dart' as router;
+import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
+import 'package:pamiksa/src/ui/themes/consts.dart' show APP_NAME;
 
 class MyApp extends StatelessWidget {
   final String initialRoute;
@@ -29,8 +26,8 @@ class MyApp extends StatelessWidget {
         themeMode: state.themeData,
         theme: appThemeData[ThemeMode.light],
         darkTheme: appThemeData[ThemeMode.dark],
-        onGenerateRoute: router.generateRoute,
-        initialRoute: initialRoute,
+        onGenerateRoute: GenerateRoute.generateRoute,
+        initialRoute: Routes.HomeRoute,
         navigatorKey: locator<NavigationService>().navigatorKey,
       );
     });

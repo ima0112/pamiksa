@@ -10,7 +10,7 @@ import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/random.dart' as random;
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'register_location_event.dart';
 part 'register_location_state.dart';
@@ -45,7 +45,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     }
   }
 
-  Stream<LocationState> _mapMutateCodeEvent(LocationMutateCodeEvent event) async* {
+  Stream<LocationState> _mapMutateCodeEvent(
+      LocationMutateCodeEvent event) async* {
     String email = await secureStorage.read('email');
     int code = await random.randomCode();
 
@@ -57,7 +58,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         await this.userRepository.sendVerificationCode(email, code.toString());
 
     print({"response": response.data.toString(), "code": code, "email": email});
-    navigationService.navigateAndRemoveUntil(routes.VerificationRoute);
+    navigationService.navigateAndRemoveUntil(Routes.VerificationRoute);
   }
 
   Stream<LocationState> _mapFetchProvinceMunicipalityDataEvent(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pamiksa/src/data/consts.dart' as consts;
 import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 class HelpPage extends StatefulWidget {
   @override
@@ -37,21 +36,21 @@ class _HelpPageState extends State<HelpPage> {
               leading: Icon(Icons.question_answer),
               title: Text("Preguntas Frecuentes"),
               onTap: () {
-                navigationService.navigateTo(routes.FAQRoute);
+                navigationService.navigateTo(Routes.FAQRoute);
               },
             ),
             ListTile(
               leading: Icon(Icons.volume_off),
               title: Text("Politicas de Privacidad"),
               onTap: () {
-                navigationService.navigateTo(routes.PolicyRoute);
+                navigationService.navigateTo(Routes.PolicyRoute);
               },
             ),
             ListTile(
               leading: Icon(Icons.data_usage),
               title: Text("Condiciones de Uso"),
               onTap: () {
-                navigationService.navigateTo(routes.ConditionsRoute);
+                navigationService.navigateTo(Routes.ConditionsRoute);
               },
             ),
             Spacer(

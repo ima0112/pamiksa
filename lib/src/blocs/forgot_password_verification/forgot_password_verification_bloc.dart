@@ -7,7 +7,7 @@ import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/random.dart' as random;
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'forgot_password_verification_event.dart';
 part 'forgot_password_verification_state.dart';
@@ -56,7 +56,7 @@ class ForgotPasswordVerificationBloc extends Bloc<
 
     if (event.code == code) {
       secureStorage.remove('code');
-      navigationService.navigateWithoutGoBack(routes.ForgotPassword);
+      navigationService.navigateWithoutGoBack(Routes.ForgotPassword);
     } else {
       yield IncorrectedVerificationToForgotPasswordCodeState();
     }
