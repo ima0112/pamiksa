@@ -5,15 +5,19 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   String initialRoute = Routes.LoginRoute;
+  bool showIntro = await Utils().showIntro();
   bool isUserLoggedIn = await UserModel().isLoggedIn();
 
-  if (isUserLoggedIn) {
+  if (showIntro) {
+    initialRoute = Routes.IntroRoute;
+  } else if (isUserLoggedIn) {
     initialRoute = Routes.HomeRoute;
   }
 

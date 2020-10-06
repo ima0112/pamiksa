@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         theme: appThemeData[ThemeMode.light],
         darkTheme: appThemeData[ThemeMode.dark],
         onGenerateRoute: GenerateRoute.generateRoute,
-        initialRoute: Routes.HomeRoute,
+        initialRoute: Routes.LoginRoute,
         navigatorKey: locator<NavigationService>().navigatorKey,
       );
     });
