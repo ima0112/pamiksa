@@ -6,7 +6,7 @@ import 'package:pamiksa/src/data/repositories/remote/register_data_repository.da
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'register_personal_info_event.dart';
 part 'register_personal_info_state.dart';
@@ -38,6 +38,6 @@ class RegisterPersonalInfoBloc
     await secureStorage.save('fullname', event.fullname);
     await secureStorage.save('birthday', event.birthday);
 
-    navigationService.navigateTo(routes.RegisterLocationRoute);
+    navigationService.navigateTo(Routes.RegisterLocationRoute);
   }
 }

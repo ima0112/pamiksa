@@ -1,19 +1,23 @@
-const String SplashRoute = "/splash";
-const String IntroRoute = "/intro";
-const String LoginRoute = "/login";
-const String RegisterEmailRoute = "/register_email";
-const String RegisterPasswordRoute = "/register_password";
-const String RegisterPersonalInfoRoute = "/register_data_person";
-const String RegisterLocationRoute = "/register_location";
-const String RegisterCompleteRoute = "/register_complete";
-const String VerificationRoute = "/verification";
-const String HomeRoute = "/home";
-const String DevicesRoute = "/devices";
-const String ThemeRoute = "/theme";
-const String ForgotPasswordEmail = "/forgot_password_email";
-const String ForgotPasswordVerification = "/forgot_password_verification";
-const String ForgotPassword = "/forgot_password";
-const String HelpRoute = "/help_route";
-const String PolicyRoute = "/policy";
-const String ConditionsRoute = "/conditions";
-const String FAQRoute = "/faq";
+class Routes {
+  static const String SplashRoute = "/splash";
+  static const String IntroRoute = "/intro";
+  static const String LoginRoute = "/login";
+  static const String RegisterEmailRoute = "/register_email";
+  static const String RegisterPasswordRoute = "/register_password";
+  static const String RegisterPersonalInfoRoute = "/register_data_person";
+  static const String RegisterLocationRoute = "/register_location";
+  static const String RegisterCompleteRoute = "/register_complete";
+  static const String VerificationRoute = "/verification";
+  static const String HomeRoute = "/home";
+  static const String DevicesRoute = "/devices";
+  static const String ThemeRoute = "/theme";
+  static const String ForgotPasswordEmail = "/forgot_password_email";
+  static const String ForgotPasswordVerification =
+      "/forgot_password_verification";
+  static const String ForgotPassword = "/forgot_password";
+  static const String HelpRoute = "/help_route";
+  static const String PolicyRoute = "/policy";
+  static const String ConditionsRoute = "/conditions";
+  static const String FAQRoute = "/faq";
+  static const String BussinesDetailsRoute = "/bussines_details";
+}

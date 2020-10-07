@@ -12,7 +12,7 @@ import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'sign_in_event.dart';
 
@@ -63,7 +63,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       if (response.hasException) {
         yield CredentialsErrorState();
       } else {
-        navigationService.navigateWithoutGoBack(routes.HomeRoute);
+        navigationService.navigateWithoutGoBack(Routes.HomeRoute);
         yield SignInInitial();
       }
     } catch (error) {
@@ -113,7 +113,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         preferences.saveInt('month', month);
         preferences.saveInt('day', day);
 
-        navigationService.navigateTo(routes.RegisterEmailRoute);
+        navigationService.navigateTo(Routes.RegisterEmailRoute);
       }
     } catch (error) {
       yield ConnectionFailedState();

@@ -4,18 +4,21 @@ import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/data/utils.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  String initialRoute = routes.LoginRoute;
+  String initialRoute = Routes.LoginRoute;
+  bool showIntro = await Utils().showIntro();
   bool isUserLoggedIn = await UserModel().isLoggedIn();
 
-  if (isUserLoggedIn) {
-    initialRoute = routes.HomeRoute;
+  if (showIntro) {
+    initialRoute = Routes.IntroRoute;
+  } else if (isUserLoggedIn) {
+    initialRoute = Routes.HomeRoute;
   }
 
   setupLocator();
@@ -73,6 +76,10 @@ void main() async {
             RegisterDataRepository(client: GraphQLConfiguration().clients()),
             ProvinceRepository(client: GraphQLConfiguration().clients()),
             MunicipalityRepository(client: GraphQLConfiguration().clients())),
+      ),
+      BlocProvider(
+        create: (context) => BusinessDetailsBloc(
+            BusinessRepository(client: GraphQLConfiguration().clients())),
       )
     ],
     child: MyApp(initialRoute: initialRoute),

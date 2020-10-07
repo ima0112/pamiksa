@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'register_password_event.dart';
 part 'register_password_state.dart';
@@ -27,6 +27,6 @@ class RegisterPasswordBloc
       SaveUserPasswordEvent event) async* {
     await secureStorage.save('password', event.password);
     print({await secureStorage.read('password')});
-    navigationService.navigateTo(routes.RegisterPersonalInfoRoute);
+    navigationService.navigateTo(Routes.RegisterPersonalInfoRoute);
   }
 }

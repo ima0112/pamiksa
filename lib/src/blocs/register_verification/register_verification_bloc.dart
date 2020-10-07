@@ -6,7 +6,7 @@ import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/random.dart' as random;
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'register_verification_event.dart';
 part 'register_verification_state.dart';
@@ -52,7 +52,7 @@ class RegisterVerificationBloc
 
     if (event.code == code) {
       secureStorage.remove('code');
-      navigationService.navigateAndRemoveUntil(routes.RegisterCompleteRoute);
+      navigationService.navigateAndRemoveUntil(Routes.RegisterCompleteRoute);
     } else {
       yield IncorrectedVerificationCodeState();
     }

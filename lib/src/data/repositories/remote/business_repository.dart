@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
+import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -43,4 +44,17 @@ class BusinessRepository {
     return await connection.transaction(
         (txn) async => await txn.rawQuery('SELECT * FROM "Business"'));
   }*/
+
+  Future<BusinessModel> getById(String id) async {
+    BusinessModel businessModel = BusinessModel();
+    var connection = await database;
+    List<Map<dynamic, dynamic>> maps = await connection.transaction(
+        (txn) async =>
+            await txn.query("Business", where: 'id = ?', whereArgs: [id]));
+    if (maps.length > 0) {
+      businessModel.fromMap(maps.first);
+      return businessModel;
+    }
+    return null;
+  }
 }

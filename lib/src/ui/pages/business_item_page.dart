@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/home/home_bloc.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 class BusinessItemPage extends StatefulWidget {
   String id;
@@ -31,11 +32,19 @@ class BusinessItemPage extends StatefulWidget {
 }
 
 class _BusinessItemPageState extends State<BusinessItemPage> {
+  final NavigationService navigationService = locator<NavigationService>();
   HomeBloc homeBloc;
+  BusinessDetailsBloc businessDetailsBloc;
+
+  @override
+  void initState() {
+    homeBloc = BlocProvider.of<HomeBloc>(context);
+    businessDetailsBloc = BlocProvider.of<BusinessDetailsBloc>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    homeBloc = BlocProvider.of<HomeBloc>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -139,13 +148,18 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
         Stack(
           alignment: AlignmentDirectional.bottomEnd,
           children: <Widget>[
-            FadeInImage(
-              width: 500,
-              fit: BoxFit.cover,
-              height: 225,
-              placeholder: AssetImage("assets/gif/loading.gif"),
-              image: NetworkImage(
-                  "http://192.168.0.2:8000/images/${this.widget.photo}"),
+            GestureDetector(
+              onTap: () {
+                businessDetailsBloc.add(FetchBusinessDetails(this.widget.id));
+                navigationService.navigateTo(Routes.BussinesDetailsRoute);
+              },
+              child: FadeInImage(
+                width: 500,
+                fit: BoxFit.cover,
+                height: 225,
+                placeholder: AssetImage("assets/gif/loading.gif"),
+                image: NetworkImage(this.widget.photo),
+              ),
             ),
             IconButton(
                 icon: Icon(Icons.favorite_border),

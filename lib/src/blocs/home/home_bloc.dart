@@ -93,6 +93,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       final response = await businessRepository.fetchBusiness();
       if (response.hasException) {
+        print(response.exception);
         yield HomeConnectionFailedState(0);
       } else {
         final List businessData = response.data['business'];
@@ -135,6 +136,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield LoadedBusinessState(0, businessModel);
       }
     } catch (error) {
+      print(error.toString());
       yield HomeConnectionFailedState(0);
     }
   }

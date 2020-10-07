@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/forgot_password_email/forgot_password_email_bloc.dart';
-import 'package:pamiksa/src/blocs/forgot_password_verification/forgot_password_verification_bloc.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 class ForgotPasswordEmailPage extends StatefulWidget {
   @override
@@ -197,7 +194,7 @@ class ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   navigationService.navigateWithoutGoBack(
-                                      routes.ForgotPasswordVerification);
+                                      Routes.ForgotPasswordVerification);
                                 }
                               },
                               child: Text(

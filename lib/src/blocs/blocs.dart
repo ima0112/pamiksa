@@ -15,3 +15,4 @@ export './splash_screen/splash_screen_bloc.dart';
 export './theme/theme_bloc.dart';
 export './timer/timer_bloc.dart';
 export './timer/ticker.dart';
+export './business_details/business_details_bloc.dart';

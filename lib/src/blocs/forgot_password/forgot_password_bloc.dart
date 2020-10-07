@@ -9,7 +9,7 @@ import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'forgot_password_event.dart';
 part 'forgot_password_state.dart';
@@ -46,6 +46,6 @@ class ForgotPasswordBloc
     await this.userRepository.resetPassword(email, event.password, deviceModel);
     await secureStorage.remove('password');
 
-    navigationService.navigateAndRemove(routes.HomeRoute);
+    navigationService.navigateAndRemove(Routes.HomeRoute);
   }
 }
