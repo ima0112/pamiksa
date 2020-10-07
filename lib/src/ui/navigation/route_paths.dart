@@ -19,4 +19,5 @@ class Routes {
   static const String PolicyRoute = "/policy";
   static const String ConditionsRoute = "/conditions";
   static const String FAQRoute = "/faq";
+  static const String BussinesDetailsRoute = "/bussines_details";
 }

@@ -191,6 +191,7 @@ class _HomeActionsState extends State<HomeActions> {
                 shrinkWrap: true,
                 itemCount: businessData.length,
                 itemBuilder: (_, index) => BusinessItemPage(
+                  id: businessData[index].id,
                   name: businessData[index].name,
                   photo: businessData[index].photo,
                   adress: businessData[index].adress,

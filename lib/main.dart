@@ -76,6 +76,10 @@ void main() async {
             RegisterDataRepository(client: GraphQLConfiguration().clients()),
             ProvinceRepository(client: GraphQLConfiguration().clients()),
             MunicipalityRepository(client: GraphQLConfiguration().clients())),
+      ),
+      BlocProvider(
+        create: (context) => BusinessDetailsBloc(
+            BusinessRepository(client: GraphQLConfiguration().clients())),
       )
     ],
     child: MyApp(initialRoute: initialRoute),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/busines_page.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class GenerateRoute {
@@ -43,6 +44,8 @@ class GenerateRoute {
         return createRouter(ConditionsPage());
       case Routes.FAQRoute:
         return createRouter(FAQPage());
+      case Routes.BussinesDetailsRoute:
+        return createRouter(BusinessPage());
       case Routes.HomeRoute:
         return MaterialPageRoute(builder: (context) => HomePage());
     }
