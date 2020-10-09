@@ -7,8 +7,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
 import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
-import 'package:pamiksa/src/data/models/device.dart';
-import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/data/models/models.dart';
 
 class UserRepository {
   final GraphQLClient client;
@@ -80,7 +79,7 @@ class UserRepository {
         'plattform': deviceModel.plattform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
-        'model': deviceModel.model
+        'model': deviceModel.model,
       },
     );
     return await client.mutate(_options);

@@ -41,7 +41,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     SignInEvent event,
   ) async* {
     if (event is GetRegisterDataEvent) {
-      yield* _mapCheckConnectionEvent(event);
+      yield* _mapGetRegisterDataEvent(event);
     }
     if (event is MutateSignInEvent) {
       yield* _mapMutateSignInEvent(event);
@@ -72,7 +72,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     }
   }
 
-  Stream<SignInState> _mapCheckConnectionEvent(
+  Stream<SignInState> _mapGetRegisterDataEvent(
       GetRegisterDataEvent event) async* {
     try {
       yield LoadingSignState();

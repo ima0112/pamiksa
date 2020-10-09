@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
@@ -51,18 +52,18 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    signInBloc = BlocProvider.of<SignInBloc>(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    signInBloc = BlocProvider.of<SignInBloc>(context);
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AppBar(
             elevation: 0.0,
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).primaryColorLight,
             brightness: Brightness.dark,
           )),
       body: BlocConsumer<SignInBloc, SignInState>(
@@ -102,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
                     flex: 3,
@@ -301,26 +302,29 @@ class _LoginPageState extends State<LoginPage> {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: FittedBox(
-              child: Text.rich(TextSpan(children: [
-                TextSpan(
-                    text: '¿No tienes cuenta?  ',
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1.color,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold)),
-                TextSpan(
-                  text: 'Create una cuenta',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ])),
+              child: RichText(
+                text: TextSpan(
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '¿No tienes cuenta?  ',
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color)),
+                      TextSpan(
+                          text: 'Create una cuenta',
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              signInBloc.add(GetRegisterDataEvent());
+                            })
+                    ]),
+              ),
             ),
           ),
         ),
-      )
+      ),
     ]);
   }
 }
