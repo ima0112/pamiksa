@@ -12,6 +12,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HomeBloc homeBloc;
+  ThemeBloc themeBloc;
+
+  @override
+  void initState() {
+    themeBloc = BlocProvider.of<ThemeBloc>(context);
+    themeBloc.add(LoadedThemeEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

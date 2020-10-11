@@ -24,6 +24,8 @@ class _BusinessPagePageState extends State<BusinessPage> {
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
 
+    List<String> options = ["Filtrar", "Informacion"];
+
     return BlocBuilder<BusinessDetailsBloc, BusinessDetailsState>(
       builder: (context, state) {
         if (state is LoadingBusinessDetailsState) {
@@ -43,6 +45,50 @@ class _BusinessPagePageState extends State<BusinessPage> {
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
+                      actions: [
+                        IconButton(
+                            icon: Icon(Icons.more_vert),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  ),
+                                  builder: (context) => Container(
+                                        height: 200,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .backgroundColor,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft:
+                                                    const Radius.circular(25.0),
+                                                topRight:
+                                                    const Radius.circular(25.0),
+                                              )),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10.0,
+                                                horizontal: 10.0),
+                                            child: ListView.separated(
+                                              scrollDirection: Axis.vertical,
+                                              itemCount: 2,
+                                              itemBuilder: (context, index) {
+                                                return ListTile(
+                                                  title:
+                                                      Text("${options[index]}"),
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (context, index) => Divider(
+                                                height: 0.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ));
+                            })
+                      ],
                       snap: true,
                       pinned: true,
                       forceElevated: true,
@@ -50,11 +96,53 @@ class _BusinessPagePageState extends State<BusinessPage> {
                       elevation: 2.0,
                       expandedHeight: 200.0,
                       flexibleSpace: FlexibleSpaceBar(
-                        background: Image.network(
-                          "${state.businessModel.photo}",
-                          fit: BoxFit.fill,
+                        background: Stack(
+                          children: [
+                            Container(
+                              width: double.maxFinite,
+                              height: double.maxFinite,
+                              child: Image.network(
+                                "${state.businessModel.photo}",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            Container(
+                              width: double.maxFinite,
+                              height: double.maxFinite,
+                              decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  gradient: LinearGradient(
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                      colors: [
+                                        Colors.transparent.withOpacity(0.0),
+                                        Colors.white70
+                                      ],
+                                      stops: [
+                                        0.5,
+                                        1.0
+                                      ])),
+                            ),
+                            Container(
+                              width: double.maxFinite,
+                              height: double.maxFinite,
+                              decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.transparent.withOpacity(0.0),
+                                        Colors.white70
+                                      ],
+                                      stops: [
+                                        0.5,
+                                        1.0
+                                      ])),
+                            ),
+                          ],
                         ),
-                        centerTitle: false,
+                        centerTitle: true,
                         title: Text(
                           "${state.businessModel.name}",
                           style: TextStyle(
@@ -64,15 +152,47 @@ class _BusinessPagePageState extends State<BusinessPage> {
                       )),
                   SliverList(
                       delegate: SliverChildListDelegate([
-                    ListView.separated(
-                      controller: _scrollController,
-                      shrinkWrap: true,
-                      itemCount: 2,
-                      itemBuilder: (_, index) => Shimmer.fromColors(
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[200],
-                          child: BusinessItemSkeletonPage()),
-                      separatorBuilder: (_, __) => Divider(height: 0.0),
+                    Divider(
+                      height: 10.0,
+                      thickness: 5.0,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ListTile(
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 20.0),
+                          dense: true,
+                          title: Text("${state.businessModel.description}"),
+                          subtitle: Text(
+                              "Precio: ${state.businessModel.deliveryPrice}"),
+                        ),
+                        Divider(
+                          height: 10.0,
+                          thickness: 5.0,
+                        ),
+                      ],
+                    ),
+                  ])),
+                  SliverList(
+                      delegate: SliverChildListDelegate([
+                    Column(
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                          child: ListView.separated(
+                            controller: _scrollController,
+                            shrinkWrap: true,
+                            itemCount: 10,
+                            itemBuilder: (_, index) =>
+                                BusinessDetailsItemPage(),
+                            separatorBuilder: (_, __) => Divider(
+                              height: 20.0,
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   ]))
                 ],

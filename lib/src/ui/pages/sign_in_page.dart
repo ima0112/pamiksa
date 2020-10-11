@@ -16,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
 
   SignInBloc signInBloc;
+  ThemeBloc themeBloc;
 
   String email;
   String password;
@@ -53,6 +54,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     signInBloc = BlocProvider.of<SignInBloc>(context);
+    themeBloc = BlocProvider.of<ThemeBloc>(context);
+    themeBloc.add(LoadedThemeEvent());
     super.initState();
   }
 
