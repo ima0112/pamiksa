@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 
@@ -12,5 +13,10 @@ class Utils {
     } else {
       return false;
     }
+  }
+
+  void mode() {
+    ThemeBloc themeBloc;
+    themeBloc.add(LoadedThemeEvent());
   }
 }
