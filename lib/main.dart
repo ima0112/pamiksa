@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
+import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:path/path.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -80,7 +82,10 @@ void main() async {
       BlocProvider(
         create: (context) => BusinessDetailsBloc(
             BusinessRepository(client: GraphQLConfiguration().clients())),
-      )
+      ),
+      BlocProvider(
+          create: (context) => FoodsBloc(
+              FoodRepository(client: GraphQLConfiguration().clients())))
     ],
     child: MyApp(initialRoute: initialRoute),
   ));

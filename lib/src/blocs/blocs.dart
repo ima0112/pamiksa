@@ -16,3 +16,4 @@ export './theme/theme_bloc.dart';
 export './timer/timer_bloc.dart';
 export './timer/ticker.dart';
 export './business_details/business_details_bloc.dart';
+export './foods/foods_bloc.dart';

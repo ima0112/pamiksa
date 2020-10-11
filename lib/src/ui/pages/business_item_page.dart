@@ -150,7 +150,8 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                businessDetailsBloc.add(FetchBusinessDetails(this.widget.id));
+                businessDetailsBloc
+                    .add(FetchBusinessDetailsEvent(this.widget.id));
                 navigationService.navigateTo(Routes.BussinesDetailsRoute);
               },
               child: FadeInImage(

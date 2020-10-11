@@ -7,8 +7,8 @@ abstract class BusinessDetailsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchBusinessDetails extends BusinessDetailsEvent {
+class FetchBusinessDetailsEvent extends BusinessDetailsEvent {
   final String id;
 
-  FetchBusinessDetails(this.id);
+  FetchBusinessDetailsEvent(this.id);
 }
