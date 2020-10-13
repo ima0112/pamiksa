@@ -21,3 +21,5 @@ export './register_password_page.dart';
 export './register_personal_info_page.dart';
 export './register_verification_page.dart';
 export './business_details_item_page.dart';
+export './device_banned_page.dart';
+export './user_banned.dart';

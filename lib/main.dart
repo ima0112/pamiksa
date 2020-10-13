@@ -14,10 +14,22 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   String initialRoute = Routes.LoginRoute;
-  bool showIntro = await Utils().showIntro();
-  bool isUserLoggedIn = await UserModel().isLoggedIn();
 
-  if (showIntro) {
+  bool isUserLoggedIn = await UserModel().isLoggedIn();
+  bool showIntro =
+      await Utils(UserRepository(client: GraphQLConfiguration().clients()))
+          .showIntro();
+  String checkSession =
+      await Utils(UserRepository(client: GraphQLConfiguration().clients()))
+          .checkSession();
+
+  if (checkSession == "Device banned") {
+    initialRoute = Routes.DeviceBanned;
+  } else if (checkSession == "User banned") {
+    initialRoute = Routes.UserBanned;
+  } else if (checkSession == "Session not exists") {
+    initialRoute = Routes.LoginRoute;
+  } else if (showIntro) {
     initialRoute = Routes.IntroRoute;
   } else if (isUserLoggedIn) {
     initialRoute = Routes.HomeRoute;

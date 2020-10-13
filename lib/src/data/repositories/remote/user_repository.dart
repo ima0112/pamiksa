@@ -22,7 +22,6 @@ class UserRepository {
       variables: {'email': email},
       fetchResults: true,
     );
-
     return await client.query(_options);
   }
 
@@ -113,5 +112,14 @@ class UserRepository {
         documentNode: gql(mutations.sendVerificationCode),
         variables: {'code': code, 'email': email, 'question': 'question'});
     return await client.mutate(_options);
+  }
+
+  Future<QueryResult> checkSession(String deviceId) async {
+    final WatchQueryOptions _options = WatchQueryOptions(
+      documentNode: gql(queries.checkSession),
+      variables: {'deviceId': deviceId},
+      fetchResults: true,
+    );
+    return await client.query(_options);
   }
 }
