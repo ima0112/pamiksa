@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/pages/busines_page.dart';
+import 'package:pamiksa/src/ui/pages/device_banned_page.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class GenerateRoute {
@@ -48,6 +49,10 @@ class GenerateRoute {
         return createRouter(BusinessPage());
       case Routes.HomeRoute:
         return MaterialPageRoute(builder: (context) => HomePage());
+      case Routes.DeviceBanned:
+        return MaterialPageRoute(builder: (context) => DeviceBannedpage());
+      case Routes.UserBanned:
+        return MaterialPageRoute(builder: (context) => UserBannedpage());
     }
   }
 

@@ -19,13 +19,13 @@ class BusinessDetailsBloc
   Stream<BusinessDetailsState> mapEventToState(
     BusinessDetailsEvent event,
   ) async* {
-    if (event is FetchBusinessDetails) {
+    if (event is FetchBusinessDetailsEvent) {
       yield* _mapFetchBusinessDetails(event);
     }
   }
 
   Stream<BusinessDetailsState> _mapFetchBusinessDetails(
-      FetchBusinessDetails event) async* {
+      FetchBusinessDetailsEvent event) async* {
     yield LoadingBusinessDetailsState();
 
     BusinessModel businessResult = await businessRepository.getById(event.id);

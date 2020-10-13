@@ -3,19 +3,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
+import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:path/path.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   String initialRoute = Routes.LoginRoute;
-  bool showIntro = await Utils().showIntro();
-  bool isUserLoggedIn = await UserModel().isLoggedIn();
 
-  if (showIntro) {
+  bool isUserLoggedIn = await UserModel().isLoggedIn();
+  bool showIntro =
+      await Utils(UserRepository(client: GraphQLConfiguration().clients()))
+          .showIntro();
+  String checkSession =
+      await Utils(UserRepository(client: GraphQLConfiguration().clients()))
+          .checkSession();
+
+  if (checkSession == "Device banned") {
+    initialRoute = Routes.DeviceBanned;
+  } else if (checkSession == "User banned") {
+    initialRoute = Routes.UserBanned;
+  } else if (checkSession == "Session not exists") {
+    initialRoute = Routes.LoginRoute;
+  } else if (showIntro) {
     initialRoute = Routes.IntroRoute;
   } else if (isUserLoggedIn) {
     initialRoute = Routes.HomeRoute;
@@ -80,7 +94,10 @@ void main() async {
       BlocProvider(
         create: (context) => BusinessDetailsBloc(
             BusinessRepository(client: GraphQLConfiguration().clients())),
-      )
+      ),
+      BlocProvider(
+          create: (context) => FoodsBloc(
+              FoodRepository(client: GraphQLConfiguration().clients())))
     ],
     child: MyApp(initialRoute: initialRoute),
   ));

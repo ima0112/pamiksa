@@ -15,3 +15,8 @@ query UserLocation{
     }
   }
 } """;
+
+String checkSession = r"""
+query CheckSession($deviceId: String!){
+  checkSession(deviceId: $deviceId)
+}""";

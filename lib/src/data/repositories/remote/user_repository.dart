@@ -7,8 +7,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
 import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
-import 'package:pamiksa/src/data/models/device.dart';
-import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/data/models/models.dart';
 
 class UserRepository {
   final GraphQLClient client;
@@ -23,7 +22,6 @@ class UserRepository {
       variables: {'email': email},
       fetchResults: true,
     );
-
     return await client.query(_options);
   }
 
@@ -80,7 +78,7 @@ class UserRepository {
         'plattform': deviceModel.plattform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
-        'model': deviceModel.model
+        'model': deviceModel.model,
       },
     );
     return await client.mutate(_options);
@@ -114,5 +112,14 @@ class UserRepository {
         documentNode: gql(mutations.sendVerificationCode),
         variables: {'code': code, 'email': email, 'question': 'question'});
     return await client.mutate(_options);
+  }
+
+  Future<QueryResult> checkSession(String deviceId) async {
+    final WatchQueryOptions _options = WatchQueryOptions(
+      documentNode: gql(queries.checkSession),
+      variables: {'deviceId': deviceId},
+      fetchResults: true,
+    );
+    return await client.query(_options);
   }
 }

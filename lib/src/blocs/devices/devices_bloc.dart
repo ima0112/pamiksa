@@ -49,7 +49,6 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         final List businessData = response.data['devicesByUser'];
         devicesModelList = businessData
             .map((e) => DeviceModel(
-                id: e['id'],
                 plattform: e['plattform'],
                 systemVersion: e['systemVersion'],
                 deviceId: e['deviceId'],
@@ -86,7 +85,8 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         yield DeviceConnectionFailedState();
       } else {
         await sessionsRepository.deleteById(event.deviceId);
-        devicesModelList.removeWhere((element) => element.deviceId == event.deviceId);
+        devicesModelList
+            .removeWhere((element) => element.deviceId == event.deviceId);
         yield SignOutState(devicesModelList, deviceModel);
       }
     } catch (error) {
