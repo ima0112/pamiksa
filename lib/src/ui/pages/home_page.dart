@@ -52,9 +52,9 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.format_list_bulleted),
                   title: Text("Inicio")),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite_border), title: Text("Favorito")),
-              BottomNavigationBarItem(
                   icon: Icon(Icons.search), title: Text("Buscar")),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite_border), title: Text("Favorito")),
               BottomNavigationBarItem(
                   icon: Icon(Icons.settings), title: Text("Ajustes")),
             ],
@@ -95,13 +95,6 @@ class _HomeActionsState extends State<HomeActions> {
                     color: Theme.of(context).textTheme.bodyText1.color,
                     fontWeight: FontWeight.bold),
               ),
-              actions: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.shopping_cart,
-                    ),
-                    onPressed: () {}),
-              ],
               expandedHeight: 2 * kToolbarHeight,
               flexibleSpace: Padding(
                 padding: const EdgeInsets.only(top: kToolbarHeight),
@@ -161,13 +154,6 @@ class _HomeActionsState extends State<HomeActions> {
                     color: Theme.of(context).textTheme.bodyText1.color,
                     fontWeight: FontWeight.bold),
               ),
-              actions: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.shopping_cart,
-                    ),
-                    onPressed: () {}),
-              ],
               expandedHeight: 2 * kToolbarHeight,
               flexibleSpace: Padding(
                 padding: const EdgeInsets.only(top: kToolbarHeight),
@@ -214,7 +200,7 @@ class _HomeActionsState extends State<HomeActions> {
           ],
         ),
       );
-    } else if (currentState is ShowSecondState) {
+    } else if (currentState is ShowThirdState) {
       return Column(
         children: [
           Padding(
@@ -239,10 +225,10 @@ class _HomeActionsState extends State<HomeActions> {
           ),
         ],
       );
-    } else if (currentState is ShowThirdState) {
+    } else if (currentState is ShowSecondState) {
       return Center(
         child: Text(
-          "Third View",
+          "Second View",
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, letterSpacing: 2.0),
         ),
@@ -266,13 +252,6 @@ class _HomeActionsState extends State<HomeActions> {
                     color: Theme.of(context).textTheme.bodyText1.color,
                     fontWeight: FontWeight.bold),
               ),
-              actions: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.shopping_cart,
-                    ),
-                    onPressed: () {}),
-              ],
               expandedHeight: 2 * kToolbarHeight,
               flexibleSpace: Padding(
                 padding: const EdgeInsets.only(top: kToolbarHeight),

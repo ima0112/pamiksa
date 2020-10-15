@@ -27,7 +27,7 @@ class FavoriteRepository {
   clear() async {
     var connection = await database;
     await connection
-        .transaction((txn) async => txn.execute('DELETE FROM "Business"'));
+        .transaction((txn) async => txn.execute('DELETE FROM "Favorite"'));
   }
 
 //Get all records

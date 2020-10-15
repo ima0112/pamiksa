@@ -54,27 +54,23 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   Stream<SignInState> _mapMutateSignInEvent(MutateSignInEvent event) async* {
     yield WaitingSignInResponseState();
     try {
-      String checkSession =
-          await Utils(UserRepository(client: GraphQLConfiguration().clients()))
-              .checkSession();
+      await deviceInfo.initPlatformState(deviceModel);
+      final response = await this
+          .userRepository
+          .signIn(event.email, event.password, deviceModel);
+      preferences.saveInt('lightMode', 0);
 
-      if (checkSession == "User banned") {
-        yield UserBannedState();
-      } else {
-        await deviceInfo.initPlatformState(deviceModel);
-
-        final response = await this
-            .userRepository
-            .signIn(event.email, event.password, deviceModel);
-
-        preferences.saveInt('lightMode', 0);
-
-        if (response.hasException) {
-          yield CredentialsErrorState();
-        } else {
-          navigationService.navigateWithoutGoBack(Routes.HomeRoute);
-          yield SignInInitial();
+      if (response.hasException) {
+        String message = response.exception.graphqlErrors[0].message;
+        if (message == "User banned") {
+          navigationService.navigateWithoutGoBack(Routes.UserBanned);
+        } else if (message == "Device banned") {
+          navigationService.navigateWithoutGoBack(Routes.DeviceBanned);
         }
+        //yield CredentialsErrorState();
+      } else {
+        navigationService.navigateWithoutGoBack(Routes.HomeRoute);
+        yield SignInInitial();
       }
     } catch (error) {
       print({"Error": error});

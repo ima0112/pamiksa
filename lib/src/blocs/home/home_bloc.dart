@@ -60,6 +60,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           yield HomeConnectionFailedState(event.index);
         } else {
           final List businessData = response.data['business'];
+
           businessModel = businessData
               .map((e) => BusinessModel(
                     id: e['id'],
@@ -75,16 +76,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                     phone: e['phone'],
                   ))
               .toList();
+
           businessRepository.clear();
           businessModel.forEach((element) {
             businessRepository.insert('Business', element.toMap());
           });
+
           yield LoadedBusinessState(event.index, businessModel);
         }
       } catch (error) {
         yield HomeConnectionFailedState(event.index);
       }
     } else if (event.index == 1) {
+      yield ShowSecondState(event.index);
+    } else if (event.index == 2) {
       final response = await favoriteRepository.fetchFavorite();
       final List favoriteData = response.data['favorites'];
 
@@ -98,12 +103,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               price: e['price']))
           .toList();
 
-      yield ShowSecondState(
+      favoriteRepository.clear();
+      favoriteModel.forEach((element) {
+        favoriteRepository.insert('Favorite', element.toMap());
+      });
+
+      yield ShowThirdState(
           index: event.index,
           favoriteModel: favoriteModel,
           count: favoriteModel.length);
-    } else if (event.index == 2) {
-      yield ShowThirdState(event.index);
     } else if (event.index == 3) {
       yield ShowFourState(event.index);
     }

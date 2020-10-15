@@ -53,10 +53,7 @@ class ShowFirstState extends HomeState {
 }
 
 class ShowSecondState extends HomeState {
-  final int count;
-  final List<FavoriteModel> favoriteModel;
-
-  ShowSecondState({int index, this.count, this.favoriteModel}) : super(index);
+  ShowSecondState(int index) : super(index);
 
   @override
   // TODO: implement props
@@ -64,7 +61,10 @@ class ShowSecondState extends HomeState {
 }
 
 class ShowThirdState extends HomeState {
-  ShowThirdState(int index) : super(index);
+  final int count;
+  final List<FavoriteModel> favoriteModel;
+
+  ShowThirdState({int index, this.count, this.favoriteModel}) : super(index);
 
   @override
   // TODO: implement props
