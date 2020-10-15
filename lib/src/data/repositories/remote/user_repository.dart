@@ -30,11 +30,13 @@ class UserRepository {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.signUp),
       onCompleted: (data) {
-        secureStorage.write(
-            key: "authToken", value: data['signUp']['token'].toString());
-        secureStorage.write(
-            key: "refreshToken",
-            value: data['signUp']['refreshToken'].toString());
+        if (data != null) {
+          secureStorage.write(
+              key: "authToken", value: data['signIn']['token'].toString());
+          secureStorage.write(
+              key: "refreshToken",
+              value: data['signIn']['refreshToken'].toString());
+        }
       },
       variables: {
         'fullName': userModel.fullName,
@@ -46,7 +48,7 @@ class UserRepository {
         'municipalityFk': userModel.municipality,
         'plattform': deviceModel.plattform,
         'systemVersion': deviceModel.systemVersion,
-        'deviceId': deviceModel.deviceId,
+        'deviceId': "1",
         'model': deviceModel.model
       },
     );
