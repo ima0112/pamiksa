@@ -66,11 +66,13 @@ class UserRepository {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.singIn),
       onCompleted: (data) {
-        secureStorage.write(
-            key: "authToken", value: data['signIn']['token'].toString());
-        secureStorage.write(
-            key: "refreshToken",
-            value: data['signIn']['refreshToken'].toString());
+        if (data != null) {
+          secureStorage.write(
+              key: "authToken", value: data['signIn']['token'].toString());
+          secureStorage.write(
+              key: "refreshToken",
+              value: data['signIn']['refreshToken'].toString());
+        }
       },
       variables: {
         'email': email,

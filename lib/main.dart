@@ -8,7 +8,6 @@ import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
-import 'package:path/path.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
