@@ -4,3 +4,4 @@ export './municipality.dart';
 export './province.dart';
 export './user.dart';
 export './food.dart';
+export './favorite.dart';

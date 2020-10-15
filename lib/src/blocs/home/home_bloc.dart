@@ -5,7 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pamiksa/src/data/models/business.dart';
 import 'package:pamiksa/src/data/models/device.dart';
+import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/remote/business_repository.dart';
+import 'package:pamiksa/src/data/repositories/remote/remote_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
@@ -18,13 +20,18 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final BusinessRepository businessRepository;
   final UserRepository userRepository;
-  DeviceModel deviceModel = DeviceModel();
+  final FavoriteRepository favoriteRepository;
   final NavigationService navigationService = locator<NavigationService>();
-
-  List<BusinessModel> businessModel;
   final secureStorage = new FlutterSecureStorage();
 
-  HomeBloc(this.businessRepository, this.userRepository)
+  DeviceModel deviceModel = DeviceModel();
+  UserModel userModel = UserModel();
+
+  List<BusinessModel> businessModel = List();
+  List<FavoriteModel> favoriteModel = List();
+
+  HomeBloc(
+      this.businessRepository, this.userRepository, this.favoriteRepository)
       : super(HomeInitial(0));
 
   @override
@@ -78,9 +85,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield HomeConnectionFailedState(event.index);
       }
     } else if (event.index == 1) {
-      yield ShowSecondState(event.index);
+      final response = await favoriteRepository.fetchFavorite();
+      final List favoriteData = response.data['favorites'];
+
+      favoriteModel = favoriteData
+          .map((e) => FavoriteModel(
+              id: e['id'],
+              availability: e['availability'],
+              isAvailable: e['isAvailable'],
+              name: e['name'],
+              photo: e['photo'],
+              price: e['price']))
+          .toList();
+
+      yield ShowSecondState(
+          index: event.index,
+          favoriteModel: favoriteModel,
+          count: favoriteModel.length);
     } else if (event.index == 2) {
       yield ShowThirdState(event.index);
+    } else if (event.index == 3) {
+      yield ShowFourState(event.index);
     }
   }
 

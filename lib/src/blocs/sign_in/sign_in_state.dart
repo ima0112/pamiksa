@@ -32,3 +32,9 @@ class LoadingSignState extends SignInState {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class UserBannedState extends SignInState {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
