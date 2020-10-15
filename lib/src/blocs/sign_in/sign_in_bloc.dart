@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
 import 'package:pamiksa/src/data/models/province.dart';
@@ -9,6 +10,7 @@ import 'package:pamiksa/src/data/repositories/remote/register_data_repository.da
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
+import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
@@ -52,19 +54,27 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   Stream<SignInState> _mapMutateSignInEvent(MutateSignInEvent event) async* {
     yield WaitingSignInResponseState();
     try {
-      await deviceInfo.initPlatformState(deviceModel);
+      String checkSession =
+          await Utils(UserRepository(client: GraphQLConfiguration().clients()))
+              .checkSession();
 
-      final response = await this
-          .userRepository
-          .signIn(event.email, event.password, deviceModel);
-
-      preferences.saveInt('lightMode', 0);
-
-      if (response.hasException) {
-        yield CredentialsErrorState();
+      if (checkSession == "User banned") {
+        yield UserBannedState();
       } else {
-        navigationService.navigateWithoutGoBack(Routes.HomeRoute);
-        yield SignInInitial();
+        await deviceInfo.initPlatformState(deviceModel);
+
+        final response = await this
+            .userRepository
+            .signIn(event.email, event.password, deviceModel);
+
+        preferences.saveInt('lightMode', 0);
+
+        if (response.hasException) {
+          yield CredentialsErrorState();
+        } else {
+          navigationService.navigateWithoutGoBack(Routes.HomeRoute);
+          yield SignInInitial();
+        }
       }
     } catch (error) {
       print({"Error": error});

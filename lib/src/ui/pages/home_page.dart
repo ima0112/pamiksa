@@ -52,6 +52,8 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.format_list_bulleted),
                   title: Text("Inicio")),
               BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite_border), title: Text("Favorito")),
+              BottomNavigationBarItem(
                   icon: Icon(Icons.search), title: Text("Buscar")),
               BottomNavigationBarItem(
                   icon: Icon(Icons.settings), title: Text("Ajustes")),
@@ -213,14 +215,39 @@ class _HomeActionsState extends State<HomeActions> {
         ),
       );
     } else if (currentState is ShowSecondState) {
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+            child: ListView.separated(
+              controller: _scrollController,
+              shrinkWrap: true,
+              itemCount: currentState.count,
+              itemBuilder: (_, index) => ListTile(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                title: Text("${currentState.favoriteModel[index].name}"),
+                subtitle:
+                    Text("Precio: ${currentState.favoriteModel[index].price}"),
+                trailing: Image.asset("assets/images/profile.png"),
+                dense: true,
+              ),
+              separatorBuilder: (_, __) => Divider(
+                height: 20.0,
+              ),
+            ),
+          ),
+        ],
+      );
+    } else if (currentState is ShowThirdState) {
       return Center(
         child: Text(
-          "Second View",
+          "Third View",
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, letterSpacing: 2.0),
         ),
       );
-    } else if (currentState is ShowThirdState) {
+    } else if (currentState is ShowFourState) {
       return SettingsPage();
     } else if (currentState is HomeConnectionFailedState) {
       return Center(
