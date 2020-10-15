@@ -88,6 +88,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield HomeConnectionFailedState(event.index);
       }
     } else if (event.index == 1) {
+      yield ShowSecondState(event.index);
+    } else if (event.index == 2) {
       final response = await favoriteRepository.fetchFavorite();
       final List favoriteData = response.data['favorites'];
 
@@ -106,12 +108,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         favoriteRepository.insert('Favorite', element.toMap());
       });
 
-      yield ShowSecondState(
+      yield ShowThirdState(
           index: event.index,
           favoriteModel: favoriteModel,
           count: favoriteModel.length);
-    } else if (event.index == 2) {
-      yield ShowThirdState(event.index);
     } else if (event.index == 3) {
       yield ShowFourState(event.index);
     }

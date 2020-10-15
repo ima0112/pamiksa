@@ -200,7 +200,7 @@ class _HomeActionsState extends State<HomeActions> {
           ],
         ),
       );
-    } else if (currentState is ShowSecondState) {
+    } else if (currentState is ShowThirdState) {
       return Column(
         children: [
           Padding(
@@ -225,10 +225,10 @@ class _HomeActionsState extends State<HomeActions> {
           ),
         ],
       );
-    } else if (currentState is ShowThirdState) {
+    } else if (currentState is ShowSecondState) {
       return Center(
         child: Text(
-          "Third View",
+          "Second View",
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, letterSpacing: 2.0),
         ),
