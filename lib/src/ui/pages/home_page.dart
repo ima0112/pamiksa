@@ -13,13 +13,32 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   HomeBloc homeBloc;
   ThemeBloc themeBloc;
+  MySearchDelegate _delegate;
+  List<String> _list;
 
   @override
   void initState() {
     themeBloc = BlocProvider.of<ThemeBloc>(context);
     themeBloc.add(LoadedThemeEvent());
+    createSearchResultList();
+    _delegate =
+        MySearchDelegate(words: _list, textInputType: TextInputType.text);
     super.initState();
   }
+
+  void createSearchResultList() {
+    _list = <String>[
+      "Pizza",
+      "Pan con jamon",
+      "Pan con queso",
+      "Spaghettis",
+      "Pan con pasta",
+      "Pan con croqueta",
+      "Pan con hamburguesa",
+    ];
+  }
+
+  List list = [];
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +56,10 @@ class _HomePageState extends State<HomePage> {
             return BlocBuilder<HomeBloc, HomeState>(
               buildWhen: (previousState, state) =>
                   state.runtimeType != previousState.runtimeType,
-              builder: (context, state) => HomeActions(),
+              builder: (context, state) => HomeActions(
+                delegate: _delegate,
+                list: _list,
+              ),
             );
           },
         ),
@@ -64,6 +86,11 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeActions extends StatefulWidget {
+  final MySearchDelegate delegate;
+  final List<String> list;
+
+  const HomeActions({Key key, this.delegate, this.list}) : super(key: key);
+
   @override
   _HomeActionsState createState() => _HomeActionsState();
 }
@@ -72,6 +99,11 @@ class _HomeActionsState extends State<HomeActions> {
   final ScrollController _scrollController = ScrollController();
 
   HomeBloc homeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -226,13 +258,14 @@ class _HomeActionsState extends State<HomeActions> {
         ],
       );
     } else if (currentState is ShowSecondState) {
-      return Center(
-        child: Text(
-          "Second View",
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, letterSpacing: 2.0),
-        ),
-      );
+      showSearch(context: context, delegate: this.widget.delegate);
+      // Center(
+      //   child: Text(
+      //     "Second View",
+      //     style: TextStyle(
+      //         fontWeight: FontWeight.bold, fontSize: 20, letterSpacing: 2.0),
+      //   ),
+      // );
     } else if (currentState is ShowFourState) {
       return SettingsPage();
     } else if (currentState is HomeConnectionFailedState) {

@@ -166,7 +166,7 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                 icon: Icon(Icons.favorite_border),
                 onPressed: () {},
                 color: Colors.white,
-                splashRadius: 1.0)
+                splashRadius: 1.0),
           ],
         ),
         SizedBox(

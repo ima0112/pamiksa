@@ -19,7 +19,6 @@ import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
-
 class VerificationPage extends StatefulWidget {
   @override
   _VerificationPageState createState() => _VerificationPageState();
@@ -47,7 +46,7 @@ class _VerificationPageState extends State<VerificationPage> {
     registerVerificationBloc =
         BlocProvider.of<RegisterVerificationBloc>(context);
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AppBar(
@@ -140,7 +139,8 @@ class _VerificationPageState extends State<VerificationPage> {
                                   buildWhen: (previousState, state) =>
                                       state.runtimeType !=
                                       previousState.runtimeType,
-                                  builder: (context, state) => RegisterVerificationActions(),
+                                  builder: (context, state) =>
+                                      RegisterVerificationActions(),
                                 );
                               },
                             ),

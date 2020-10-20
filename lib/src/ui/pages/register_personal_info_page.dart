@@ -70,7 +70,7 @@ class RegisterPersonalInfoPageState extends State<RegisterPersonalInfoPage> {
             ),
           )
         : Scaffold(
-            resizeToAvoidBottomPadding: false,
+            // resizeToAvoidBottomPadding: false,
             appBar: PreferredSize(
                 preferredSize: Size.fromHeight(0),
                 child: AppBar(

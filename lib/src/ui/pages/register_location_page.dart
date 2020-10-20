@@ -44,7 +44,7 @@ class RegisterLocationPageState extends State<RegisterLocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AppBar(

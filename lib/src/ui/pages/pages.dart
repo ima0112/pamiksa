@@ -23,3 +23,6 @@ export './register_verification_page.dart';
 export './business_details_item_page.dart';
 export './device_banned_page.dart';
 export './user_banned.dart';
+export './search.dart';
+export './delegate.dart';
+export './suggestions.dart';

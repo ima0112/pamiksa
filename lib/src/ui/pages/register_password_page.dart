@@ -53,7 +53,7 @@ class RegisterPasswordPageState extends State<RegisterPasswordPage> {
   Widget build(BuildContext context) {
     registerPasswordBloc = BlocProvider.of<RegisterPasswordBloc>(context);
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AppBar(
@@ -74,7 +74,7 @@ class RegisterPasswordPageState extends State<RegisterPasswordPage> {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 1,
                 child: Container(
                   margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
                   child: Form(
@@ -88,46 +88,54 @@ class RegisterPasswordPageState extends State<RegisterPasswordPage> {
                             SizedBox(
                               height: 5,
                             ),
-                            TextFormField(
-                              initialValue: password,
-                              key: _passKey,
-                              obscureText: _obscureText,
-                              maxLength: 20,
-                              validator: (value) => _validatePassword(value),
-                              onChanged: (String value) {
-                                password = value;
-                              },
-                              decoration: new InputDecoration(
-                                border: const UnderlineInputBorder(),
-                                filled: false,
-                                labelText: 'Contraseña',
-                                icon: Icon(Icons.lock),
-                                suffixIcon: new GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _obscureText = !_obscureText;
-                                    });
-                                  },
-                                  child: new Icon(_obscureText
-                                      ? Icons.visibility_off
-                                      : Icons.visibility),
+                            Expanded(
+                              child: TextFormField(
+                                initialValue: password,
+                                key: _passKey,
+                                obscureText: _obscureText,
+                                maxLength: 20,
+                                validator: (value) => _validatePassword(value),
+                                onChanged: (String value) {
+                                  password = value;
+                                },
+                                decoration: new InputDecoration(
+                                  border: const UnderlineInputBorder(),
+                                  filled: false,
+                                  labelText: 'Contraseña',
+                                  icon: Icon(Icons.lock),
+                                  suffixIcon: new GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _obscureText = !_obscureText;
+                                      });
+                                    },
+                                    child: new Icon(_obscureText
+                                        ? Icons.visibility_off
+                                        : Icons.visibility),
+                                  ),
                                 ),
                               ),
                             ),
-                            TextFormField(
-                              initialValue: passwordtwo,
-                              obscureText: _obscureText,
-                              maxLength: 20,
-                              validator: (value) => _validatePasswordTwo(value),
-                              decoration: new InputDecoration(
-                                border: const UnderlineInputBorder(),
-                                filled: false,
-                                labelText: 'Verificar contraseña',
-                                icon: Icon(Icons.lock),
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: TextFormField(
+                                  initialValue: passwordtwo,
+                                  obscureText: _obscureText,
+                                  maxLength: 20,
+                                  validator: (value) =>
+                                      _validatePasswordTwo(value),
+                                  decoration: new InputDecoration(
+                                    border: const UnderlineInputBorder(),
+                                    filled: false,
+                                    labelText: 'Verificar contraseña',
+                                    icon: Icon(Icons.lock),
+                                  ),
+                                  onChanged: (String value) {
+                                    passwordtwo = value;
+                                  },
+                                ),
                               ),
-                              onChanged: (String value) {
-                                passwordtwo = value;
-                              },
                             ),
                           ],
                         ),
