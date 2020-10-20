@@ -1,6 +1,7 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -82,7 +83,7 @@ class _ProfileActionsState extends State<ProfileActions> {
                   Container(
                     decoration: ShapeDecoration(
                       shape: CircleBorder(),
-                      color: Colors.black
+                      color: Theme.of(context).primaryColor
                     ),
                     child: IconButton(
                         icon: Icon(Icons.photo_camera),
