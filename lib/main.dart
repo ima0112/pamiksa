@@ -8,6 +8,7 @@ import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:path/path.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,7 +80,7 @@ void main() async {
             UserRepository(client: GraphQLConfiguration().clients())),
       ),
       BlocProvider(
-        create: (context) => HomeBloc(
+        create: (context) => RootBloc(
             BusinessRepository(client: GraphQLConfiguration().clients()),
             UserRepository(client: GraphQLConfiguration().clients()),
             FavoriteRepository(client: GraphQLConfiguration().clients())),

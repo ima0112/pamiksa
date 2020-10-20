@@ -9,13 +9,13 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  HomeBloc homeBloc;
+  RootBloc homeBloc;
   DevicesBloc devicesBloc;
   final NavigationService navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
-    homeBloc = BlocProvider.of<HomeBloc>(context);
+    homeBloc = BlocProvider.of<RootBloc>(context);
     devicesBloc = BlocProvider.of<DevicesBloc>(context);
     return Scaffold(
       appBar: AppBar(

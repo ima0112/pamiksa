@@ -22,4 +22,5 @@ class Routes {
   static const String BussinesDetailsRoute = "/bussines_details";
   static const String DeviceBanned = "/device_banned";
   static const String UserBanned = "/user_banned";
+  static const String Root = "/root";
 }

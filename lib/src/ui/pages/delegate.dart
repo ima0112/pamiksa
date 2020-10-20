@@ -45,7 +45,7 @@ class MySearchDelegate extends SearchDelegate<String> {
         icon: AnimatedIcon(
             icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: () {
-          navigationService.navigateTo(Routes.HomeRoute);
+          navigationService.goBack();
         });
   }
 

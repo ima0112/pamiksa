@@ -2,7 +2,7 @@ export './devices/devices_bloc.dart';
 export './forgot_password/forgot_password_bloc.dart';
 export './forgot_password_email/forgot_password_email_bloc.dart';
 export './forgot_password_verification/forgot_password_verification_bloc.dart';
-export './home/home_bloc.dart';
+export './root/root_bloc.dart';
 export './intro/intro_bloc.dart';
 export './register_complete/register_complete_bloc.dart';
 export './register_email/register_email_bloc.dart';

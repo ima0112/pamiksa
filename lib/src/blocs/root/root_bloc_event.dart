@@ -1,28 +1,28 @@
-part of 'home_bloc.dart';
+part of 'root_bloc.dart';
 
-abstract class HomeEvent extends Equatable {
-  const HomeEvent();
+abstract class RootEvent extends Equatable {
+  const RootEvent();
 }
 
-class BusinessOptionsPulsed extends HomeEvent {
+class BusinessOptionsPulsed extends RootEvent {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
-class FetchBusinessEvent extends HomeEvent {
+class FetchBusinessEvent extends RootEvent {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
-class ChangeToInitialStateEvent extends HomeEvent {
+class ChangeToInitialStateEvent extends RootEvent {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
-class BottomNavigationItemTappedEvent extends HomeEvent {
+class BottomNavigationItemTappedEvent extends RootEvent {
   final int index;
 
   BottomNavigationItemTappedEvent(this.index);
@@ -32,13 +32,13 @@ class BottomNavigationItemTappedEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-class LogoutEvent extends HomeEvent {
+class LogoutEvent extends RootEvent {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
-class ShowedDevicesEvent extends HomeEvent {
+class ShowedDevicesEvent extends RootEvent {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();

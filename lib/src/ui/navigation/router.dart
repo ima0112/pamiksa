@@ -49,6 +49,8 @@ class GenerateRoute {
         return createRouter(BusinessPage());
       case Routes.HomeRoute:
         return MaterialPageRoute(builder: (context) => HomePage());
+      case Routes.Root:
+        return MaterialPageRoute(builder: (context) => RootPage());
       case Routes.DeviceBanned:
         return MaterialPageRoute(builder: (context) => DeviceBannedpage());
       case Routes.UserBanned:
