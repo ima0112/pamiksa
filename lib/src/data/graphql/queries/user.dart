@@ -46,3 +46,15 @@ query{
     createdAt
   }
 }""";
+
+String me = r"""
+query{
+  me{
+    id
+    fullName
+    adress
+    photo
+    email
+  }
+}
+""";

@@ -25,6 +25,14 @@ class UserRepository {
     return await client.query(_options);
   }
 
+  Future<QueryResult> me() async {
+    final WatchQueryOptions _options = WatchQueryOptions(
+      documentNode: gql(queries.me),
+      fetchResults: true,
+    );
+    return await client.query(_options);
+  }
+
   Future<QueryResult> signUp(
       UserModel userModel, DeviceModel deviceModel) async {
     final MutationOptions _options = MutationOptions(

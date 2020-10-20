@@ -5,6 +5,7 @@ import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/pages/busines_page.dart';
 import 'package:pamiksa/src/ui/pages/device_banned_page.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
+import 'package:pamiksa/src/ui/pages/profile.dart';
 
 class GenerateRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -45,6 +46,8 @@ class GenerateRoute {
         return createRouter(ConditionsPage());
       case Routes.FAQRoute:
         return createRouter(FAQPage());
+      case Routes.Profile:
+        return createRouter(ProfilePage());
       case Routes.BussinesDetailsRoute:
         return createRouter(BusinessPage());
       case Routes.HomeRoute:
