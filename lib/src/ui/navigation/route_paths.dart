@@ -15,6 +15,7 @@ class Routes {
   static const String ForgotPasswordEmail = "/forgot_password_email";
   static const String ForgotPasswordVerification =
       "/forgot_password_verification";
+  static const String PickImageRoute = "/pick_image";
   static const String ForgotPassword = "/forgot_password";
   static const String HelpRoute = "/help_route";
   static const String PolicyRoute = "/policy";

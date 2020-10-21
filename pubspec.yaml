@@ -31,6 +31,7 @@ dependencies:
   equatable: ^1.2.3
   url_launcher: ^5.5.0
   image_picker: ^0.6.7+4
+  image_crop: ^0.3.4
   flutter_skeleton: ^0.1.0+1
   shimmer: ^1.1.1
   circular_profile_avatar: ^1.0.6

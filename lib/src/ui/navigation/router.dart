@@ -5,6 +5,7 @@ import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/pages/busines_page.dart';
 import 'package:pamiksa/src/ui/pages/device_banned_page.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
+import 'package:pamiksa/src/ui/pages/pick_image.dart';
 import 'package:pamiksa/src/ui/pages/profile.dart';
 
 class GenerateRoute {
@@ -50,6 +51,8 @@ class GenerateRoute {
         return createRouter(ProfilePage());
       case Routes.BussinesDetailsRoute:
         return createRouter(BusinessPage());
+      case Routes.PickImageRoute:
+        return createRouter(PickImagePage());
       case Routes.HomeRoute:
         return MaterialPageRoute(builder: (context) => HomePage());
       case Routes.DeviceBanned:

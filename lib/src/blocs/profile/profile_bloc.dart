@@ -21,6 +21,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async* {
     if (event is FetchProfileEvent) {
       yield* _mapFetchProfileEvent(event);
+    } else if (event is SendImageEvent) {
+      yield* _mapSendImageEvent(event);
     }
   }
 
@@ -41,6 +43,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     } catch (error) {
       yield ProfileConnectionFailedState();
+    }
+  }
+
+  Stream<ProfileState> _mapSendImageEvent(SendImageEvent event) async* {
+    try {
+
+    } catch (error) {
+
     }
   }
 }

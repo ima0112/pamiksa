@@ -58,10 +58,23 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+//                  CircleAvatar(
+//                    radius: 17.5,
+//                    backgroundColor: Colors.transparent,
+//                    backgroundImage: AssetImage("assets/images/profile.png"),
+//                  ),
                   CircleAvatar(
                     radius: 17.5,
                     backgroundColor: Colors.transparent,
-                    backgroundImage: AssetImage("assets/images/profile.png"),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(17.5),
+                      child: Image.network(
+                        this.widget.photo,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 6,

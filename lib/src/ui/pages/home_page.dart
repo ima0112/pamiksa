@@ -44,6 +44,8 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) => BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
+            selectedFontSize: 12.0,
+            unselectedFontSize: 12.0,
             currentIndex: state.index,
             onTap: (index) =>
                 homeBloc.add(BottomNavigationItemTappedEvent(index)),

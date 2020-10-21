@@ -9,3 +9,9 @@ class FetchProfileEvent extends ProfileEvent {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class SendImageEvent extends ProfileEvent {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
