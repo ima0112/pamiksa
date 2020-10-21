@@ -63,9 +63,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       if (response.hasException) {
         String message = response.exception.graphqlErrors[0].message;
         if (message == "User banned") {
-          navigationService.navigateWithoutGoBack(Routes.UserBanned);
+          navigationService.navigateWithoutGoBack(Routes.UserBannedRoute);
         } else if (message == "Device banned") {
-          navigationService.navigateWithoutGoBack(Routes.DeviceBanned);
+          navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
         }
         //yield CredentialsErrorState();
       } else {

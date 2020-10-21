@@ -44,8 +44,9 @@ class MySearchDelegate extends SearchDelegate<String> {
     return IconButton(
         icon: AnimatedIcon(
             icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
+        color: Theme.of(context).iconTheme.color,
         onPressed: () {
-          navigationService.goBack();
+          navigationService.navigateAndRemove(Routes.HomeRoute);
         });
   }
 

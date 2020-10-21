@@ -24,9 +24,9 @@ void main() async {
           .checkSession();
 
   if (checkSession == "Device banned") {
-    initialRoute = Routes.DeviceBanned;
+    initialRoute = Routes.DeviceBannedRoute;
   } else if (checkSession == "User banned") {
-    initialRoute = Routes.UserBanned;
+    initialRoute = Routes.UserBannedRoute;
   } else if (checkSession == "Session not exists") {
     initialRoute = Routes.LoginRoute;
   } else if (showIntro) {
@@ -98,7 +98,10 @@ void main() async {
       ),
       BlocProvider(
           create: (context) => FoodsBloc(
-              FoodRepository(client: GraphQLConfiguration().clients())))
+              FoodRepository(client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => FavoriteBloc(
+              FavoriteRepository(client: GraphQLConfiguration().clients())))
     ],
     child: MyApp(initialRoute: initialRoute),
   ));

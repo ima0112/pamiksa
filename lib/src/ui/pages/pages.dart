@@ -26,3 +26,4 @@ export './user_banned.dart';
 export './delegate.dart';
 export './suggestions.dart';
 export './root_page.dart';
+export './favorite_page.dart';

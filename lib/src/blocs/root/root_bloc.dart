@@ -89,29 +89,6 @@ class RootBloc extends Bloc<RootEvent, RootState> {
       }
     } else if (event.index == 1) {
       yield ShowSecondState(event.index);
-    } else if (event.index == 2) {
-      final response = await favoriteRepository.fetchFavorite();
-      final List favoriteData = response.data['favorites'];
-
-      favoriteModel = favoriteData
-          .map((e) => FavoriteModel(
-              id: e['id'],
-              availability: e['availability'],
-              isAvailable: e['isAvailable'],
-              name: e['name'],
-              photo: e['photo'],
-              price: e['price']))
-          .toList();
-
-      favoriteRepository.clear();
-      favoriteModel.forEach((element) {
-        favoriteRepository.insert('Favorite', element.toMap());
-      });
-
-      yield ShowThirdState(
-          index: event.index,
-          favoriteModel: favoriteModel,
-          count: favoriteModel.length);
     } else if (event.index == 3) {
       yield ShowFourState(event.index);
     }

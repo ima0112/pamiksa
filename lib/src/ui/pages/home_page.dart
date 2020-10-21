@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
-  List list = [RootPage()];
+  List list = [RootPage(), null, FavoritePage(), SettingsPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -82,69 +82,5 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }
-}
-
-class HomeActions extends StatefulWidget {
-  final MySearchDelegate delegate;
-  final List<String> list;
-
-  const HomeActions({Key key, this.delegate, this.list}) : super(key: key);
-
-  @override
-  _HomeActionsState createState() => _HomeActionsState();
-}
-
-class _HomeActionsState extends State<HomeActions> {
-  final ScrollController _scrollController = ScrollController();
-
-  RootBloc homeBloc;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    homeBloc = BlocProvider.of<RootBloc>(context);
-    final RootState currentState = homeBloc.state;
-    if (currentState is ShowThirdState) {
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-            child: ListView.separated(
-              controller: _scrollController,
-              shrinkWrap: true,
-              itemCount: currentState.count,
-              itemBuilder: (_, index) => ListTile(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                title: Text("${currentState.favoriteModel[index].name}"),
-                subtitle:
-                    Text("Precio: ${currentState.favoriteModel[index].price}"),
-                trailing: Image.asset("assets/images/profile.png"),
-                dense: true,
-              ),
-              separatorBuilder: (_, __) => Divider(
-                height: 20.0,
-              ),
-            ),
-          ),
-        ],
-      );
-    } else if (currentState is ShowSecondState) {
-      showSearch(context: context, delegate: this.widget.delegate);
-      // Center(
-      //   child: Text(
-      //     "Second View",
-      //     style: TextStyle(
-      //         fontWeight: FontWeight.bold, fontSize: 20, letterSpacing: 2.0),
-      //   ),
-      // );
-    } else if (currentState is ShowFourState) {
-      return SettingsPage();
-    }
   }
 }
