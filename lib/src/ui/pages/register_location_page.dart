@@ -16,12 +16,10 @@ class RegisterLocationPage extends StatefulWidget {
 
 class RegisterLocationPageState extends State<RegisterLocationPage> {
   final NavigationService navigationService = locator<NavigationService>();
+  final ScrollController _scrollController = ScrollController();
   final _formKey = GlobalKey<FormState>();
 
   LocationBloc locationBloc;
-
-  List<String> _provincias = ['Matanzas'];
-  List<String> _municipios = ['Cárdenas'];
 
   String selectedprovincia;
   String selectedmunicipio;
@@ -52,114 +50,117 @@ class RegisterLocationPageState extends State<RegisterLocationPage> {
             backgroundColor: Theme.of(context).primaryColorLight,
             brightness: Theme.of(context).appBarTheme.brightness,
           )),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
-        child: BlocBuilder<LocationBloc, LocationState>(
-          builder: (context, state) {
-            if (state is LoadingProvinceMunicipalityState) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return Container(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      "Crear cuenta",
-                      style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
-                    ),
-                  ),
-                  Flexible(
-                    child: Form(
-                      key: _formKey,
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-                          child: Container(
-                              margin:
-                                  EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
-                              child: Column(
-                                children: [
-                                  provinces(),
-                                  municipalities(),
-                                  TextFormField(
-                                    initialValue: adress,
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    decoration: InputDecoration(
-                                      helperText: "",
-                                      icon: Icon(Icons.location_on),
-                                      filled: false,
-                                      fillColor: Colors.white24,
-                                      labelText: "Dirección",
-                                      labelStyle: TextStyle(
-                                          fontFamily: 'RobotoMono-Regular'),
-                                      focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              width: 2)),
-                                    ),
-                                    onChanged: (String value) {
-                                      adress = value;
-                                    },
-                                    validator: (value) =>
-                                        _validateDireccion(value),
-                                  ),
-                                ],
-                              )),
+      body: BlocBuilder<LocationBloc, LocationState>(
+        builder: (context, state) {
+          if (state is LoadingProvinceMunicipalityState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Container(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FittedBox(
+                        child: Text(
+                          "Crear cuenta",
+                          style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
                   ),
-                  Divider(),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                    padding: EdgeInsets.only(
-                        top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          onPressed: () {
-                            navigationService.goBack();
-                          },
-                          child: Text(
-                            "ATRÁS",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
-                          ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: form(),
+                ),
+                Divider(),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                  padding: EdgeInsets.only(
+                      top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
                         ),
-                        RaisedButton(
-                          textColor: Colors.white,
-                          color: Theme.of(context).primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              locationBloc.add(LocationMutateCodeEvent(adress,
-                                  selectedprovincia, selectedmunicipio));
-                            }
-                          },
-                          child: Text(
-                            'SIGUIENTE',
-                            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                          ),
-                        )
-                      ],
-                    ),
+                        onPressed: () {
+                          navigationService.goBack();
+                        },
+                        child: Text(
+                          "ATRÁS",
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                      ),
+                      RaisedButton(
+                        textColor: Colors.white,
+                        color: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            locationBloc.add(LocationMutateCodeEvent(
+                                adress, selectedprovincia, selectedmunicipio));
+                          }
+                        },
+                        child: Text(
+                          'SIGUIENTE',
+                          style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                        ),
+                      )
+                    ],
                   ),
-                ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget form() {
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 0.0),
+        child: Column(
+          children: [
+            Expanded(flex: 1, child: provinces()),
+            Expanded(flex: 1, child: municipalities()),
+            Expanded(
+              flex: 1,
+              child: TextFormField(
+                initialValue: adress,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  helperText: "",
+                  icon: Icon(Icons.location_on),
+                  filled: false,
+                  fillColor: Colors.white24,
+                  labelText: "Dirección",
+                  labelStyle: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).primaryColor, width: 2)),
+                ),
+                onChanged: (String value) {
+                  adress = value;
+                },
+                validator: (value) => _validateDireccion(value),
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
