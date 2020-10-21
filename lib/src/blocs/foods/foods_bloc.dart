@@ -30,15 +30,15 @@ class FoodsBloc extends Bloc<FoodsEvent, FoodsState> {
       final response = await foodRepository.foods(event.id);
       final List foodsData = response.data['foods']['foods'];
 
-      foodModel = foodsData.map((e) => FoodModel().fromMap(e));
-      // FoodModel(
-      //     id: e['id'],
-      //     availability: e['availability'],
-      //     isAvailable: e['isAvailable'],
-      //     name: e['name'],
-      //     photo: e['photo'],
-      //     price: e['price']))
-      // .toList();
+      foodModel = foodsData
+          .map((e) => FoodModel(
+              id: e['id'],
+              availability: e['availability'],
+              isAvailable: e['isAvailable'],
+              name: e['name'],
+              photo: e['photo'],
+              price: e['price']))
+          .toList();
 
       foodRepository.clear();
       foodModel.forEach((element) {
