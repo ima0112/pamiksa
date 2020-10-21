@@ -34,6 +34,25 @@ class UserModel {
     }
   }
 
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      'id': id,
+      'fullName': fullName,
+      'adress': adress,
+      'email': email,
+      'photo': photo,
+    };
+    return map;
+  }
+
+  fromMap(Map<dynamic, dynamic> map) {
+    id = map['id'];
+    fullName = map['fullName'];
+    adress = map['adress'];
+    email = map['email'];
+    photo = map['photo'];
+  }
+
   @override
   String toString() {
     return 'ID: ${this.id}, Nombre: ${this.fullName}, Password: ${this.password}, Adress: ${this.adress}, Birthday: ${this.birthday}, Email: ${this.email}, Photo: ${this.photo}, ProvinceFk: ${this.province}, MunicipalityFk: ${this.municipality}';

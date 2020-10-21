@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
@@ -54,6 +55,9 @@ void main() async {
       BlocProvider(create: (context) => IntroBloc()),
       BlocProvider(
           create: (context) => RegisterPersonalInfoBloc(RegisterDataRepository(
+              client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => ProfileBloc(UserRepository(
               client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => LocationBloc(

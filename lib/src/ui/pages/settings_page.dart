@@ -37,7 +37,9 @@ class _SettingsPageState extends State<SettingsPage> {
             ListTile(
               leading: Icon(Icons.account_circle),
               title: Text("Cuenta"),
-              onTap: () {},
+              onTap: () {
+                navigationService.navigateTo(Routes.Profile);
+              },
               trailing: Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.grey,

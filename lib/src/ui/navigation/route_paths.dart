@@ -11,6 +11,7 @@ class Routes {
   static const String HomeRoute = "/home";
   static const String DevicesRoute = "/devices";
   static const String ThemeRoute = "/theme";
+  static const String Profile = "/profile";
   static const String ForgotPasswordEmail = "/forgot_password_email";
   static const String ForgotPasswordVerification =
       "/forgot_password_verification";
