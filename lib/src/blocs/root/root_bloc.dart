@@ -13,11 +13,11 @@ import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 
-part 'home_event.dart';
+part 'root_bloc_event.dart';
 
-part 'home_state.dart';
+part 'root_bloc_state.dart';
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
+class RootBloc extends Bloc<RootEvent, RootState> {
   final BusinessRepository businessRepository;
   final UserRepository userRepository;
   final FavoriteRepository favoriteRepository;
@@ -30,13 +30,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   List<BusinessModel> businessModel = List();
   List<FavoriteModel> favoriteModel = List();
 
-  HomeBloc(
+  RootBloc(
       this.businessRepository, this.userRepository, this.favoriteRepository)
       : super(HomeInitial(0));
 
   @override
-  Stream<HomeState> mapEventToState(
-    HomeEvent event,
+  Stream<RootState> mapEventToState(
+    RootEvent event,
   ) async* {
     if (event is FetchBusinessEvent) {
       yield* _mapFetchBusinessEvent(event);
@@ -51,7 +51,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Stream<HomeState> _mapBottomNavigationItemTappedEvent(
+  Stream<RootState> _mapBottomNavigationItemTappedEvent(
       BottomNavigationItemTappedEvent event) async* {
     if (event.index == 0) {
       try {
@@ -89,40 +89,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     } else if (event.index == 1) {
       yield ShowSecondState(event.index);
-    } else if (event.index == 2) {
-      final response = await favoriteRepository.fetchFavorite();
-      final List favoriteData = response.data['favorites'];
-
-      favoriteModel = favoriteData
-          .map((e) => FavoriteModel(
-              id: e['id'],
-              availability: e['availability'],
-              isAvailable: e['isAvailable'],
-              name: e['name'],
-              photo: e['photo'],
-              price: e['price']))
-          .toList();
-
-      favoriteRepository.clear();
-      favoriteModel.forEach((element) {
-        favoriteRepository.insert('Favorite', element.toMap());
-      });
-
-      yield ShowThirdState(
-          index: event.index,
-          favoriteModel: favoriteModel,
-          count: favoriteModel.length);
     } else if (event.index == 3) {
       yield ShowFourState(event.index);
     }
   }
 
-  Stream<HomeState> _mapChangeToInitialStateEvent(
+  Stream<RootState> _mapChangeToInitialStateEvent(
       ChangeToInitialStateEvent event) async* {
     yield HomeInitial(0);
   }
 
-  Stream<HomeState> _mapFetchBusinessEvent(FetchBusinessEvent event) async* {
+  Stream<RootState> _mapFetchBusinessEvent(FetchBusinessEvent event) async* {
     try {
       final response = await businessRepository.fetchBusiness();
       if (response.hasException) {
@@ -174,7 +151,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Stream<HomeState> _mapLogoutEvent(LogoutEvent event) async* {
+  Stream<RootState> _mapLogoutEvent(LogoutEvent event) async* {
     await deviceInfo.initPlatformState(deviceModel);
     await userRepository.signOut(deviceModel.deviceId);
     secureStorage.delete(key: "authToken");

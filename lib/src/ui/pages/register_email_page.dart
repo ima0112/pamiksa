@@ -111,7 +111,7 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                   return Expanded(
                     flex: 1,
                     child: Align(
-                      alignment: Alignment.topCenter,
+                      alignment: Alignment.center,
                       child: TextFormField(
                         initialValue: email,
                         keyboardType: TextInputType.emailAddress,
@@ -174,6 +174,9 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                 }
               },
             ),
+            Spacer(
+              flex: 1,
+            )
           ],
         ),
       ),

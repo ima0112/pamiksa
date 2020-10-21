@@ -14,11 +14,8 @@ import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
-
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -47,7 +44,7 @@ class _VerificationPageState extends State<VerificationPage> {
     registerVerificationBloc =
         BlocProvider.of<RegisterVerificationBloc>(context);
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AppBar(
@@ -55,105 +52,129 @@ class _VerificationPageState extends State<VerificationPage> {
             backgroundColor: Theme.of(context).primaryColorLight,
             brightness: Theme.of(context).appBarTheme.brightness,
           )),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                "Verificar cuenta",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 16.0),
-                  child: Text(
-                    "Te hemos enviado un código de verificación a ${email}",
-                    style: TextStyle(color: Colors.black45),
-                    textAlign: TextAlign.center,
+      body:
+          // WillPopScope(
+          //   onWillPop: () async {
+          //     navigationService.navigateAndRemove(Routes.LoginRoute);
+          //     return false;
+          //   },
+          //   child:
+          Container(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FittedBox(
+                    child: Text(
+                      "Verificar cuenta",
+                      style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 16.0),
-                    child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: <Widget>[
-                            BlocBuilder<RegisterVerificationBloc,
-                                RegisterVerificationState>(
-                              builder: (context, state) {
-                                return BlocBuilder<RegisterVerificationBloc,
-                                    RegisterVerificationState>(
-                                  buildWhen: (previousState, state) =>
-                                      state.runtimeType !=
-                                      previousState.runtimeType,
-                                  builder: (context, state) {
-                                    if (state is RegisterVerificationInitial) {
-                                      return TextFormField(
-                                          maxLength: 6,
-                                          keyboardType: TextInputType.number,
-                                          decoration: InputDecoration(
-                                            labelText: "Código de verificación",
-                                          ),
-                                          onChanged: (String value) {
-                                            if (value.length == 6) {
-                                              registerVerificationBloc.add(
-                                                  CheckVerificationCodeEvent(
-                                                      value));
-                                            }
-                                          });
-                                    }
-                                    if (state
-                                        is IncorrectedVerificationCodeState) {
-                                      return TextFormField(
-                                          maxLength: 6,
-                                          keyboardType: TextInputType.number,
-                                          decoration: InputDecoration(
-                                            errorText:
-                                                "El código de verificación es incorrecto",
-                                            labelText: "Código de verificación",
-                                          ),
-                                          onChanged: (String value) {
-                                            if (value.length == 6) {
-                                              registerVerificationBloc.add(
-                                                  CheckVerificationCodeEvent(
-                                                      value));
-                                            }
-                                          });
-                                    }
-                                  },
-                                );
-                              },
-                            ),
-                            SizedBox(
-                              height: 25,
-                            ),
-                            BlocBuilder<TimerBloc, TimerState>(
-                              builder: (context, state) {
-                                return BlocBuilder<TimerBloc, TimerState>(
-                                  buildWhen: (previousState, state) =>
-                                      state.runtimeType !=
-                                      previousState.runtimeType,
-                                  builder: (context, state) => RegisterVerificationActions(),
-                                );
-                              },
-                            ),
-                          ],
-                        )),
-                  ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+              child: Container(
+                margin: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 16.0),
+                child: Text(
+                  "Te hemos enviado un código de verificación a ${email}",
+                  style: TextStyle(color: Colors.grey),
+                  textAlign: TextAlign.center,
                 ),
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              flex: 3,
+              child: form(),
+            ),
+          ],
         ),
       ),
+      // ),
     );
+  }
+
+  Widget form() {
+    return Form(
+        key: _formKey,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 0.0),
+          child: Column(
+            children: <Widget>[
+              BlocBuilder<RegisterVerificationBloc, RegisterVerificationState>(
+                builder: (context, state) {
+                  return BlocBuilder<RegisterVerificationBloc,
+                      RegisterVerificationState>(
+                    buildWhen: (previousState, state) =>
+                        state.runtimeType != previousState.runtimeType,
+                    builder: (context, state) {
+                      if (state is RegisterVerificationInitial) {
+                        return Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: TextFormField(
+                                maxLength: 6,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  labelText: "Código de verificación",
+                                ),
+                                onChanged: (String value) {
+                                  if (value.length == 6) {
+                                    registerVerificationBloc
+                                        .add(CheckVerificationCodeEvent(value));
+                                  }
+                                }),
+                          ),
+                        );
+                      }
+                      if (state is IncorrectedVerificationCodeState) {
+                        return Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: TextFormField(
+                                maxLength: 6,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  errorText:
+                                      "El código de verificación es incorrecto",
+                                  labelText: "Código de verificación",
+                                ),
+                                onChanged: (String value) {
+                                  if (value.length == 6) {
+                                    registerVerificationBloc
+                                        .add(CheckVerificationCodeEvent(value));
+                                  }
+                                }),
+                          ),
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
+              BlocBuilder<TimerBloc, TimerState>(
+                builder: (context, state) {
+                  return BlocBuilder<TimerBloc, TimerState>(
+                    buildWhen: (previousState, state) =>
+                        state.runtimeType != previousState.runtimeType,
+                    builder: (context, state) => RegisterVerificationActions(),
+                  );
+                },
+              ),
+              Spacer(
+                flex: 1,
+              )
+            ],
+          ),
+        ));
   }
 
   void obtenerPreferences() async {
@@ -185,17 +206,24 @@ class RegisterVerificationActions extends StatelessWidget {
     final TimerState currentState = timerBloc.state;
     if (currentState is TimerInitial) {
       return [
-        FlatButton.icon(
-          textColor: color,
-          icon: Icon(Icons.refresh),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
+        Expanded(
+          flex: 1,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: FlatButton.icon(
+              textColor: color,
+              icon: Icon(Icons.refresh),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              onPressed: () {
+                timerBloc.add(TimerStarted(duration: currentState.duration));
+                registerVericationBloc
+                    .add(RegisterVerificationMutateCodeEvent());
+              },
+              label: Text("Reenviar código"),
+            ),
           ),
-          onPressed: () {
-            timerBloc.add(TimerStarted(duration: currentState.duration));
-            registerVericationBloc.add(RegisterVerificationMutateCodeEvent());
-          },
-          label: Text("Reenviar código"),
         )
       ];
     }
@@ -207,13 +235,19 @@ class RegisterVerificationActions extends StatelessWidget {
       final String secondsStr =
           (timerBloc.state.duration % 60).floor().toString().padLeft(2, '0');
       return [
-        FlatButton.icon(
-          textColor: Colors.grey,
-          icon: Icon(Icons.refresh),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
+        Expanded(
+          flex: 1,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: FlatButton.icon(
+              textColor: Colors.grey,
+              icon: Icon(Icons.refresh),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              label: Text("Reenviar código en $minutesStr:$secondsStr"),
+            ),
           ),
-          label: Text("Reenviar código en $minutesStr:$secondsStr"),
         )
       ];
     }

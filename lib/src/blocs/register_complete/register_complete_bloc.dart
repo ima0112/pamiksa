@@ -54,7 +54,7 @@ class RegisterCompleteBloc
     if (response.hasException) {
       String message = response.exception.graphqlErrors[0].message;
       if (message == "Device banned") {
-        navigationService.navigateWithoutGoBack(Routes.DeviceBanned);
+        navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
       }
     } else {
       await secureStorage.remove('password');

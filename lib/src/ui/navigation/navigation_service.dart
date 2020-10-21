@@ -26,8 +26,4 @@ class NavigationService {
   void goBack() {
     return navigatorKey.currentState.pop();
   }
-
-  Future<dynamic> goBac(String routeName) {
-    return navigatorKey.currentState.popAndPushNamed(routeName);
-  }
 }

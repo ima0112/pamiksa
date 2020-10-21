@@ -28,6 +28,7 @@ final appThemeData = {
     ),
     fontFamily: 'RobotoMono-Regular',
     appBarTheme: AppBarTheme(
+      textTheme: TextTheme(bodyText1: TextStyle(color: Colors.black)),
       iconTheme: IconThemeData(color: Colors.black),
       actionsIconTheme: IconThemeData(color: Colors.black),
       color: Colors.white,
@@ -74,10 +75,11 @@ final appThemeData = {
     ),
     fontFamily: 'RobotoMono-Regular',
     appBarTheme: AppBarTheme(
+      textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
       color: Color(0xff121212),
       brightness: Brightness.dark,
       actionsIconTheme: IconThemeData(color: Colors.white),
-      elevation: 0.0,
+      elevation: 2.0,
     ),
     primarySwatch: Colors.deepPurple,
     cursorColor: Color(0xff7C4DFF),
