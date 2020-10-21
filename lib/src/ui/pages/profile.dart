@@ -81,11 +81,10 @@ class _ProfileActionsState extends State<ProfileActions> {
                   ),
                   Container(
                     decoration: ShapeDecoration(
-                      shape: CircleBorder(),
-                      color: Colors.black
-                    ),
+                        shape: CircleBorder(), color: Colors.black),
                     child: IconButton(
                         icon: Icon(Icons.photo_camera),
+                        splashRadius: 1.0,
                         onPressed: () {},
                         color: Colors.white),
                   )
@@ -105,7 +104,9 @@ class _ProfileActionsState extends State<ProfileActions> {
             ),
             subtitle: Text(
               meData.fullName,
-              style: TextStyle(fontSize: 16.0, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Theme.of(context).textTheme.bodyText1.color),
             ),
             onTap: () {},
             trailing: Icon(
@@ -123,7 +124,9 @@ class _ProfileActionsState extends State<ProfileActions> {
             ),
             subtitle: Text(
               meData.adress,
-              style: TextStyle(fontSize: 16.0, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Theme.of(context).textTheme.bodyText1.color),
             ),
             onTap: () {},
             trailing: Icon(
@@ -141,7 +144,9 @@ class _ProfileActionsState extends State<ProfileActions> {
             ),
             subtitle: Text(
               meData.email,
-              style: TextStyle(fontSize: 16.0, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Theme.of(context).textTheme.bodyText1.color),
             ),
             onTap: () {},
           ),
