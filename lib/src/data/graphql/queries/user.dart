@@ -30,5 +30,4 @@ query{
     photo
     email
   }
-}
-""";
+}""";
