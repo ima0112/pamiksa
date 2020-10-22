@@ -20,7 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Configuración",
+          "Ajustes",
           style: TextStyle(
               color: Theme.of(context).textTheme.bodyText1.color,
               fontWeight: FontWeight.bold),
@@ -36,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
           children: <Widget>[
             ListTile(
               leading: Icon(Icons.account_circle),
-              title: Text("Cuenta"),
+              title: Text("Perfil"),
               onTap: () {
                 navigationService.navigateTo(Routes.Profile);
               },
