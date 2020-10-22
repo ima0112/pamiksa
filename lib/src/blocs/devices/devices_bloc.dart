@@ -17,8 +17,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   List<DeviceModel> devicesModelList;
   DeviceModel deviceModel = DeviceModel();
 
-  DevicesBloc(this.sessionsRepository, this.userRepository)
-      : super(DevicesInitial());
+  DevicesBloc(this.sessionsRepository, this.userRepository) : super(DevicesInitial());
 
   @override
   Stream<DevicesState> mapEventToState(
@@ -38,7 +37,6 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   Stream<DevicesState> _mapFetchDevicesDataEvent(
       FetchDevicesDataEvent event) async* {
     try {
-      //devicesModelList.clear();
       yield LoadingDeviceData();
       await deviceInfo.initPlatformState(deviceModel);
       final response =
