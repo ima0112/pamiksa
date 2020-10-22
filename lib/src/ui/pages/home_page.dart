@@ -57,6 +57,8 @@ class _HomePageState extends State<HomePage> {
       body: list[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        unselectedFontSize: 12.0,
+        selectedFontSize: 12.0,
         currentIndex: _currentIndex,
         onTap: (index) {
           if (index == 1) {
