@@ -32,6 +32,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _mapSendImageEvent(event);
     } else if (event is SetCropProfileEvent) {
       yield* _mapCropProfileImageEvent(event);
+    } else if (event is SetProfileInitialStateEvent) {
+      yield ProfileInitial();
     }
   }
 
@@ -79,7 +81,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
                 photo: e['photo'],
               ))
           .toList();
-      String data = retorno[0].photo;
       if (retorno[0].photo != null) {
         await minio.removeObject('user-avatar', '${retorno[0].photo}');
       }
@@ -87,6 +88,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         print("ERROR");
       } else {
         navigationService.navigateWithoutGoBack("/profile");
+        yield ProfileInitial();
       }
     } catch (error) {
       print('$error');

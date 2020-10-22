@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -11,12 +12,14 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   RootBloc homeBloc;
   DevicesBloc devicesBloc;
+  ProfileBloc profileBloc;
   final NavigationService navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
     homeBloc = BlocProvider.of<RootBloc>(context);
     devicesBloc = BlocProvider.of<DevicesBloc>(context);
+    profileBloc = BlocProvider.of<ProfileBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -38,6 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
               leading: Icon(Icons.account_circle),
               title: Text("Perfil"),
               onTap: () {
+                profileBloc.add(SetProfileInitialStateEvent());
                 navigationService.navigateTo(Routes.Profile);
               },
               trailing: Icon(
