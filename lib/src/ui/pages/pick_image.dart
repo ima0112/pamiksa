@@ -2,9 +2,12 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_crop/image_crop.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pamiksa/src/ui/navigation/locator.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 
 class PickImagePage extends StatefulWidget {
   @override
@@ -12,6 +15,8 @@ class PickImagePage extends StatefulWidget {
 }
 
 class _PickImagePageState extends State<PickImagePage> {
+  ProfileBloc profileBloc;
+  final NavigationService navigationService = locator<NavigationService>();
   final cropKey = GlobalKey<CropState>();
   File _file;
   File _sample;
@@ -27,6 +32,7 @@ class _PickImagePageState extends State<PickImagePage> {
 
   @override
   Widget build(BuildContext context) {
+    profileBloc = BlocProvider.of<ProfileBloc>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SafeArea(
@@ -57,7 +63,7 @@ class _PickImagePageState extends State<PickImagePage> {
             children: <Widget>[
               FlatButton(
                 child: Text(
-                  'Crop Image',
+                  'Aceptar',
                   style: Theme.of(context)
                       .textTheme
                       .button
@@ -65,7 +71,17 @@ class _PickImagePageState extends State<PickImagePage> {
                 ),
                 onPressed: () => _cropImage(),
               ),
-              _buildOpenImage(),
+              FlatButton(
+                child: Text(
+                  'Cancelar',
+                  style: Theme.of(context)
+                      .textTheme
+                      .button
+                      .copyWith(color: Colors.white),
+                ),
+                onPressed: () =>
+                    navigationService.navigateWithoutGoBack("/profile"),
+              ),
             ],
           ),
         )
@@ -76,7 +92,7 @@ class _PickImagePageState extends State<PickImagePage> {
   Widget _buildOpenImage() {
     return FlatButton(
       child: Text(
-        'Open Image',
+        'Seleccionar la imagen',
         style: Theme.of(context).textTheme.button.copyWith(color: Colors.white),
       ),
       onPressed: () => _openImage(),
@@ -84,9 +100,15 @@ class _PickImagePageState extends State<PickImagePage> {
   }
 
   Future<void> _openImage() async {
-    final file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    final picker = ImagePicker();
+    File fileS;
+    final file =
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 35);
+    if (file != null) {
+      fileS = File(file.path);
+    }
     final sample = await ImageCrop.sampleImage(
-      file: file,
+      file: fileS,
       preferredSize: context.size.longestSide.ceil(),
     );
 
@@ -95,7 +117,7 @@ class _PickImagePageState extends State<PickImagePage> {
 
     setState(() {
       _sample = sample;
-      _file = file;
+      _file = fileS;
     });
   }
 
@@ -110,8 +132,8 @@ class _PickImagePageState extends State<PickImagePage> {
     // scale up to use maximum possible number of pixels
     // this will sample image in higher resolution to make cropped image larger
     final sample = await ImageCrop.sampleImage(
-      file: _file,
-      preferredSize: (2000 / scale).round(),
+        file: _file,
+      preferredSize: (400 / scale).round(),
     );
 
     final file = await ImageCrop.cropImage(
@@ -123,7 +145,7 @@ class _PickImagePageState extends State<PickImagePage> {
 
     _lastCropped?.delete();
     _lastCropped = file;
-
     debugPrint('$file');
+    profileBloc.add(SendImageEvent(file));
   }
 }

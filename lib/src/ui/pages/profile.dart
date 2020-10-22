@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:image_crop/image_crop.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
@@ -15,7 +11,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   ProfileBloc profileBloc;
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,85 +46,6 @@ class ProfileActions extends StatefulWidget {
 class _ProfileActionsState extends State<ProfileActions> {
   final NavigationService navigationService = locator<NavigationService>();
   ProfileBloc profileBloc;
-  File _image;
-  final picker = ImagePicker();
-  final cropKey = GlobalKey<CropState>();
-  File _file;
-  File _sample;
-  File _lastCropped;
-
-  _imgFromCamera() async {
-    File image = await ImagePicker.pickImage(
-        source: ImageSource.camera, imageQuality: 50
-    );
-
-    setState(() {
-      _image = image;
-    });
-
-    profileBloc.add(SendImageEvent());
-  }
-
-  _imgFromGallery() async {
-    File image = await  ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50
-    );
-
-    setState(() {
-      _image = image;
-    });
-  }
-
-  void _showPicker(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library),
-                      title: new Text('Photo Library'),
-                      onTap: () {
-                        _imgFromGallery();
-                        Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera),
-                    title: new Text('Camera'),
-                    onTap: () {
-                      _imgFromCamera();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-    );
-  }
-
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _file?.delete();
-    _sample?.delete();
-    _lastCropped?.delete();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +74,9 @@ class _ProfileActionsState extends State<ProfileActions> {
                   CircleAvatar(
                     radius: 70,
                     backgroundColor: Colors.transparent,
-                    backgroundImage: AssetImage("assets/images/profile.png"),
+                    backgroundImage: NetworkImage(
+                      'http://192.168.1.2:9000/user-avatar/${meData.photo}',
+                    ),
                   ),
                   Container(
                     decoration: ShapeDecoration(
@@ -167,8 +85,7 @@ class _ProfileActionsState extends State<ProfileActions> {
                     child: IconButton(
                         icon: Icon(Icons.photo_camera),
                         onPressed: () {
-                          //_showPicker(context);
-                          navigationService.navigateTo(Routes.PickImageRoute);
+                          navigationService.navigateTo("/pick_image");
                         },
                         color: Colors.white),
                   )

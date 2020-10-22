@@ -71,3 +71,9 @@ mutation SendVerificationCode ($code: String!, $email: String!, $question: Strin
     email: $email,
     question: $question)
 } """;
+
+final String editProfile = r"""
+mutation($photo: String, $fullName: String, $adress: String){
+  editProfile(photo: $photo, adress: $adress, fullName: $fullName)
+}
+""";

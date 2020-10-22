@@ -25,6 +25,12 @@ class LoadedProfileState extends ProfileState {
   List<Object> get props => throw UnimplementedError();
 }
 
+class CropProfileImageState extends ProfileState {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
 class LoadingProfileState extends ProfileState {
   @override
   // TODO: implement props

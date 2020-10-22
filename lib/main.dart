@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:minio/minio.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
@@ -56,8 +57,14 @@ void main() async {
           create: (context) => RegisterPersonalInfoBloc(RegisterDataRepository(
               client: GraphQLConfiguration().clients()))),
       BlocProvider(
-          create: (context) => ProfileBloc(UserRepository(
-              client: GraphQLConfiguration().clients()))),
+          create: (context) => ProfileBloc(
+              UserRepository(client: GraphQLConfiguration().clients()),
+              Minio(
+                  endPoint: "192.168.1.2",
+                  accessKey: "imandracardenas",
+                  port: 9000,
+                  useSSL: false,
+                  secretKey: "imandracardenas"))),
       BlocProvider(
           create: (context) => LocationBloc(
               ProvinceRepository(client: GraphQLConfiguration().clients()),

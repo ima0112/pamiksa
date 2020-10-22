@@ -9,6 +9,10 @@ class NavigationService {
     return navigatorKey.currentState.pushNamed(routeName);
   }
 
+  Future<dynamic> navigateToWithArguments(String routeName, String argument) {
+    return navigatorKey.currentState.pushNamed(routeName, arguments: argument);
+  }
+
   Future<dynamic> navigateWithoutGoBack(String routeName) {
     return navigatorKey.currentState.pushReplacementNamed(routeName);
   }

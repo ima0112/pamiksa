@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:minio/io.dart';
+import 'package:minio/minio.dart';
+import 'package:path/path.dart';
 
 part 'profile_event.dart';
 
@@ -11,8 +16,10 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final UserRepository userRepository;
+  final Minio minio;
+  final NavigationService navigationService = locator<NavigationService>();
 
-  ProfileBloc(this.userRepository) : super(ProfileInitial());
+  ProfileBloc(this.userRepository, this.minio) : super(ProfileInitial());
   UserModel meModel;
 
   @override
@@ -23,7 +30,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _mapFetchProfileEvent(event);
     } else if (event is SendImageEvent) {
       yield* _mapSendImageEvent(event);
+    } else if (event is SetCropProfileEvent) {
+      yield* _mapCropProfileImageEvent(event);
     }
+  }
+
+  Stream<ProfileState> _mapCropProfileImageEvent(
+      SetCropProfileEvent event) async* {
+    yield CropProfileImageState();
   }
 
   Stream<ProfileState> _mapFetchProfileEvent(FetchProfileEvent event) async* {
@@ -33,12 +47,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         yield ProfileConnectionFailedState();
       } else {
         Map<dynamic, dynamic> meData = response.data['me'];
+        userRepository.clear();
         meModel = UserModel(
             id: meData['id'],
             fullName: meData['fullName'],
             adress: meData['adress'],
             photo: meData['photo'],
             email: meData['email']);
+        userRepository.insert(meModel.toMap());
         yield LoadedProfileState(meModel);
       }
     } catch (error) {
@@ -48,9 +64,31 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Stream<ProfileState> _mapSendImageEvent(SendImageEvent event) async* {
     try {
-
+      await minio.fPutObject(
+          'user-avatar', '${basename(event.file.path)}', '${event.file.path}');
+      final response =
+          await userRepository.editProfile(basename(event.file.path));
+      final getUser = await userRepository.all();
+      List<UserModel> retorno = List();
+      retorno = getUser
+          .map((e) => UserModel(
+                id: e['id'].toString(),
+                fullName: e['fullName'],
+                adress: e['adress'],
+                email: e['email'],
+                photo: e['photo'],
+              ))
+          .toList();
+      if (retorno[0].photo != "image_color_gray_transparent_background.png") {
+        await minio.removeObject('user-avatar', '${retorno[0].photo}');
+      }
+      if (response.hasException) {
+        print("ERROR");
+      } else {
+        navigationService.navigateWithoutGoBack("/profile");
+      }
     } catch (error) {
-
+      print('$error');
     }
   }
 }
