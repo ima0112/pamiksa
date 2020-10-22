@@ -33,12 +33,12 @@ class BusinessItemPage extends StatefulWidget {
 
 class _BusinessItemPageState extends State<BusinessItemPage> {
   final NavigationService navigationService = locator<NavigationService>();
-  HomeBloc homeBloc;
+  RootBloc homeBloc;
   BusinessDetailsBloc businessDetailsBloc;
 
   @override
   void initState() {
-    homeBloc = BlocProvider.of<HomeBloc>(context);
+    homeBloc = BlocProvider.of<RootBloc>(context);
     businessDetailsBloc = BlocProvider.of<BusinessDetailsBloc>(context);
     super.initState();
   }
@@ -179,7 +179,7 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                 icon: Icon(Icons.favorite_border),
                 onPressed: () {},
                 color: Colors.white,
-                splashRadius: 1.0)
+                splashRadius: 1.0),
           ],
         ),
         SizedBox(

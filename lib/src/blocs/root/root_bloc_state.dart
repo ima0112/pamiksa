@@ -1,19 +1,19 @@
-part of 'home_bloc.dart';
+part of 'root_bloc.dart';
 
-abstract class HomeState extends Equatable {
+abstract class RootState extends Equatable {
   final int index;
 
-  const HomeState(this.index, [List props = const []]);
+  const RootState(this.index, [List props = const []]);
 }
 
-class HomeInitial extends HomeState {
+class HomeInitial extends RootState {
   HomeInitial(int index) : super(index);
 
   @override
   List<Object> get props => [];
 }
 
-class BusinessOptionsPulsedState extends HomeState {
+class BusinessOptionsPulsedState extends RootState {
   BusinessOptionsPulsedState(int index) : super(index);
 
   @override
@@ -21,7 +21,7 @@ class BusinessOptionsPulsedState extends HomeState {
   List<Object> get props => throw UnimplementedError();
 }
 
-class LoadedBusinessState extends HomeState {
+class LoadedBusinessState extends RootState {
   final int index;
   final List<BusinessModel> results;
 
@@ -34,7 +34,7 @@ class LoadedBusinessState extends HomeState {
   List<Object> get props => throw UnimplementedError();
 }
 
-class HomeConnectionFailedState extends HomeState {
+class HomeConnectionFailedState extends RootState {
   HomeConnectionFailedState(int index) : super(index);
 
   @override
@@ -42,7 +42,7 @@ class HomeConnectionFailedState extends HomeState {
   List<Object> get props => throw UnimplementedError();
 }
 
-class ShowFirstState extends HomeState {
+class ShowFirstState extends RootState {
   final List<BusinessModel> results;
 
   ShowFirstState(int index, this.results) : super(index);
@@ -52,26 +52,26 @@ class ShowFirstState extends HomeState {
   List<Object> get props => throw UnimplementedError();
 }
 
-class ShowSecondState extends HomeState {
+class ShowSecondState extends RootState {
+  ShowSecondState(int index) : super(index);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class ShowThirdState extends RootState {
   final int count;
   final List<FavoriteModel> favoriteModel;
 
-  ShowSecondState({int index, this.count, this.favoriteModel}) : super(index);
+  ShowThirdState({int index, this.count, this.favoriteModel}) : super(index);
 
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
-class ShowThirdState extends HomeState {
-  ShowThirdState(int index) : super(index);
-
-  @override
-  // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
-}
-
-class ShowFourState extends HomeState {
+class ShowFourState extends RootState {
   ShowFourState(int index) : super(index);
 
   @override
@@ -79,7 +79,7 @@ class ShowFourState extends HomeState {
   List<Object> get props => throw UnimplementedError();
 }
 
-class ShowDevicesState extends HomeState {
+class ShowDevicesState extends RootState {
   ShowDevicesState(int index) : super(index);
 
   @override

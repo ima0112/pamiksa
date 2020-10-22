@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/intro/intro_bloc.dart';
-import 'package:pamiksa/src/data/storage/shared.dart';
-import 'package:pamiksa/src/ui/navigation/locator.dart';
-import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:flutter/services.dart';
-import 'package:pamiksa/src/ui/navigation/route_paths.dart' as routes;
 
 class IntroPage extends StatefulWidget {
   @override
@@ -13,7 +10,15 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroState extends State<IntroPage> {
+  ThemeBloc themeBloc;
   IntroBloc introBloc;
+
+  @override
+  void initState() {
+    themeBloc = BlocProvider.of<ThemeBloc>(context);
+    themeBloc.add(LoadedThemeEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

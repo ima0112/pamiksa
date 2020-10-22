@@ -1,3 +1,4 @@
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
@@ -68,6 +69,11 @@ class _ProfileActionsState extends State<ProfileActions> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              /*CircleAvatar(
+                radius: 75,
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage("assets/images/profile.png"),
+              ),*/
               Stack(
                 alignment: AlignmentDirectional.bottomEnd,
                 children: <Widget>[

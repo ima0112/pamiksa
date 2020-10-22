@@ -48,11 +48,20 @@ class RegisterCompleteBloc
     event.userModel.province = await secureStorage.read('province');
     event.userModel.municipality = await secureStorage.read('municipality');
 
-    await this.userRepository.signUp(event.userModel, deviceModel);
+    final response =
+        await this.userRepository.signUp(event.userModel, deviceModel);
 
-    await secureStorage.remove('password');
+    if (response.hasException) {
+      String message = response.exception.graphqlErrors[0].message;
+      if (message == "Device banned") {
+        navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
+      }
+    } else {
+      await secureStorage.remove('password');
 
-    navigationService.navigateAndRemove(Routes.HomeRoute);
-    print(event.userModel.toString());
+      navigationService.navigateAndRemove(Routes.HomeRoute);
+
+      print(event.userModel.toString());
+    }
   }
 }

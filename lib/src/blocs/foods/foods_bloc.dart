@@ -40,6 +40,11 @@ class FoodsBloc extends Bloc<FoodsEvent, FoodsState> {
               price: e['price']))
           .toList();
 
+      foodRepository.clear();
+      foodModel.forEach((element) {
+        foodRepository.insert('Food', element.toMap());
+      });
+
       if (response.hasException) {
         print(response.exception);
       } else {

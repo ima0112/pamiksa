@@ -55,9 +55,11 @@ class GenerateRoute {
         return createRouter(PickImagePage());
       case Routes.HomeRoute:
         return MaterialPageRoute(builder: (context) => HomePage());
-      case Routes.DeviceBanned:
+      case Routes.RootRoute:
+        return MaterialPageRoute(builder: (context) => RootPage());
+      case Routes.DeviceBannedRoute:
         return MaterialPageRoute(builder: (context) => DeviceBannedpage());
-      case Routes.UserBanned:
+      case Routes.UserBannedRoute:
         return MaterialPageRoute(builder: (context) => UserBannedpage());
     }
   }

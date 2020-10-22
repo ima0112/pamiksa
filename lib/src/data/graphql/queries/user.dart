@@ -21,32 +21,6 @@ query CheckSession($deviceId: String!){
   checkSession(deviceId: $deviceId)
 }""";
 
-String favorite = r"""
-query{
-  favorites{
-    id
-    name
-    price
-    photo
-    isAvailable
-    availability
-    business{
-      id
-      name
-    }
-    addOns{
-      id
-      name
-      price
-    }
-    category{
-      id
-      name
-    }
-    createdAt
-  }
-}""";
-
 String me = r"""
 query{
   me{
@@ -56,5 +30,4 @@ query{
     photo
     email
   }
-}
-""";
+}""";

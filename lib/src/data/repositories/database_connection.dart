@@ -15,6 +15,10 @@ class DatabaseConnection {
     await database.execute(
         'CREATE TABLE "Business" (id character varying(255) NOT NULL, name character varying(255),description character varying(255),adress character varying(255),phone character varying(255),email character varying(255),photo character varying(255),"valorationsQuantity" bigint,"valorationSum" double precision, valoration double precision,"deliveryPrice" double precision,CONSTRAINT "Business_pkey" PRIMARY KEY (id))');
     await database.execute(
+        'CREATE TABLE "Favorite" (id character varying(255) NOT NULL,name character varying(255) NOT NULL,description character varying(255),price double precision NOT NULL,photo character varying(255) NOT NULL,"isAvailable" boolean DEFAULT false,availability integer DEFAULT 0,CONSTRAINT "Food_pkey" PRIMARY KEY (id))');
+    await database.execute(
+        'CREATE TABLE "Food" (id character varying(255) NOT NULL,name character varying(255) NOT NULL,description character varying(255),price double precision NOT NULL,photo character varying(255) NOT NULL,"isAvailable" boolean DEFAULT false,availability integer DEFAULT 0,CONSTRAINT "Food_pkey" PRIMARY KEY (id))');
+    await database.execute(
         'CREATE TABLE "Provinces"(id character varying(255) NOT NULL,name character varying(255) NOT NULL,CONSTRAINT "Provinces_pkey" PRIMARY KEY (id),CONSTRAINT "Provinces_name_key" UNIQUE (name))');
     await database.execute(
         'CREATE TABLE "Municipalities"(id character varying(255) NOT NULL,name character varying(255),"provinceFk" character varying(255) NOT NULL,CONSTRAINT "Municipalities_pkey" PRIMARY KEY (id))');

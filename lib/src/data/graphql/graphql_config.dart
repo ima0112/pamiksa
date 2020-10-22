@@ -8,7 +8,7 @@ class GraphQLConfiguration {
 
   GraphQLClient clients() {
     final HttpLink httplink = HttpLink(
-        uri: 'http://192.168.1.2:8000/graphql/',
+        uri: 'http://192.168.0.50:8000/graphql/',
         headers: {'AccessToken': 'danielenriquearmasjuarez'});
 
     final AuthLink authLink = AuthLink(
