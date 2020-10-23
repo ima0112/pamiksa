@@ -31,41 +31,54 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        navigationService.navigateWithoutGoBack(Routes.HomeRoute);
-        return false;
-      },
-      child: BlocBuilder<FavoriteBloc, FavoriteState>(
-        builder: (context, state) {
-          if (state is LoadedFavoritesFoodsState) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                  child: ListView.separated(
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    itemCount: state.count,
-                    itemBuilder: (_, index) => ListTile(
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 10.0),
-                      title: Text("${state.favoriteModel[index].name}"),
-                      subtitle:
-                          Text("Precio: ${state.favoriteModel[index].price}"),
-                      trailing: Image.asset("assets/images/profile.png"),
-                      dense: true,
-                    ),
-                    separatorBuilder: (_, __) => Divider(
-                      height: 20.0,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Favoritos",
+          style: TextStyle(
+              color: Theme.of(context).textTheme.bodyText1.color,
+              fontWeight: FontWeight.bold),
+        ),
+        elevation: 2.0,
+      ),
+      body: WillPopScope(
+        onWillPop: () async {
+          navigationService.navigateWithoutGoBack(Routes.HomeRoute);
+          return false;
+        },
+        child: BlocBuilder<FavoriteBloc, FavoriteState>(
+          builder: (context, state) {
+            if (state is LoadedFavoritesFoodsState) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                    child: ListView.separated(
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      itemCount: state.count,
+                      itemBuilder: (_, index) =>
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            title: Text("${state.favoriteModel[index].name}"),
+                            subtitle:
+                            Text("Precio: ${state.favoriteModel[index].price}"),
+                            trailing: Image.asset("assets/images/profile.png"),
+                            dense: true,
+                          ),
+                      separatorBuilder: (_, __) =>
+                          Divider(
+                            height: 20.0,
+                          ),
                     ),
                   ),
-                ),
-              ],
-            );
-          }
-          return Center(child: CircularProgressIndicator());
-        },
+                ],
+              );
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }

@@ -87,7 +87,12 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                           children: <Widget>[
                             Text(
                               "${this.widget.name}",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      .color,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),

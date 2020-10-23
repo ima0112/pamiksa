@@ -39,7 +39,7 @@ final appThemeData = {
     cursorColor: Colors.deepPurpleAccent[700],
     hoverColor: Colors.deepPurple[700],
     primaryColor: Colors.deepPurpleAccent[700],
-    primaryColorLight: Colors.black12,
+    primaryColorLight: Colors.grey[200],
     bottomAppBarColor: Colors.deepPurpleAccent[700],
     focusColor: Colors.deepPurpleAccent[700],
     accentColor: Colors.deepPurpleAccent[700],
@@ -53,7 +53,7 @@ final appThemeData = {
     brightness: Brightness.light,
   ),
   ThemeMode.dark: ThemeData(
-    toggleableActiveColor: Colors.deepPurple,
+    toggleableActiveColor: Colors.deepPurple[300],
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: Color(0xff121212)),
     chipTheme: ChipThemeData(
         backgroundColor: Colors.grey[900],
@@ -84,7 +84,7 @@ final appThemeData = {
     primarySwatch: Colors.deepPurple,
     cursorColor: Color(0xff7C4DFF),
     hoverColor: Color(0xff7C4DFF),
-    primaryColor: Colors.deepPurple,
+    primaryColor: Colors.deepPurple[300],
     primaryColorLight: Colors.black,
     bottomAppBarColor: Color(0xff7C4DFF),
     focusColor: Color(0xff7C4DFF),
@@ -94,7 +94,7 @@ final appThemeData = {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: Color(0xff121212),
-        selectedItemColor: Color(0xff7C4DFF),
+        selectedItemColor: Colors.deepPurple[300],
         unselectedItemColor: Colors.grey),
     brightness: Brightness.dark,
   )
