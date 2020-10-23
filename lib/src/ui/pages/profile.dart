@@ -61,6 +61,24 @@ class _ProfileActionsState extends State<ProfileActions> {
       );
     } else if (currentState is LoadedProfileState) {
       final meData = currentState.results;
+      Widget profileCircleAvatar() {
+        if (meData.photo != null) {
+          return CircleAvatar(
+            radius: 70,
+            backgroundColor: Colors.transparent,
+            backgroundImage: NetworkImage(
+              'http://192.168.1.2:9000/user-avatar/${meData.photo}',
+            ),
+          );
+        }
+        return CircleAvatar(
+          radius: 70,
+          backgroundColor: Colors.transparent,
+          backgroundImage: AssetImage(
+              "assets/images/image_color_gray_transparent_background.png"),
+        );
+      }
+
       return Column(
         children: [
           SizedBox(
@@ -69,21 +87,10 @@ class _ProfileActionsState extends State<ProfileActions> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /*CircleAvatar(
-                radius: 75,
-                backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage("assets/images/profile.png"),
-              ),*/
               Stack(
                 alignment: AlignmentDirectional.bottomEnd,
                 children: <Widget>[
-                  CircleAvatar(
-                    radius: 70,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: NetworkImage(
-                      'http://192.168.1.2:9000/user-avatar/${meData.photo}',
-                    ),
-                  ),
+                  profileCircleAvatar(),
                   Container(
                     decoration: ShapeDecoration(
                         shape: CircleBorder(),

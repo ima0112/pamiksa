@@ -79,7 +79,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
                 photo: e['photo'],
               ))
           .toList();
-      if (retorno[0].photo != "image_color_gray_transparent_background.png") {
+      String data = retorno[0].photo;
+      if (retorno[0].photo != null) {
         await minio.removeObject('user-avatar', '${retorno[0].photo}');
       }
       if (response.hasException) {
