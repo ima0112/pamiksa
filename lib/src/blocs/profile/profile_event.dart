@@ -25,3 +25,10 @@ class SetCropProfileEvent extends ProfileEvent {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class SetProfileInitialStateEvent extends ProfileEvent {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+
+}

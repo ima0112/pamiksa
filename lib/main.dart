@@ -61,7 +61,7 @@ void main() async {
           create: (context) => ProfileBloc(
               UserRepository(client: GraphQLConfiguration().clients()),
               Minio(
-                  endPoint: "192.168.1.2",
+                  endPoint: "192.168.0.50",
                   accessKey: "imandracardenas",
                   port: 9000,
                   useSSL: false,

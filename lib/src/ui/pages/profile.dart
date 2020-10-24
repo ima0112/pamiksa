@@ -11,6 +11,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final NavigationService navigationService = locator<NavigationService>();
   ProfileBloc profileBloc;
 
   @override
@@ -31,135 +32,127 @@ class _ProfilePageState extends State<ProfilePage> {
           return BlocBuilder<ProfileBloc, ProfileState>(
             buildWhen: (previousState, state) =>
                 state.runtimeType != previousState.runtimeType,
-            builder: (context, state) => ProfileActions(),
+            builder: (context, state) {
+              if (state is ProfileInitial) {
+                profileBloc.add(FetchProfileEvent());
+                return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else if (state is LoadedProfileState) {
+                Widget profileCircleAvatar() {
+                  if (state.results.photo != null) {
+                    return CircleAvatar(
+                      radius: 70,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: NetworkImage(
+                        'http://192.168.1.2:9000/user-avatar/${state.results.photo}',
+                      ),
+                    );
+                  }
+                  return CircleAvatar(
+                    radius: 70,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: AssetImage(
+                        "assets/images/image_color_gray_transparent_background.png"),
+                  );
+                }
+
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 25.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Stack(
+                          alignment: AlignmentDirectional.bottomEnd,
+                          children: <Widget>[
+                            profileCircleAvatar(),
+                            Container(
+                              decoration: ShapeDecoration(
+                                  shape: CircleBorder(),
+                                  color: Theme.of(context).primaryColor),
+                              child: IconButton(
+                                  icon: Icon(Icons.photo_camera),
+                                  onPressed: () {
+                                    navigationService.navigateTo("/pick_image");
+                                  },
+                                  color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 40.0,
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.person),
+                      isThreeLine: true,
+                      title: Text(
+                        "Nombre",
+                        style:
+                            TextStyle(color: Colors.grey[600], fontSize: 14.0),
+                      ),
+                      subtitle: Text(
+                        state.results.fullName,
+                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      ),
+                      onTap: () {},
+                      trailing: Icon(
+                        Icons.edit,
+                        color: Colors.grey,
+                        size: 16.0,
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.location_on),
+                      isThreeLine: true,
+                      title: Text(
+                        "Direccion",
+                        style:
+                            TextStyle(color: Colors.grey[600], fontSize: 14.0),
+                      ),
+                      subtitle: Text(
+                        state.results.adress,
+                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      ),
+                      onTap: () {},
+                      trailing: Icon(
+                        Icons.edit,
+                        color: Colors.grey,
+                        size: 16.0,
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.email),
+                      isThreeLine: true,
+                      title: Text(
+                        "Correo Electronico",
+                        style:
+                            TextStyle(color: Colors.grey[600], fontSize: 14.0),
+                      ),
+                      subtitle: Text(
+                        state.results.email,
+                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      ),
+                      onTap: () {},
+                    ),
+                  ],
+                );
+              }
+              return Container(
+                child: Center(
+                  child: Text("Error"),
+                ),
+              );
+            },
           );
         },
       ),
     );
-  }
-}
-
-class ProfileActions extends StatefulWidget {
-  @override
-  _ProfileActionsState createState() => _ProfileActionsState();
-}
-
-class _ProfileActionsState extends State<ProfileActions> {
-  final NavigationService navigationService = locator<NavigationService>();
-  ProfileBloc profileBloc;
-
-  @override
-  Widget build(BuildContext context) {
-    profileBloc = BlocProvider.of<ProfileBloc>(context);
-    final ProfileState currentState = profileBloc.state;
-    if (profileBloc.state is ProfileInitial) {
-      profileBloc.add(FetchProfileEvent());
-      return Container(
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    } else if (currentState is LoadedProfileState) {
-      final meData = currentState.results;
-      Widget profileCircleAvatar() {
-        if (meData.photo != null) {
-          return CircleAvatar(
-            radius: 70,
-            backgroundColor: Colors.transparent,
-            backgroundImage: NetworkImage(
-              'http://192.168.1.2:9000/user-avatar/${meData.photo}',
-            ),
-          );
-        }
-        return CircleAvatar(
-          radius: 70,
-          backgroundColor: Colors.transparent,
-          backgroundImage: AssetImage(
-              "assets/images/image_color_gray_transparent_background.png"),
-        );
-      }
-
-      return Column(
-        children: [
-          SizedBox(
-            height: 25.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Stack(
-                alignment: AlignmentDirectional.bottomEnd,
-                children: <Widget>[
-                  profileCircleAvatar(),
-                  Container(
-                    decoration: ShapeDecoration(
-                        shape: CircleBorder(),
-                        color: Theme.of(context).primaryColor),
-                    child: IconButton(
-                        icon: Icon(Icons.photo_camera),
-                        onPressed: () {
-                          navigationService.navigateTo("/pick_image");
-                        },
-                        color: Colors.white),
-                  )
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 40.0,
-          ),
-          ListTile(
-            leading: Icon(Icons.person),
-            isThreeLine: true,
-            title: Text(
-              "Nombre",
-              style: TextStyle(color: Colors.grey[600], fontSize: 14.0),
-            ),
-            subtitle: Text(
-              meData.fullName,
-              style: TextStyle(fontSize: 16.0, color: Colors.black),
-            ),
-            onTap: () {},
-            trailing: Icon(
-              Icons.edit,
-              color: Colors.grey,
-              size: 16.0,
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.location_on),
-            isThreeLine: true,
-            title: Text(
-              "Direccion",
-              style: TextStyle(color: Colors.grey[600], fontSize: 14.0),
-            ),
-            subtitle: Text(
-              meData.adress,
-              style: TextStyle(fontSize: 16.0, color: Colors.black),
-            ),
-            onTap: () {},
-            trailing: Icon(
-              Icons.edit,
-              color: Colors.grey,
-              size: 16.0,
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.email),
-            isThreeLine: true,
-            title: Text(
-              "Correo Electronico",
-              style: TextStyle(color: Colors.grey[600], fontSize: 14.0),
-            ),
-            subtitle: Text(
-              meData.email,
-              style: TextStyle(fontSize: 16.0, color: Colors.black),
-            ),
-            onTap: () {},
-          ),
-        ],
-      );
-    }
   }
 }

@@ -49,31 +49,31 @@ class _FavoritePageState extends State<FavoritePage> {
         child: BlocBuilder<FavoriteBloc, FavoriteState>(
           builder: (context, state) {
             if (state is LoadedFavoritesFoodsState) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                    child: ListView.separated(
-                      controller: _scrollController,
-                      shrinkWrap: true,
-                      itemCount: state.count,
-                      itemBuilder: (_, index) =>
-                          ListTile(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            title: Text("${state.favoriteModel[index].name}"),
-                            subtitle:
-                            Text("Precio: ${state.favoriteModel[index].price}"),
-                            trailing: Image.asset("assets/images/profile.png"),
-                            dense: true,
-                          ),
-                      separatorBuilder: (_, __) =>
-                          Divider(
-                            height: 20.0,
-                          ),
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      child: ListView.separated(
+                        controller: _scrollController,
+                        shrinkWrap: true,
+                        itemCount: state.count,
+                        itemBuilder: (_, index) => ListTile(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                          title: Text("${state.favoriteModel[index].name}"),
+                          subtitle: Text(
+                              "Precio: ${state.favoriteModel[index].price}"),
+                          trailing: Image.asset("assets/images/profile.png"),
+                          dense: true,
+                        ),
+                        separatorBuilder: (_, __) => Divider(
+                          height: 20.0,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
             return Center(child: CircularProgressIndicator());

@@ -53,7 +53,7 @@ class _RootPageState extends State<RootPage> {
                   pinned: true,
                   forceElevated: true,
                   floating: true,
-                  elevation: 2.0,
+                  elevation: 0.0,
                   title: Text(
                     "Cargando...",
                     style: TextStyle(
