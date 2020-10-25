@@ -149,7 +149,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                   child: ListView.separated(
                     scrollDirection: Axis.vertical,
-                    itemCount: 2,
+                    itemCount: options.length,
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Text("${options[index]}"),

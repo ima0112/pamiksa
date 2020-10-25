@@ -26,4 +26,6 @@ class Routes {
   static const String UserBannedRoute = "/user_banned";
   static const String RootRoute = "/root";
   static const String FavoriteRoute = '/favorite';
+  static const String ChangePassword = '/change_password';
+  static const String SettingRoute = '/settings';
 }

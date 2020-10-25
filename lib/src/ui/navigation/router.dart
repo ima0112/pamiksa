@@ -47,14 +47,18 @@ class GenerateRoute {
         return createRouter(ConditionsPage());
       case Routes.FAQRoute:
         return createRouter(FAQPage());
-      case Routes.Profile:
-        return createRouter(ProfilePage());
       case Routes.BussinesDetailsRoute:
         return createRouter(BusinessPage());
       case Routes.PickImageRoute:
         return createRouter(PickImagePage());
+      case Routes.ChangePassword:
+        return createRouter(ChangePasswordPage());
+      case Routes.Profile:
+        return MaterialPageRoute(builder: (context) => ProfilePage());
       case Routes.HomeRoute:
         return MaterialPageRoute(builder: (context) => HomePage());
+      case Routes.SettingRoute:
+        return MaterialPageRoute(builder: (context) => SettingsPage());
       case Routes.RootRoute:
         return MaterialPageRoute(builder: (context) => RootPage());
       case Routes.DeviceBannedRoute:
