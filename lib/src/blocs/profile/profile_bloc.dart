@@ -87,7 +87,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (response.hasException) {
         print("ERROR");
       } else {
-        navigationService.navigateWithoutGoBack("/profile");
+        navigationService.goBack();
         yield ProfileInitial();
       }
     } catch (error) {

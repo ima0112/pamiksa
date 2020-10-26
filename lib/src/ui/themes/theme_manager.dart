@@ -5,6 +5,7 @@ enum AppTheme { Claro, Oscuro }
 
 final appThemeData = {
   ThemeMode.light: ThemeData(
+    dialogTheme: DialogTheme(backgroundColor: Colors.white),
     textTheme: TextTheme(
         bodyText1: TextStyle(color: Colors.black),
         bodyText2: TextStyle(color: Colors.black)),
@@ -53,6 +54,7 @@ final appThemeData = {
     brightness: Brightness.light,
   ),
   ThemeMode.dark: ThemeData(
+    dialogTheme: DialogTheme(backgroundColor: Color(0xff121212)),
     toggleableActiveColor: Colors.deepPurple[300],
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: Color(0xff121212)),
     chipTheme: ChipThemeData(

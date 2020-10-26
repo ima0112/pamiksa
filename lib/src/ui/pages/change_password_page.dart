@@ -56,11 +56,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              navigationService.navigateWithoutGoBack(Routes.Profile);
-            }),
         title: Text(
           "Cambiar contraseña",
           style: TextStyle(

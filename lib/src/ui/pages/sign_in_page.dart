@@ -63,83 +63,82 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: AppBar(
-            elevation: 0.0,
-            backgroundColor: Theme.of(context).primaryColorLight,
-            brightness: Brightness.dark,
-          )),
-      body: BlocConsumer<SignInBloc, SignInState>(
-        listenWhen: (previous, current) =>
-            current.runtimeType != previous.runtimeType,
-        listener: (context, state) {
-          if (state is ConnectionFailedState) {
-            Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  "Parece que tienes un problema con la conexión",
-                  style: TextStyle(color: Colors.white),
-                ),
-                duration: Duration(seconds: 5)));
-          }
-          if (state is CredentialsErrorState) {
-            Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text("Credenciales incorrectas",
-                    style: TextStyle(color: Colors.white)),
-                duration: Duration(seconds: 5)));
-          }
-          if (state is UserBannedState) {
-            Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text("Su usuario ha sido banneado",
-                    style: TextStyle(color: Colors.white)),
-                duration: Duration(seconds: 5)));
-          }
-        },
-        buildWhen: (previous, current) =>
-            current.runtimeType != previous.runtimeType,
-        builder: (BuildContext context, SignInState state) {
-          if (state is LoadingSignState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return SafeArea(
-            top: true,
-            bottom: true,
-            left: false,
-            right: false,
-            // child: Padding(
-            //   padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 20.0),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: startLogin(),
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(0),
+            child: AppBar(
+              elevation: 0.0,
+              backgroundColor: Theme.of(context).primaryColorLight,
+              brightness: Brightness.dark,
+            )),
+        body: BlocConsumer<SignInBloc, SignInState>(
+            listenWhen: (previous, current) =>
+                current.runtimeType != previous.runtimeType,
+            listener: (context, state) {
+              if (state is ConnectionFailedState) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      "Parece que tienes un problema con la conexión",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    duration: Duration(seconds: 5)));
+              }
+              if (state is CredentialsErrorState) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text("Credenciales incorrectas",
+                        style: TextStyle(color: Colors.white)),
+                    duration: Duration(seconds: 5)));
+              }
+              if (state is UserBannedState) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text("Su usuario ha sido banneado",
+                        style: TextStyle(color: Colors.white)),
+                    duration: Duration(seconds: 5)));
+              }
+            },
+            buildWhen: (previous, current) =>
+                current.runtimeType != previous.runtimeType,
+            builder: (BuildContext context, SignInState state) {
+              if (state is LoadingSignState) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return SafeArea(
+                top: true,
+                bottom: true,
+                left: false,
+                right: false,
+                // child: Padding(
+                //   padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 20.0),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 3,
+                        child: startLogin(),
+                      ),
+                      // Spacer(
+                      //   flex: 1,
+                      // ),
+                      Expanded(
+                          flex: 6,
+                          child: Align(
+                              alignment: Alignment.center, child: form())),
+                      // Spacer(
+                      //   flex: 1,
+                      // ),
+                      Expanded(
+                        flex: 2,
+                        child: endLogin(),
+                      )
+                    ],
                   ),
-                  // Spacer(
-                  //   flex: 1,
-                  // ),
-                  Expanded(
-                      flex: 6,
-                      child: Align(alignment: Alignment.center, child: form())),
-                  // Spacer(
-                  //   flex: 1,
-                  // ),
-                  Expanded(
-                    flex: 2,
-                    child: endLogin(),
-                  )
-                ],
-              ),
-            ),
-            // ),
-          );
-        },
-      ),
-    );
+                ),
+                // ),
+              );
+            }));
   }
 
   Widget startLogin() {

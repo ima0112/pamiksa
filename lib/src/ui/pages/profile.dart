@@ -197,7 +197,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       return ListTile(
                         title: Text("${options[index]}"),
                         onTap: () {
-                          navigationService.navigateTo(Routes.ChangePassword);
+                          navigationService
+                              .navigateWithoutGoBack(Routes.ChangePassword);
                         },
                       );
                     },
