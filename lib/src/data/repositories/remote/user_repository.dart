@@ -21,7 +21,6 @@ class UserRepository {
 
   UserRepository({@required this.client}) : assert(client != null);
 
-
   Future<Database> get database async {
     if (_database != null) return _database;
     _database = await _databaseConnection.setDatabase();
@@ -46,8 +45,7 @@ class UserRepository {
     return await client.query(_options);
   }
 
-  Future<QueryResult> editProfile(
-      String photo) async {
+  Future<QueryResult> editProfile(String photo) async {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.editProfile),
       variables: {'photo': photo},
@@ -148,6 +146,13 @@ class UserRepository {
     return await client.mutate(_options);
   }
 
+  Future<QueryResult> changePassword(String password) async {
+    final MutationOptions _options = MutationOptions(
+        documentNode: gql(mutations.changePassword),
+        variables: {'password': password});
+    return await client.mutate(_options);
+  }
+
   Future<QueryResult> checkSession(String deviceId) async {
     final WatchQueryOptions _options = WatchQueryOptions(
       documentNode: gql(queries.checkSession),
@@ -160,7 +165,8 @@ class UserRepository {
   //Insert data to Table
   insert(data) async {
     var connection = await database;
-    return await connection.transaction((txn) async => txn.insert("Users", data));
+    return await connection
+        .transaction((txn) async => txn.insert("Users", data));
   }
 
   //Clear database

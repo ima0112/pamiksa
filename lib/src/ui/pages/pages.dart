@@ -27,3 +27,4 @@ export './delegate.dart';
 export './suggestions.dart';
 export './root_page.dart';
 export './favorite_page.dart';
+export './change_password_page.dart';

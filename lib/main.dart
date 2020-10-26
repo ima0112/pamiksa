@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minio/minio.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/blocs/change_password/change_password_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
@@ -112,7 +113,10 @@ void main() async {
               FoodRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => FavoriteBloc(
-              FavoriteRepository(client: GraphQLConfiguration().clients())))
+              FavoriteRepository(client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => ChangePasswordBloc(
+              UserRepository(client: GraphQLConfiguration().clients())))
     ],
     child: MyApp(initialRoute: initialRoute),
   ));

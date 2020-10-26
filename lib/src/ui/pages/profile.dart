@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final NavigationService navigationService = locator<NavigationService>();
   ProfileBloc profileBloc;
+
+  List<String> options = ["Cambiar contraseña"];
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,13 @@ class _ProfilePageState extends State<ProfilePage> {
               fontWeight: FontWeight.bold),
         ),
         elevation: 2.0,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: () {
+                modalButtonSheet();
+              })
+        ],
       ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
@@ -47,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       radius: 70,
                       backgroundColor: Colors.transparent,
                       backgroundImage: NetworkImage(
-                        'http://192.168.1.2:9000/user-avatar/${state.results.photo}',
+                        'http://192.168.0.50:9000/user-avatar/${state.results.photo}',
                       ),
                     );
                   }
@@ -99,7 +109,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       subtitle: Text(
                         state.results.fullName,
-                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            color: Theme.of(context).textTheme.bodyText1.color),
                       ),
                       onTap: () {},
                       trailing: Icon(
@@ -118,7 +130,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       subtitle: Text(
                         state.results.adress,
-                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            color: Theme.of(context).textTheme.bodyText1.color),
                       ),
                       onTap: () {},
                       trailing: Icon(
@@ -137,7 +151,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       subtitle: Text(
                         state.results.email,
-                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            color: Theme.of(context).textTheme.bodyText1.color),
                       ),
                       onTap: () {},
                     ),
@@ -154,5 +170,43 @@ class _ProfilePageState extends State<ProfilePage> {
         },
       ),
     );
+  }
+
+  modalButtonSheet() {
+    return showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        builder: (context) => Container(
+              height: 200,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(25.0),
+                      topRight: const Radius.circular(25.0),
+                    )),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  child: ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    itemCount: options.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text("${options[index]}"),
+                        onTap: () {
+                          navigationService.navigateTo(Routes.ChangePassword);
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) => Divider(
+                      height: 0.0,
+                    ),
+                  ),
+                ),
+              ),
+            ));
   }
 }
