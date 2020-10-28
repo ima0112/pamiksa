@@ -300,7 +300,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 '¿ Has olvidado tu contraseña ?',
                 style: TextStyle(
-                    color: Color(0xff6200EA),
+                    color: Theme.of(context).primaryColor,
                     fontSize: 14,
                     fontWeight: FontWeight.bold),
               ),

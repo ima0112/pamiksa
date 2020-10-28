@@ -46,10 +46,10 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       yield ThemeInitial(ThemeMode.system);
       await preferences.saveInt('themeMode', 0);
     } else if (event.val == 1) {
-      yield ThemeInitial(ThemeMode.light);
+      yield LightThemeState(ThemeMode.light);
       await preferences.saveInt('themeMode', 1);
     } else if (event.val == 2) {
-      yield ThemeInitial(ThemeMode.dark);
+      yield DarkThemeState(ThemeMode.dark);
       await preferences.saveInt('themeMode', 2);
     }
   }

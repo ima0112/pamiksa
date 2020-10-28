@@ -22,34 +22,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeMode theme;
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
-      // if (theme == null) {
-      //   if (themeMode != state.themeData) {
-      //     theme = state.themeData;
-      //   } else {
-      //     theme = themeMode;
-      //   }
-      // } else {
-      //   theme = state.themeData;
-      //   if (themeMode != theme) {}
-      // }
+    return BlocBuilder<ThemeBloc, ThemeState>(
+        buildWhen: (previousState, state) =>
+            state.runtimeType != previousState.runtimeType,
+        builder: (context, state) {
+          // if (theme == null) {
+          //   if (themeMode != state.themeData) {
+          //     theme = state.themeData;
+          //   } else {
+          //     theme = themeMode;
+          //   }
+          // } else {
+          //   theme = state.themeData;
+          //   if (themeMode != theme) {}
+          // }
 
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: [GlobalMaterialLocalizations.delegate],
-        supportedLocales: [const Locale('es')],
-        title: APP_NAME,
-        themeMode: state.themeData,
-        theme: appThemeData[ThemeMode.light],
-        darkTheme: appThemeData[ThemeMode.dark],
-        onGenerateRoute: GenerateRoute.generateRoute,
-        initialRoute: initialRoute,
-        navigatorKey: locator<NavigationService>().navigatorKey,
-      );
-    });
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+            supportedLocales: [const Locale('es')],
+            title: APP_NAME,
+            themeMode: state.themeData,
+            theme: appThemeData[ThemeMode.light],
+            darkTheme: appThemeData[ThemeMode.dark],
+            onGenerateRoute: GenerateRoute.generateRoute,
+            initialRoute: initialRoute,
+            navigatorKey: locator<NavigationService>().navigatorKey,
+          );
+        });
   }
 }
