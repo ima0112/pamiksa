@@ -17,29 +17,29 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   Stream<ThemeState> mapEventToState(
     ThemeEvent event,
   ) async* {
-    if (event is LoadedThemeEvent) {
-      yield* _mapLoadedThemeEvent(event);
-    }
+    // if (event is LoadedThemeEvent) {
+    //   yield* _mapLoadedThemeEvent(event);
+    // }
     if (event is ChangedThemeEvent) {
       yield* _mapChangedThemeEvent(event);
     }
   }
 
-  Stream<ThemeState> _mapLoadedThemeEvent(LoadedThemeEvent event) async* {
-    int themeMode = await preferences.read('themeMode') ?? null;
-    if (themeMode == 0) {
-      yield ThemeInitial(ThemeMode.system);
-      await preferences.saveInt('themeMode', 0);
-    } else if (themeMode == 1) {
-      yield LightThemeState(ThemeMode.light);
-      await preferences.saveInt('themeMode', 1);
-    } else if (themeMode == 2) {
-      yield DarkThemeState(ThemeMode.dark);
-      await preferences.saveInt('themeMode', 2);
-    } else {
-      await preferences.saveInt('themeMode', 0);
-    }
-  }
+  // Stream<ThemeState> _mapLoadedThemeEvent(LoadedThemeEvent event) async* {
+  //   int themeMode = await preferences.read('themeMode') ?? null;
+  //   if (themeMode == 0) {
+  //     yield ThemeInitial(ThemeMode.system);
+  //     await preferences.saveInt('themeMode', 0);
+  //   } else if (themeMode == 1) {
+  //     yield LightThemeState(ThemeMode.light);
+  //     await preferences.saveInt('themeMode', 1);
+  //   } else if (themeMode == 2) {
+  //     yield DarkThemeState(ThemeMode.dark);
+  //     await preferences.saveInt('themeMode', 2);
+  //   } else {
+  //     await preferences.saveInt('themeMode', 0);
+  //   }
+  // }
 
   Stream<ThemeState> _mapChangedThemeEvent(ChangedThemeEvent event) async* {
     if (event.val == 0) {

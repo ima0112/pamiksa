@@ -13,15 +13,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   RootBloc homeBloc;
-  ThemeBloc themeBloc;
   MySearchDelegate _delegate;
   List<String> _list;
   int _currentIndex = 0;
 
   @override
   void initState() {
-    themeBloc = BlocProvider.of<ThemeBloc>(context);
-    themeBloc.add(LoadedThemeEvent());
     createSearchResultList();
     _delegate =
         MySearchDelegate(words: _list, textInputType: TextInputType.text);

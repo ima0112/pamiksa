@@ -73,7 +73,11 @@ mutation SendVerificationCode ($code: String!, $email: String!, $question: Strin
 } """;
 
 final String editProfile = r"""
-mutation($photo: String, $fullName: String, $adress: String){
+mutation EditProfile ($photo: String, $fullName: String, $adress: String){
   editProfile(photo: $photo, adress: $adress, fullName: $fullName)
-}
-""";
+}""";
+
+final String changePassword = r"""
+mutation ChangePassword ($password: String!){
+  changePassword(password: $password)
+}""";

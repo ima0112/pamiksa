@@ -79,8 +79,7 @@ class _PickImagePageState extends State<PickImagePage> {
                       .button
                       .copyWith(color: Colors.white),
                 ),
-                onPressed: () =>
-                    navigationService.navigateWithoutGoBack("/profile"),
+                onPressed: () => navigationService.goBack(),
               ),
             ],
           ),
@@ -132,7 +131,7 @@ class _PickImagePageState extends State<PickImagePage> {
     // scale up to use maximum possible number of pixels
     // this will sample image in higher resolution to make cropped image larger
     final sample = await ImageCrop.sampleImage(
-        file: _file,
+      file: _file,
       preferredSize: (400 / scale).round(),
     );
 

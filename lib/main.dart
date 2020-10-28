@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minio/minio.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/blocs/change_password/change_password_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
@@ -18,12 +19,11 @@ void main() async {
   String initialRoute = Routes.LoginRoute;
 
   bool isUserLoggedIn = await UserModel().isLoggedIn();
-  bool showIntro =
-      await Utils(UserRepository(client: GraphQLConfiguration().clients()))
-          .showIntro();
-  String checkSession =
-      await Utils(UserRepository(client: GraphQLConfiguration().clients()))
-          .checkSession();
+  bool showIntro = await Utils().showIntro();
+  String checkSession = await Utils()
+      .checkSession(UserRepository(client: GraphQLConfiguration().clients()));
+
+  ThemeMode themeMode = await Utils().loadedTheme();
 
   if (checkSession == "Device banned") {
     initialRoute = Routes.DeviceBannedRoute;
@@ -61,7 +61,7 @@ void main() async {
           create: (context) => ProfileBloc(
               UserRepository(client: GraphQLConfiguration().clients()),
               Minio(
-                  endPoint: "192.168.1.2",
+                  endPoint: "192.168.0.50",
                   accessKey: "imandracardenas",
                   port: 9000,
                   useSSL: false,
@@ -112,8 +112,11 @@ void main() async {
               FoodRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => FavoriteBloc(
-              FavoriteRepository(client: GraphQLConfiguration().clients())))
+              FavoriteRepository(client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => ChangePasswordBloc(
+              UserRepository(client: GraphQLConfiguration().clients())))
     ],
-    child: MyApp(initialRoute: initialRoute),
+    child: MyApp(initialRoute: initialRoute, themeMode: themeMode),
   ));
 }

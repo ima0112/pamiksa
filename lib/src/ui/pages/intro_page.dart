@@ -28,8 +28,8 @@ class _IntroState extends State<IntroPage> {
             preferredSize: Size.fromHeight(0),
             child: AppBar(
               elevation: 0.0,
-              backgroundColor: Color(0xffF5F5F5),
-              brightness: Brightness.light,
+              backgroundColor: Theme.of(context).primaryColorLight,
+              brightness: Theme.of(context).brightness,
             )),
         body: Center(
           child: Padding(
@@ -66,10 +66,15 @@ class _IntroState extends State<IntroPage> {
   }
 
   Widget introPhoto() {
-    return Container(
-      height: 190,
-      width: 190,
-      child: Image.asset('assets/images/enjoy_the_moment.jpg'),
+    return Expanded(
+      flex: 2,
+      child: Padding(
+        padding: EdgeInsets.only(top: 25.0),
+        child: Image.asset(
+          'assets/images/enjoy_the_moment.jpg',
+          fit: BoxFit.fill,
+        ),
+      ),
     );
   }
 
