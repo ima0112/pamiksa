@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:minio/minio.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
@@ -11,9 +12,9 @@ import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
-import 'package:path/path.dart';
 
 void main() async {
+  await DotEnv().load('.env');
   WidgetsFlutterBinding.ensureInitialized();
 
   String initialRoute = Routes.LoginRoute;
@@ -61,11 +62,11 @@ void main() async {
           create: (context) => ProfileBloc(
               UserRepository(client: GraphQLConfiguration().clients()),
               Minio(
-                  endPoint: "192.168.0.50",
-                  accessKey: "imandracardenas",
-                  port: 9000,
-                  useSSL: false,
-                  secretKey: "imandracardenas"))),
+                  endPoint: DotEnv().env['MINIO_ADRESS'],
+                  accessKey: DotEnv().env['MINIO_ACCESS_KEY'],
+                  port: int.parse(DotEnv().env['MINIO_PORT']),
+                  useSSL: DotEnv().env['MINIO_USE_SSL'] == 'true',
+                  secretKey: DotEnv().env['MINIO_SECRET_KEY']))),
       BlocProvider(
           create: (context) => LocationBloc(
               ProvinceRepository(client: GraphQLConfiguration().clients()),
