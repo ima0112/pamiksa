@@ -55,8 +55,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     signInBloc = BlocProvider.of<SignInBloc>(context);
-    themeBloc = BlocProvider.of<ThemeBloc>(context);
-    themeBloc.add(LoadedThemeEvent());
+    // themeBloc = BlocProvider.of<ThemeBloc>(context);
+    // themeBloc.add(LoadedThemeEvent());
     super.initState();
   }
 
