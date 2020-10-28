@@ -18,15 +18,13 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     profileBloc = BlocProvider.of<ProfileBloc>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Perfil",
-          style: TextStyle(
-              color: Theme.of(context).textTheme.bodyText1.color,
-              fontWeight: FontWeight.bold),
-        ),
-        elevation: 2.0,
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            backgroundColor: Theme.of(context).primaryColorLight,
+            automaticallyImplyLeading: false,
+            elevation: 0.0,
+          )),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           return BlocBuilder<ProfileBloc, ProfileState>(
@@ -61,6 +59,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
                 return Column(
                   children: [
+                    AppBar(
+                      title: Text(
+                        "Perfil",
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      elevation: 2.0,
+                    ),
                     SizedBox(
                       height: 25.0,
                     ),

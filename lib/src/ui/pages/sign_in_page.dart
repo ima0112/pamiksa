@@ -66,9 +66,9 @@ class _LoginPageState extends State<LoginPage> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AppBar(
-            elevation: 0.0,
             backgroundColor: Theme.of(context).primaryColorLight,
-            brightness: Brightness.dark,
+            //automaticallyImplyLeading: false,
+            elevation: 0.0,
           )),
       body: BlocConsumer<SignInBloc, SignInState>(
         listenWhen: (previous, current) =>
@@ -297,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 '¿ Has olvidado tu contraseña ?',
                 style: TextStyle(
-                    color: Color(0xff6200EA),
+                    color: Theme.of(context).primaryColor,
                     fontSize: 14,
                     fontWeight: FontWeight.bold),
               ),
