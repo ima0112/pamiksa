@@ -101,6 +101,46 @@ class _LoginPageState extends State<LoginPage> {
               if (state is LoadingSignState) {
                 return Center(child: CircularProgressIndicator());
               }
+              if (state is WaitingSignInResponseState) {
+                return SafeArea(
+                  top: true,
+                  bottom: true,
+                  left: false,
+                  right: false,
+                  // child: Padding(
+                  //   padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 20.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        LinearProgressIndicator(
+                          backgroundColor: Colors.white,
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: startLogin(),
+                        ),
+                        // Spacer(
+                        //   flex: 1,
+                        // ),
+                        Expanded(
+                            flex: 6,
+                            child: Align(
+                                alignment: Alignment.center, child: formWhitoutAccions())),
+                        // Spacer(
+                        //   flex: 1,
+                        // ),
+                        Expanded(
+                          flex: 2,
+                          child: endLoginWhitoutAccions(),
+                        )
+                      ],
+                    ),
+                  ),
+                  // ),
+                );
+              }
               return SafeArea(
                 top: true,
                 bottom: true,
@@ -168,6 +208,8 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
+
+
 
   Widget form() {
     return Form(
@@ -246,20 +288,88 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
+  Widget formWhitoutAccions() {
+    return Form(
+        key: formKey,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: TextFormField(
+                    initialValue: email,
+                    keyboardType: TextInputType.emailAddress,
+                    style: TextStyle(fontSize: 16),
+                    decoration: const InputDecoration(
+                      hintText: 'Correo electrónico',
+                      helperText: "",
+                      border: UnderlineInputBorder(),
+                      // labelText: 'Correo electrónico',
+                      filled: false,
+                      icon: Icon(Icons.email),
+                    ),
+                    onChanged: (String value) {
+                      email = value;
+                    },
+                    validator: (value) => validateEmail(value),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: TextFormField(
+                    initialValue: password,
+                    obscureText: obscureText,
+                    maxLength: 20,
+                    validator: (value) => validatePassword(value),
+                    decoration: new InputDecoration(
+                      hintText: 'Contraseña',
+                      helperText: "",
+                      border: const UnderlineInputBorder(),
+                      filled: false,
+                      // labelText: 'Contraseña',
+                      icon: Icon(Icons.lock),
+                      suffixIcon: new GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
+                        },
+                        child: new Icon(obscureText
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                      ),
+                    ),
+                    onChanged: (String value) {
+                      password = value;
+                    },
+                  ),
+                ),
+              ),
+              // SizedBox(
+              //   height: 40,
+              // ),
+              Expanded(
+                flex: 2,
+                child: loginButtonWhitoutAccions(),
+              )
+            ],
+          ),
+        ));
+  }
+
   Widget loginButton() {
     return BlocBuilder<SignInBloc, SignInState>(
       buildWhen: (previous, current) =>
           current.runtimeType != previous.runtimeType,
       builder: (context, state) {
-        if (state is WaitingSignInResponseState) {
-          return Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(bottom: 15.0),
-                child: Center(child: CircularProgressIndicator())),
-          );
-        }
         return Align(
           alignment: Alignment.topCenter,
           child: Container(
@@ -268,15 +378,45 @@ class _LoginPageState extends State<LoginPage> {
             child: RaisedButton(
               child: Text("INICIAR SESIÓN"),
               textColor: Colors.white,
-              color: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
               ),
               onPressed: () async {
                 if (formKey.currentState.validate()) {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.unfocus();
+                  }
                   signInBloc
                       .add(MutateSignInEvent(email: email, password: password));
                 }
+              },
+              elevation: 0,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget loginButtonWhitoutAccions() {
+    return BlocBuilder<SignInBloc, SignInState>(
+      buildWhen: (previous, current) =>
+      current.runtimeType != previous.runtimeType,
+      builder: (context, state) {
+        return Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(bottom: 15.0),
+            child: RaisedButton(
+              child: Text("INICIAR SESIÓN"),
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              onPressed: () {
+
               },
               elevation: 0,
             ),
@@ -331,6 +471,61 @@ class _LoginPageState extends State<LoginPage> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               signInBloc.add(GetRegisterDataEvent());
+                            })
+                    ]),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ]);
+  }
+
+  Widget endLoginWhitoutAccions() {
+    return Column(children: [
+      Expanded(
+        flex: 1,
+        child: GestureDetector(
+          onTap: () {
+
+          },
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: FittedBox(
+              child: Text(
+                '¿ Has olvidado tu contraseña ?',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+      ),
+      Expanded(
+        flex: 2,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 15.0),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: FittedBox(
+              child: RichText(
+                text: TextSpan(
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '¿No tienes cuenta?  ',
+                          style: TextStyle(
+                              color:
+                              Theme.of(context).textTheme.bodyText1.color)),
+                      TextSpan(
+                          text: 'Create una cuenta',
+                          style:
+                          TextStyle(color: Theme.of(context).primaryColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+
                             })
                     ]),
               ),

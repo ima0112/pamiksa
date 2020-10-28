@@ -7,6 +7,7 @@ import 'package:pamiksa/src/ui/pages/device_banned_page.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
 import 'package:pamiksa/src/ui/pages/pick_image.dart';
 import 'package:pamiksa/src/ui/pages/profile.dart';
+import 'package:pamiksa/src/ui/pages/security_page.dart';
 
 class GenerateRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -63,6 +64,8 @@ class GenerateRoute {
         return MaterialPageRoute(builder: (context) => RootPage());
       case Routes.DeviceBannedRoute:
         return MaterialPageRoute(builder: (context) => DeviceBannedpage());
+      case Routes.Security:
+        return MaterialPageRoute(builder: (context) => SecurityPage());
       case Routes.UserBannedRoute:
         return MaterialPageRoute(builder: (context) => UserBannedpage());
     }

@@ -5,6 +5,9 @@ enum AppTheme { Claro, Oscuro }
 
 final appThemeData = {
   ThemeMode.light: ThemeData(
+    buttonTheme: ButtonThemeData(
+      buttonColor: Colors.deepPurpleAccent[700],
+    ),
     dialogTheme: DialogTheme(backgroundColor: Colors.white),
     textTheme: TextTheme(
         bodyText1: TextStyle(color: Colors.black),
@@ -55,6 +58,9 @@ final appThemeData = {
     brightness: Brightness.light,
   ),
   ThemeMode.dark: ThemeData(
+    buttonTheme: ButtonThemeData(
+      buttonColor: Colors.deepPurple[300],
+    ),
     dialogTheme: DialogTheme(backgroundColor: Color(0xff121212)),
     toggleableActiveColor: Colors.deepPurple[300],
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: Color(0xff121212)),
@@ -98,7 +104,7 @@ final appThemeData = {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: Color(0xff121212),
-        selectedItemColor:Colors.deepPurple[300],
+        selectedItemColor: Colors.deepPurple[300],
         unselectedItemColor: Colors.grey),
     brightness: Brightness.dark,
   )

@@ -9,6 +9,7 @@ class Routes {
   static const String RegisterCompleteRoute = "/register_complete";
   static const String VerificationRoute = "/verification";
   static const String HomeRoute = "/home";
+  static const String Security = "/security";
   static const String DevicesRoute = "/devices";
   static const String ThemeRoute = "/theme";
   static const String Profile = "/profile";

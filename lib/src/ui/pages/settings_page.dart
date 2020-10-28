@@ -74,6 +74,18 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
+                leading: Icon(Icons.security),
+                title: Text("Seguridad"),
+                onTap: () {
+                  navigationService.navigateTo(Routes.Security);
+                },
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.grey,
+                  size: 15.0,
+                ),
+              ),
+              ListTile(
                 leading: Icon(Icons.devices),
                 title: Text("Dispositivos"),
                 onTap: () {
@@ -139,7 +151,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                       onPressed: () {
                                         homeBloc.add(LogoutEvent());
                                       },
-                                      color: Colors.deepPurpleAccent[700],
                                       elevation: 0.0,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
