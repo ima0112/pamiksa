@@ -108,7 +108,89 @@ class _ProfilePageState extends State<ProfilePage> {
                         state.results.fullName,
                         style: TextStyle(fontSize: 16.0, color: Colors.black),
                       ),
-                      onTap: () {},
+                      onTap: () => showModalBottomSheet(
+                          context: context,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          builder: (context) => Container(
+                            height: 200,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color:
+                                    Theme.of(context).backgroundColor,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: const Radius.circular(25.0),
+                                      topRight: const Radius.circular(25.0),
+                                    )),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          25.0, 25.0, 25.0, 0.0),
+                                      child: Text(
+                                        "Introduce tu nombre",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16.0),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          25.0, 10.0, 25.0, 0.0),
+                                      child: TextFormField(
+                                        initialValue:
+                                        state.results.fullName,
+                                        keyboardType:
+                                        TextInputType.emailAddress,
+                                        maxLength: 40,
+                                        style: TextStyle(fontSize: 16),
+                                        decoration: const InputDecoration(
+                                          helperText: "",
+                                          border: UnderlineInputBorder(),
+                                          // labelText: 'Correo electrónico',
+                                          filled: false,
+                                          //icon: Icon(Icons.email),
+                                        ),
+                                        onChanged: (String value) {
+                                          state.results.fullName = value;
+                                        },
+                                        //validator: (value) => validateEmail(value),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(25.0, 10.0, 4.0, 0.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          FlatButton(
+                                            child: Text(
+                                              "Cancelar",
+                                              style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                            onPressed: () => Navigator.pop(context),
+                                          ),
+                                          FlatButton(
+                                            child: Text(
+                                              "Aceptar",
+                                              style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                            onPressed: () {},
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          )),
                       trailing: Icon(
                         Icons.edit,
                         color: Colors.grey,
