@@ -15,8 +15,8 @@ class _IntroState extends State<IntroPage> {
 
   @override
   void initState() {
-    themeBloc = BlocProvider.of<ThemeBloc>(context);
-    themeBloc.add(LoadedThemeEvent());
+    // themeBloc = BlocProvider.of<ThemeBloc>(context);
+    // themeBloc.add(LoadedThemeEvent());
     super.initState();
   }
 

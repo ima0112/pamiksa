@@ -77,186 +77,224 @@ class _ProfilePageState extends State<ProfilePage> {
                   );
                 }
 
-                return Column(
-                  children: [
-                    AppBar(
-                      title: Text(
-                        "Perfil",
-                        style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1.color,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      elevation: 2.0,
-                    ),
-                    SizedBox(
-                      height: 25.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Stack(
-                          alignment: AlignmentDirectional.bottomEnd,
-                          children: <Widget>[
-                            profileCircleAvatar(),
-                            Container(
-                              decoration: ShapeDecoration(
-                                  shape: CircleBorder(),
-                                  color: Theme.of(context).primaryColor),
-                              child: IconButton(
-                                  icon: Icon(Icons.photo_camera),
-                                  onPressed: () {
-                                    navigationService.navigateTo("/pick_image");
-                                  },
-                                  color: Colors.white),
-                            )
-                          ],
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      AppBar(
+                        title: Text(
+                          "Perfil",
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
+                              fontWeight: FontWeight.bold),
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40.0,
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.person),
-                      isThreeLine: true,
-                      title: Text(
-                        "Nombre",
-                        style:
-                            TextStyle(color: Colors.grey[600], fontSize: 14.0),
+                        elevation: 2.0,
+                        actions: [
+                          IconButton(
+                              icon: Icon(Icons.more_vert),
+                              onPressed: () {
+                                modalButtonSheet();
+                              })
+                        ],
                       ),
-                      subtitle: Text(
-                        state.results.fullName,
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            color: Theme.of(context).textTheme.bodyText1.color),
+                      SizedBox(
+                        height: 25.0,
                       ),
-                      onTap: () => showModalBottomSheet(
-                          context: context,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(
+                            alignment: AlignmentDirectional.bottomEnd,
+                            children: <Widget>[
+                              profileCircleAvatar(),
+                              Container(
+                                decoration: ShapeDecoration(
+                                    shape: CircleBorder(),
+                                    color: Theme.of(context).primaryColor),
+                                child: IconButton(
+                                    icon: Icon(Icons.photo_camera),
+                                    onPressed: () {
+                                      navigationService
+                                          .navigateTo("/pick_image");
+                                    },
+                                    color: Colors.white),
+                              )
+                            ],
                           ),
-                          builder: (context) => Container(
-                            height: 200,
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    color:
-                                    Theme.of(context).backgroundColor,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: const Radius.circular(25.0),
-                                      topRight: const Radius.circular(25.0),
-                                    )),
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          25.0, 25.0, 25.0, 0.0),
-                                      child: Text(
-                                        "Introduce tu nombre",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          25.0, 10.0, 25.0, 0.0),
-                                      child: TextFormField(
-                                        initialValue:
-                                        state.results.fullName,
-                                        keyboardType:
-                                        TextInputType.emailAddress,
-                                        maxLength: 40,
-                                        style: TextStyle(fontSize: 16),
-                                        decoration: const InputDecoration(
-                                          helperText: "",
-                                          border: UnderlineInputBorder(),
-                                          // labelText: 'Correo electrónico',
-                                          filled: false,
-                                          //icon: Icon(Icons.email),
-                                        ),
-                                        onChanged: (String value) {
-                                          state.results.fullName = value;
-                                        },
-                                        //validator: (value) => validateEmail(value),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(25.0, 10.0, 4.0, 0.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          FlatButton(
-                                            child: Text(
-                                              "Cancelar",
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                        ],
+                      ),
+                      SizedBox(
+                        height: 40.0,
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.person),
+                        isThreeLine: true,
+                        title: Text(
+                          "Nombre",
+                          style: TextStyle(
+                              color: Colors.grey[600], fontSize: 14.0),
+                        ),
+                        subtitle: Text(
+                          state.results.fullName,
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color),
+                        ),
+                        onTap: () => showModalBottomSheet(
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            builder: (context) => Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: Container(
+                                    height: 200.0,
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .backgroundColor,
+                                            borderRadius: BorderRadius.only(
+                                              topLeft:
+                                                  const Radius.circular(25.0),
+                                              topRight:
+                                                  const Radius.circular(25.0),
+                                            )),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        25.0, 25.0, 25.0, 0.0),
+                                                child: Text(
+                                                  "Introduce tu nombre",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16.0),
+                                                ),
                                               ),
-                                            ),
-                                            onPressed: () => Navigator.pop(context),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        25.0, 10.0, 25.0, 0.0),
+                                                child: TextFormField(
+                                                  initialValue:
+                                                      state.results.fullName,
+                                                  keyboardType: TextInputType
+                                                      .emailAddress,
+                                                  maxLength: 40,
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                  decoration:
+                                                      const InputDecoration(
+                                                    helperText: "",
+                                                    border:
+                                                        UnderlineInputBorder(),
+                                                    // labelText: 'Correo electrónico',
+                                                    filled: false,
+                                                    //icon: Icon(Icons.email),
+                                                  ),
+                                                  onChanged: (String value) {
+                                                    state.results.fullName =
+                                                        value;
+                                                  },
+                                                  //validator: (value) => validateEmail(value),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        25.0, 10.0, 4.0, 0.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    FlatButton(
+                                                      child: Text(
+                                                        "Cancelar",
+                                                        style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                        ),
+                                                      ),
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                    ),
+                                                    FlatButton(
+                                                      child: Text(
+                                                        "Aceptar",
+                                                        style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {},
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                          FlatButton(
-                                            child: Text(
-                                              "Aceptar",
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                              ),
-                                            ),
-                                            onPressed: () {},
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                        )),
+                                  ),
                                 )),
-                          )),
-                      trailing: Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                        size: 16.0,
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.grey,
+                          size: 16.0,
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.location_on),
-                      isThreeLine: true,
-                      title: Text(
-                        "Direccion",
-                        style:
-                            TextStyle(color: Colors.grey[600], fontSize: 14.0),
+                      ListTile(
+                        leading: Icon(Icons.location_on),
+                        isThreeLine: true,
+                        title: Text(
+                          "Direccion",
+                          style: TextStyle(
+                              color: Colors.grey[600], fontSize: 14.0),
+                        ),
+                        subtitle: Text(
+                          state.results.adress,
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color),
+                        ),
+                        onTap: () {},
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.grey,
+                          size: 16.0,
+                        ),
                       ),
-                      subtitle: Text(
-                        state.results.adress,
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            color: Theme.of(context).textTheme.bodyText1.color),
+                      ListTile(
+                        leading: Icon(Icons.email),
+                        isThreeLine: true,
+                        title: Text(
+                          "Correo Electronico",
+                          style: TextStyle(
+                              color: Colors.grey[600], fontSize: 14.0),
+                        ),
+                        subtitle: Text(
+                          state.results.email,
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color),
+                        ),
+                        onTap: () {},
                       ),
-                      onTap: () {},
-                      trailing: Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                        size: 16.0,
-                      ),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.email),
-                      isThreeLine: true,
-                      title: Text(
-                        "Correo Electronico",
-                        style:
-                            TextStyle(color: Colors.grey[600], fontSize: 14.0),
-                      ),
-                      subtitle: Text(
-                        state.results.email,
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            color: Theme.of(context).textTheme.bodyText1.color),
-                      ),
-                      onTap: () {},
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               }
               return Container(
@@ -277,32 +315,36 @@ class _ProfilePageState extends State<ProfilePage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25.0),
         ),
-        builder: (context) => Container(
-              height: 200,
+        builder: (context) => Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(25.0),
-                      topRight: const Radius.circular(25.0),
-                    )),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                  child: ListView.separated(
-                    scrollDirection: Axis.vertical,
-                    itemCount: options.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text("${options[index]}"),
-                        onTap: () {
-                          navigationService
-                              .navigateWithoutGoBack(Routes.ChangePassword);
-                        },
-                      );
-                    },
-                    separatorBuilder: (context, index) => Divider(
-                      height: 0.0,
+                height: 200.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(25.0),
+                        topRight: const Radius.circular(25.0),
+                      )),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    child: ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      itemCount: options.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text("${options[index]}"),
+                          onTap: () {
+                            navigationService
+                                .navigateWithoutGoBack(Routes.ChangePassword);
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) => Divider(
+                        height: 0.0,
+                      ),
                     ),
                   ),
                 ),
