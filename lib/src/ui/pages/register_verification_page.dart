@@ -52,51 +52,49 @@ class _VerificationPageState extends State<VerificationPage> {
             backgroundColor: Theme.of(context).primaryColorLight,
             brightness: Theme.of(context).appBarTheme.brightness,
           )),
-      body:
-          // WillPopScope(
-          //   onWillPop: () async {
-          //     navigationService.navigateAndRemove(Routes.LoginRoute);
-          //     return false;
-          //   },
-          //   child:
-          Container(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FittedBox(
-                    child: Text(
-                      "Verificar cuenta",
-                      style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
-                      textAlign: TextAlign.center,
+      body: WillPopScope(
+        onWillPop: () async {
+          navigationService.navigateAndRemove(Routes.LoginRoute);
+          return false;
+        },
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FittedBox(
+                      child: Text(
+                        "Verificar cuenta",
+                        style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-              child: Container(
-                margin: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 16.0),
-                child: Text(
-                  "Te hemos enviado un código de verificación a ${email}",
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 16.0),
+                  child: Text(
+                    "Te hemos enviado un código de verificación a ${email}",
+                    style: TextStyle(color: Colors.grey),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 3,
-              child: form(),
-            ),
-          ],
+              Expanded(
+                flex: 3,
+                child: form(),
+              ),
+            ],
+          ),
         ),
       ),
-      // ),
     );
   }
 

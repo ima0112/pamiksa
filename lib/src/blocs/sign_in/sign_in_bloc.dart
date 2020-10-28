@@ -67,7 +67,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         } else if (message == "Device banned") {
           navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
         }
-        //yield CredentialsErrorState();
+        yield CredentialsErrorState();
       } else {
         navigationService.navigateWithoutGoBack(Routes.HomeRoute);
         yield SignInInitial();
