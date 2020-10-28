@@ -19,20 +19,13 @@ class _DevicesPageState extends State<DevicesPage> {
   Widget build(BuildContext context) {
     devicesBloc = BlocProvider.of<DevicesBloc>(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColorLight,
-        bottom: PreferredSize(
-            child: AppBar(
-              title: Text(
-                "Dispositivos",
-                style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText1.color,
-                    fontWeight: FontWeight.bold),
-              ),
-              elevation: 2.0,
-            ),
-            preferredSize: Size.fromHeight(0)),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            backgroundColor: Theme.of(context).primaryColorLight,
+            automaticallyImplyLeading: false,
+            elevation: 0.0,
+          )),
       body: BlocBuilder<DevicesBloc, DevicesState>(
         builder: (context, state) {
           return BlocBuilder<DevicesBloc, DevicesState>(
@@ -54,6 +47,15 @@ class _DevicesPageState extends State<DevicesPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      AppBar(
+                        title: Text(
+                          "Dispositivos",
+                          style: TextStyle(
+                              color: Theme.of(context).textTheme.bodyText1.color,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        elevation: 2.0,
+                      ),
                       SizedBox(
                         height: 15.0,
                       ),
@@ -85,7 +87,7 @@ class _DevicesPageState extends State<DevicesPage> {
                       ListTile(
                         title: Text(
                           "Cerrar las demas sesiones",
-                          style: TextStyle(color: Colors.red[900]),
+                          style: TextStyle(color: Theme.of(context).errorColor),
                         ),
                         onTap: () {
                           AlertDialog alertDialog = AlertDialog(
@@ -255,7 +257,7 @@ class _DevicesPageState extends State<DevicesPage> {
                           },
                           trailing: Icon(
                             Icons.remove_circle_outline,
-                            color: Colors.red[900],
+                            color: Theme.of(context).errorColor,
                           ),
                         ),
                         separatorBuilder: (_, __) =>
@@ -429,7 +431,7 @@ class _DevicesPageState extends State<DevicesPage> {
                       ListTile(
                         title: Text(
                           "Cerrar las demas sesiones",
-                          style: TextStyle(color: Colors.red[900]),
+                          style: TextStyle(color: Theme.of(context).errorColor),
                         ),
                         onTap: () {
                           AlertDialog alertDialog = AlertDialog(
@@ -599,7 +601,7 @@ class _DevicesPageState extends State<DevicesPage> {
                               "${state.results[index].plattform} ${state.results[index].systemVersion}"),
                           trailing: Icon(
                             Icons.remove_circle_outline,
-                            color: Colors.red[900],
+                            color: Theme.of(context).errorColor,
                           ),
                         ),
                         separatorBuilder: (_, __) =>
