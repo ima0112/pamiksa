@@ -27,23 +27,23 @@ class MyApp extends StatelessWidget {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
-      if (theme == null) {
-        if (themeMode != state.themeData) {
-          theme = state.themeData;
-        } else {
-          theme = themeMode;
-        }
-      } else {
-        theme = state.themeData;
-        if (themeMode != theme) {}
-      }
+      // if (theme == null) {
+      //   if (themeMode != state.themeData) {
+      //     theme = state.themeData;
+      //   } else {
+      //     theme = themeMode;
+      //   }
+      // } else {
+      //   theme = state.themeData;
+      //   if (themeMode != theme) {}
+      // }
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [GlobalMaterialLocalizations.delegate],
         supportedLocales: [const Locale('es')],
         title: APP_NAME,
-        themeMode: theme,
+        themeMode: state.themeData,
         theme: appThemeData[ThemeMode.light],
         darkTheme: appThemeData[ThemeMode.dark],
         onGenerateRoute: GenerateRoute.generateRoute,
