@@ -7,7 +7,7 @@ abstract class ThemeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadedThemeEvent extends ThemeEvent {}
+class LoadingThemeEvent extends ThemeEvent {}
 
 class ChangedThemeEvent extends ThemeEvent {
   final int val;
