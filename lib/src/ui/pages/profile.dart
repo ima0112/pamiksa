@@ -1,6 +1,7 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
@@ -59,12 +60,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               } else if (state is LoadedProfileState) {
                 Widget profileCircleAvatar() {
-                  if (state.results.photo != null) {
+                  if (state.results.photoName != null) {
                     return CircleAvatar(
                       radius: 70,
                       backgroundColor: Colors.transparent,
                       backgroundImage: NetworkImage(
-                        'http://192.168.0.50:9000/user-avatar/${state.results.photo}',
+                        state.results.photo,
                       ),
                     );
                   }

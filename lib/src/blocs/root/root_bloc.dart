@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pamiksa/src/data/models/business.dart';
 import 'package:pamiksa/src/data/models/device.dart';
@@ -117,7 +118,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
                   valorationsQuantity: e['valorationsQuantity'],
                   valorationSum: e['valorationSum'],
                   email: e['email'],
-                  photo: e['photo'],
+                  photo: 'http://${DotEnv().env['MINIO_ADRESS']}:${DotEnv().env['MINIO_PORT']}/${DotEnv().env['BUSINESS_IMAGE_BULK_NAME']}/${e['photo']}',
                   description: e['description'],
                   phone: e['phone'],
                 ))

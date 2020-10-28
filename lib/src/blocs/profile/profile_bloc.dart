@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
@@ -54,7 +55,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             id: meData['id'],
             fullName: meData['fullName'],
             adress: meData['adress'],
-            photo: meData['photo'],
+            photoName: meData['photo'],
+            photo: 'http://${DotEnv().env['MINIO_ADRESS']}:${DotEnv().env['MINIO_PORT']}/${DotEnv().env['USER_AVATAR_BULK_NAME']}/${meData['photo']}',
             email: meData['email']);
         userRepository.insert(meModel.toMap());
         yield LoadedProfileState(meModel);
@@ -67,9 +69,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _mapSendImageEvent(SendImageEvent event) async* {
     try {
       await minio.fPutObject(
-          'user-avatar', '${basename(event.file.path)}', '${event.file.path}');
-      final response =
-          await userRepository.editProfile(basename(event.file.path));
+          DotEnv().env['USER_AVATAR_BULK_NAME'], '${basename(event.file.path)}', '${event.file.path}');
+      final response = await userRepository.editProfile(basename(event.file.path));
       final getUser = await userRepository.all();
       List<UserModel> retorno = List();
       retorno = getUser
@@ -79,10 +80,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
                 adress: e['adress'],
                 email: e['email'],
                 photo: e['photo'],
+                photoName: e['photoName'],
               ))
           .toList();
       if (retorno[0].photo != null) {
-        await minio.removeObject('user-avatar', '${retorno[0].photo}');
+        await minio.removeObject(DotEnv().env['USER_AVATAR_BULK_NAME'], '${retorno[0].photoName}');
       }
       if (response.hasException) {
         print("ERROR");
