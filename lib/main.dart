@@ -23,6 +23,8 @@ void main() async {
   String checkSession = await Utils()
       .checkSession(UserRepository(client: GraphQLConfiguration().clients()));
 
+  ThemeMode themeMode = await Utils().loadedTheme();
+
   if (checkSession == "Device banned") {
     initialRoute = Routes.DeviceBannedRoute;
   } else if (checkSession == "User banned") {
@@ -115,6 +117,6 @@ void main() async {
           create: (context) => ChangePasswordBloc(
               UserRepository(client: GraphQLConfiguration().clients())))
     ],
-    child: MyApp(initialRoute: initialRoute),
+    child: MyApp(initialRoute: initialRoute, themeMode: themeMode),
   ));
 }

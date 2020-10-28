@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
             child: AppBar(
               elevation: 0.0,
               backgroundColor: Theme.of(context).primaryColorLight,
-              brightness: Brightness.dark,
+              brightness: Theme.of(context).brightness,
             )),
         body: BlocConsumer<SignInBloc, SignInState>(
             listenWhen: (previous, current) =>
@@ -99,8 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                 current.runtimeType != previous.runtimeType,
             builder: (BuildContext context, SignInState state) {
               if (state is LoadingSignState) {
-                return Center(
-                  child: CircularProgressIndicator(),
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(bottom: 15.0),
+                      child: CircularProgressIndicator()),
                 );
               }
               return SafeArea(

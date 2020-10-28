@@ -44,12 +44,16 @@ class Utils {
     int themeMode = await preferences.read('themeMode') ?? null;
 
     if (themeMode == 0) {
+      await preferences.saveInt('themeMode', 0);
       return ThemeMode.system;
     } else if (themeMode == 1) {
+      await preferences.saveInt('themeMode', 1);
       return ThemeMode.light;
     } else if (themeMode == 2) {
+      await preferences.saveInt('themeMode', 2);
       return ThemeMode.dark;
     } else {
+      await preferences.saveInt('themeMode', 0);
       return ThemeMode.system;
     }
   }
