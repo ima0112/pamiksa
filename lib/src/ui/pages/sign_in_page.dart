@@ -99,13 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                 current.runtimeType != previous.runtimeType,
             builder: (BuildContext context, SignInState state) {
               if (state is LoadingSignState) {
-                return Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.only(bottom: 15.0),
-                      child: CircularProgressIndicator()),
-                );
+                return Center(child: CircularProgressIndicator());
               }
               return SafeArea(
                 top: true,
@@ -258,7 +252,13 @@ class _LoginPageState extends State<LoginPage> {
           current.runtimeType != previous.runtimeType,
       builder: (context, state) {
         if (state is WaitingSignInResponseState) {
-          return Center(child: CircularProgressIndicator());
+          return Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.only(bottom: 15.0),
+                child: Center(child: CircularProgressIndicator())),
+          );
         }
         return Align(
           alignment: Alignment.topCenter,

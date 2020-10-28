@@ -54,7 +54,18 @@ class _MyAppState extends State<MyApp> {
               navigatorKey: locator<NavigationService>().navigatorKey,
             );
           }
-          return null;
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+            supportedLocales: [const Locale('es')],
+            title: APP_NAME,
+            themeMode: state.themeData,
+            theme: appThemeData[ThemeMode.light],
+            darkTheme: appThemeData[ThemeMode.dark],
+            onGenerateRoute: GenerateRoute.generateRoute,
+            initialRoute: widget.initialRoute,
+            navigatorKey: locator<NavigationService>().navigatorKey,
+          );
         });
   }
 }
