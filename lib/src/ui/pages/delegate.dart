@@ -67,7 +67,7 @@ class MySearchDelegate extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     final Iterable<String> suggestions = this.query.isEmpty
         ? _history
-        : _words.where((element) => element.startsWith(query));
+        : _words.where((element) => element.toLowerCase().contains(query));
 
     return SuggestionPage(
       query: this.query,
