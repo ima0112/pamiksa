@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 
@@ -50,7 +51,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
 
   bool isCollapsed() {
     return _scrollController.hasClients &&
-        _scrollController.offset > (200 - kToolbarHeight);
+        _scrollController.offset > (300 - kToolbarHeight);
   }
 
   @override
@@ -98,17 +99,18 @@ class _BusinessPagePageState extends State<BusinessPage> {
                       SliverAppBar(
                           pinned: true,
                           backgroundColor: Colors.white,
-                          expandedHeight: 200,
-                          elevation: 2.0,
+                          expandedHeight: 300,
+                          elevation: 0.0,
                           flexibleSpace: FlexibleSpaceBar(
                               background: Stack(
+                                overflow: Overflow.visible,
                                 children: [
                                   Container(
                                     width: double.maxFinite,
                                     height: double.maxFinite,
                                     child: Image.network(
                                       "${state.businessModel.photo}",
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.fitHeight,
                                     ),
                                   ),
                                   Container(
@@ -133,13 +135,27 @@ class _BusinessPagePageState extends State<BusinessPage> {
                               ),
                               centerTitle: false,
                               title: _isAppBarCollapsed
-                                  ? Text(
-                                      state.businessModel.name,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              .color),
+                                  ? Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 15,
+                                          backgroundColor: Colors.transparent,
+                                          backgroundImage: NetworkImage(
+                                            state.businessModel.photo,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          state.businessModel.name,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1
+                                                  .color),
+                                        )
+                                      ],
                                     )
                                   : Text(""))),
                       SliverList(
@@ -147,7 +163,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         BusinessDetailsItemPage(
                           id: state.businessModel.id,
                         ),
-                      ]))
+                      ])),
                     ],
                   ),
                 ],

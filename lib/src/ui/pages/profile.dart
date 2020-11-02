@@ -26,7 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
             child: AppBar(
               backgroundColor: Theme.of(context).primaryColorLight,
               automaticallyImplyLeading: false,
-              elevation: 0.0,
             )),
         body: BlocBuilder<ProfileBloc, ProfileState>(
           buildWhen: (previousState, state) =>
@@ -158,14 +157,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize: 16.0,
                             color: Theme.of(context).textTheme.bodyText1.color),
                       ),
-                      onTap: () {
+                      /*onTap: () {
                         changeEmail(state.results.email);
-                      },
-                      trailing: Icon(
+                      },*/
+                      /*trailing: Icon(
                         Icons.edit,
                         color: Colors.grey,
                         size: 16.0,
-                      ),
+                      ),*/
                     ),
                   ],
                 ),

@@ -28,7 +28,6 @@ class _SettingsPageState extends State<SettingsPage> {
               color: Theme.of(context).textTheme.bodyText1.color,
               fontWeight: FontWeight.bold),
         ),
-        elevation: 2.0,
       ),
       body: WillPopScope(
         onWillPop: () async {

@@ -36,28 +36,32 @@ class _BusinessDetailsItemPageState extends State<BusinessDetailsItemPage> {
           );
         }
         if (state is LoadedFoodsState) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                child: ListView.separated(
-                  controller: _scrollController,
-                  shrinkWrap: true,
-                  itemCount: state.count,
-                  itemBuilder: (_, index) => ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                    title: Text("${state.foodModel[index].name}"),
-                    subtitle: Text("Precio: ${state.foodModel[index].price}"),
-                    trailing: Image.asset("assets/images/profile.png"),
-                    dense: true,
-                  ),
-                  separatorBuilder: (_, __) => Divider(
-                    height: 20.0,
-                  ),
+          return ListView.separated(
+            controller: _scrollController,
+            shrinkWrap: true,
+            itemCount: state.count,
+            itemBuilder: (_, index) => ListTile(
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+              title: Text(
+                "${state.foodModel[index].name}",
+                style: TextStyle(fontSize: 14.0),
+              ),
+              onTap: (){},
+              subtitle: Text("Precio: ${state.foodModel[index].price}"),
+              trailing: ClipRRect(
+                borderRadius: BorderRadius.circular(7.5),
+                child: Image.network(
+                  state.foodModel[index].photo,
+                  fit: BoxFit.fitHeight,
+                  height: 100,
                 ),
               ),
-            ],
+              dense: true,
+            ),
+            separatorBuilder: (_, __) => Divider(
+              height: 0.0,
+            ),
           );
         }
         return Container(

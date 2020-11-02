@@ -39,7 +39,6 @@ class _FavoritePageState extends State<FavoritePage> {
               color: Theme.of(context).textTheme.bodyText1.color,
               fontWeight: FontWeight.bold),
         ),
-        elevation: 2.0,
       ),
       body: WillPopScope(
         onWillPop: () async {
