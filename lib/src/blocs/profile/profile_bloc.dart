@@ -33,6 +33,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _mapSendImageEvent(event);
     } else if (event is SetCropProfileEvent) {
       yield* _mapCropProfileImageEvent(event);
+    } else if (event is ChangeNameEvent) {
+      yield* _mapChangeNameEvent(event);
+    } else if (event is ChangeEmailEvent) {
+      yield* _mapChangeEmailEvent(event);
+    } else if (event is ChangeAdressEvent) {
+      yield* _mapChangeAdressEvent(event);
     } else if (event is SetProfileInitialStateEvent) {
       yield ProfileInitial();
     }
@@ -56,7 +62,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             fullName: meData['fullName'],
             adress: meData['adress'],
             photoName: meData['photo'],
-            photo: 'http://${DotEnv().env['MINIO_ADRESS']}:${DotEnv().env['MINIO_PORT']}/${DotEnv().env['USER_AVATAR_BULK_NAME']}/${meData['photo']}',
+            photo:
+                'http://${DotEnv().env['MINIO_ADRESS']}:${DotEnv().env['MINIO_PORT']}/${DotEnv().env['USER_AVATAR_BULK_NAME']}/${meData['photo']}',
             email: meData['email']);
         userRepository.insert(meModel.toMap());
         yield LoadedProfileState(meModel);
@@ -68,9 +75,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Stream<ProfileState> _mapSendImageEvent(SendImageEvent event) async* {
     try {
-      await minio.fPutObject(
-          DotEnv().env['USER_AVATAR_BULK_NAME'], '${basename(event.file.path)}', '${event.file.path}');
-      final response = await userRepository.editProfile(basename(event.file.path));
+      await minio.fPutObject(DotEnv().env['USER_AVATAR_BULK_NAME'],
+          '${basename(event.file.path)}', '${event.file.path}');
+      final response =
+          await userRepository.editProfile(basename(event.file.path));
       final getUser = await userRepository.all();
       List<UserModel> retorno = List();
       retorno = getUser
@@ -84,7 +92,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               ))
           .toList();
       if (retorno[0].photo != null) {
-        await minio.removeObject(DotEnv().env['USER_AVATAR_BULK_NAME'], '${retorno[0].photoName}');
+        await minio.removeObject(
+            DotEnv().env['USER_AVATAR_BULK_NAME'], '${retorno[0].photoName}');
       }
       if (response.hasException) {
         print("ERROR");
@@ -94,6 +103,39 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     } catch (error) {
       print('$error');
+    }
+  }
+
+  Stream<ProfileState> _mapChangeNameEvent(ChangeNameEvent event) async* {
+    try {
+      await userRepository.editName(event.name);
+
+      navigationService.goBack();
+      yield ProfileInitial();
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
+  Stream<ProfileState> _mapChangeAdressEvent(ChangeAdressEvent event) async* {
+    try {
+      await userRepository.editAdress(event.adress);
+
+      navigationService.goBack();
+      yield ProfileInitial();
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
+  Stream<ProfileState> _mapChangeEmailEvent(ChangeEmailEvent event) async* {
+    try {
+      await userRepository.editEmail(event.email);
+
+      navigationService.goBack();
+      yield ProfileInitial();
+    } catch (error) {
+      print(error.toString());
     }
   }
 }
