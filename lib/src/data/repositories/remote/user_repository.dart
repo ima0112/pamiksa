@@ -162,6 +162,26 @@ class UserRepository {
     return await client.query(_options);
   }
 
+  Future<QueryResult> editName(String fullName) async {
+    final MutationOptions _options = MutationOptions(
+        documentNode: gql(mutations.editProfile),
+        variables: {'fullName': fullName});
+    return await client.mutate(_options);
+  }
+
+  Future<QueryResult> editAdress(String adress) async {
+    final MutationOptions _options = MutationOptions(
+        documentNode: gql(mutations.editProfile),
+        variables: {'adress': adress});
+    return await client.mutate(_options);
+  }
+
+  Future<QueryResult> editEmail(String email) async {
+    final MutationOptions _options = MutationOptions(
+        documentNode: gql(mutations.editProfile), variables: {'email': email});
+    return await client.mutate(_options);
+  }
+
   //Insert data to Table
   insert(data) async {
     var connection = await database;
