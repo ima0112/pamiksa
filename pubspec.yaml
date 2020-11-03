@@ -35,7 +35,6 @@ dependencies:
   minio: ^0.1.8
   flutter_skeleton: ^0.1.0+1
   shimmer: ^1.1.1
-  hexcolor: ^1.0.6
   flutter_dotenv: ^2.1.0
   circular_profile_avatar: ^1.0.6
   local_auth: ^0.6.2+3
