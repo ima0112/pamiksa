@@ -20,6 +20,7 @@ class BusinessRepository {
 
   Future<QueryResult> fetchBusiness() async {
     final WatchQueryOptions _options = WatchQueryOptions(
+      fetchPolicy: FetchPolicy.cacheAndNetwork,
       documentNode: gql(queries.business),
       fetchResults: true,
     );

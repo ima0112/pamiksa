@@ -58,11 +58,6 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-//                  CircleAvatar(
-//                    radius: 17.5,
-//                    backgroundColor: Colors.transparent,
-//                    backgroundImage: AssetImage("assets/images/profile.png"),
-//                  ),
                   CircleAvatar(
                     radius: 17.5,
                     backgroundColor: Colors.transparent,
@@ -168,8 +163,7 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                businessDetailsBloc
-                    .add(FetchBusinessDetailsEvent(this.widget.id));
+                businessDetailsBloc.add(SetInitialBusinessDetailsEvent(this.widget.id));
                 navigationService.navigateTo(Routes.BussinesDetailsRoute);
               },
               child: FadeInImage(

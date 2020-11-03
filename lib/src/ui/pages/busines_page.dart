@@ -7,6 +7,10 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'business_details_item_page.dart';
 
 class BusinessPage extends StatefulWidget {
+  final String id;
+
+  const BusinessPage({Key key, this.id}) : super(key: key);
+
   @override
   _BusinessPagePageState createState() => _BusinessPagePageState();
 }
@@ -14,6 +18,7 @@ class BusinessPage extends StatefulWidget {
 class _BusinessPagePageState extends State<BusinessPage> {
   BusinessDetailsBloc businessDetailsBloc;
   ScrollController _scrollController;
+  ScrollController _scrollControllerList = ScrollController();
   bool _isAppBarCollapsed = false;
 
   Widget sliverFoodsList() {
@@ -59,6 +64,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
     return BlocBuilder<BusinessDetailsBloc, BusinessDetailsState>(
         builder: (context, state) {
       if (state is BusinessDetailsInitial) {
+        businessDetailsBloc.add(FetchBusinessDetailsEvent(state.id));
         return Scaffold(
           body: Container(
             child: Center(
@@ -66,15 +72,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
             ),
           ),
         );
-      } else if (state is LoadingBusinessDetailsState) {
-        return Scaffold(
-          body: Container(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        );
-      } else if (state is LoadedBusinessDetailsState) {
+      }  else if (state is LoadedBusinessDetailsState) {
         return Theme(
           data: ThemeData(
             appBarTheme: AppBarTheme(
@@ -160,9 +158,33 @@ class _BusinessPagePageState extends State<BusinessPage> {
                                   : Text(""))),
                       SliverList(
                           delegate: SliverChildListDelegate([
-                        BusinessDetailsItemPage(
-                          id: state.businessModel.id,
-                        ),
+                        ListView.separated(
+                          controller: _scrollControllerList,
+                          shrinkWrap: true,
+                          itemCount: state.foodModel.length,
+                          itemBuilder: (_, index) => ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 20.0),
+                            title: Text(
+                              state.foodModel[index].name,
+                              style: TextStyle(fontSize: 14.0),
+                            ),
+                            onTap: () {
+                              businessDetailsBloc.add(SetInitialBusinessDetailsEvent(state.businessModel.id));
+                            },
+                            subtitle: Text("Precio: ${state.foodModel[index].price}"),
+                            trailing: ClipRRect(
+                              borderRadius: BorderRadius.circular(7.5),
+                              child: Image.network(
+                                state.foodModel[index].photo,
+                                fit: BoxFit.fitHeight,
+                                height: 100,
+                              ),
+                            ),
+                            dense: true,
+                          ),
+                          separatorBuilder: (_, __) => Divider(height: 0.0),
+                        )
                       ])),
                     ],
                   ),

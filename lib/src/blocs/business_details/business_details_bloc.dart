@@ -3,17 +3,23 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/models/models.dart';
+import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
 
+import '../blocs.dart';
+
 part 'business_details_event.dart';
+
 part 'business_details_state.dart';
 
 class BusinessDetailsBloc
     extends Bloc<BusinessDetailsEvent, BusinessDetailsState> {
   final BusinessRepository businessRepository;
+  final FoodRepository foodRepository;
+  List<FoodModel> foodModel = List();
 
-  BusinessDetailsBloc(this.businessRepository)
-      : super(BusinessDetailsInitial());
+  BusinessDetailsBloc(this.businessRepository, this.foodRepository)
+      : super(BusinessDetailsInitial("0"));
 
   @override
   Stream<BusinessDetailsState> mapEventToState(
@@ -22,14 +28,40 @@ class BusinessDetailsBloc
     if (event is FetchBusinessDetailsEvent) {
       yield* _mapFetchBusinessDetails(event);
     }
+    else if (event is SetInitialBusinessDetailsEvent){
+      yield BusinessDetailsInitial(event.id);
+    }
   }
 
   Stream<BusinessDetailsState> _mapFetchBusinessDetails(
       FetchBusinessDetailsEvent event) async* {
-    yield LoadingBusinessDetailsState();
+    try {
+      BusinessModel businessResult = await businessRepository.getById(event.id);
+      final response = await foodRepository.foods(event.id);
 
-    BusinessModel businessResult = await businessRepository.getById(event.id);
+      if (response.hasException) {
+        print(response.exception);
+        yield ErrorBusinessDetailsState();
+      } else {
+        foodRepository.clear();
+        final List foodsData = response.data['foods']['foods'];
+        foodModel = foodsData
+            .map((e) => FoodModel(
+                id: e['id'],
+                availability: e['availability'],
+                isAvailable: e['isAvailable'],
+                name: e['name'],
+                photo: e['photo'],
+                price: e['price']))
+            .toList();
 
-    yield LoadedBusinessDetailsState(businessResult);
+        foodModel.forEach((element) {
+          foodRepository.insert('Food', element.toMap());
+        });
+        yield LoadedBusinessDetailsState(businessResult, foodModel);
+      }
+    } catch (error) {
+      yield ErrorBusinessDetailsState();
+    }
   }
 }

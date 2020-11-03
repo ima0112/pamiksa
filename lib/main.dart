@@ -106,11 +106,12 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => BusinessDetailsBloc(
-            BusinessRepository(client: GraphQLConfiguration().clients())),
+            BusinessRepository(client: GraphQLConfiguration().clients()),
+            FoodRepository(client: GraphQLConfiguration().clients())),
       ),
-      BlocProvider(
-          create: (context) => FoodsBloc(
-              FoodRepository(client: GraphQLConfiguration().clients()))),
+//      BlocProvider(
+//          create: (context) => FoodsBloc(
+//              FoodRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => FavoriteBloc(
               FavoriteRepository(client: GraphQLConfiguration().clients()))),

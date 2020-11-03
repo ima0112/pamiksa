@@ -39,6 +39,7 @@ class FoodRepository {
 
   Future<QueryResult> foods(String businessId) async {
     final WatchQueryOptions _options = WatchQueryOptions(
+      fetchPolicy: FetchPolicy.cacheAndNetwork,
       documentNode: gql(queries.foods),
       variables: {'businessFk': businessId},
       fetchResults: true,

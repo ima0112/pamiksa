@@ -7,12 +7,20 @@ abstract class BusinessDetailsState extends Equatable {
   List<Object> get props => [];
 }
 
-class BusinessDetailsInitial extends BusinessDetailsState {}
+class BusinessDetailsInitial extends BusinessDetailsState {
+  final String id;
+
+  BusinessDetailsInitial(this.id);
+}
 
 class LoadingBusinessDetailsState extends BusinessDetailsState {}
 
+class ErrorBusinessDetailsState extends BusinessDetailsState {}
+
 class LoadedBusinessDetailsState extends BusinessDetailsState {
   final BusinessModel businessModel;
+  final List<FoodModel> foodModel;
 
-  LoadedBusinessDetailsState(this.businessModel);
+  LoadedBusinessDetailsState(this.businessModel, this.foodModel);
 }
+

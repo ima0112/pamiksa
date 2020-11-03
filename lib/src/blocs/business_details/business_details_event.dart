@@ -12,3 +12,15 @@ class FetchBusinessDetailsEvent extends BusinessDetailsEvent {
 
   FetchBusinessDetailsEvent(this.id);
 }
+
+class SetInitialBusinessDetailsEvent extends BusinessDetailsEvent {
+  final String id;
+
+  SetInitialBusinessDetailsEvent(this.id);
+}
+
+class FetchFoodsEvent extends BusinessDetailsEvent {
+  final String id;
+
+  FetchFoodsEvent(this.id);
+}
