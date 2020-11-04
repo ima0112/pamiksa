@@ -70,7 +70,14 @@ class _FavoritePageState extends State<FavoritePage> {
                           title: Text("${state.favoriteModel[index].name}"),
                           subtitle: Text(
                               "Precio: ${state.favoriteModel[index].price}"),
-                          trailing: Image.asset("assets/images/profile.png"),
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(7.5),
+                            child: Image.network(
+                              state.favoriteModel[index].photo,
+                              fit: BoxFit.fitHeight,
+                              height: 100,
+                            ),
+                          ),
                           dense: true,
                         ),
                         separatorBuilder: (_, __) => Divider(
