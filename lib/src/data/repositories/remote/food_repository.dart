@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
+import 'package:pamiksa/src/data/models/food.dart';
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -31,11 +32,11 @@ class FoodRepository {
   }
 
 //Get all records
-/*Future<List<Map>> all() async {
+  Future<List<Map>> all() async {
     var connection = await database;
-    return await connection.transaction(
-        (txn) async => await txn.rawQuery('SELECT * FROM "Business"'));
-  }*/
+    return await connection
+        .transaction((txn) async => await txn.rawQuery('SELECT * FROM "Food"'));
+  }
 
   Future<QueryResult> foods(String businessId) async {
     final WatchQueryOptions _options = WatchQueryOptions(
@@ -45,5 +46,18 @@ class FoodRepository {
       fetchResults: true,
     );
     return await client.query(_options);
+  }
+
+  Future<FoodModel> getById(String id) async {
+    FoodModel foodModel = FoodModel();
+    var connection = await database;
+    List<Map<dynamic, dynamic>> maps = await connection.transaction(
+        (txn) async =>
+            await txn.query("Food", where: 'id = ?', whereArgs: [id]));
+    if (maps.length > 0) {
+      foodModel.fromMap(maps.first);
+      return foodModel;
+    }
+    return null;
   }
 }
