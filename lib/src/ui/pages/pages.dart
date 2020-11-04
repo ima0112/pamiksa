@@ -1,4 +1,3 @@
-export './business_detail_page.dart';
 export './forgot_password_email_page.dart';
 export './forgot_password_page.dart';
 export './forgot_password_verification_page.dart';
@@ -28,3 +27,5 @@ export './suggestions.dart';
 export './root_page.dart';
 export './favorite_page.dart';
 export './change_password_page.dart';
+export './food_details_dart.dart';
+export './food_item_page.dart';

@@ -29,4 +29,5 @@ class Routes {
   static const String FavoriteRoute = '/favorite';
   static const String ChangePassword = '/change_password';
   static const String SettingRoute = '/settings';
+  static const String FoodRoute = '/food';
 }

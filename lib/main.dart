@@ -116,7 +116,10 @@ void main() async {
               FavoriteRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => ChangePasswordBloc(
-              UserRepository(client: GraphQLConfiguration().clients())))
+              UserRepository(client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => AddonsBloc(
+              AddonsRepository(client: GraphQLConfiguration().clients()))),
     ],
     child: MyApp(initialRoute: initialRoute),
   ));

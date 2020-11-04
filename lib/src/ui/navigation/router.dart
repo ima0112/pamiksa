@@ -68,6 +68,8 @@ class GenerateRoute {
         return MaterialPageRoute(builder: (context) => SecurityPage());
       case Routes.UserBannedRoute:
         return MaterialPageRoute(builder: (context) => UserBannedpage());
+      case Routes.FoodRoute:
+        return MaterialPageRoute(builder: (context) => FoodPage());
     }
   }
 
