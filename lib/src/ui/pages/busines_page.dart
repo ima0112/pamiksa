@@ -3,8 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
-
-import 'business_details_item_page.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 class BusinessPage extends StatefulWidget {
   final String id;
@@ -16,28 +15,18 @@ class BusinessPage extends StatefulWidget {
 }
 
 class _BusinessPagePageState extends State<BusinessPage> {
+  final NavigationService navigationService = locator<NavigationService>();
+
   BusinessDetailsBloc businessDetailsBloc;
+  AddonsBloc addonsBloc;
+
   ScrollController _scrollController;
   ScrollController _scrollControllerList = ScrollController();
   bool _isAppBarCollapsed = false;
 
-  Widget sliverFoodsList() {
-    return BlocBuilder<BusinessDetailsBloc, BusinessDetailsState>(
-      builder: (context, state) {
-        if (state is LoadedBusinessDetailsState) {
-          return SliverList(
-              delegate: SliverChildListDelegate([
-            BusinessDetailsItemPage(
-              id: state.businessModel.id,
-            ),
-          ]));
-        }
-      },
-    );
-  }
-
   @override
   void initState() {
+    addonsBloc = BlocProvider.of<AddonsBloc>(context);
     businessDetailsBloc = BlocProvider.of<BusinessDetailsBloc>(context);
     super.initState();
     this._scrollController = ScrollController()
@@ -72,7 +61,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
             ),
           ),
         );
-      }  else if (state is LoadedBusinessDetailsState) {
+      } else if (state is LoadedBusinessDetailsState) {
         return Theme(
           data: ThemeData(
             appBarTheme: AppBarTheme(
@@ -97,7 +86,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
                       SliverAppBar(
                           pinned: true,
                           backgroundColor: Colors.white,
-                          expandedHeight: 300,
+                          expandedHeight: 200,
                           elevation: 0.0,
                           flexibleSpace: FlexibleSpaceBar(
                               background: Stack(
@@ -108,7 +97,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
                                     height: double.maxFinite,
                                     child: Image.network(
                                       "${state.businessModel.photo}",
-                                      fit: BoxFit.fitHeight,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                   Container(
@@ -170,9 +159,12 @@ class _BusinessPagePageState extends State<BusinessPage> {
                               style: TextStyle(fontSize: 14.0),
                             ),
                             onTap: () {
-                              businessDetailsBloc.add(SetInitialBusinessDetailsEvent(state.businessModel.id));
+                              addonsBloc.add(
+                                  FetchAddonsEvent(state.foodModel[index].id));
+                              navigationService.navigateTo(Routes.FoodRoute);
                             },
-                            subtitle: Text("Precio: ${state.foodModel[index].price}"),
+                            subtitle:
+                                Text("Precio: ${state.foodModel[index].price}"),
                             trailing: ClipRRect(
                               borderRadius: BorderRadius.circular(7.5),
                               child: Image.network(
