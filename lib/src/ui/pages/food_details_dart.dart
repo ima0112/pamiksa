@@ -30,7 +30,7 @@ class _FoodPageState extends State<FoodPage> {
       left: false,
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () => null,
           label: Text("Agregar al carrito"),
           backgroundColor: Theme.of(context).primaryColor,
         ),
@@ -40,51 +40,7 @@ class _FoodPageState extends State<FoodPage> {
             CustomScrollView(
               controller: this._scrollController,
               slivers: <Widget>[
-                SliverAppBar(
-                    pinned: true,
-                    backgroundColor: Theme.of(context).appBarTheme.color,
-                    expandedHeight: 200,
-                    elevation: 2.0,
-                    flexibleSpace: FlexibleSpaceBar(
-                        background: Stack(
-                          children: [
-                            Container(
-                              width: double.maxFinite,
-                              height: double.maxFinite,
-                              child: Image.asset(
-                                "assets/images/profile.png",
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            Container(
-                              width: double.maxFinite,
-                              height: double.maxFinite,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                      colors: [
-                                        Colors.transparent.withOpacity(0.0),
-                                        Colors.black54
-                                      ],
-                                      stops: [
-                                        0.5,
-                                        1.0
-                                      ])),
-                            ),
-                          ],
-                        ),
-                        centerTitle: false,
-                        title: Text(
-                          "Food",
-                          style: TextStyle(
-                              color: Theme.of(context)
-                                  .appBarTheme
-                                  .textTheme
-                                  .bodyText1
-                                  .color),
-                        ))),
+                appBar(),
                 SliverList(
                     delegate: SliverChildListDelegate([AddonsItemPage()]))
               ],
@@ -92,6 +48,107 @@ class _FoodPageState extends State<FoodPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget appBar() {
+    return BlocBuilder<AddonsBloc, AddonsState>(
+      builder: (context, state) {
+        if (state is LoadingAddonssState) {
+          return SliverAppBar(
+              pinned: true,
+              backgroundColor: Theme.of(context).appBarTheme.color,
+              expandedHeight: 200,
+              elevation: 2.0,
+              flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
+                    children: [
+                      Container(
+                        width: double.maxFinite,
+                        height: double.maxFinite,
+                        child: Image.asset(
+                          "assets/images/image_color_gray_transparent_background.png",
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      Container(
+                        width: double.maxFinite,
+                        height: double.maxFinite,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  Colors.transparent.withOpacity(0.0),
+                                  Colors.black54
+                                ],
+                                stops: [
+                                  0.5,
+                                  1.0
+                                ])),
+                      ),
+                    ],
+                  ),
+                  centerTitle: false,
+                  title: Text(
+                    " ",
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .appBarTheme
+                            .textTheme
+                            .bodyText1
+                            .color),
+                  )));
+        } else if (state is LoadedAddonsState) {
+          return SliverAppBar(
+              pinned: true,
+              backgroundColor: Theme.of(context).appBarTheme.color,
+              expandedHeight: 200,
+              elevation: 2.0,
+              flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
+                    children: [
+                      Container(
+                        width: double.maxFinite,
+                        height: double.maxFinite,
+                        child: Image.asset(
+                          "assets/images/profile.png",
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      Container(
+                        width: double.maxFinite,
+                        height: double.maxFinite,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  Colors.transparent.withOpacity(0.0),
+                                  Colors.black54
+                                ],
+                                stops: [
+                                  0.5,
+                                  1.0
+                                ])),
+                      ),
+                    ],
+                  ),
+                  centerTitle: false,
+                  title: Text(
+                    "",
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .appBarTheme
+                            .textTheme
+                            .bodyText1
+                            .color),
+                  )));
+        }
+        return null;
+      },
     );
   }
 }
