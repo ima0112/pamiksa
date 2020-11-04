@@ -177,7 +177,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 }
               },
               child: Text(
-                'Cambiar contraseña',
+                'Aceptar',
                 style: TextStyle(fontFamily: 'RobotoMono-Regular'),
               ),
             ),

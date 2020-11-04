@@ -62,129 +62,91 @@ class _BusinessPagePageState extends State<BusinessPage> {
           ),
         );
       } else if (state is LoadedBusinessDetailsState) {
-        return Theme(
-          data: ThemeData(
-            appBarTheme: AppBarTheme(
-              iconTheme: _isAppBarCollapsed
-                  ? IconThemeData(color: Colors.black)
-                  : IconThemeData(color: Colors.white),
-              brightness:
-                  _isAppBarCollapsed ? Brightness.light : Brightness.dark,
-            ),
-          ),
-          child: SafeArea(
-            top: false,
-            bottom: false,
-            right: false,
-            left: false,
-            child: Scaffold(
-              body: Stack(
-                children: <Widget>[
-                  CustomScrollView(
-                    controller: this._scrollController,
-                    slivers: <Widget>[
-                      SliverAppBar(
-                          pinned: true,
-                          backgroundColor: Colors.white,
-                          expandedHeight: 200,
-                          elevation: 0.0,
-                          flexibleSpace: FlexibleSpaceBar(
-                              background: Stack(
-                                overflow: Overflow.visible,
-                                children: [
-                                  Container(
-                                    width: double.maxFinite,
-                                    height: double.maxFinite,
-                                    child: Image.network(
-                                      "${state.businessModel.photo}",
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: double.maxFinite,
-                                    height: double.maxFinite,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        gradient: LinearGradient(
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                            colors: [
-                                              Colors.transparent
-                                                  .withOpacity(0.0),
-                                              Colors.black54
-                                            ],
-                                            stops: [
-                                              0.5,
-                                              1.0
-                                            ])),
-                                  ),
-                                ],
-                              ),
-                              centerTitle: false,
-                              title: _isAppBarCollapsed
-                                  ? Row(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 15,
-                                          backgroundColor: Colors.transparent,
-                                          backgroundImage: NetworkImage(
-                                            state.businessModel.photo,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          state.businessModel.name,
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1
-                                                  .color),
-                                        )
-                                      ],
-                                    )
-                                  : Text(""))),
-                      SliverList(
-                          delegate: SliverChildListDelegate([
-                        ListView.separated(
-                          controller: _scrollControllerList,
-                          shrinkWrap: true,
-                          itemCount: state.foodModel.length,
-                          itemBuilder: (_, index) => ListTile(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 20.0, horizontal: 20.0),
-                            title: Text(
-                              state.foodModel[index].name,
-                              style: TextStyle(fontSize: 14.0),
-                            ),
-                            onTap: () {
-                              addonsBloc.add(
-                                  FetchAddonsEvent(state.foodModel[index].id));
-                              navigationService.navigateTo(Routes.FoodRoute);
-                            },
-                            subtitle:
-                                Text("Precio: ${state.foodModel[index].price}"),
-                            trailing: ClipRRect(
-                              borderRadius: BorderRadius.circular(7.5),
-                              child: Image.network(
-                                state.foodModel[index].photo,
-                                fit: BoxFit.fitHeight,
-                                height: 100,
-                              ),
-                            ),
-                            dense: true,
-                          ),
-                          separatorBuilder: (_, __) => Divider(height: 0.0),
-                        )
-                      ])),
-                    ],
-                  ),
-                ],
+        return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                state.businessModel.name,
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1.color,
+                    fontWeight: FontWeight.bold),
               ),
             ),
-          ),
-        );
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0, 0),
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: NetworkImage(
+                        state.businessModel.photo,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 10, 0, 1.5),
+                    child: Text(
+                      state.businessModel.name,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 1.5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(state.businessModel.adress),
+                          Icon(
+                            Icons.location_on,
+                            size: 16.0,
+                          ),
+                        ],
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 27.5),
+                    child: Text(state.businessModel.description),
+                  ),
+                  Divider(
+                    height: 0.0,
+                  ),
+                  ListView.separated(
+                    controller: _scrollControllerList,
+                    shrinkWrap: true,
+                    itemCount: state.foodModel.length,
+                    itemBuilder: (_, index) => ListTile(
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 20.0),
+                      title: Text(
+                        state.foodModel[index].name,
+                        style: TextStyle(fontSize: 14.0),
+                      ),
+                      onTap: () {
+                        addonsBloc
+                            .add(FetchAddonsEvent(state.foodModel[index].id));
+                        navigationService.navigateTo(Routes.FoodRoute);
+                      },
+                      subtitle: Text("Precio: ${state.foodModel[index].price}"),
+                      trailing: Chip(
+                        label: Text("Ver"),
+                      ),
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(7.5),
+                        child: Image.network(
+                          state.foodModel[index].photo,
+                          fit: BoxFit.fitHeight,
+                          height: 100,
+                        ),
+                      ),
+                      dense: true,
+                    ),
+                    separatorBuilder: (_, __) => Divider(height: 0.0),
+                  )
+                ],
+              ),
+            ));
       }
       return Container(
         child: Center(

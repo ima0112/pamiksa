@@ -67,7 +67,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Theme.of(context).textTheme.bodyText1.color,
                             fontWeight: FontWeight.bold),
                       ),
-                      elevation: 2.0,
                     ),
                     SizedBox(
                       height: 25.0,
@@ -294,7 +293,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding:
                               const EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 0.0),
                           child: Text(
-                            "Introduce tu nombre",
+                            "Introduce tu direccion",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.0),
                           ),
