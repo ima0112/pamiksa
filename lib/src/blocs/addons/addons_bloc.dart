@@ -31,7 +31,7 @@ class AddonsBloc extends Bloc<AddonsEvent, AddonsState> {
   Stream<AddonsState> _mapFetchAddonsEvent(FetchAddonsEvent event) async* {
     yield LoadingAddonssState();
     try {
-      // FoodModel foodResult = await foodRepository.getById(event.id);
+      FoodModel foodResult = await foodRepository.getById(event.id);
       final response = await addonsRepository.addons(event.id);
 
       if (response.hasException) {
@@ -49,10 +49,9 @@ class AddonsBloc extends Bloc<AddonsEvent, AddonsState> {
           addonsRepository.insert('Addons', element.toMap());
         });
         yield LoadedAddonsState(
-          addonsModel: addonsModel,
-          count: addonsModel.length,
-          // foodModel: foodResult
-        );
+            addonsModel: addonsModel,
+            count: addonsModel.length,
+            foodModel: foodResult);
       }
     } catch (error) {
       print(error);

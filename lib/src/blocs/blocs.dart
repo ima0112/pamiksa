@@ -19,4 +19,3 @@ export './business_details/business_details_bloc.dart';
 export './favotite/favorite_bloc.dart';
 export './change_password/change_password_bloc.dart';
 export './addons/addons_bloc.dart';
-export './foods/foods_bloc.dart';

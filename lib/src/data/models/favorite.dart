@@ -3,7 +3,7 @@ class FavoriteModel {
   String name;
   double price;
   String photo;
-  bool isAvailable;
+  int isAvailable;
   int availability;
 
   FavoriteModel(
