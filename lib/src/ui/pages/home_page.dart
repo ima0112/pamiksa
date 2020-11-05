@@ -77,6 +77,8 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border), title: Text("Favoritos")),
           BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart), title: Text("Carrito")),
+          BottomNavigationBarItem(
               icon: Icon(Icons.settings), title: Text("Ajustes")),
         ],
       ),

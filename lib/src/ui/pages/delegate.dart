@@ -16,6 +16,7 @@ class MySearchDelegate extends SearchDelegate<String> {
   ThemeData appBarTheme(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return theme.copyWith(
+        brightness: Theme.of(context).brightness,
         iconTheme: Theme.of(context).appBarTheme.iconTheme,
         primaryColor: Theme.of(context).appBarTheme.color);
   }
@@ -24,11 +25,9 @@ class MySearchDelegate extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
       query.isEmpty
+          // ignore: missing_required_param
           ? IconButton(
               icon: Icon(Icons.search),
-              onPressed: () {
-                null;
-              },
             )
           : IconButton(
               icon: Icon(Icons.close),

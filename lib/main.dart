@@ -119,7 +119,7 @@ void main() async {
           create: (context) => ChangePasswordBloc(
               UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
-          create: (context) => AddonsBloc(
+          create: (context) => FoodBloc(
               AddonsRepository(client: GraphQLConfiguration().clients()),
               FoodRepository(client: GraphQLConfiguration().clients()))),
     ],
