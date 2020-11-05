@@ -129,9 +129,6 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         navigationService.navigateTo(Routes.FoodRoute);
                       },
                       subtitle: Text("Precio: ${state.foodModel[index].price}"),
-                      trailing: Chip(
-                        label: Text("Ver"),
-                      ),
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(7.5),
                         child: Image.network(
