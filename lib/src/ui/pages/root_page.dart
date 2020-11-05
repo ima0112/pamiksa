@@ -32,8 +32,6 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     homeBloc = BlocProvider.of<RootBloc>(context);
-    // themeBloc = BlocProvider.of<ThemeBloc>(context);
-    // themeBloc.add(LoadedThemeEvent());
     MySearchDelegate(words: _list, textInputType: TextInputType.text);
     super.initState();
   }

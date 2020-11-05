@@ -16,7 +16,7 @@ class BusinessDetailsBloc
     extends Bloc<BusinessDetailsEvent, BusinessDetailsState> {
   final BusinessRepository businessRepository;
   final FoodRepository foodRepository;
-  List<FoodModel> foodModel = List();
+  List foodModel = List();
 
   BusinessDetailsBloc(this.businessRepository, this.foodRepository)
       : super(BusinessDetailsInitial("0"));
@@ -27,8 +27,7 @@ class BusinessDetailsBloc
   ) async* {
     if (event is FetchBusinessDetailsEvent) {
       yield* _mapFetchBusinessDetails(event);
-    }
-    else if (event is SetInitialBusinessDetailsEvent){
+    } else if (event is SetInitialBusinessDetailsEvent) {
       yield BusinessDetailsInitial(event.id);
     }
   }
@@ -49,7 +48,7 @@ class BusinessDetailsBloc
             .map((e) => FoodModel(
                 id: e['id'],
                 availability: e['availability'],
-                isAvailable: e['isAvailable'],
+                isAvailable: e['isAvailable'] ? 1 : 0,
                 name: e['name'],
                 photo: e['photo'],
                 price: e['price']))
