@@ -36,7 +36,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
           .map((e) => FavoriteModel(
               id: e['id'],
               availability: e['availability'],
-              isAvailable: e['isAvailable'],
+              isAvailable: e['isAvailable'] ? 1 : 0,
               name: e['name'],
               photo: e['photo'],
               price: e['price']))
