@@ -61,9 +61,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             id: meData['id'],
             fullName: meData['fullName'],
             adress: meData['adress'],
-            photoName: meData['photo'],
-            photo:
-                'http://${DotEnv().env['MINIO_ADRESS']}:${DotEnv().env['MINIO_PORT']}/${DotEnv().env['USER_AVATAR_BULK_NAME']}/${meData['photo']}',
+            photo: meData['photo'],
+            photoUrl: meData['photoUrl'],
             email: meData['email']);
         userRepository.insert(meModel.toMap());
         yield LoadedProfileState(meModel);
@@ -88,12 +87,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
                 adress: e['adress'],
                 email: e['email'],
                 photo: e['photo'],
-                photoName: e['photoName'],
+                photoUrl: e['photoUrl'],
               ))
           .toList();
       if (retorno[0].photo != null) {
         await minio.removeObject(
-            DotEnv().env['USER_AVATAR_BULK_NAME'], '${retorno[0].photoName}');
+            DotEnv().env['USER_AVATAR_BULK_NAME'], '${retorno[0].photo}');
       }
       if (response.hasException) {
         print("ERROR");

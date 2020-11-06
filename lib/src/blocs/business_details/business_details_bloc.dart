@@ -51,6 +51,7 @@ class BusinessDetailsBloc
                 isAvailable: e['isAvailable'] ? 1 : 0,
                 name: e['name'],
                 photo: e['photo'],
+                photoUrl: e['photoUrl'],
                 price: e['price']))
             .toList();
 

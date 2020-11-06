@@ -28,6 +28,7 @@ query{
     fullName
     adress
     photo
+    photoUrl
     email
   }
 }""";

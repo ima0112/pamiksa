@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
@@ -81,7 +80,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
                       radius: 50,
                       backgroundColor: Colors.transparent,
                       backgroundImage: NetworkImage(
-                        state.businessModel.photo,
+                        state.businessModel.photoUrl,
                       ),
                     ),
                   ),
@@ -132,7 +131,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(7.5),
                         child: Image.network(
-                          state.foodModel[index].photo,
+                          state.foodModel[index].photoUrl,
                           fit: BoxFit.fitHeight,
                           height: 100,
                         ),

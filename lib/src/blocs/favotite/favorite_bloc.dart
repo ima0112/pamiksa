@@ -7,6 +7,7 @@ import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
 
 part 'favorite_event.dart';
+
 part 'favorite_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
@@ -39,6 +40,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
               isAvailable: e['isAvailable'] ? 1 : 0,
               name: e['name'],
               photo: e['photo'],
+              photoUrl: e['photoUrl'],
               price: e['price']))
           .toList();
 

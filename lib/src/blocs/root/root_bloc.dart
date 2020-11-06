@@ -118,7 +118,8 @@ class RootBloc extends Bloc<RootEvent, RootState> {
                   valorationsQuantity: e['valorationsQuantity'],
                   valorationSum: e['valorationSum'],
                   email: e['email'],
-                  photo: 'http://${DotEnv().env['MINIO_ADRESS']}:${DotEnv().env['MINIO_PORT']}/${DotEnv().env['BUSINESS_IMAGE_BULK_NAME']}/${e['photo']}',
+                  photo: e['photo'],
+                  photoUrl: e['photoUrl'],
                   description: e['description'],
                   phone: e['phone'],
                 ))

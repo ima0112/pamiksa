@@ -51,7 +51,7 @@ class _RootPageState extends State<RootPage> {
                   pinned: true,
                   forceElevated: true,
                   floating: true,
-                  elevation: 0.0,
+                  elevation: 1.0,
                   title: Text(
                     "Cargando...",
                     style: TextStyle(
@@ -110,7 +110,7 @@ class _RootPageState extends State<RootPage> {
                   pinned: true,
                   forceElevated: true,
                   floating: true,
-                  elevation: 0.0,
+                  elevation: 1.0,
                   title: Text(
                     "Pamiksa",
                     style: TextStyle(
@@ -153,6 +153,7 @@ class _RootPageState extends State<RootPage> {
                       id: businessData[index].id,
                       name: businessData[index].name,
                       photo: businessData[index].photo,
+                      photoUrl: businessData[index].photoUrl,
                       adress: businessData[index].adress,
                       valoration: businessData[index].valoration,
                       deliveryPrice: businessData[index].deliveryPrice,
