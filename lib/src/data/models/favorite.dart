@@ -3,6 +3,7 @@ class FavoriteModel {
   String name;
   double price;
   String photo;
+  String photoUrl;
   int isAvailable;
   int availability;
 
@@ -12,6 +13,7 @@ class FavoriteModel {
       this.isAvailable,
       this.name,
       this.photo,
+      this.photoUrl,
       this.price});
 
   Map<String, dynamic> toMap() {
@@ -21,6 +23,7 @@ class FavoriteModel {
       'availability': availability,
       'isAvailable': isAvailable,
       'photo': photo,
+      'photoUrl': photoUrl,
       'price': price,
     };
     return map;
@@ -32,6 +35,7 @@ class FavoriteModel {
     availability = map['availability'];
     isAvailable = map['isAvailable'];
     photo = map['photo'];
+    photoUrl = map['photoUrl'];
     price = map['price'];
   }
 

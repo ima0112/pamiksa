@@ -8,6 +8,7 @@ query{
     phone
     email
     photo
+    photoUrl
     deliveryPrice
     valorationsQuantity
     valoration

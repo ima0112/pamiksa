@@ -13,6 +13,7 @@ class BusinessItemPage extends StatefulWidget {
   String phone;
   String email;
   String photo;
+  String photoUrl;
   double valoration;
   double deliveryPrice;
 
@@ -24,6 +25,7 @@ class BusinessItemPage extends StatefulWidget {
       this.phone,
       this.email,
       this.photo,
+      this.photoUrl,
       this.deliveryPrice,
       this.valoration});
 
@@ -64,7 +66,7 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(17.5),
                       child: Image.network(
-                        this.widget.photo,
+                        this.widget.photoUrl,
                         width: 100,
                         height: 100,
                         fit: BoxFit.fitHeight,
@@ -163,7 +165,8 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                businessDetailsBloc.add(SetInitialBusinessDetailsEvent(this.widget.id));
+                businessDetailsBloc
+                    .add(SetInitialBusinessDetailsEvent(this.widget.id));
                 navigationService.navigateTo(Routes.BussinesDetailsRoute);
               },
               child: FadeInImage(
@@ -171,7 +174,7 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                 fit: BoxFit.cover,
                 height: 225,
                 placeholder: AssetImage("assets/gif/loading.gif"),
-                image: NetworkImage(this.widget.photo),
+                image: NetworkImage(this.widget.photoUrl),
               ),
             ),
             IconButton(

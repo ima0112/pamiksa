@@ -40,12 +40,12 @@ class _ProfilePageState extends State<ProfilePage> {
               );
             } else if (state is LoadedProfileState) {
               Widget profileCircleAvatar() {
-                if (state.results.photoName != null) {
+                if (state.results.photoUrl != null) {
                   return CircleAvatar(
                     radius: 70,
                     backgroundColor: Colors.transparent,
                     backgroundImage: NetworkImage(
-                      state.results.photo,
+                      state.results.photoUrl,
                     ),
                   );
                 }

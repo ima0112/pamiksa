@@ -5,6 +5,7 @@ query{
     name
     price
     photo
+    photoUrl
     isAvailable
     availability
     business{

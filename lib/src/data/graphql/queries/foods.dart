@@ -6,6 +6,7 @@ query Foods ($businessFk: ID){
       name
       price
       photo
+      photoUrl
       isAvailable
       availability
     }

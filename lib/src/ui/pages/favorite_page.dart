@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
@@ -73,7 +74,7 @@ class _FavoritePageState extends State<FavoritePage> {
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(7.5),
                             child: Image.network(
-                              state.favoriteModel[index].photo,
+                              state.favoriteModel[index].photoUrl,
                               fit: BoxFit.fitHeight,
                               height: 100,
                             ),

@@ -9,7 +9,7 @@ class UserModel {
   String birthday;
   String email;
   String photo;
-  String photoName;
+  String photoUrl;
   String password;
   String province;
   String municipality;
@@ -23,7 +23,7 @@ class UserModel {
       this.photo,
       this.password,
       this.province,
-      this.photoName,
+      this.photoUrl,
       this.municipality});
 
   Future<bool> isLoggedIn() async {
@@ -43,7 +43,7 @@ class UserModel {
       'adress': adress,
       'email': email,
       'photo': photo,
-      'photoName': photoName,
+      'photoName': photoUrl,
     };
     return map;
   }
@@ -54,7 +54,7 @@ class UserModel {
     adress = map['adress'];
     email = map['email'];
     photo = map['photo'];
-    photoName = map['photoName'];
+    photoUrl = map['photoName'];
   }
 
   @override

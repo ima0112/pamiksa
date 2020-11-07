@@ -52,6 +52,11 @@ dependencies:
   connectivity: ^0.4.9+2
   get_it: ^4.0.4
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/ic_launcher.png"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
