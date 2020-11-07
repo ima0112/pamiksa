@@ -45,4 +45,14 @@ class FavoriteRepository {
     );
     return await client.query(_options);
   }
+
+  Future<QueryResult> favoriteFoodsById(String foodId) async {
+    final WatchQueryOptions _options = WatchQueryOptions(
+      fetchPolicy: FetchPolicy.cacheAndNetwork,
+      documentNode: gql(queries.foodsById),
+      variables: {'foodFk': foodId},
+      fetchResults: true,
+    );
+    return await client.query(_options);
+  }
 }

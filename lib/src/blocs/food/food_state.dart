@@ -13,7 +13,7 @@ class LoadingFoodState extends FoodState {}
 
 class LoadedFoodState extends FoodState {
   final int count;
-  final FoodModel foodModel;
+  final List<FoodModel> foodModel;
   final List<AddonsModel> addonsModel;
 
   LoadedFoodState({this.addonsModel, this.count, this.foodModel});

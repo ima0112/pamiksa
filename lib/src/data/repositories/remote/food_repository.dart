@@ -48,6 +48,16 @@ class FoodRepository {
     return await client.query(_options);
   }
 
+  Future<QueryResult> foodsById(String foodId) async {
+    final WatchQueryOptions _options = WatchQueryOptions(
+      fetchPolicy: FetchPolicy.cacheAndNetwork,
+      documentNode: gql(queries.foodsById),
+      variables: {'foodFk': foodId},
+      fetchResults: true,
+    );
+    return await client.query(_options);
+  }
+
   Future<FoodModel> getById(String id) async {
     FoodModel foodModel = FoodModel();
     var connection = await database;

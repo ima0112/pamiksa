@@ -15,6 +15,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   final AddonsRepository addonsRepository;
 
   List<AddonsModel> addonsModel = List();
+  List<FoodModel> foodModel = List();
 
   FoodBloc(this.addonsRepository, this.foodRepository) : super(FoodInitial());
 
@@ -30,7 +31,29 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   Stream<FoodState> _mapFetchAddonsEvent(FetchFoodEvent event) async* {
     yield LoadingFoodState();
     try {
-      FoodModel foodResult = await foodRepository.getById(event.id);
+      final foodResult = await foodRepository.foodsById(event.id);
+
+      if (foodResult.hasException) {
+        print(foodResult.exception);
+      } else {
+        foodRepository.clear();
+        final List foodsData = foodResult.data['foods']['foods'];
+        foodModel = foodsData
+            .map((e) => FoodModel(
+                id: e['id'],
+                availability: e['availability'],
+                isAvailable: e['isAvailable'] ? 1 : 0,
+                name: e['name'],
+                photo: e['photo'],
+                photoUrl: e['photoUrl'],
+                price: e['price']))
+            .toList();
+
+        foodModel.forEach((element) {
+          foodRepository.insert('Food', element.toMap());
+        });
+      }
+
       final response = await addonsRepository.addons(event.id);
 
       if (response.hasException) {
@@ -50,7 +73,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
         yield LoadedFoodState(
             addonsModel: addonsModel,
             count: addonsModel.length,
-            foodModel: foodResult);
+            foodModel: foodModel);
       }
     } catch (error) {
       print(error);

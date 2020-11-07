@@ -137,7 +137,7 @@ class _FoodPageState extends State<FoodPage> {
                   ),
                   centerTitle: false,
                   title: Text(
-                    "${state.foodModel.name}",
+                    "${state.foodModel[0].name}",
                     style: TextStyle(
                         color: Theme.of(context)
                             .appBarTheme
