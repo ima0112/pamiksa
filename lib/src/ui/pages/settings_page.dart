@@ -25,8 +25,8 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text(
           "Ajustes",
           style: TextStyle(
-              color: Theme.of(context).textTheme.bodyText1.color,
-              fontWeight: FontWeight.bold),
+            color: Theme.of(context).textTheme.bodyText1.color,
+          ),
         ),
       ),
       body: WillPopScope(

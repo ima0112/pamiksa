@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SuggestionPage extends StatelessWidget {
-  final List<String> suggestions;
+  final List suggestions;
   final String query;
   final ValueChanged<String> onSelected;
 

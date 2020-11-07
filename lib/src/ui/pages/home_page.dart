@@ -20,12 +20,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     createSearchResultList();
-    _delegate =
-        MySearchDelegate(words: _list, textInputType: TextInputType.text);
+    _delegate = MySearchDelegate();
     super.initState();
   }
 
-  void createSearchResultList() {
+  void createSearchResultList() async {
     _list = <String>[
       "Pizza",
       "Pan con jamon",
@@ -37,13 +36,15 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
-  List list = [RootPage(), null, FavoritePage(), SettingsPage()];
+  List list = [RootPage(), null, FavoritePage(), CartPage(), SettingsPage()];
 
   @override
   Widget build(BuildContext context) {
     homeBloc = BlocProvider.of<RootBloc>(context);
 
     return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AppBar(
@@ -59,10 +60,7 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currentIndex,
         onTap: (index) {
           if (index == 1) {
-            showSearch(
-                context: context,
-                delegate: MySearchDelegate(
-                    words: _list, textInputType: TextInputType.text));
+            showSearch(context: context, delegate: MySearchDelegate());
           } else {
             setState(() {
               _currentIndex = index;
@@ -76,6 +74,8 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.search), title: Text("Buscar")),
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border), title: Text("Favoritos")),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart), title: Text("Carrito")),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), title: Text("Ajustes")),
         ],

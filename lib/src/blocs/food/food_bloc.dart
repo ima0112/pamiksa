@@ -7,29 +7,28 @@ import 'package:pamiksa/src/data/models/food.dart';
 import 'package:pamiksa/src/data/repositories/remote/addons_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 
-part 'addons_event.dart';
-part 'addons_state.dart';
+part 'food_event.dart';
+part 'food_state.dart';
 
-class AddonsBloc extends Bloc<AddonsEvent, AddonsState> {
+class FoodBloc extends Bloc<FoodEvent, FoodState> {
   final FoodRepository foodRepository;
   final AddonsRepository addonsRepository;
 
   List<AddonsModel> addonsModel = List();
 
-  AddonsBloc(this.addonsRepository, this.foodRepository)
-      : super(AddonsInitial());
+  FoodBloc(this.addonsRepository, this.foodRepository) : super(FoodInitial());
 
   @override
-  Stream<AddonsState> mapEventToState(
-    AddonsEvent event,
+  Stream<FoodState> mapEventToState(
+    FoodEvent event,
   ) async* {
-    if (event is FetchAddonsEvent) {
+    if (event is FetchFoodEvent) {
       yield* _mapFetchAddonsEvent(event);
     }
   }
 
-  Stream<AddonsState> _mapFetchAddonsEvent(FetchAddonsEvent event) async* {
-    yield LoadingAddonssState();
+  Stream<FoodState> _mapFetchAddonsEvent(FetchFoodEvent event) async* {
+    yield LoadingFoodState();
     try {
       FoodModel foodResult = await foodRepository.getById(event.id);
       final response = await addonsRepository.addons(event.id);
@@ -48,7 +47,7 @@ class AddonsBloc extends Bloc<AddonsEvent, AddonsState> {
         addonsModel.forEach((element) {
           addonsRepository.insert('Addons', element.toMap());
         });
-        yield LoadedAddonsState(
+        yield LoadedFoodState(
             addonsModel: addonsModel,
             count: addonsModel.length,
             foodModel: foodResult);
