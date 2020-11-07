@@ -12,3 +12,18 @@ query Foods ($businessFk: ID){
     }
   }
 }""";
+
+String foodsById = r"""
+query foodsById($foodFk: ID){
+  foods(foodFk: $foodFk){
+    foods{
+      id
+      name
+      price
+      photo
+      photoUrl
+      isAvailable
+      availability
+    }
+  }
+}""";
