@@ -6,3 +6,6 @@ export './sessions_repository.dart';
 export './user_repository.dart';
 export './favorite_repository.dart';
 export './addons_repository.dart';
+export './favorite_repository.dart';
+export './food_repository.dart';
+export './search_repository.dart';

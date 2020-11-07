@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class MySearchDelegate extends SearchDelegate<String> {
-  final List<String> _words;
   final List<String> _history;
   final NavigationService navigationService = locator<NavigationService>();
 
-  MySearchDelegate({List<String> words, TextInputType textInputType})
-      : _words = words,
-        _history = <String>["Pizza", "Pan con jamon"],
+  SearchBloc searchBloc;
+  FoodBloc foodBloc;
+
+  MySearchDelegate()
+      : _history = List(),
         super();
 
   @override
@@ -23,6 +26,7 @@ class MySearchDelegate extends SearchDelegate<String> {
 
   @override
   List<Widget> buildActions(BuildContext context) {
+    searchBloc = BlocProvider.of<SearchBloc>(context);
     return <Widget>[
       query.isEmpty
           // ignore: missing_required_param
@@ -30,11 +34,11 @@ class MySearchDelegate extends SearchDelegate<String> {
               icon: Icon(Icons.search),
             )
           : IconButton(
-              icon: Icon(Icons.close),
+              icon: Icon(Icons.search),
               onPressed: () {
-                query = '';
-                showSuggestions(context);
-              })
+                searchBloc.add(SearchFoodEvent(query));
+              },
+            )
     ];
   }
 
@@ -64,17 +68,83 @@ class MySearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final Iterable<String> suggestions = this.query.isEmpty
-        ? _history
-        : _words.where((element) => element.toLowerCase().contains(query));
+    Iterable<String> suggestions = _history;
 
-    return SuggestionPage(
-      query: this.query,
-      suggestions: suggestions.toList(),
-      onSelected: (value) {
-        this.query = value;
-        this._history.insert(0, value);
-        showResults(context);
+    // if(this.query.isEmpty){
+    //   suggestions = _history;
+    // }else{
+    //   suggestions = async
+    // }
+    //  ? _history : ()async{
+    //   await
+
+    // };
+// _words.where((element) => element.toLowerCase().contains(query));
+
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        searchBloc = BlocProvider.of<SearchBloc>(context);
+        if (state is SearchInitial) {
+          return ListView.builder(
+            itemCount: suggestions.length,
+            itemBuilder: (context, index) {
+              final String suggestion = suggestions.toList()[index];
+              return ListTile(
+                leading: query.isEmpty ? Icon(Icons.history) : Icon(null),
+                title: RichText(
+                    text: TextSpan(
+                        text: suggestion.substring(0, query.length),
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color),
+                        children: [
+                      TextSpan(
+                        text: suggestion.substring(query.length),
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color),
+                      )
+                    ])),
+                onTap: () {},
+              );
+            },
+          );
+          // onSelected: (value) {
+          //   this.query = value;
+          //   this._history.insert(0, value);
+          //   showResults(context);
+          // },
+
+        } else if (state is FoodsFoundState) {
+          foodBloc = BlocProvider.of<FoodBloc>(context);
+          return ListView.builder(
+            itemCount: state.searchModel.length,
+            itemBuilder: (context, index) {
+              final String suggestion = state.searchModel[index].name;
+              return ListTile(
+                leading: query.isEmpty ? Icon(Icons.history) : Icon(null),
+                title: RichText(
+                    text: TextSpan(
+                        text: suggestion.substring(0, query.length),
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color),
+                        children: [
+                      TextSpan(
+                        text: suggestion.substring(query.length),
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color),
+                      )
+                    ])),
+                onTap: () {
+                  foodBloc.add(FetchFoodEvent(state.searchModel[index].id));
+                  navigationService.navigateTo(Routes.FoodRoute);
+                },
+              );
+            },
+          );
+        }
+        return Align(
+          alignment: Alignment.topCenter,
+          child: LinearProgressIndicator(),
+        );
       },
     );
   }

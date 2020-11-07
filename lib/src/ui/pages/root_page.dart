@@ -32,7 +32,7 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     homeBloc = BlocProvider.of<RootBloc>(context);
-    MySearchDelegate(words: _list, textInputType: TextInputType.text);
+    MySearchDelegate();
     super.initState();
   }
 

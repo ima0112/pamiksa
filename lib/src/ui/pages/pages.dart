@@ -26,4 +26,5 @@ export './suggestions.dart';
 export './root_page.dart';
 export './favorite_page.dart';
 export './change_password_page.dart';
-export 'food_details_page.dart';
+export './food_details_page.dart';
+export './cart_page.dart';

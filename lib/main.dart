@@ -109,9 +109,9 @@ void main() async {
             BusinessRepository(client: GraphQLConfiguration().clients()),
             FoodRepository(client: GraphQLConfiguration().clients())),
       ),
-//      BlocProvider(
-//          create: (context) => FoodsBloc(
-//              FoodRepository(client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => SearchBloc(
+              SearchRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => FavoriteBloc(
               FavoriteRepository(client: GraphQLConfiguration().clients()))),
