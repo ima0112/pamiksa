@@ -53,6 +53,24 @@ class UserRepository {
     return await client.mutate(_options);
   }
 
+  Future<QueryResult> refreshToken(String refreshToken) async {
+    final MutationOptions _options = MutationOptions(
+      documentNode: gql(mutations.refreshToken),
+      onCompleted: (data) {
+        if (data != null) {
+          secureStorage.write(
+              key: "authToken",
+              value: data['refreshTheToken']['token'].toString());
+          secureStorage.write(
+              key: "refreshToken",
+              value: data['refreshTheToken']['refreshToken'].toString());
+        }
+      },
+      variables: {'refreshTokenValue': refreshToken},
+    );
+    return await client.mutate(_options);
+  }
+
   Future<QueryResult> signUp(
       UserModel userModel, DeviceModel deviceModel) async {
     final MutationOptions _options = MutationOptions(

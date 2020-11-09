@@ -242,6 +242,66 @@ class _RootPageState extends State<RootPage> {
               ],
             ),
           ));
+        } else if (state is TokenExpiredState) {
+          homeBloc.add(RefreshTokenEvent());
+          return Center(
+              child: SafeArea(
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      snap: true,
+                      pinned: true,
+                      forceElevated: true,
+                      floating: true,
+                      elevation: 1.0,
+                      title: Text(
+                        "Cargando...",
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      expandedHeight: 2 * kToolbarHeight,
+                      flexibleSpace: Padding(
+                        padding: const EdgeInsets.only(top: kToolbarHeight),
+                        child: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                Chip(
+                                  avatar: Icon(Icons.filter_list),
+                                  label: Text("Filtrar"),
+                                ),
+                                SizedBox(width: 10),
+                                Chip(
+                                  label: Text("Para Recojer"),
+                                  avatar: Icon(Icons.store),
+                                ),
+                                SizedBox(width: 10),
+                                Chip(
+                                  label: Text("A Domicilio"),
+                                  avatar: Icon(Icons.directions_bike),
+                                )
+                              ],
+                            )),
+                      ),
+                    ),
+                    SliverList(
+                        delegate: SliverChildListDelegate([
+                          ListView.separated(
+                            controller: _scrollController,
+                            shrinkWrap: true,
+                            itemCount: 2,
+                            itemBuilder: (_, index) => Shimmer.fromColors(
+                                baseColor: Colors.grey[300],
+                                highlightColor: Colors.grey[200],
+                                child: BusinessItemSkeletonPage()),
+                            separatorBuilder: (_, __) => Divider(height: 0.0),
+                          )
+                        ]))
+                  ],
+                ),
+              ));
         } else
           return Container(
             child: Center(
