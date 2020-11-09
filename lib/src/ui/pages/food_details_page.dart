@@ -13,11 +13,11 @@ class _FoodPageState extends State<FoodPage> {
   final ScrollController _scrollController = ScrollController();
   final NavigationService navigationService = locator<NavigationService>();
 
-  AddonsBloc addonsBloc;
+  FoodBloc addonsBloc;
 
   @override
   void initState() {
-    addonsBloc = BlocProvider.of<AddonsBloc>(context);
+    addonsBloc = BlocProvider.of<FoodBloc>(context);
     super.initState();
   }
 
@@ -41,8 +41,7 @@ class _FoodPageState extends State<FoodPage> {
               controller: this._scrollController,
               slivers: <Widget>[
                 appBar(),
-                SliverList(
-                    delegate: SliverChildListDelegate([AddonsItemPage()]))
+                SliverList(delegate: SliverChildListDelegate([details()]))
               ],
             ),
           ],
@@ -52,9 +51,9 @@ class _FoodPageState extends State<FoodPage> {
   }
 
   Widget appBar() {
-    return BlocBuilder<AddonsBloc, AddonsState>(
+    return BlocBuilder<FoodBloc, FoodState>(
       builder: (context, state) {
-        if (state is LoadingAddonssState) {
+        if (state is LoadingFoodState) {
           return SliverAppBar(
               pinned: true,
               backgroundColor: Theme.of(context).appBarTheme.color,
@@ -100,7 +99,7 @@ class _FoodPageState extends State<FoodPage> {
                             .bodyText1
                             .color),
                   )));
-        } else if (state is LoadedAddonsState) {
+        } else if (state is LoadedFoodState) {
           return SliverAppBar(
               pinned: true,
               backgroundColor: Theme.of(context).appBarTheme.color,
@@ -138,7 +137,7 @@ class _FoodPageState extends State<FoodPage> {
                   ),
                   centerTitle: false,
                   title: Text(
-                    "${state.foodModel.name}",
+                    "${state.foodModel[0].name}",
                     style: TextStyle(
                         color: Theme.of(context)
                             .appBarTheme
@@ -146,6 +145,67 @@ class _FoodPageState extends State<FoodPage> {
                             .bodyText1
                             .color),
                   )));
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget details() {
+    return BlocBuilder<FoodBloc, FoodState>(
+      builder: (context, state) {
+        if (state is LoadingFoodState) {
+          return Center(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: LinearProgressIndicator(),
+            ),
+          );
+        } else if (state is LoadedFoodState) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                child: ListView.separated(
+                  controller: _scrollController,
+                  shrinkWrap: true,
+                  itemCount: state.count,
+                  itemBuilder: (_, index) => ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    title: Text("${state.addonsModel[index].name}"),
+                    subtitle: Text("Precio: ${state.addonsModel[index].price}"),
+                    trailing: Container(
+                      height: 50,
+                      width: 150,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.remove),
+                            onPressed: () {},
+                            iconSize: 20,
+                            splashRadius: 20,
+                          ),
+                          Text("0"),
+                          IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {},
+                            iconSize: 20,
+                            splashRadius: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                    dense: true,
+                  ),
+                  separatorBuilder: (_, __) => Divider(
+                    height: 20.0,
+                  ),
+                ),
+              ),
+            ],
+          );
         }
         return null;
       },

@@ -17,7 +17,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
   final NavigationService navigationService = locator<NavigationService>();
 
   BusinessDetailsBloc businessDetailsBloc;
-  AddonsBloc addonsBloc;
+  FoodBloc foodBloc;
 
   ScrollController _scrollController;
   ScrollController _scrollControllerList = ScrollController();
@@ -25,7 +25,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
 
   @override
   void initState() {
-    addonsBloc = BlocProvider.of<AddonsBloc>(context);
+    foodBloc = BlocProvider.of<FoodBloc>(context);
     businessDetailsBloc = BlocProvider.of<BusinessDetailsBloc>(context);
     super.initState();
     this._scrollController = ScrollController()
@@ -123,8 +123,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         style: TextStyle(fontSize: 14.0),
                       ),
                       onTap: () {
-                        addonsBloc
-                            .add(FetchAddonsEvent(state.foodModel[index].id));
+                        foodBloc.add(FetchFoodEvent(state.foodModel[index].id));
                         navigationService.navigateTo(Routes.FoodRoute);
                       },
                       subtitle: Text("Precio: ${state.foodModel[index].price}"),

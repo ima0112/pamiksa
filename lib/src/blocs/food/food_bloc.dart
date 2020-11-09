@@ -7,31 +7,53 @@ import 'package:pamiksa/src/data/models/food.dart';
 import 'package:pamiksa/src/data/repositories/remote/addons_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 
-part 'addons_event.dart';
-part 'addons_state.dart';
+part 'food_event.dart';
+part 'food_state.dart';
 
-class AddonsBloc extends Bloc<AddonsEvent, AddonsState> {
+class FoodBloc extends Bloc<FoodEvent, FoodState> {
   final FoodRepository foodRepository;
   final AddonsRepository addonsRepository;
 
   List<AddonsModel> addonsModel = List();
+  List<FoodModel> foodModel = List();
 
-  AddonsBloc(this.addonsRepository, this.foodRepository)
-      : super(AddonsInitial());
+  FoodBloc(this.addonsRepository, this.foodRepository) : super(FoodInitial());
 
   @override
-  Stream<AddonsState> mapEventToState(
-    AddonsEvent event,
+  Stream<FoodState> mapEventToState(
+    FoodEvent event,
   ) async* {
-    if (event is FetchAddonsEvent) {
+    if (event is FetchFoodEvent) {
       yield* _mapFetchAddonsEvent(event);
     }
   }
 
-  Stream<AddonsState> _mapFetchAddonsEvent(FetchAddonsEvent event) async* {
-    yield LoadingAddonssState();
+  Stream<FoodState> _mapFetchAddonsEvent(FetchFoodEvent event) async* {
+    yield LoadingFoodState();
     try {
-      FoodModel foodResult = await foodRepository.getById(event.id);
+      final foodResult = await foodRepository.foodsById(event.id);
+
+      if (foodResult.hasException) {
+        print(foodResult.exception);
+      } else {
+        foodRepository.clear();
+        final List foodsData = foodResult.data['foods']['foods'];
+        foodModel = foodsData
+            .map((e) => FoodModel(
+                id: e['id'],
+                availability: e['availability'],
+                isAvailable: e['isAvailable'] ? 1 : 0,
+                name: e['name'],
+                photo: e['photo'],
+                photoUrl: e['photoUrl'],
+                price: e['price']))
+            .toList();
+
+        foodModel.forEach((element) {
+          foodRepository.insert('Food', element.toMap());
+        });
+      }
+
       final response = await addonsRepository.addons(event.id);
 
       if (response.hasException) {
@@ -48,10 +70,10 @@ class AddonsBloc extends Bloc<AddonsEvent, AddonsState> {
         addonsModel.forEach((element) {
           addonsRepository.insert('Addons', element.toMap());
         });
-        yield LoadedAddonsState(
+        yield LoadedFoodState(
             addonsModel: addonsModel,
             count: addonsModel.length,
-            foodModel: foodResult);
+            foodModel: foodModel);
       }
     } catch (error) {
       print(error);

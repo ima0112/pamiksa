@@ -16,11 +16,11 @@ class _FavoritePageState extends State<FavoritePage> {
   final ScrollController _scrollController = ScrollController();
 
   FavoriteBloc favoriteBloc;
-  AddonsBloc addonsBloc;
+  FoodBloc addonsBloc;
 
   @override
   void initState() {
-    addonsBloc = BlocProvider.of<AddonsBloc>(context);
+    addonsBloc = BlocProvider.of<FoodBloc>(context);
     favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
     favoriteBloc.add(FetchFavoritesFoodsEvent());
     super.initState();
@@ -62,8 +62,8 @@ class _FavoritePageState extends State<FavoritePage> {
                         itemCount: state.count,
                         itemBuilder: (_, index) => ListTile(
                           onTap: () {
-                            addonsBloc.add(FetchAddonsEvent(
-                                state.favoriteModel[index].id));
+                            addonsBloc.add(
+                                FetchFoodEvent(state.favoriteModel[index].id));
                             navigationService.navigateTo(Routes.FoodRoute);
                           },
                           contentPadding: EdgeInsets.symmetric(

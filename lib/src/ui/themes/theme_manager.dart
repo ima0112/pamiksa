@@ -32,7 +32,9 @@ final appThemeData = {
     ),
     fontFamily: 'RobotoMono-Regular',
     appBarTheme: AppBarTheme(
-      textTheme: TextTheme(bodyText1: TextStyle(color: Colors.black)),
+      textTheme: TextTheme(
+          bodyText1:
+              TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
       iconTheme: IconThemeData(color: Colors.black),
       actionsIconTheme: IconThemeData(color: Colors.black),
       color: Colors.white,
