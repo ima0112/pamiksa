@@ -81,3 +81,12 @@ final String changePassword = r"""
 mutation ChangePassword ($password: String!){
   changePassword(password: $password)
 }""";
+
+final String refreshToken = r"""
+mutation RefreshToken ($refreshTokenValue: String!){
+  refreshTheToken(refreshTokenValue: $refreshTokenValue){
+    token
+    refreshToken
+  }
+}
+""";

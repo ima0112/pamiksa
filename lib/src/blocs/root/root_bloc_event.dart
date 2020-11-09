@@ -43,3 +43,9 @@ class ShowedDevicesEvent extends RootEvent {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class RefreshTokenEvent extends RootEvent {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
