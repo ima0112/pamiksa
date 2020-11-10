@@ -15,6 +15,7 @@ import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/data/errors.dart';
 
 part 'sign_in_event.dart';
 
@@ -62,12 +63,13 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       if (response.hasException) {
         String message = response.exception.graphqlErrors[0].message;
-        if (message == "User banned") {
+        if (message == Errors.InvalidCredentials) {
+          yield CredentialsErrorState();
+        } else if (message == Errors.BannedUser) {
           navigationService.navigateWithoutGoBack(Routes.UserBannedRoute);
-        } else if (message == "Device banned") {
+        } else if (message == Errors.BannedDevice) {
           navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
         }
-        yield CredentialsErrorState();
       } else {
         navigationService.navigateWithoutGoBack(Routes.HomeRoute);
         yield SignInInitial();
