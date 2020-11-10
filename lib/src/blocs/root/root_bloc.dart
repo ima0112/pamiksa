@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/models/business.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/models.dart';
@@ -49,6 +50,8 @@ class RootBloc extends Bloc<RootEvent, RootState> {
       yield* _mapLogoutEvent(event);
     } else if (event is ShowedDevicesEvent) {
       navigationService.navigateTo("/devices");
+    } else if (event is RefreshTokenEvent) {
+      yield* _mapRefreshTokenEvent(event);
     }
   }
 
@@ -100,12 +103,29 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     yield HomeInitial(0);
   }
 
+  Stream<RootState> _mapRefreshTokenEvent(RefreshTokenEvent event) async* {
+    try {
+      String refreshToken = await secureStorage.read(key: "refreshToken");
+      final response = await userRepository.refreshToken(refreshToken);
+      if (response.hasException) {
+        yield HomeConnectionFailedState(0);
+      } else {
+        yield HomeInitial(0);
+      }
+    } catch (error) {
+      yield HomeConnectionFailedState(0);
+    }
+  }
+
   Stream<RootState> _mapFetchBusinessEvent(FetchBusinessEvent event) async* {
     try {
       final response = await businessRepository.fetchBusiness();
       if (response.hasException) {
-        print(response.exception);
-        yield HomeConnectionFailedState(0);
+        if (response.exception.graphqlErrors[0].message == 'TOKEN_EXPIRED') {
+          yield TokenExpiredState(0);
+        } else {
+          yield HomeConnectionFailedState(0);
+        }
       } else {
         final List businessData = response.data['business'];
         businessModel = businessData

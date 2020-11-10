@@ -86,3 +86,11 @@ class ShowDevicesState extends RootState {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class TokenExpiredState extends RootState {
+  TokenExpiredState(int index) : super(index);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
