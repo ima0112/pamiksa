@@ -47,13 +47,13 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   Stream<LocationState> _mapMutateCodeEvent(
       LocationMutateCodeEvent event) async* {
-    String email = await secureStorage.read('email');
+    String email = await secureStorage.read(key: 'email');
     int code = await random.randomCode();
 
-    await secureStorage.save('code', code.toString());
-    await secureStorage.save('adress', event.adress);
-    await secureStorage.save('province', event.provinceId);
-    await secureStorage.save('municipality', event.municipalityId);
+    await secureStorage.save(key: 'code', value: code.toString());
+    await secureStorage.save(key: 'adress', value: event.adress);
+    await secureStorage.save(key: 'province', value: event.provinceId);
+    await secureStorage.save(key: 'municipality', value: event.municipalityId);
     final response =
         await this.userRepository.sendVerificationCode(email, code.toString());
 

@@ -25,8 +25,8 @@ class RegisterPasswordBloc
 
   Stream<RegisterPasswordState> _mapSaveUserPasswordEvent(
       SaveUserPasswordEvent event) async* {
-    await secureStorage.save('password', event.password);
-    print({await secureStorage.read('password')});
+    await secureStorage.save(key: 'password', value: event.password);
+    print({await secureStorage.read(key: 'password')});
     navigationService.navigateTo(Routes.RegisterPersonalInfoRoute);
   }
 }

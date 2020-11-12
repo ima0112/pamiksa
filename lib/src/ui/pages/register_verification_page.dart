@@ -176,7 +176,7 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void obtenerPreferences() async {
-    String correo = await secureStorage.read('email');
+    String correo = await secureStorage.read(key: 'email');
     setState(() {
       email = correo;
     });

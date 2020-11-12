@@ -31,7 +31,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   Stream<SplashScreenState> _mapNavigationFromSplashScreenEvent(
       NavigationFromSplashScreenEvent event) async* {
     final showIntro = await preferences.read('showIntro');
-    final token = await secureStorage.read('authToken') ?? null;
+    final token = await secureStorage.read(key: 'authToken') ?? null;
 
     if (showIntro != false) {
       navigationService.navigateWithoutGoBack(Routes.IntroRoute);

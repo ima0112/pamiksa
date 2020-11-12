@@ -10,14 +10,14 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  RootBloc homeBloc;
+  RootBloc rootBloc;
   DevicesBloc devicesBloc;
   ProfileBloc profileBloc;
   final NavigationService navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
-    homeBloc = BlocProvider.of<RootBloc>(context);
+    rootBloc = BlocProvider.of<RootBloc>(context);
     devicesBloc = BlocProvider.of<DevicesBloc>(context);
     profileBloc = BlocProvider.of<ProfileBloc>(context);
     return Scaffold(
@@ -89,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text("Dispositivos"),
                 onTap: () {
                   devicesBloc.add(SetDeviceInitialEvent());
-                  homeBloc.add(ShowedDevicesEvent());
+                  rootBloc.add(ShowedDevicesEvent());
                 },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
@@ -148,7 +148,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                     RaisedButton(
                                       onPressed: () {
-                                        homeBloc.add(LogoutEvent());
+                                        rootBloc.add(LogoutEvent());
                                       },
                                       elevation: 0.0,
                                       shape: RoundedRectangleBorder(

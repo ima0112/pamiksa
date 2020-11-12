@@ -6,6 +6,7 @@ import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/change_password/change_password_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
@@ -24,9 +25,9 @@ void main() async {
   String checkSession = await Utils()
       .checkSession(UserRepository(client: GraphQLConfiguration().clients()));
 
-  if (checkSession == "Device banned") {
+  if (checkSession == Errors.BannedDevice) {
     initialRoute = Routes.DeviceBannedRoute;
-  } else if (checkSession == "User banned") {
+  } else if (checkSession == Errors.BannedUser) {
     initialRoute = Routes.UserBannedRoute;
   } else if (checkSession == "Session not exists") {
     initialRoute = Routes.LoginRoute;
@@ -105,14 +106,17 @@ void main() async {
       BlocProvider(
         create: (context) => BusinessDetailsBloc(
             BusinessRepository(client: GraphQLConfiguration().clients()),
-            FoodRepository(client: GraphQLConfiguration().clients())),
+            FoodRepository(client: GraphQLConfiguration().clients()),
+            UserRepository(client: GraphQLConfiguration().clients())),
       ),
       BlocProvider(
           create: (context) => SearchBloc(
-              SearchRepository(client: GraphQLConfiguration().clients()))),
+              SearchRepository(client: GraphQLConfiguration().clients()),
+              UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => FavoriteBloc(
-              FavoriteRepository(client: GraphQLConfiguration().clients()))),
+              FavoriteRepository(client: GraphQLConfiguration().clients()),
+              UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => ChangePasswordBloc(
               UserRepository(client: GraphQLConfiguration().clients()))),

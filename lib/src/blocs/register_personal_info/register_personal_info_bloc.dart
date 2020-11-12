@@ -35,8 +35,8 @@ class RegisterPersonalInfoBloc
 
   Stream<RegisterPersonalInfoState> _mapSaveUserPersonalInfoEvent(
       SaveUserPersonalInfoEvent event) async* {
-    await secureStorage.save('fullname', event.fullname);
-    await secureStorage.save('birthday', event.birthday);
+    await secureStorage.save(key: 'fullname', value: event.fullname);
+    await secureStorage.save(key: 'birthday', value: event.birthday);
 
     navigationService.navigateTo(Routes.RegisterLocationRoute);
   }

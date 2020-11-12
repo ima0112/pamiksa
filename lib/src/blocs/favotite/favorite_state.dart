@@ -17,3 +17,7 @@ class LoadedFavoritesFoodsState extends FavoriteState {
 
   LoadedFavoritesFoodsState({this.count, this.favoriteModel});
 }
+
+class FavoriteTokenExpired extends FavoriteState {}
+
+class FavoriteConnectionFailed extends FavoriteState {}

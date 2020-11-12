@@ -60,6 +60,15 @@ class _BusinessPagePageState extends State<BusinessPage> {
             ),
           ),
         );
+      } else if (state is BusinessTokenExpired) {
+        businessDetailsBloc.add(BusinessRefreshTokenEvent());
+        return Scaffold(
+          body: Container(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        );
       } else if (state is LoadedBusinessDetailsState) {
         return Scaffold(
             appBar: AppBar(
@@ -143,9 +152,11 @@ class _BusinessPagePageState extends State<BusinessPage> {
               ),
             ));
       }
-      return Container(
-        child: Center(
-          child: Text("Error"),
+      return Scaffold(
+        body: Container(
+          child: Center(
+            child: Text("Error"),
+          ),
         ),
       );
     });

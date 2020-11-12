@@ -24,3 +24,4 @@ class LoadedBusinessDetailsState extends BusinessDetailsState {
   LoadedBusinessDetailsState(this.businessModel, this.foodModel);
 }
 
+class BusinessTokenExpired extends BusinessDetailsState {}

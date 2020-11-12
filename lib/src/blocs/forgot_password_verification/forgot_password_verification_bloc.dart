@@ -36,10 +36,10 @@ class ForgotPasswordVerificationBloc extends Bloc<
 
   Stream<ForgotPasswordVerificationState> _mapMutateCodeFromForgotPasswordEvent(
       MutateCodeFromForgotPasswordEvent event) async* {
-    String email = await secureStorage.read('email');
+    String email = await secureStorage.read(key: 'email');
     int code = await random.randomCode();
 
-    await secureStorage.save('code', code.toString());
+    await secureStorage.save(key: 'code', value: code.toString());
 
     final response =
         await this.userRepository.sendVerificationCode(email, code.toString());
@@ -52,10 +52,10 @@ class ForgotPasswordVerificationBloc extends Bloc<
   Stream<ForgotPasswordVerificationState>
       _mapCheckVerificationFromForgotPasswordCodeEvent(
           CheckVerificationFromForgotPasswordCodeEvent event) async* {
-    String code = await secureStorage.read('code');
+    String code = await secureStorage.read(key: 'code');
 
     if (event.code == code) {
-      secureStorage.remove('code');
+      secureStorage.remove(key: 'code');
       navigationService.navigateWithoutGoBack(Routes.ForgotPassword);
     } else {
       yield IncorrectedVerificationToForgotPasswordCodeState();
