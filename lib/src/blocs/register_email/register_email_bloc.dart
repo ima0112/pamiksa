@@ -35,8 +35,8 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
     if (response.data['userExists'] == true) {
       yield ExistsUserEmailState();
     } else if (response.data['userExists'] == false) {
-      await secureStorage.save('email', event.email);
-      print({await secureStorage.read('email')});
+      await secureStorage.save(key: 'email', value: event.email);
+      print({await secureStorage.read(key: 'email')});
       await navigationService.navigateTo(Routes.RegisterPasswordRoute);
       yield RegisterEmailInitial();
     }

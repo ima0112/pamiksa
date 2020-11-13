@@ -13,25 +13,11 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   final ScrollController _scrollController = ScrollController();
 
-  RootBloc homeBloc;
-  ThemeBloc themeBloc;
-  List<String> _list;
-
-  void createSearchResultList() {
-    _list = <String>[
-      "Pizza",
-      "Pan con jamon",
-      "Pan con queso",
-      "Spaghettis",
-      "Pan con pasta",
-      "Pan con croqueta",
-      "Pan con hamburguesa",
-    ];
-  }
+  RootBloc rootBloc;
 
   @override
   void initState() {
-    homeBloc = BlocProvider.of<RootBloc>(context);
+    rootBloc = BlocProvider.of<RootBloc>(context);
     MySearchDelegate();
     super.initState();
   }
@@ -41,7 +27,7 @@ class _RootPageState extends State<RootPage> {
     return BlocBuilder<RootBloc, RootState>(
       builder: (context, state) {
         if (state is HomeInitial) {
-          homeBloc.add(FetchBusinessEvent());
+          rootBloc.add(FetchBusinessEvent());
           return Center(
               child: SafeArea(
             child: CustomScrollView(
@@ -231,7 +217,7 @@ class _RootPageState extends State<RootPage> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             onPressed: () {
-                              homeBloc.add(ChangeToInitialStateEvent());
+                              rootBloc.add(ChangeToInitialStateEvent());
                             },
                             icon: Icon(Icons.refresh),
                             label: Text("Reintentar"))
@@ -243,65 +229,65 @@ class _RootPageState extends State<RootPage> {
             ),
           ));
         } else if (state is TokenExpiredState) {
-          homeBloc.add(RefreshTokenEvent());
+          rootBloc.add(RefreshTokenEvent());
           return Center(
               child: SafeArea(
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverAppBar(
-                      snap: true,
-                      pinned: true,
-                      forceElevated: true,
-                      floating: true,
-                      elevation: 1.0,
-                      title: Text(
-                        "Cargando...",
-                        style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1.color,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      expandedHeight: 2 * kToolbarHeight,
-                      flexibleSpace: Padding(
-                        padding: const EdgeInsets.only(top: kToolbarHeight),
-                        child: Padding(
-                            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: <Widget>[
-                                Chip(
-                                  avatar: Icon(Icons.filter_list),
-                                  label: Text("Filtrar"),
-                                ),
-                                SizedBox(width: 10),
-                                Chip(
-                                  label: Text("Para Recojer"),
-                                  avatar: Icon(Icons.store),
-                                ),
-                                SizedBox(width: 10),
-                                Chip(
-                                  label: Text("A Domicilio"),
-                                  avatar: Icon(Icons.directions_bike),
-                                )
-                              ],
-                            )),
-                      ),
-                    ),
-                    SliverList(
-                        delegate: SliverChildListDelegate([
-                          ListView.separated(
-                            controller: _scrollController,
-                            shrinkWrap: true,
-                            itemCount: 2,
-                            itemBuilder: (_, index) => Shimmer.fromColors(
-                                baseColor: Colors.grey[300],
-                                highlightColor: Colors.grey[200],
-                                child: BusinessItemSkeletonPage()),
-                            separatorBuilder: (_, __) => Divider(height: 0.0),
-                          )
-                        ]))
-                  ],
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  snap: true,
+                  pinned: true,
+                  forceElevated: true,
+                  floating: true,
+                  elevation: 1.0,
+                  title: Text(
+                    "Cargando...",
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1.color,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  expandedHeight: 2 * kToolbarHeight,
+                  flexibleSpace: Padding(
+                    padding: const EdgeInsets.only(top: kToolbarHeight),
+                    child: Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 10.0),
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: <Widget>[
+                            Chip(
+                              avatar: Icon(Icons.filter_list),
+                              label: Text("Filtrar"),
+                            ),
+                            SizedBox(width: 10),
+                            Chip(
+                              label: Text("Para Recojer"),
+                              avatar: Icon(Icons.store),
+                            ),
+                            SizedBox(width: 10),
+                            Chip(
+                              label: Text("A Domicilio"),
+                              avatar: Icon(Icons.directions_bike),
+                            )
+                          ],
+                        )),
+                  ),
                 ),
-              ));
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  ListView.separated(
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    itemCount: 2,
+                    itemBuilder: (_, index) => Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[200],
+                        child: BusinessItemSkeletonPage()),
+                    separatorBuilder: (_, __) => Divider(height: 0.0),
+                  )
+                ]))
+              ],
+            ),
+          ));
         } else
           return Container(
             child: Center(

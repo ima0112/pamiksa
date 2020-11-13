@@ -35,10 +35,10 @@ class RegisterVerificationBloc
       RegisterVerificationMutateCodeEvent event) async* {
     yield RegisterVerificationInitial();
 
-    String email = await secureStorage.read('email');
+    String email = await secureStorage.read(key: 'email');
     int code = await random.randomCode();
 
-    await secureStorage.save('code', code.toString());
+    await secureStorage.save(key: 'code', value: code.toString());
 
     final response =
         await this.userRepository.sendVerificationCode(email, code.toString());
@@ -48,10 +48,10 @@ class RegisterVerificationBloc
 
   Stream<RegisterVerificationState> _mapCheckVerificationCodeEvent(
       CheckVerificationCodeEvent event) async* {
-    String code = await secureStorage.read('code');
+    String code = await secureStorage.read(key: 'code');
 
     if (event.code == code) {
-      secureStorage.remove('code');
+      secureStorage.remove(key: 'code');
       navigationService.navigateAndRemoveUntil(Routes.RegisterCompleteRoute);
     } else {
       yield IncorrectedVerificationCodeState();

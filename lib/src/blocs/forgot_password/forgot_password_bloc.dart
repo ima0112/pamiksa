@@ -37,14 +37,14 @@ class ForgotPasswordBloc
       SaveUserNewPasswordEvent event) async* {
     yield ChangePasswordLoading();
 
-    String email = await secureStorage.read('email');
+    String email = await secureStorage.read(key: 'email');
 
-    await secureStorage.save('password', event.password);
-    print({await secureStorage.read('password')});
+    await secureStorage.save(key: 'password', value: event.password);
+    print({await secureStorage.read(key: 'password')});
     await deviceInfo.initPlatformState(deviceModel);
 
     await this.userRepository.resetPassword(email, event.password, deviceModel);
-    await secureStorage.remove('password');
+    await secureStorage.remove(key: 'password');
 
     navigationService.navigateAndRemove(Routes.HomeRoute);
   }

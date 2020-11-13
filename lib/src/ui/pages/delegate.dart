@@ -112,7 +112,6 @@ class MySearchDelegate extends SearchDelegate<String> {
           //   this._history.insert(0, value);
           //   showResults(context);
           // },
-
         } else if (state is FoodsFoundState) {
           foodBloc = BlocProvider.of<FoodBloc>(context);
           return ListView.builder(
@@ -140,6 +139,14 @@ class MySearchDelegate extends SearchDelegate<String> {
               );
             },
           );
+        } else if (state is SearchTokenExpiredState) {
+          searchBloc.add(SearchRefreshTokenEvent());
+          return Align(
+            alignment: Alignment.topCenter,
+            child: LinearProgressIndicator(),
+          );
+        } else if (state is SearchRefreshedTokenState) {
+          searchBloc.add(SearchFoodEvent(query));
         }
         return Align(
           alignment: Alignment.topCenter,

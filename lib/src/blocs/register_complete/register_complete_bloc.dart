@@ -40,13 +40,14 @@ class RegisterCompleteBloc
 
     await deviceInfo.initPlatformState(deviceModel);
 
-    event.userModel.fullName = await secureStorage.read('fullname');
-    event.userModel.password = await secureStorage.read('password');
-    event.userModel.adress = await secureStorage.read('adress');
-    event.userModel.birthday = await secureStorage.read('birthday');
-    event.userModel.email = await secureStorage.read('email');
-    event.userModel.province = await secureStorage.read('province');
-    event.userModel.municipality = await secureStorage.read('municipality');
+    event.userModel.fullName = await secureStorage.read(key: 'fullname');
+    event.userModel.password = await secureStorage.read(key: 'password');
+    event.userModel.adress = await secureStorage.read(key: 'adress');
+    event.userModel.birthday = await secureStorage.read(key: 'birthday');
+    event.userModel.email = await secureStorage.read(key: 'email');
+    event.userModel.province = await secureStorage.read(key: 'province');
+    event.userModel.municipality =
+        await secureStorage.read(key: 'municipality');
 
     final response =
         await this.userRepository.signUp(event.userModel, deviceModel);
@@ -57,7 +58,7 @@ class RegisterCompleteBloc
         navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
       }
     } else {
-      await secureStorage.remove('password');
+      await secureStorage.remove(key: 'password');
 
       navigationService.navigateAndRemove(Routes.HomeRoute);
 

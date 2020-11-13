@@ -6,9 +6,12 @@ import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/change_password/change_password_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
+import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 void main() async {
@@ -17,16 +20,14 @@ void main() async {
 
   String initialRoute = Routes.LoginRoute;
 
-  /*bool isUserLoggedIn = await UserModel().isLoggedIn();
+  bool isUserLoggedIn = await UserModel().isLoggedIn();
   bool showIntro = await Utils().showIntro();
   String checkSession = await Utils()
-      .checkSession(UserRepository(client: GraphQLConfiguration().clients()));*/
+      .checkSession(UserRepository(client: GraphQLConfiguration().clients()));
 
-  // ThemeMode themeMode = await Utils().loadedTheme();
-
-  /*if (checkSession == "Device banned") {
+  if (checkSession == Errors.BannedDevice) {
     initialRoute = Routes.DeviceBannedRoute;
-  } else if (checkSession == "User banned") {
+  } else if (checkSession == Errors.BannedUser) {
     initialRoute = Routes.UserBannedRoute;
   } else if (checkSession == "Session not exists") {
     initialRoute = Routes.LoginRoute;
@@ -34,8 +35,8 @@ void main() async {
     initialRoute = Routes.IntroRoute;
   } else if (isUserLoggedIn) {
     initialRoute = Routes.HomeRoute;
-  }*/
-  initialRoute = Routes.HomeRoute;
+  }
+
   setupLocator();
 
   runApp(MultiBlocProvider(
@@ -105,14 +106,17 @@ void main() async {
       BlocProvider(
         create: (context) => BusinessDetailsBloc(
             BusinessRepository(client: GraphQLConfiguration().clients()),
-            FoodRepository(client: GraphQLConfiguration().clients())),
+            FoodRepository(client: GraphQLConfiguration().clients()),
+            UserRepository(client: GraphQLConfiguration().clients())),
       ),
       BlocProvider(
           create: (context) => SearchBloc(
-              SearchRepository(client: GraphQLConfiguration().clients()))),
+              SearchRepository(client: GraphQLConfiguration().clients()),
+              UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => FavoriteBloc(
-              FavoriteRepository(client: GraphQLConfiguration().clients()))),
+              FavoriteRepository(client: GraphQLConfiguration().clients()),
+              UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => ChangePasswordBloc(
               UserRepository(client: GraphQLConfiguration().clients()))),

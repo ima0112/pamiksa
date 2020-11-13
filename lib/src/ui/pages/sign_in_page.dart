@@ -127,7 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                         Expanded(
                             flex: 6,
                             child: Align(
-                                alignment: Alignment.center, child: formWhitoutAccions())),
+                                alignment: Alignment.center,
+                                child: formWhitoutAccions())),
                         // Spacer(
                         //   flex: 1,
                         // ),
@@ -208,8 +209,6 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
-
-
 
   Widget form() {
     return Form(
@@ -402,7 +401,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget loginButtonWhitoutAccions() {
     return BlocBuilder<SignInBloc, SignInState>(
       buildWhen: (previous, current) =>
-      current.runtimeType != previous.runtimeType,
+          current.runtimeType != previous.runtimeType,
       builder: (context, state) {
         return Align(
           alignment: Alignment.topCenter,
@@ -415,9 +414,7 @@ class _LoginPageState extends State<LoginPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
               ),
-              onPressed: () {
-
-              },
+              onPressed: () {},
               elevation: 0,
             ),
           ),
@@ -486,9 +483,7 @@ class _LoginPageState extends State<LoginPage> {
       Expanded(
         flex: 1,
         child: GestureDetector(
-          onTap: () {
-
-          },
+          onTap: () {},
           child: Align(
             alignment: Alignment.topCenter,
             child: FittedBox(
@@ -518,15 +513,12 @@ class _LoginPageState extends State<LoginPage> {
                           text: '¿No tienes cuenta?  ',
                           style: TextStyle(
                               color:
-                              Theme.of(context).textTheme.bodyText1.color)),
+                                  Theme.of(context).textTheme.bodyText1.color)),
                       TextSpan(
                           text: 'Create una cuenta',
                           style:
-                          TextStyle(color: Theme.of(context).primaryColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-
-                            })
+                              TextStyle(color: Theme.of(context).primaryColor),
+                          recognizer: TapGestureRecognizer()..onTap = () {})
                     ]),
               ),
             ),

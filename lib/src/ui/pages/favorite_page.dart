@@ -22,7 +22,6 @@ class _FavoritePageState extends State<FavoritePage> {
   void initState() {
     addonsBloc = BlocProvider.of<FoodBloc>(context);
     favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
-    favoriteBloc.add(FetchFavoritesFoodsEvent());
     super.initState();
   }
 
@@ -50,7 +49,13 @@ class _FavoritePageState extends State<FavoritePage> {
         },
         child: BlocBuilder<FavoriteBloc, FavoriteState>(
           builder: (context, state) {
-            if (state is LoadedFavoritesFoodsState) {
+            if (state is FavoriteInitial) {
+              favoriteBloc.add(FetchFavoritesFoodsEvent());
+              return Center(child: CircularProgressIndicator());
+            } else if (state is FavoriteTokenExpired) {
+              favoriteBloc.add(FavoriteRefreshTokenEvent());
+              return Center(child: CircularProgressIndicator());
+            } else if (state is LoadedFavoritesFoodsState) {
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -88,7 +93,16 @@ class _FavoritePageState extends State<FavoritePage> {
                 ),
               );
             }
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: FlatButton.icon(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    onPressed: () {
+                      favoriteBloc.add(ChangeStateToInitialEvent());
+                    },
+                    icon: Icon(Icons.refresh),
+                    label: Text("Reintentar")));
           },
         ),
       ),
