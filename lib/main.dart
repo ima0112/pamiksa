@@ -9,8 +9,6 @@ import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
-import 'package:pamiksa/src/data/models/user.dart';
-import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 void main() async {
@@ -19,14 +17,14 @@ void main() async {
 
   String initialRoute = Routes.LoginRoute;
 
-  bool isUserLoggedIn = await UserModel().isLoggedIn();
+  /*bool isUserLoggedIn = await UserModel().isLoggedIn();
   bool showIntro = await Utils().showIntro();
   String checkSession = await Utils()
-      .checkSession(UserRepository(client: GraphQLConfiguration().clients()));
+      .checkSession(UserRepository(client: GraphQLConfiguration().clients()));*/
 
   // ThemeMode themeMode = await Utils().loadedTheme();
 
-  if (checkSession == "Device banned") {
+  /*if (checkSession == "Device banned") {
     initialRoute = Routes.DeviceBannedRoute;
   } else if (checkSession == "User banned") {
     initialRoute = Routes.UserBannedRoute;
@@ -36,8 +34,8 @@ void main() async {
     initialRoute = Routes.IntroRoute;
   } else if (isUserLoggedIn) {
     initialRoute = Routes.HomeRoute;
-  }
-
+  }*/
+  initialRoute = Routes.HomeRoute;
   setupLocator();
 
   runApp(MultiBlocProvider(

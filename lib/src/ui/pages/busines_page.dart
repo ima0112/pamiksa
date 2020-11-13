@@ -74,15 +74,8 @@ class _BusinessPagePageState extends State<BusinessPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0, 0),
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: NetworkImage(
-                        state.businessModel.photoUrl,
-                      ),
-                    ),
+                  Image.network(
+                    state.businessModel.photoUrl,
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15.0, 10, 0, 1.5),
@@ -105,7 +98,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         ],
                       )),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 27.5),
+                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 20),
                     child: Text(state.businessModel.description),
                   ),
                   Divider(
@@ -117,7 +110,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
                     itemCount: state.foodModel.length,
                     itemBuilder: (_, index) => ListTile(
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 20.0),
+                          vertical: 20.0, horizontal: 15.0),
                       title: Text(
                         state.foodModel[index].name,
                         style: TextStyle(fontSize: 14.0),

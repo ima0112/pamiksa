@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.format_list_bulleted), title: Text("Inicio")),
+              icon: Icon(Icons.home), title: Text("Inicio")),
           BottomNavigationBarItem(
               icon: Icon(Icons.search), title: Text("Buscar")),
           BottomNavigationBarItem(

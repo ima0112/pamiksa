@@ -23,31 +23,92 @@ class _FoodPageState extends State<FoodPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      right: false,
-      left: false,
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => null,
-          label: Text("Agregar al carrito"),
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: Stack(
-          children: <Widget>[
-            CustomScrollView(
-              controller: this._scrollController,
-              slivers: <Widget>[
-                appBar(),
-                SliverList(delegate: SliverChildListDelegate([details()]))
+    return BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
+      if (state is LoadingFoodState) {
+        return Container(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      } else if (state is LoadedFoodState) {
+        return SafeArea(
+          top: false,
+          bottom: false,
+          right: false,
+          left: false,
+          child: Scaffold(
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () => null,
+              icon: Icon(Icons.add_shopping_cart),
+              label: Text("Agregar al carrito"),
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            body: Stack(
+              children: <Widget>[
+                CustomScrollView(
+                  controller: this._scrollController,
+                  slivers: <Widget>[
+                    appBar(),
+                    SliverList(
+                        delegate: SliverChildListDelegate([
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(state.foodModel[0].name, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                            SizedBox(height: 1.5),
+                            Text(state.foodModel[0].description),
+                            SizedBox(height: 1.5),
+                            Text('\$ ${state.foodModel[0].price}'),
+                          ],
+                        ),
+                      )
+                    ])),
+                    SliverList(delegate: SliverChildListDelegate([details()]))
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
+      } else {
+        return SafeArea(
+          top: false,
+          bottom: false,
+          right: false,
+          left: false,
+          child: Scaffold(
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () => null,
+              icon: Icon(Icons.add_shopping_cart),
+              label: Text("Agregar al carrito"),
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            body: Stack(
+              children: <Widget>[
+                CustomScrollView(
+                  controller: this._scrollController,
+                  slivers: <Widget>[
+                    appBar(),
+                    SliverList(
+                        delegate: SliverChildListDelegate([
+                      Text("Hello World"),
+                    ])),
+                    SliverList(delegate: SliverChildListDelegate([details()]))
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    });
   }
 
   Widget appBar() {
@@ -80,7 +141,7 @@ class _FoodPageState extends State<FoodPage> {
                                 end: Alignment.topCenter,
                                 colors: [
                                   Colors.transparent.withOpacity(0.0),
-                                  Colors.black54
+                                  Colors.black87
                                 ],
                                 stops: [
                                   0.5,
@@ -105,14 +166,15 @@ class _FoodPageState extends State<FoodPage> {
               backgroundColor: Theme.of(context).appBarTheme.color,
               expandedHeight: 200,
               elevation: 2.0,
+              stretch: true,
               flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
                     children: [
                       Container(
                         width: double.maxFinite,
                         height: double.maxFinite,
-                        child: Image.asset(
-                          "assets/images/profile.png",
+                        child: Image.network(
+                          state.foodModel[0].photoUrl,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -137,7 +199,7 @@ class _FoodPageState extends State<FoodPage> {
                   ),
                   centerTitle: false,
                   title: Text(
-                    "${state.foodModel[0].name}",
+                    "",
                     style: TextStyle(
                         color: Theme.of(context)
                             .appBarTheme

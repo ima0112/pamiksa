@@ -42,6 +42,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
             .map((e) => FoodModel(
                 id: e['id'],
                 availability: e['availability'],
+                description: e['description'],
                 isAvailable: e['isAvailable'] ? 1 : 0,
                 name: e['name'],
                 photo: e['photo'],

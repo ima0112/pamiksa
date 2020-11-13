@@ -54,36 +54,34 @@ class _FavoritePageState extends State<FavoritePage> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: ListView.separated(
-                        controller: _scrollController,
-                        shrinkWrap: true,
-                        itemCount: state.count,
-                        itemBuilder: (_, index) => ListTile(
-                          onTap: () {
-                            addonsBloc.add(
-                                FetchFoodEvent(state.favoriteModel[index].id));
-                            navigationService.navigateTo(Routes.FoodRoute);
-                          },
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                          title: Text("${state.favoriteModel[index].name}"),
-                          subtitle: Text(
-                              "Precio: ${state.favoriteModel[index].price}"),
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(7.5),
-                            child: Image.network(
-                              state.favoriteModel[index].photoUrl,
-                              fit: BoxFit.fitHeight,
-                              height: 100,
-                            ),
+                    ListView.separated(
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      itemCount: state.count,
+                      itemBuilder: (_, index) => ListTile(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 20.0, horizontal: 15.0),
+                        title: Text(
+                          state.favoriteModel[index].name,
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                        onTap: () {
+                          FetchFoodEvent(state.favoriteModel[index].id);
+                          navigationService.navigateTo(Routes.FoodRoute);
+                        },
+                        subtitle: Text("Precio: ${state.favoriteModel[index].price}"),
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(7.5),
+                          child: Image.network(
+                            state.favoriteModel[index].photoUrl,
+                            fit: BoxFit.fitHeight,
+                            height: 100,
                           ),
-                          dense: true,
                         ),
-                        separatorBuilder: (_, __) => Divider(
-                          height: 20.0,
-                        ),
+                        dense: true,
+                      ),
+                      separatorBuilder: (_, __) => Divider(
+                        height: 0.0,
                       ),
                     ),
                   ],
