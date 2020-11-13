@@ -38,9 +38,9 @@ class ForgotPasswordEmailBloc
       int code = await random.randomCode();
       print(code);
 
-      await secureStorage.save('email', event.email);
-      print({await secureStorage.read('email')});
-      await secureStorage.save('code', code.toString());
+      await secureStorage.save(key: 'email', value: event.email);
+      print({await secureStorage.read(key: 'email')});
+      await secureStorage.save(key: 'code', value: code.toString());
       await navigationService
           .navigateWithoutGoBack(Routes.ForgotPasswordVerification);
       yield ForgotPasswordEmailInitial();

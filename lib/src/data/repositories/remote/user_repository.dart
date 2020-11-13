@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
@@ -16,8 +17,9 @@ class UserRepository {
   final GraphQLClient client;
   final DatabaseConnection _databaseConnection = DatabaseConnection();
   static Database _database;
+
   DeviceModel deviceModel = DeviceModel();
-  final secureStorage = new FlutterSecureStorage();
+  SecureStorage secureStorage = SecureStorage();
 
   UserRepository({@required this.client}) : assert(client != null);
 
@@ -58,10 +60,10 @@ class UserRepository {
       documentNode: gql(mutations.refreshToken),
       onCompleted: (data) {
         if (data != null) {
-          secureStorage.write(
+          secureStorage.save(
               key: "authToken",
               value: data['refreshTheToken']['token'].toString());
-          secureStorage.write(
+          secureStorage.save(
               key: "refreshToken",
               value: data['refreshTheToken']['refreshToken'].toString());
         }
@@ -77,9 +79,9 @@ class UserRepository {
       documentNode: gql(mutations.signUp),
       onCompleted: (data) {
         if (data != null) {
-          secureStorage.write(
+          secureStorage.save(
               key: "authToken", value: data['signIn']['token'].toString());
-          secureStorage.write(
+          secureStorage.save(
               key: "refreshToken",
               value: data['signIn']['refreshToken'].toString());
         }
@@ -115,9 +117,9 @@ class UserRepository {
       documentNode: gql(mutations.singIn),
       onCompleted: (data) {
         if (data != null) {
-          secureStorage.write(
+          secureStorage.save(
               key: "authToken", value: data['signIn']['token'].toString());
-          secureStorage.write(
+          secureStorage.save(
               key: "refreshToken",
               value: data['signIn']['refreshToken'].toString());
         }
@@ -139,9 +141,9 @@ class UserRepository {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.resetPassword),
       onCompleted: (data) {
-        secureStorage.write(
+        secureStorage.save(
             key: "authToken", value: data['resetPassword']['token'].toString());
-        secureStorage.write(
+        secureStorage.save(
             key: "refreshToken",
             value: data['resetPassword']['refreshToken'].toString());
       },

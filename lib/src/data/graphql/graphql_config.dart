@@ -12,7 +12,7 @@ class GraphQLConfiguration {
         headers: {'AccessToken': 'danielenriquearmasjuarez'});
 
     final AuthLink authLink = AuthLink(
-        getToken: () async => 'Bearer ${await storage.read("authToken")}');
+        getToken: () async => 'Bearer ${await storage.read(key: "authToken")}');
     final Link link = authLink.concat(httplink);
 
     return GraphQLClient(cache: InMemoryCache(), link: link);

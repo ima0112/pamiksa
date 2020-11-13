@@ -19,21 +19,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    createSearchResultList();
     _delegate = MySearchDelegate();
     super.initState();
-  }
-
-  void createSearchResultList() async {
-    _list = <String>[
-      "Pizza",
-      "Pan con jamon",
-      "Pan con queso",
-      "Spaghettis",
-      "Pan con pasta",
-      "Pan con croqueta",
-      "Pan con hamburguesa",
-    ];
   }
 
   List list = [RootPage(), null, FavoritePage(), CartPage(), SettingsPage()];

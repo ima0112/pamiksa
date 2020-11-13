@@ -147,7 +147,8 @@ class ForgotPasswordVerificationPageState
                                   buildWhen: (previousState, state) =>
                                       state.runtimeType !=
                                       previousState.runtimeType,
-                                  builder: (context, state) => ForgotPasswordVerificationActions(),
+                                  builder: (context, state) =>
+                                      ForgotPasswordVerificationActions(),
                                 );
                               },
                             ),
@@ -164,7 +165,7 @@ class ForgotPasswordVerificationPageState
   }
 
   void obtenerPreferences() async {
-    String correo = await secureStorage.read('email');
+    String correo = await secureStorage.read(key: 'email');
     setState(() {
       email = correo;
     });

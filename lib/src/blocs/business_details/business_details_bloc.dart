@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 
 import '../blocs.dart';
 
@@ -16,10 +18,16 @@ class BusinessDetailsBloc
     extends Bloc<BusinessDetailsEvent, BusinessDetailsState> {
   final BusinessRepository businessRepository;
   final FoodRepository foodRepository;
+  final UserRepository userRepository;
+
+  SecureStorage secureStorage = SecureStorage();
   List foodModel = List();
 
-  BusinessDetailsBloc(this.businessRepository, this.foodRepository)
-      : super(BusinessDetailsInitial("0"));
+  String id;
+
+  BusinessDetailsBloc(
+      this.businessRepository, this.foodRepository, this.userRepository)
+      : super(BusinessDetailsInitial(" "));
 
   @override
   Stream<BusinessDetailsState> mapEventToState(
@@ -28,19 +36,27 @@ class BusinessDetailsBloc
     if (event is FetchBusinessDetailsEvent) {
       yield* _mapFetchBusinessDetails(event);
     } else if (event is SetInitialBusinessDetailsEvent) {
-      yield BusinessDetailsInitial(event.id);
+      yield BusinessDetailsInitial(id);
+    } else if (event is BusinessRefreshTokenEvent) {
+      yield* _mapBusinessRefreshTokenEvent(event);
     }
   }
 
   Stream<BusinessDetailsState> _mapFetchBusinessDetails(
       FetchBusinessDetailsEvent event) async* {
+    yield LoadingBusinessDetailsState();
+    id = event.id;
     try {
       BusinessModel businessResult = await businessRepository.getById(event.id);
       final response = await foodRepository.foods(event.id);
 
       if (response.hasException) {
-        print(response.exception);
-        yield ErrorBusinessDetailsState();
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          yield BusinessTokenExpired();
+        } else {
+          yield ErrorBusinessDetailsState();
+        }
       } else {
         foodRepository.clear();
         final List foodsData = response.data['foods']['foods'];
@@ -58,7 +74,23 @@ class BusinessDetailsBloc
         foodModel.forEach((element) {
           foodRepository.insert('Food', element.toMap());
         });
-        yield LoadedBusinessDetailsState(businessResult, foodModel);
+        yield LoadedBusinessDetailsState(
+            businessModel: businessResult, foodModel: foodModel);
+      }
+    } catch (error) {
+      yield ErrorBusinessDetailsState();
+    }
+  }
+
+  Stream<BusinessDetailsState> _mapBusinessRefreshTokenEvent(
+      BusinessRefreshTokenEvent event) async* {
+    try {
+      String refreshToken = await secureStorage.read(key: "refreshToken");
+      final response = await userRepository.refreshToken(refreshToken);
+      if (response.hasException) {
+        yield ErrorBusinessDetailsState();
+      } else {
+        yield BusinessDetailsInitial(id);
       }
     } catch (error) {
       yield ErrorBusinessDetailsState();

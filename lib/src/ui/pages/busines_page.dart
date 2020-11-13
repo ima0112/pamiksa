@@ -5,9 +5,7 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 class BusinessPage extends StatefulWidget {
-  final String id;
-
-  const BusinessPage({Key key, this.id}) : super(key: key);
+  const BusinessPage({Key key}) : super(key: key);
 
   @override
   _BusinessPagePageState createState() => _BusinessPagePageState();
@@ -21,6 +19,7 @@ class _BusinessPagePageState extends State<BusinessPage> {
 
   ScrollController _scrollController;
   ScrollController _scrollControllerList = ScrollController();
+
   bool _isAppBarCollapsed = false;
 
   @override
@@ -53,6 +52,23 @@ class _BusinessPagePageState extends State<BusinessPage> {
         builder: (context, state) {
       if (state is BusinessDetailsInitial) {
         businessDetailsBloc.add(FetchBusinessDetailsEvent(state.id));
+        return Scaffold(
+          body: Container(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        );
+      } else if (state is LoadingBusinessDetailsState) {
+        return Scaffold(
+          body: Container(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        );
+      } else if (state is BusinessTokenExpired) {
+        businessDetailsBloc.add(BusinessRefreshTokenEvent());
         return Scaffold(
           body: Container(
             child: Center(
@@ -143,11 +159,17 @@ class _BusinessPagePageState extends State<BusinessPage> {
               ),
             ));
       }
-      return Container(
-        child: Center(
-          child: Text("Error"),
-        ),
-      );
+      return Scaffold(
+          body: Center(
+              child: FlatButton.icon(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  onPressed: () {
+                    businessDetailsBloc.add(SetInitialBusinessDetailsEvent());
+                  },
+                  icon: Icon(Icons.refresh),
+                  label: Text("Reintentar"))));
     });
   }
 }

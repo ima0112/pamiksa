@@ -22,16 +22,6 @@ class ChangeToInitialStateEvent extends RootEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-class BottomNavigationItemTappedEvent extends RootEvent {
-  final int index;
-
-  BottomNavigationItemTappedEvent(this.index);
-
-  @override
-  // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
-}
-
 class LogoutEvent extends RootEvent {
   @override
   // TODO: implement props

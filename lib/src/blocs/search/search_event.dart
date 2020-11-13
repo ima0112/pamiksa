@@ -12,3 +12,5 @@ class SearchFoodEvent extends SearchEvent {
 
   SearchFoodEvent(this.name);
 }
+
+class SearchRefreshTokenEvent extends SearchEvent {}

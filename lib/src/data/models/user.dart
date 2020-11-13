@@ -27,7 +27,7 @@ class UserModel {
       this.municipality});
 
   Future<bool> isLoggedIn() async {
-    final token = await secureStorage.read('authToken') ?? null;
+    final token = await secureStorage.read(key: 'authToken') ?? null;
 
     if (token != null) {
       return true;
