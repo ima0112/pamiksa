@@ -31,14 +31,14 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       yield* _mapFetchFavoritesFoodsEvent(event);
     } else if (event is FavoriteRefreshTokenEvent) {
       yield* _mapFavoriteRefreshTokenEvent(event);
+    } else if (event is ChangeStateToInitialEvent) {
+      yield FavoriteInitial();
     }
   }
 
   Stream<FavoriteState> _mapFetchFavoritesFoodsEvent(
       FetchFavoritesFoodsEvent event) async* {
     try {
-      yield LoadingFavoritesFoodsState();
-
       final response = await favoriteRepository.fetchFavorite();
 
       if (response.hasException) {

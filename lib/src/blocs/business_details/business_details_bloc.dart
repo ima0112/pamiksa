@@ -23,9 +23,11 @@ class BusinessDetailsBloc
   SecureStorage secureStorage = SecureStorage();
   List foodModel = List();
 
+  String id;
+
   BusinessDetailsBloc(
       this.businessRepository, this.foodRepository, this.userRepository)
-      : super(BusinessDetailsInitial("0"));
+      : super(BusinessDetailsInitial(" "));
 
   @override
   Stream<BusinessDetailsState> mapEventToState(
@@ -34,7 +36,7 @@ class BusinessDetailsBloc
     if (event is FetchBusinessDetailsEvent) {
       yield* _mapFetchBusinessDetails(event);
     } else if (event is SetInitialBusinessDetailsEvent) {
-      yield BusinessDetailsInitial(event.id);
+      yield BusinessDetailsInitial(id);
     } else if (event is BusinessRefreshTokenEvent) {
       yield* _mapBusinessRefreshTokenEvent(event);
     }
@@ -42,16 +44,18 @@ class BusinessDetailsBloc
 
   Stream<BusinessDetailsState> _mapFetchBusinessDetails(
       FetchBusinessDetailsEvent event) async* {
+    yield LoadingBusinessDetailsState();
+    id = event.id;
     try {
       BusinessModel businessResult = await businessRepository.getById(event.id);
       final response = await foodRepository.foods(event.id);
 
       if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message == "TOKEN_EXPIRED") {
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
           yield BusinessTokenExpired();
         } else {
           yield ErrorBusinessDetailsState();
-          ;
         }
       } else {
         foodRepository.clear();
@@ -70,7 +74,8 @@ class BusinessDetailsBloc
         foodModel.forEach((element) {
           foodRepository.insert('Food', element.toMap());
         });
-        yield LoadedBusinessDetailsState(businessResult, foodModel);
+        yield LoadedBusinessDetailsState(
+            businessModel: businessResult, foodModel: foodModel);
       }
     } catch (error) {
       yield ErrorBusinessDetailsState();
@@ -85,7 +90,7 @@ class BusinessDetailsBloc
       if (response.hasException) {
         yield ErrorBusinessDetailsState();
       } else {
-        yield BusinessDetailsInitial("0");
+        yield BusinessDetailsInitial(id);
       }
     } catch (error) {
       yield ErrorBusinessDetailsState();

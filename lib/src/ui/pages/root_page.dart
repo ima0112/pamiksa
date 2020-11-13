@@ -13,11 +13,11 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   final ScrollController _scrollController = ScrollController();
 
-  RootBloc homeBloc;
+  RootBloc rootBloc;
 
   @override
   void initState() {
-    homeBloc = BlocProvider.of<RootBloc>(context);
+    rootBloc = BlocProvider.of<RootBloc>(context);
     MySearchDelegate();
     super.initState();
   }
@@ -27,7 +27,7 @@ class _RootPageState extends State<RootPage> {
     return BlocBuilder<RootBloc, RootState>(
       builder: (context, state) {
         if (state is HomeInitial) {
-          homeBloc.add(FetchBusinessEvent());
+          rootBloc.add(FetchBusinessEvent());
           return Center(
               child: SafeArea(
             child: CustomScrollView(
@@ -217,7 +217,7 @@ class _RootPageState extends State<RootPage> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             onPressed: () {
-                              homeBloc.add(ChangeToInitialStateEvent());
+                              rootBloc.add(ChangeToInitialStateEvent());
                             },
                             icon: Icon(Icons.refresh),
                             label: Text("Reintentar"))
@@ -229,7 +229,7 @@ class _RootPageState extends State<RootPage> {
             ),
           ));
         } else if (state is TokenExpiredState) {
-          homeBloc.add(RefreshTokenEvent());
+          rootBloc.add(RefreshTokenEvent());
           return Center(
               child: SafeArea(
             child: CustomScrollView(

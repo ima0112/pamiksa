@@ -51,6 +51,7 @@ class _FavoritePageState extends State<FavoritePage> {
           builder: (context, state) {
             if (state is FavoriteInitial) {
               favoriteBloc.add(FetchFavoritesFoodsEvent());
+              return Center(child: CircularProgressIndicator());
             } else if (state is FavoriteTokenExpired) {
               favoriteBloc.add(FavoriteRefreshTokenEvent());
               return Center(child: CircularProgressIndicator());
@@ -94,7 +95,16 @@ class _FavoritePageState extends State<FavoritePage> {
                 ),
               );
             }
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: FlatButton.icon(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    onPressed: () {
+                      favoriteBloc.add(ChangeStateToInitialEvent());
+                    },
+                    icon: Icon(Icons.refresh),
+                    label: Text("Reintentar")));
           },
         ),
       ),

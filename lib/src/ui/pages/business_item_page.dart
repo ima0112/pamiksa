@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class BusinessItemPage extends StatefulWidget {
   String id;
@@ -166,7 +167,7 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
             GestureDetector(
               onTap: () {
                 businessDetailsBloc
-                    .add(SetInitialBusinessDetailsEvent(this.widget.id));
+                    .add(FetchBusinessDetailsEvent(this.widget.id));
                 navigationService.navigateTo(Routes.BussinesDetailsRoute);
               },
               child: FadeInImage(

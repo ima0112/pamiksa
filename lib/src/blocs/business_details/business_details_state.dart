@@ -21,7 +21,7 @@ class LoadedBusinessDetailsState extends BusinessDetailsState {
   final BusinessModel businessModel;
   final List<FoodModel> foodModel;
 
-  LoadedBusinessDetailsState(this.businessModel, this.foodModel);
+  LoadedBusinessDetailsState({this.businessModel, this.foodModel});
 }
 
 class BusinessTokenExpired extends BusinessDetailsState {}
