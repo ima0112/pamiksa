@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:minio/io.dart';
 import 'package:minio/minio.dart';
@@ -20,8 +22,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final Minio minio;
   final NavigationService navigationService = locator<NavigationService>();
 
-  ProfileBloc(this.userRepository, this.minio) : super(ProfileInitial());
   UserModel meModel;
+  SecureStorage secureStorage = SecureStorage();
+
+  ProfileBloc(this.userRepository, this.minio) : super(ProfileInitial());
 
   @override
   Stream<ProfileState> mapEventToState(
@@ -39,6 +43,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _mapChangeEmailEvent(event);
     } else if (event is ChangeAdressEvent) {
       yield* _mapChangeAdressEvent(event);
+    } else if (event is ProfileRefreshTokenEvent) {
+      yield* _mapProfileRefreshTokenEvent(event);
     } else if (event is SetProfileInitialStateEvent) {
       yield ProfileInitial();
     }
@@ -50,10 +56,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _mapFetchProfileEvent(FetchProfileEvent event) async* {
+    yield LoadingProfileState();
     try {
       final response = await userRepository.me();
       if (response.hasException) {
-        yield ProfileConnectionFailedState();
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          yield ProfileTokenExpiredState();
+        } else {
+          yield ProfileConnectionFailedState();
+        }
       } else {
         Map<dynamic, dynamic> meData = response.data['me'];
         userRepository.clear();
@@ -135,6 +147,21 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield ProfileInitial();
     } catch (error) {
       print(error.toString());
+    }
+  }
+
+  Stream<ProfileState> _mapProfileRefreshTokenEvent(
+      ProfileRefreshTokenEvent event) async* {
+    try {
+      String refreshToken = await secureStorage.read(key: "refreshToken");
+      final response = await userRepository.refreshToken(refreshToken);
+      if (response.hasException) {
+        yield ProfileConnectionFailedState();
+      } else {
+        yield ProfileInitial();
+      }
+    } catch (error) {
+      yield ProfileConnectionFailedState();
     }
   }
 }

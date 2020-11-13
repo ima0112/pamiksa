@@ -41,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: Icon(Icons.account_circle),
                 title: Text("Perfil"),
                 onTap: () {
-                  profileBloc.add(SetProfileInitialStateEvent());
+                  profileBloc.add(FetchProfileEvent());
                   navigationService.navigateTo(Routes.Profile);
                 },
                 trailing: Icon(

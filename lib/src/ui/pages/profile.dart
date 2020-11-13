@@ -38,6 +38,19 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: CircularProgressIndicator(),
                 ),
               );
+            } else if (state is LoadingProfileState) {
+              return Container(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            } else if (state is ProfileTokenExpiredState) {
+              profileBloc.add(ProfileRefreshTokenEvent());
+              return Container(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             } else if (state is LoadedProfileState) {
               Widget profileCircleAvatar() {
                 if (state.results.photoUrl != null) {
@@ -169,11 +182,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               );
             }
-            return Container(
-              child: Center(
-                child: Text("Error"),
-              ),
-            );
+            return Center(
+                child: FlatButton.icon(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    onPressed: () {
+                      profileBloc.add(SetProfileInitialStateEvent());
+                    },
+                    icon: Icon(Icons.refresh),
+                    label: Text("Reintentar")));
           },
         ));
   }
