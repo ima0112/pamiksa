@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
@@ -55,6 +54,9 @@ class _FavoritePageState extends State<FavoritePage> {
             } else if (state is FavoriteTokenExpired) {
               favoriteBloc.add(FavoriteRefreshTokenEvent());
               return Center(child: CircularProgressIndicator());
+            } else if (state is FavoriteRefreshTokenExpired) {
+              favoriteBloc.add(SessionExpiredEvent());
+              return Center(child: CircularProgressIndicator());
             } else if (state is LoadedFavoritesFoodsState) {
               return SingleChildScrollView(
                 child: Column(
@@ -74,7 +76,8 @@ class _FavoritePageState extends State<FavoritePage> {
                           FetchFoodEvent(state.favoriteModel[index].id);
                           navigationService.navigateTo(Routes.FoodRoute);
                         },
-                        subtitle: Text("Precio: ${state.favoriteModel[index].price}"),
+                        subtitle:
+                            Text("Precio: ${state.favoriteModel[index].price}"),
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(7.5),
                           child: Image.network(
