@@ -72,23 +72,22 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
         });
       }
 
- else {
-        final List addonsData = response.data['addOns'];
+      final response = await addonsRepository.addons(event.id);
+      final List addonsData = response.data['addOns'];
 
-        addonsModel = addonsData
-            .map((e) =>
-                AddonsModel(id: e['id'], name: e['name'], price: e['price']))
-            .toList();
+      addonsModel = addonsData
+          .map((e) =>
+              AddonsModel(id: e['id'], name: e['name'], price: e['price']))
+          .toList();
 
-        addonsRepository.clear();
-        addonsModel.forEach((element) {
-          addonsRepository.insert('Addons', element.toMap());
-        });
-        yield LoadedFoodState(
-            addonsModel: addonsModel,
-            count: addonsModel.length,
-            foodModel: foodModel);
-      }
+      addonsRepository.clear();
+      addonsModel.forEach((element) {
+        addonsRepository.insert('Addons', element.toMap());
+      });
+      yield LoadedFoodState(
+          addonsModel: addonsModel,
+          count: addonsModel.length,
+          foodModel: foodModel);
     } catch (error) {
       print(error);
     }
