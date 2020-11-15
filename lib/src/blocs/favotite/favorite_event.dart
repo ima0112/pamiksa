@@ -12,3 +12,5 @@ class FetchFavoritesFoodsEvent extends FavoriteEvent {}
 class FavoriteRefreshTokenEvent extends FavoriteEvent {}
 
 class ChangeStateToInitialEvent extends FavoriteEvent {}
+
+class SessionExpiredEvent extends FavoriteEvent {}

@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graphql/client.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
@@ -11,7 +9,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
 import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
-import 'package:pamiksa/src/data/models/models.dart';
 
 class UserRepository {
   final GraphQLClient client;

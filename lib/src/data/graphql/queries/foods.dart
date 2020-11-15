@@ -4,6 +4,7 @@ query Foods ($businessFk: ID){
     foods{
       id
       name
+      description
       price
       photo
       photoUrl
@@ -19,6 +20,7 @@ query foodsById($foodFk: ID){
     foods{
       id
       name
+      description
       price
       photo
       photoUrl

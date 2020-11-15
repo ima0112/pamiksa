@@ -84,7 +84,7 @@ class _FoodPageState extends State<FoodPage> {
                                 end: Alignment.topCenter,
                                 colors: [
                                   Colors.transparent.withOpacity(0.0),
-                                  Colors.black54
+                                  Colors.black87
                                 ],
                                 stops: [
                                   0.5,
@@ -109,14 +109,15 @@ class _FoodPageState extends State<FoodPage> {
               backgroundColor: Theme.of(context).appBarTheme.color,
               expandedHeight: 200,
               elevation: 2.0,
+              stretch: true,
               flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
                     children: [
                       Container(
                         width: double.maxFinite,
                         height: double.maxFinite,
-                        child: Image.asset(
-                          "assets/images/profile.png",
+                        child: Image.network(
+                          state.foodModel[0].photoUrl,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -141,7 +142,7 @@ class _FoodPageState extends State<FoodPage> {
                   ),
                   centerTitle: false,
                   title: Text(
-                    "${state.foodModel[0].name}",
+                    "",
                     style: TextStyle(
                         color: Theme.of(context)
                             .appBarTheme
