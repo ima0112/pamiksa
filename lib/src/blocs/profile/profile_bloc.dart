@@ -155,7 +155,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       String refreshToken = await secureStorage.read(key: "refreshToken");
       final response = await userRepository.refreshToken(refreshToken);
-      if (response.hasException) {
+      if (response.hasException &&
+          response.exception.graphqlErrors[0].message ==
+              Errors.RefreshTokenExpired) {
+        await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
+        yield ProfileInitial();
+      } else if (response.hasException) {
         yield ProfileConnectionFailedState();
       } else {
         yield ProfileInitial();

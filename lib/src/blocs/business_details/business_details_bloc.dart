@@ -7,6 +7,7 @@ import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
+import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 import '../blocs.dart';
 
@@ -19,6 +20,7 @@ class BusinessDetailsBloc
   final BusinessRepository businessRepository;
   final FoodRepository foodRepository;
   final UserRepository userRepository;
+  final NavigationService navigationService = locator<NavigationService>();
 
   SecureStorage secureStorage = SecureStorage();
   List foodModel = List();
@@ -87,7 +89,12 @@ class BusinessDetailsBloc
     try {
       String refreshToken = await secureStorage.read(key: "refreshToken");
       final response = await userRepository.refreshToken(refreshToken);
-      if (response.hasException) {
+      if (response.hasException &&
+          response.exception.graphqlErrors[0].message ==
+              Errors.RefreshTokenExpired) {
+        await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
+        yield BusinessDetailsInitial(id);
+      } else if (response.hasException) {
         yield ErrorBusinessDetailsState();
       } else {
         yield BusinessDetailsInitial(id);

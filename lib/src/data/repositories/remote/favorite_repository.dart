@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
+import 'package:pamiksa/src/data/models/favorite.dart';
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -54,5 +55,18 @@ class FavoriteRepository {
       fetchResults: true,
     );
     return await client.query(_options);
+  }
+
+  Future<FavoriteModel> getFavoriteFoodById(String id) async {
+    FavoriteModel favoriteModel = FavoriteModel();
+    var connection = await database;
+    List<Map<dynamic, dynamic>> maps = await connection.transaction(
+        (txn) async =>
+            await txn.query("Favorite", where: 'id = ?', whereArgs: [id]));
+    if (maps.length > 0) {
+      favoriteModel.fromMap(maps.first);
+      return favoriteModel;
+    }
+    return null;
   }
 }
