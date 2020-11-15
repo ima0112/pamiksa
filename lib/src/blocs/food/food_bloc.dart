@@ -2,10 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pamiksa/src/blocs/business_details/business_details_bloc.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/addons.dart';
 import 'package:pamiksa/src/data/models/food.dart';
 import 'package:pamiksa/src/data/repositories/remote/addons_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
+import 'package:pamiksa/src/data/repositories/remote/remote_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 
 part 'food_event.dart';
 part 'food_state.dart';
@@ -13,11 +17,16 @@ part 'food_state.dart';
 class FoodBloc extends Bloc<FoodEvent, FoodState> {
   final FoodRepository foodRepository;
   final AddonsRepository addonsRepository;
+  final UserRepository userRepository;
 
+  SecureStorage secureStorage = SecureStorage();
   List<AddonsModel> addonsModel = List();
   List<FoodModel> foodModel = List();
 
-  FoodBloc(this.addonsRepository, this.foodRepository) : super(FoodInitial());
+  String id;
+
+  FoodBloc(this.addonsRepository, this.foodRepository, this.userRepository)
+      : super(FoodInitial());
 
   @override
   Stream<FoodState> mapEventToState(
@@ -25,16 +34,24 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   ) async* {
     if (event is FetchFoodEvent) {
       yield* _mapFetchAddonsEvent(event);
+    } else if (event is FoodRefreshTokenEvent) {
+      yield* _mapFoodRefreshTokenEvent(event);
     }
   }
 
   Stream<FoodState> _mapFetchAddonsEvent(FetchFoodEvent event) async* {
     yield LoadingFoodState();
+    id = event.id;
     try {
       final foodResult = await foodRepository.foodsById(event.id);
 
       if (foodResult.hasException) {
-        print(foodResult.exception);
+        if (foodResult.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          yield FoodTokenExpiredState();
+        } else {
+          yield FoodConnectionFailedState();
+        }
       } else {
         foodRepository.clear();
         final List foodsData = foodResult.data['foods']['foods'];
@@ -54,11 +71,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
         });
       }
 
-      final response = await addonsRepository.addons(event.id);
-
-      if (response.hasException) {
-        print(response.exception);
-      } else {
+ else {
         final List addonsData = response.data['addOns'];
 
         addonsModel = addonsData
@@ -77,6 +90,21 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       }
     } catch (error) {
       print(error);
+    }
+  }
+
+  Stream<FoodState> _mapFoodRefreshTokenEvent(
+      FoodRefreshTokenEvent event) async* {
+    try {
+      String refreshToken = await secureStorage.read(key: "refreshToken");
+      final response = await userRepository.refreshToken(refreshToken);
+      if (response.hasException) {
+        yield FoodConnectionFailedState();
+      } else {
+        add(FetchFoodEvent(id));
+      }
+    } catch (error) {
+      yield FoodConnectionFailedState();
     }
   }
 }

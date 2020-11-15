@@ -18,3 +18,7 @@ class LoadedFoodState extends FoodState {
 
   LoadedFoodState({this.addonsModel, this.count, this.foodModel});
 }
+
+class FoodTokenExpiredState extends FoodState {}
+
+class FoodConnectionFailedState extends FoodState {}

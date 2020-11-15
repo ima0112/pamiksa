@@ -123,7 +123,8 @@ void main() async {
       BlocProvider(
           create: (context) => FoodBloc(
               AddonsRepository(client: GraphQLConfiguration().clients()),
-              FoodRepository(client: GraphQLConfiguration().clients()))),
+              FoodRepository(client: GraphQLConfiguration().clients()),
+              UserRepository(client: GraphQLConfiguration().clients()))),
     ],
     child: MyApp(initialRoute: initialRoute),
   ));
