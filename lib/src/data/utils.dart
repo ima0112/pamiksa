@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/remote/remote_repository.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
-import 'package:path/path.dart';
+import 'package:pamiksa/src/data/errors.dart';
 
 class Utils {
   Shared preferences = Shared();
@@ -24,7 +22,6 @@ class Utils {
     DeviceModel deviceModel = DeviceModel();
 
     await deviceInfo.initPlatformState(deviceModel);
-
     final response = await userRepository.checkSession(deviceModel.deviceId);
 
     if (response.hasException) {
@@ -35,6 +32,10 @@ class Utils {
         return "Session not exists";
       } else if (message == "User banned") {
         return "User banned";
+      } else if (message == Errors.TokenExpired) {
+        return Errors.TokenExpired;
+      } else if (message == Errors.RefreshTokenExpired) {
+        return Errors.RefreshTokenExpired;
       }
     }
     return null;

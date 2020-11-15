@@ -20,4 +20,6 @@ class LoadedFavoritesFoodsState extends FavoriteState {
 
 class FavoriteTokenExpired extends FavoriteState {}
 
+class FavoriteRefreshTokenExpired extends FavoriteState {}
+
 class FavoriteConnectionFailed extends FavoriteState {}

@@ -11,6 +11,7 @@ import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/models/user.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
@@ -18,23 +19,16 @@ void main() async {
   await DotEnv().load('.env');
   WidgetsFlutterBinding.ensureInitialized();
 
-  String initialRoute = Routes.LoginRoute;
+  String initialRoute = Routes.HomeRoute;
 
   bool isUserLoggedIn = await UserModel().isLoggedIn();
   bool showIntro = await Utils().showIntro();
-  String checkSession = await Utils()
-      .checkSession(UserRepository(client: GraphQLConfiguration().clients()));
-
-  if (checkSession == Errors.BannedDevice) {
-    initialRoute = Routes.DeviceBannedRoute;
-  } else if (checkSession == Errors.BannedUser) {
-    initialRoute = Routes.UserBannedRoute;
-  } else if (checkSession == "Session not exists") {
-    initialRoute = Routes.LoginRoute;
-  } else if (showIntro) {
+  if (showIntro) {
     initialRoute = Routes.IntroRoute;
   } else if (isUserLoggedIn) {
-    initialRoute = Routes.HomeRoute;
+    initialRoute = await checkSessionValid(initialRoute);
+  } else if (!isUserLoggedIn) {
+    initialRoute = Routes.LoginRoute;
   }
 
   setupLocator();
@@ -128,4 +122,36 @@ void main() async {
     ],
     child: MyApp(initialRoute: initialRoute),
   ));
+}
+
+Future<String> checkSessionValid(String initialRoute) async {
+  SecureStorage secureStorage = SecureStorage();
+  UserRepository userRepository =
+      UserRepository(client: GraphQLConfiguration().clients());
+  String checkSession = await Utils()
+      .checkSession(UserRepository(client: GraphQLConfiguration().clients()));
+  if (checkSession == Errors.BannedDevice) {
+    initialRoute = Routes.DeviceBannedRoute;
+  } else if (checkSession == Errors.BannedUser) {
+    initialRoute = Routes.UserBannedRoute;
+  } else if (checkSession == "Session not exists") {
+    initialRoute = Routes.LoginRoute;
+  } else if (checkSession == Errors.RefreshTokenExpired) {
+    initialRoute = Routes.LoginRoute;
+  } else if (checkSession == Errors.TokenExpired) {
+    final rt = await secureStorage.read(key: 'refreshToken');
+    final response = await userRepository.refreshToken(rt);
+    if (response.exception != null &&
+        response.exception.graphqlErrors[0].message ==
+            Errors.RefreshTokenExpired) {
+      secureStorage.remove(key: "authToken");
+      secureStorage.remove(key: "refreshToken");
+      initialRoute = Routes.LoginRoute;
+    } else {
+      await checkSessionValid(Routes.LoginRoute);
+    }
+  } else if (checkSession == null) {
+    initialRoute = Routes.HomeRoute;
+  }
+  return initialRoute;
 }

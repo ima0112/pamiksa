@@ -1,7 +1,7 @@
 part of 'food_bloc.dart';
 
 abstract class FoodState extends Equatable {
-  const FoodState();
+  const FoodState([List props = const []]);
 
   @override
   List<Object> get props => [];

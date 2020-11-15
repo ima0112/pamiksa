@@ -1,6 +1,7 @@
 class FoodModel {
   String id;
   String name;
+  String description;
   double price;
   String photo;
   String photoUrl;
@@ -12,6 +13,7 @@ class FoodModel {
       this.availability,
       this.isAvailable,
       this.name,
+      this.description,
       this.photo,
       this.photoUrl,
       this.price});
@@ -20,6 +22,7 @@ class FoodModel {
     var map = <String, dynamic>{
       'id': id,
       'name': name,
+      'description': description,
       'availability': availability,
       'isAvailable': isAvailable,
       'photo': photo,
@@ -32,6 +35,7 @@ class FoodModel {
   fromMap(Map<dynamic, dynamic> map) {
     id = map['id'];
     name = map['name'];
+    description = map['description'];
     availability = map['availability'];
     isAvailable = map['isAvailable'];
     photo = map['photo'];
