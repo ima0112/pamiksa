@@ -4,20 +4,20 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
 
-class FoodPage extends StatefulWidget {
+class FavoriteDetailsPage extends StatefulWidget {
   @override
-  _FoodPageState createState() => _FoodPageState();
+  _FavoriteDetailsPageState createState() => _FavoriteDetailsPageState();
 }
 
-class _FoodPageState extends State<FoodPage> {
+class _FavoriteDetailsPageState extends State<FavoriteDetailsPage> {
   final ScrollController _scrollController = ScrollController();
   final NavigationService navigationService = locator<NavigationService>();
 
-  FoodBloc foodBloc;
+  FavoriteDetailsBloc favoriteDetailsBloc;
 
   @override
   void initState() {
-    foodBloc = BlocProvider.of<FoodBloc>(context);
+    favoriteDetailsBloc = BlocProvider.of<FavoriteDetailsBloc>(context);
     super.initState();
   }
 
@@ -35,7 +35,7 @@ class _FoodPageState extends State<FoodPage> {
           backgroundColor: Theme.of(context).primaryColor,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: BlocBuilder<FoodBloc, FoodState>(
+        body: BlocBuilder<FavoriteDetailsBloc, FavoriteDetailsState>(
           builder: (context, state) {
             return Stack(
               children: <Widget>[
@@ -55,9 +55,9 @@ class _FoodPageState extends State<FoodPage> {
   }
 
   Widget appBar() {
-    return BlocBuilder<FoodBloc, FoodState>(
+    return BlocBuilder<FavoriteDetailsBloc, FavoriteDetailsState>(
       builder: (context, state) {
-        if (state is LoadingFoodState) {
+        if (state is LoadingFavoritesDetailsFoodsState) {
           return SliverAppBar(
               pinned: true,
               backgroundColor: Theme.of(context).appBarTheme.color,
@@ -103,7 +103,7 @@ class _FoodPageState extends State<FoodPage> {
                             .bodyText1
                             .color),
                   )));
-        } else if (state is LoadedFoodWithOutAddonsState) {
+        } else if (state is LoadedFavoritesFoodsWithOutAddonsState) {
           return SliverAppBar(
               pinned: true,
               backgroundColor: Theme.of(context).appBarTheme.color,
@@ -117,7 +117,7 @@ class _FoodPageState extends State<FoodPage> {
                         width: double.maxFinite,
                         height: double.maxFinite,
                         child: Image.network(
-                          state.foodModel.photoUrl,
+                          state.favoriteModel.photoUrl,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -150,7 +150,7 @@ class _FoodPageState extends State<FoodPage> {
                             .bodyText1
                             .color),
                   )));
-        } else if (state is LoadedFoodState) {
+        } else if (state is LoadedFavoritesFoodsDetailsState) {
           return SliverAppBar(
               pinned: true,
               backgroundColor: Theme.of(context).appBarTheme.color,
@@ -164,7 +164,7 @@ class _FoodPageState extends State<FoodPage> {
                         width: double.maxFinite,
                         height: double.maxFinite,
                         child: Image.network(
-                          state.foodModel.photoUrl,
+                          state.favoriteModel.photoUrl,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -248,26 +248,18 @@ class _FoodPageState extends State<FoodPage> {
   }
 
   Widget details() {
-    return BlocBuilder<FoodBloc, FoodState>(
+    return BlocBuilder<FavoriteDetailsBloc, FavoriteDetailsState>(
       builder: (context, state) {
-        if (state is FoodTokenExpiredState) {
-          foodBloc.add(FoodRefreshTokenEvent());
+        if (state is LoadingFavoritesDetailsFoodsState) {
           return Center(
             child: Align(
               alignment: Alignment.topCenter,
               child: LinearProgressIndicator(),
             ),
           );
-        } else if (state is LoadingFoodState) {
-          return Center(
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: LinearProgressIndicator(),
-            ),
-          );
-        } else if (state is LoadedFoodWithOutAddonsState) {
+        } else if (state is LoadedFavoritesFoodsWithOutAddonsState) {
           return Container();
-        } else if (state is LoadedFoodState) {
+        } else if (state is LoadedFavoritesFoodsDetailsState) {
           return Column(
             children: [
               Padding(

@@ -30,4 +30,5 @@ class Routes {
   static const String ChangePassword = '/change_password';
   static const String SettingRoute = '/settings';
   static const String FoodRoute = '/food';
+  static const String FavoriteDetailsRoute = '/favorite_details';
 }

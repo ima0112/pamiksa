@@ -70,6 +70,8 @@ class GenerateRoute {
         return MaterialPageRoute(builder: (context) => UserBannedpage());
       case Routes.FoodRoute:
         return MaterialPageRoute(builder: (context) => FoodPage());
+      case Routes.FavoriteDetailsRoute:
+        return MaterialPageRoute(builder: (context) => FavoriteDetailsPage());
     }
   }
 

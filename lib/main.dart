@@ -5,6 +5,7 @@ import 'package:minio/minio.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/change_password/change_password_bloc.dart';
+import 'package:pamiksa/src/blocs/favorite_details/favorite_details_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
@@ -14,6 +15,7 @@ import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:path/path.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -23,6 +25,7 @@ void main() async {
 
   bool isUserLoggedIn = await UserModel().isLoggedIn();
   bool showIntro = await Utils().showIntro();
+
   if (showIntro) {
     initialRoute = Routes.IntroRoute;
   } else if (isUserLoggedIn) {
@@ -119,6 +122,11 @@ void main() async {
               AddonsRepository(client: GraphQLConfiguration().clients()),
               FoodRepository(client: GraphQLConfiguration().clients()),
               UserRepository(client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => FavoriteDetailsBloc(
+              UserRepository(client: GraphQLConfiguration().clients()),
+              FavoriteRepository(client: GraphQLConfiguration().clients()),
+              AddonsRepository(client: GraphQLConfiguration().clients())))
     ],
     child: MyApp(initialRoute: initialRoute),
   ));

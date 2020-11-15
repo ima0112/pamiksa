@@ -15,12 +15,12 @@ class _FavoritePageState extends State<FavoritePage> {
   final ScrollController _scrollController = ScrollController();
 
   FavoriteBloc favoriteBloc;
-  FoodBloc addonsBloc;
+  FavoriteDetailsBloc favoriteDetailsBloc;
 
   @override
   void initState() {
-    addonsBloc = BlocProvider.of<FoodBloc>(context);
     favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
+    favoriteDetailsBloc = BlocProvider.of<FavoriteDetailsBloc>(context);
     super.initState();
   }
 
@@ -54,9 +54,6 @@ class _FavoritePageState extends State<FavoritePage> {
             } else if (state is FavoriteTokenExpired) {
               favoriteBloc.add(FavoriteRefreshTokenEvent());
               return Center(child: CircularProgressIndicator());
-            } else if (state is FavoriteRefreshTokenExpired) {
-              favoriteBloc.add(SessionExpiredEvent());
-              return Center(child: CircularProgressIndicator());
             } else if (state is LoadedFavoritesFoodsState) {
               return SingleChildScrollView(
                 child: Column(
@@ -73,8 +70,11 @@ class _FavoritePageState extends State<FavoritePage> {
                           style: TextStyle(fontSize: 14.0),
                         ),
                         onTap: () {
-                          FetchFoodEvent(state.favoriteModel[index].id);
-                          navigationService.navigateTo(Routes.FoodRoute);
+                          favoriteDetailsBloc.add(
+                              FetchFavoriteFoodsDetailsEvent(
+                                  state.favoriteModel[index].id));
+                          navigationService
+                              .navigateTo(Routes.FavoriteDetailsRoute);
                         },
                         subtitle:
                             Text("Precio: ${state.favoriteModel[index].price}"),
