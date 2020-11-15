@@ -26,8 +26,13 @@ class SignOutEvent extends DevicesEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-
 class SetDeviceInitialEvent extends DevicesEvent {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class DeviceRefreshTokenEvent extends DevicesEvent {
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();

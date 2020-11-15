@@ -12,3 +12,5 @@ class FetchFoodEvent extends FoodEvent {
 
   FetchFoodEvent(this.id);
 }
+
+class FoodRefreshTokenEvent extends FoodEvent {}

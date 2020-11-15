@@ -54,3 +54,8 @@ class SignOutState extends DevicesState {
   List<Object> get props => throw UnimplementedError();
 }
 
+class DevicesTokenExpiredState extends DevicesState {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}

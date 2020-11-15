@@ -13,11 +13,11 @@ class _FoodPageState extends State<FoodPage> {
   final ScrollController _scrollController = ScrollController();
   final NavigationService navigationService = locator<NavigationService>();
 
-  FoodBloc addonsBloc;
+  FoodBloc foodBloc;
 
   @override
   void initState() {
-    addonsBloc = BlocProvider.of<FoodBloc>(context);
+    foodBloc = BlocProvider.of<FoodBloc>(context);
     super.initState();
   }
 
@@ -35,16 +35,20 @@ class _FoodPageState extends State<FoodPage> {
           backgroundColor: Theme.of(context).primaryColor,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: Stack(
-          children: <Widget>[
-            CustomScrollView(
-              controller: this._scrollController,
-              slivers: <Widget>[
-                appBar(),
-                SliverList(delegate: SliverChildListDelegate([details()]))
+        body: BlocBuilder<FoodBloc, FoodState>(
+          builder: (context, state) {
+            return Stack(
+              children: <Widget>[
+                CustomScrollView(
+                  controller: this._scrollController,
+                  slivers: <Widget>[
+                    appBar(),
+                    SliverList(delegate: SliverChildListDelegate([details()]))
+                  ],
+                ),
               ],
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
@@ -154,7 +158,15 @@ class _FoodPageState extends State<FoodPage> {
   Widget details() {
     return BlocBuilder<FoodBloc, FoodState>(
       builder: (context, state) {
-        if (state is LoadingFoodState) {
+        if (state is FoodTokenExpiredState) {
+          foodBloc.add(FoodRefreshTokenEvent());
+          return Center(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: LinearProgressIndicator(),
+            ),
+          );
+        } else if (state is LoadingFoodState) {
           return Center(
             child: Align(
               alignment: Alignment.topCenter,
