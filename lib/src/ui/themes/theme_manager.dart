@@ -22,6 +22,9 @@ final appThemeData = {
         labelStyle: TextStyle(color: Colors.black),
         secondaryLabelStyle: TextStyle(color: Colors.black),
         brightness: Brightness.dark),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: Colors.white,
+    ),
     backgroundColor: Colors.grey[200],
     iconTheme: IconThemeData(
       color: Colors.black,

@@ -26,7 +26,8 @@ void main() async {
   if (showIntro) {
     initialRoute = Routes.IntroRoute;
   } else if (isUserLoggedIn) {
-    initialRoute = await checkSessionValid(initialRoute);
+    initialRoute = await Utils()
+        .checkSession(UserRepository(client: GraphQLConfiguration().clients()));
   } else if (!isUserLoggedIn) {
     initialRoute = Routes.LoginRoute;
   }
@@ -121,36 +122,4 @@ void main() async {
     ],
     child: MyApp(initialRoute: initialRoute),
   ));
-}
-
-Future<String> checkSessionValid(String initialRoute) async {
-  SecureStorage secureStorage = SecureStorage();
-  UserRepository userRepository =
-      UserRepository(client: GraphQLConfiguration().clients());
-  String checkSession = await Utils()
-      .checkSession(UserRepository(client: GraphQLConfiguration().clients()));
-  if (checkSession == Errors.BannedDevice) {
-    initialRoute = Routes.DeviceBannedRoute;
-  } else if (checkSession == Errors.BannedUser) {
-    initialRoute = Routes.UserBannedRoute;
-  } else if (checkSession == "Session not exists") {
-    initialRoute = Routes.LoginRoute;
-  } else if (checkSession == Errors.RefreshTokenExpired) {
-    initialRoute = Routes.LoginRoute;
-  } else if (checkSession == Errors.TokenExpired) {
-    final rt = await secureStorage.read(key: 'refreshToken');
-    final response = await userRepository.refreshToken(rt);
-    if (response.exception != null &&
-        response.exception.graphqlErrors[0].message ==
-            Errors.RefreshTokenExpired) {
-      secureStorage.remove(key: "authToken");
-      secureStorage.remove(key: "refreshToken");
-      initialRoute = Routes.LoginRoute;
-    } else {
-      await checkSessionValid(Routes.LoginRoute);
-    }
-  } else if (checkSession == null) {
-    initialRoute = Routes.HomeRoute;
-  }
-  return initialRoute;
 }

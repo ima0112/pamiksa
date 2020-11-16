@@ -62,6 +62,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       preferences.saveInt('lightMode', 0);
 
       if (response.hasException) {
+        print(response.exception);
         String message = response.exception.graphqlErrors[0].message;
         if (message == Errors.InvalidCredentials) {
           yield CredentialsErrorState();
