@@ -90,9 +90,12 @@ class _BusinessPagePageState extends State<BusinessPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                    state.businessModel.photoUrl,
-                  ),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: ClipRRect(
+                        child: Image.network(state.businessModel.photoUrl),
+                        borderRadius: BorderRadius.circular(15.0),
+                      )),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15.0, 10, 0, 1.5),
                     child: Text(
@@ -135,13 +138,16 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         foodBloc.add(FetchFoodEvent(state.foodModel[index].id));
                         navigationService.navigateTo(Routes.FoodRoute);
                       },
-                      subtitle: Text("Precio: ${state.foodModel[index].price}"),
-                      leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(7.5),
-                        child: Image.network(
-                          state.foodModel[index].photoUrl,
-                          fit: BoxFit.fitHeight,
-                          height: 100,
+                      subtitle: Text("\$ ${state.foodModel[index].price}"),
+                      leading: Hero(
+                        tag: state.foodModel[index].photo,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(7.5),
+                          child: Image.network(
+                            state.foodModel[index].photoUrl,
+                            fit: BoxFit.fitHeight,
+                            height: 100,
+                          ),
                         ),
                       ),
                       dense: true,

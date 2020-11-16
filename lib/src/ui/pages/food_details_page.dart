@@ -31,12 +31,23 @@ class _FoodPageState extends State<FoodPage> {
           ),
         );
       } else if (state is LoadedFoodState) {
-        return SafeArea(
-          top: false,
-          bottom: false,
-          right: false,
-          left: false,
-          child: Scaffold(
+        return Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              elevation: 1.0,
+              title: Text(
+                state.foodModel[0].name,
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1.color,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () => null,
               icon: Icon(Icons.add_shopping_cart),
@@ -45,36 +56,72 @@ class _FoodPageState extends State<FoodPage> {
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            body: Stack(
-              children: <Widget>[
-                CustomScrollView(
-                  controller: this._scrollController,
-                  slivers: <Widget>[
-                    appBar(),
-                    SliverList(
-                        delegate: SliverChildListDelegate([
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(state.foodModel[0].name, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-                            SizedBox(height: 1.5),
-                            Text(state.foodModel[0].description),
-                            SizedBox(height: 1.5),
-                            Text('\$ ${state.foodModel[0].price}'),
-                          ],
-                        ),
-                      )
-                    ])),
-                    SliverList(delegate: SliverChildListDelegate([details()]))
-                  ],
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                  child: Hero(
+                    tag: state.foodModel[0].photo,
+                    child: ClipRRect(
+                      child: Image.network(state.foodModel[0].photoUrl),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15.0, 0.0, 0.0, 0.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(state.foodModel[0].description),
+                      SizedBox(height: 1.5),
+                      Text('\$ ${state.foodModel[0].price}'),
+                    ],
+                  ),
+                ),
+                ListView.separated(
+                  controller: _scrollController,
+                  shrinkWrap: true,
+                  itemCount: state.count,
+                  itemBuilder: (_, index) => ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                    title: Text("${state.addonsModel[index].name}"),
+                    subtitle: Text("\$ ${state.addonsModel[index].price}"),
+                    trailing: Container(
+                      height: 50,
+                      width: 150,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.remove),
+                            onPressed: () {},
+                            iconSize: 20,
+                            splashRadius: 20,
+                          ),
+                          Text("0"),
+                          IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {},
+                            iconSize: 20,
+                            splashRadius: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                    dense: true,
+                  ),
+                  separatorBuilder: (_, __) => Divider(
+                    height: 20.0,
+                  ),
                 ),
               ],
-            ),
-          ),
-        );
+            ));
       } else {
         return SafeArea(
           top: false,

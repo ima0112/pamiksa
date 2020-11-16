@@ -170,36 +170,60 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                     .add(FetchBusinessDetailsEvent(this.widget.id));
                 navigationService.navigateTo(Routes.BussinesDetailsRoute);
               },
-              child: FadeInImage(
-                width: 500,
-                fit: BoxFit.cover,
-                height: 225,
-                placeholder: AssetImage("assets/gif/loading.gif"),
-                image: NetworkImage(this.widget.photoUrl),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: FadeInImage(
+                    width: 500,
+                    fit: BoxFit.cover,
+                    height: 225,
+                    placeholder: AssetImage("assets/gif/loading.gif"),
+                    image: NetworkImage(this.widget.photoUrl),
+                  ),
+                ),
               ),
             ),
-            IconButton(
-                icon: Icon(Icons.favorite_border),
-                onPressed: () {},
-                color: Colors.white,
-                splashRadius: 1.0),
+            Positioned(
+              right: 2.0,
+              bottom: 0.0,
+              child: IconButton(
+                  icon: Icon(Icons.favorite_border),
+                  onPressed: () {},
+                  color: Colors.white,
+                  splashRadius: 1.0),
+            ),
           ],
         ),
         SizedBox(
-          height: 10,
+          height: 8,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+          padding: EdgeInsets.fromLTRB(12.0, 0.0, 10.0, 0.0),
           child: Container(
             //color: Colors.deepPurpleAccent,
             child: Column(
               children: <Widget>[
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      "Costo de envio: ${this.widget.deliveryPrice} CUP",
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Costo de envio: ${this.widget.deliveryPrice} CUP",
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                        SizedBox(
+                          height: 2.0,
+                        ),
+                        Text(
+                          "Horario: 7:30AM - 8:00PM",
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                      ],
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(15),
@@ -214,14 +238,6 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                     ),
                   ],
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Horario: 7:30AM - 8:00PM",
-                    ),
-                  ],
-                )
               ],
             ),
           ),
