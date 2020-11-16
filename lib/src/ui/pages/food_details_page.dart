@@ -114,6 +114,7 @@ class _FoodPageState extends State<FoodPage> {
           ),
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () => null,
+            icon: Icon(Icons.add_shopping_cart),
             label: Text("Agregar al carrito"),
             backgroundColor: Theme.of(context).primaryColor,
           ),
