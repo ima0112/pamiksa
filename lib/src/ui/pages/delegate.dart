@@ -148,10 +148,16 @@ class MySearchDelegate extends SearchDelegate<String> {
         } else if (state is SearchRefreshedTokenState) {
           searchBloc.add(SearchFoodEvent(query));
         }
-        return Align(
-          alignment: Alignment.topCenter,
-          child: LinearProgressIndicator(),
-        );
+        return Center(
+            child: FlatButton.icon(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                onPressed: () {
+                  searchBloc.add(SearchFoodEvent(query));
+                },
+                icon: Icon(Icons.refresh),
+                label: Text("Reintentar")));
       },
     );
   }

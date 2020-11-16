@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/repositories/remote/sessions_repository.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 
 part 'devices_event.dart';
 
@@ -14,10 +16,13 @@ part 'devices_state.dart';
 class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   final SessionsRepository sessionsRepository;
   final UserRepository userRepository;
+
+  SecureStorage secureStorage = SecureStorage();
   List<DeviceModel> devicesModelList;
   DeviceModel deviceModel = DeviceModel();
 
-  DevicesBloc(this.sessionsRepository, this.userRepository) : super(DevicesInitial());
+  DevicesBloc(this.sessionsRepository, this.userRepository)
+      : super(DevicesInitial());
 
   @override
   Stream<DevicesState> mapEventToState(
@@ -29,6 +34,8 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       yield* _mapSignOutAllEvent(event);
     } else if (event is SignOutEvent) {
       yield* _mapSignOutEvent(event);
+    } else if (event is DeviceRefreshTokenEvent) {
+      yield* _mapDeviceRefreshTokenEvent(event);
     } else if (event is SetDeviceInitialEvent) {
       yield DevicesInitial();
     }
@@ -42,7 +49,12 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       final response =
           await sessionsRepository.fetchSessions(deviceModel.deviceId);
       if (response.hasException) {
-        yield DeviceConnectionFailedState();
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          yield DevicesTokenExpiredState();
+        } else {
+          yield DeviceConnectionFailedState();
+        }
       } else {
         final List businessData = response.data['devicesByUser'];
         devicesModelList = businessData
@@ -67,7 +79,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
     await deviceInfo.initPlatformState(deviceModel);
     final response = await sessionsRepository.signOutAll(deviceModel.deviceId);
     if (response.hasException) {
-      yield DeviceConnectionFailedState();
+      if (response.exception.graphqlErrors[0].message == Errors.TokenExpired) {
+        yield DevicesTokenExpiredState();
+      } else {
+        yield DeviceConnectionFailedState();
+      }
     } else {
       sessionsRepository.clear();
       devicesModelList.clear();
@@ -80,12 +96,32 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       await deviceInfo.initPlatformState(deviceModel);
       final response = await userRepository.signOut(event.deviceId);
       if (response.hasException) {
-        yield DeviceConnectionFailedState();
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          yield DevicesTokenExpiredState();
+        } else {
+          yield DeviceConnectionFailedState();
+        }
       } else {
         await sessionsRepository.deleteById(event.deviceId);
         devicesModelList
             .removeWhere((element) => element.deviceId == event.deviceId);
         yield SignOutState(devicesModelList, deviceModel);
+      }
+    } catch (error) {
+      yield DeviceConnectionFailedState();
+    }
+  }
+
+  Stream<DevicesState> _mapDeviceRefreshTokenEvent(
+      DeviceRefreshTokenEvent event) async* {
+    try {
+      String refreshToken = await secureStorage.read(key: "refreshToken");
+      final response = await userRepository.refreshToken(refreshToken);
+      if (response.hasException) {
+        yield DeviceConnectionFailedState();
+      } else {
+        add(FetchDevicesDataEvent());
       }
     } catch (error) {
       yield DeviceConnectionFailedState();

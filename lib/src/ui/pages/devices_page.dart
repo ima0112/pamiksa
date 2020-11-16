@@ -51,7 +51,8 @@ class _DevicesPageState extends State<DevicesPage> {
                         title: Text(
                           "Dispositivos",
                           style: TextStyle(
-                              color: Theme.of(context).textTheme.bodyText1.color,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
                               fontWeight: FontWeight.bold),
                         ),
                         elevation: 2.0,
@@ -643,8 +644,15 @@ class _DevicesPageState extends State<DevicesPage> {
                   );
                 } else {
                   return Center(
-                      child: Text(
-                          "Parece que tienes un problema con la conexion..."));
+                      child: FlatButton.icon(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          onPressed: () {
+                            devicesBloc.add(FetchDevicesDataEvent());
+                          },
+                          icon: Icon(Icons.refresh),
+                          label: Text("Reintentar")));
                 }
               });
         },

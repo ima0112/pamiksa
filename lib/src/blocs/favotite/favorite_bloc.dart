@@ -17,6 +17,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   final UserRepository userRepository;
   final NavigationService navigationService = locator<NavigationService>();
 
+  List<AddonsModel> addonsModel = List();
   SecureStorage secureStorage = SecureStorage();
 
   List<FavoriteModel> favoriteModel = List();
@@ -33,9 +34,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     } else if (event is FavoriteRefreshTokenEvent) {
       yield* _mapFavoriteRefreshTokenEvent(event);
     } else if (event is ChangeStateToInitialEvent) {
-      yield FavoriteInitial();
-    } else if (event is SessionExpiredEvent) {
-      await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
       yield FavoriteInitial();
     }
   }
@@ -87,7 +85,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       if (response.hasException &&
           response.exception.graphqlErrors[0].message ==
               Errors.RefreshTokenExpired) {
-        yield FavoriteRefreshTokenExpired();
+        await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
+        yield FavoriteInitial();
       } else if (response.hasException) {
         yield FavoriteConnectionFailed();
       } else {

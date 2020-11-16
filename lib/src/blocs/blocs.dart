@@ -20,3 +20,4 @@ export './favotite/favorite_bloc.dart';
 export './change_password/change_password_bloc.dart';
 export './food/food_bloc.dart';
 export './search/search_bloc.dart';
+export './favorite_details/favorite_details_bloc.dart';
