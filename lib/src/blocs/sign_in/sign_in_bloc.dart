@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
 import 'package:pamiksa/src/data/models/province.dart';
@@ -10,7 +9,6 @@ import 'package:pamiksa/src/data/repositories/remote/register_data_repository.da
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
-import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;

@@ -67,7 +67,7 @@ class _HelpPageState extends State<HelpPage> {
                   RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                          style: TextStyle(fontSize: 15.0, color: Colors.grey),
+                          style: TextStyle(fontSize: 14.0, color: Colors.grey),
                           children: [
                             TextSpan(
                                 text: " ${consts.APP_NAME}",

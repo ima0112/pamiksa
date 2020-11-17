@@ -138,15 +138,17 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         foodBloc.add(FetchFoodEvent(state.foodModel[index].id));
                         navigationService.navigateTo(Routes.FoodRoute);
                       },
-                      subtitle: Text("\$ ${state.foodModel[index].price}"),
+                      subtitle: Text("\$ ${state.foodModel[index].price}", style: TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),),
                       leading: Hero(
                         tag: state.foodModel[index].photo,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(7.5),
                           child: Image.network(
                             state.foodModel[index].photoUrl,
-                            fit: BoxFit.fitHeight,
-                            height: 100,
+                            fit: BoxFit.fitWidth,
+                            width: 80,
                           ),
                         ),
                       ),

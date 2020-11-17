@@ -41,6 +41,9 @@ class Utils {
           Errors.RefreshTokenExpired) {
         initialRoute = Routes.LoginRoute;
       } else if (response.exception.graphqlErrors[0].message ==
+          Errors.DeprecatedApp) {
+        initialRoute = Routes.ForceApplicationUpdate;
+      } else if (response.exception.graphqlErrors[0].message ==
           Errors.TokenExpired) {
         final rt = await secureStorage.read(key: 'refreshToken');
         final response = await userRepository.refreshToken(rt);

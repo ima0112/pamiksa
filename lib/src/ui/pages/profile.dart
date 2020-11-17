@@ -24,6 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(0),
             child: AppBar(
+              elevation: 0.0,
               backgroundColor: Theme.of(context).primaryColorLight,
               automaticallyImplyLeading: false,
             )),

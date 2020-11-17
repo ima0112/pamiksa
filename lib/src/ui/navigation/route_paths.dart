@@ -1,5 +1,6 @@
 class Routes {
   static const String SplashRoute = "/splash";
+  static const String ForceApplicationUpdate = "/application_update";
   static const String IntroRoute = "/intro";
   static const String LoginRoute = "/login";
   static const String RegisterEmailRoute = "/register_email";

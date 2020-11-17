@@ -17,8 +17,8 @@ query UserLocation{
 } """;
 
 String checkSession = r"""
-query CheckSession($deviceId: String!){
-  checkSession(deviceId: $deviceId)
+query CheckSession($deviceId: String!, $appVersion: String!, $systemVersion: String!, $refreshToken: String!){
+  checkSession(deviceId: $deviceId, appVersion: $appVersion, systemVersion: $systemVersion, refreshToken: $refreshToken)
 }""";
 
 String me = r"""

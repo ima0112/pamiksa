@@ -87,9 +87,15 @@ class BusinessItemSkeletonPage extends StatelessWidget {
           height: 10,
         ),
         //Image.asset("assets/images/pizza.jpg"),
-        Container(
-          height: 225,
-          color: Colors.grey,
+        Padding(
+          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15.0),
+            child: Container(
+              height: 225,
+              color: Colors.grey,
+            ),
+          ),
         ),
         SizedBox(
           height: 20,
