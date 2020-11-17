@@ -14,7 +14,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepository;
   final UserRepository userRepository;
 
+  SecureStorage secureStorage = SecureStorage();
   List<SearchModel> searchModel = List();
+  String name;
 
   SearchBloc(this.searchRepository, this.userRepository)
       : super(SearchInitial());
@@ -27,17 +29,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       yield* _mapSearchFoodEvent(event);
     } else if (event is SearchRefreshTokenEvent) {
       yield* _mapSearchRefreshTokenEvent(event);
+    } else if (event is SearchSuggestionsEvent) {
+      yield* _mapSearchSuggestionsEvent(event);
     }
   }
 
   Stream<SearchState> _mapSearchFoodEvent(SearchFoodEvent event) async* {
+    yield SearchingFoodsState();
+    name = event.name;
     try {
       final response = await searchRepository.foods(event.name);
 
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          yield SearchTokenExpiredState();
+          add(SearchRefreshTokenEvent());
         } else {
           yield SearchConnectionFailedState();
         }
@@ -47,6 +53,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         searchModel = searchData
             .map((e) => SearchModel(id: e['id'], name: e['name']))
             .toList();
+
+        searchRepository.clear();
+        searchModel.forEach((element) {
+          searchRepository.insert('Search', element.toMap());
+        });
 
         yield FoodsFoundState(searchModel: searchModel);
       }
@@ -58,13 +69,37 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Stream<SearchState> _mapSearchRefreshTokenEvent(
       SearchRefreshTokenEvent event) async* {
     try {
-      SecureStorage secureStorage;
       String refreshToken = await secureStorage.read(key: "refreshToken");
       final response = await userRepository.refreshToken(refreshToken);
       if (response.hasException) {
         yield SearchConnectionFailedState();
       } else {
-        yield SearchRefreshedTokenState();
+        add(SearchFoodEvent(name));
+      }
+    } catch (error) {
+      yield SearchConnectionFailedState();
+    }
+  }
+
+  Stream<SearchState> _mapSearchSuggestionsEvent(
+      SearchSuggestionsEvent event) async* {
+    try {
+      List suggestions = List();
+      List<String> suggestionsNames = List();
+
+      suggestions = await searchRepository.all();
+      suggestionsNames = suggestions.map((e) => e['name'].toString()).toList();
+
+      if (event.query.isEmpty) {
+        yield SuggestionsState(suggestions: suggestionsNames);
+      } else {
+        List<String> aux = List();
+
+        aux = suggestionsNames
+            .where((element) => element.contains(event.query))
+            .toList();
+
+        yield SuggestionsState(suggestions: aux);
       }
     } catch (error) {
       yield SearchConnectionFailedState();

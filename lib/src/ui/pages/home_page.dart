@@ -13,13 +13,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   RootBloc homeBloc;
-  MySearchDelegate _delegate;
   List<String> _list;
   int _currentIndex = 0;
 
   @override
   void initState() {
-    _delegate = MySearchDelegate();
     super.initState();
   }
 
@@ -47,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currentIndex,
         onTap: (index) {
           if (index == 1) {
-            showSearch(context: context, delegate: MySearchDelegate());
+            showSearch(context: context, delegate: FoodSearch());
           } else {
             setState(() {
               _currentIndex = index;

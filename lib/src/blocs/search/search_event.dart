@@ -13,4 +13,10 @@ class SearchFoodEvent extends SearchEvent {
   SearchFoodEvent(this.name);
 }
 
+class SearchSuggestionsEvent extends SearchEvent {
+  final String query;
+
+  SearchSuggestionsEvent(this.query);
+}
+
 class SearchRefreshTokenEvent extends SearchEvent {}

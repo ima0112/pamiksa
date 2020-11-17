@@ -17,6 +17,12 @@ class FoodsFoundState extends SearchState {
   FoodsFoundState({this.searchModel});
 }
 
+class SuggestionsState extends SearchState {
+  final List suggestions;
+
+  SuggestionsState({this.suggestions});
+}
+
 class SearchTokenExpiredState extends SearchState {}
 
 class SearchConnectionFailedState extends SearchState {}
