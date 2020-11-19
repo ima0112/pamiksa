@@ -10,3 +10,5 @@ abstract class ForgotPasswordState extends Equatable {
 class ForgotPasswordInitial extends ForgotPasswordState {}
 
 class ChangePasswordLoading extends ForgotPasswordState {}
+
+class ForgotPasswordConnectionFailedState extends ForgotPasswordState {}

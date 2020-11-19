@@ -2,21 +2,18 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pamiksa/src/blocs/business_details/business_details_bloc.dart';
 import 'package:pamiksa/src/data/errors.dart';
-import 'package:pamiksa/src/data/models/addons.dart';
-import 'package:pamiksa/src/data/models/food.dart';
-import 'package:pamiksa/src/data/repositories/remote/addons_repository.dart';
-import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
+import 'package:pamiksa/src/data/models/models.dart';
+import 'package:pamiksa/src/data/models/search.dart';
 import 'package:pamiksa/src/data/repositories/remote/remote_repository.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
-part 'food_event.dart';
-part 'food_state.dart';
+part 'search_details_event.dart';
+part 'search_details_state.dart';
 
-class FoodBloc extends Bloc<FoodEvent, FoodState> {
-  final FoodRepository foodRepository;
+class SearchDetailsBloc extends Bloc<SearchDetailsEvent, SearchDetailsState> {
+  final SearchRepository searchRepository;
   final AddonsRepository addonsRepository;
   final UserRepository userRepository;
   final NavigationService navigationService = locator<NavigationService>();
@@ -25,34 +22,35 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   List<AddonsModel> addonsModel = List();
 
   String id;
-
-  FoodBloc(this.addonsRepository, this.foodRepository, this.userRepository)
-      : super(FoodInitial());
+  SearchDetailsBloc(
+      this.addonsRepository, this.userRepository, this.searchRepository)
+      : super(SearchDetailsInitial());
 
   @override
-  Stream<FoodState> mapEventToState(
-    FoodEvent event,
+  Stream<SearchDetailsState> mapEventToState(
+    SearchDetailsEvent event,
   ) async* {
-    if (event is FetchFoodEvent) {
-      yield* _mapFetchAddonsEvent(event);
-    } else if (event is FoodRefreshTokenEvent) {
-      yield* _mapFoodRefreshTokenEvent(event);
+    if (event is FetchSearchDetailEvent) {
+      yield* _mapFetchSearchDetailEvent(event);
+    } else if (event is SearchDetailRefreshTokenEvent) {
+      yield* _mapSearchDetailRefreshTokenEvent(event);
     }
   }
 
-  Stream<FoodState> _mapFetchAddonsEvent(FetchFoodEvent event) async* {
-    yield LoadingFoodState();
+  Stream<SearchDetailsState> _mapFetchSearchDetailEvent(
+      FetchSearchDetailEvent event) async* {
+    yield LoadingSearchDetailsState();
     id = event.id;
     try {
-      FoodModel foodResult = await foodRepository.getById(event.id);
+      SearchModel result = await searchRepository.getById(event.id);
       final response = await addonsRepository.addons(event.id);
 
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          add(FoodRefreshTokenEvent());
+          add(SearchDetailRefreshTokenEvent());
         } else {
-          yield FoodConnectionFailedState();
+          yield SearchDetailsConnectionFailedState();
         }
       } else {
         final List addonsData = response.data['addOns'] ?? null;
@@ -67,22 +65,22 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
           addonsModel.forEach((element) {
             addonsRepository.insert('Addons', element.toMap());
           });
-          yield LoadedFoodState(
+          yield LoadedSearchDetailsState(
               addonsModel: addonsModel,
               count: addonsModel.length,
-              foodModel: foodResult);
+              searchModel: result);
         } else {
-          yield LoadedFoodWithOutAddonsState(
-              addonsModel: addonsModel, foodModel: foodResult);
+          yield LoadedSearchDetailWithOutAddonsState(
+              addonsModel: addonsModel, searchModel: result);
         }
       }
     } catch (error) {
-      FoodConnectionFailedState();
+      SearchDetailsConnectionFailedState();
     }
   }
 
-  Stream<FoodState> _mapFoodRefreshTokenEvent(
-      FoodRefreshTokenEvent event) async* {
+  Stream<SearchDetailsState> _mapSearchDetailRefreshTokenEvent(
+      SearchDetailRefreshTokenEvent event) async* {
     try {
       String refreshToken = await secureStorage.read(key: "refreshToken");
       final response = await userRepository.refreshToken(refreshToken);
@@ -91,12 +89,12 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
               Errors.RefreshTokenExpired) {
         await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
       } else if (response.hasException) {
-        yield FoodConnectionFailedState();
+        yield SearchDetailsConnectionFailedState();
       } else {
-        add(FetchFoodEvent(id));
+        add(FetchSearchDetailEvent(id));
       }
     } catch (error) {
-      yield FoodConnectionFailedState();
+      yield SearchDetailsConnectionFailedState();
     }
   }
 }

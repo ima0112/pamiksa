@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
@@ -22,6 +23,8 @@ class ForgotPasswordBloc
   DeviceModel deviceModel = DeviceModel();
   SecureStorage secureStorage = SecureStorage();
 
+  String password;
+
   ForgotPasswordBloc(this.userRepository) : super(ForgotPasswordInitial());
 
   @override
@@ -30,22 +33,54 @@ class ForgotPasswordBloc
   ) async* {
     if (event is SaveUserNewPasswordEvent) {
       yield* _mapSaveUserNewPasswordEvent(event);
+    } else if (event is ForgotPasswordRefreshTokenEvent) {
+      yield* _mapForgotPasswordRefreshTokenEvent(event);
     }
   }
 
   Stream<ForgotPasswordState> _mapSaveUserNewPasswordEvent(
       SaveUserNewPasswordEvent event) async* {
     yield ChangePasswordLoading();
+    try {
+      password = event.password;
+      String email = await secureStorage.read(key: 'email');
 
-    String email = await secureStorage.read(key: 'email');
+      await secureStorage.save(key: 'password', value: event.password);
+      print({await secureStorage.read(key: 'password')});
+      await deviceInfo.initPlatformState(deviceModel);
 
-    await secureStorage.save(key: 'password', value: event.password);
-    print({await secureStorage.read(key: 'password')});
-    await deviceInfo.initPlatformState(deviceModel);
+      final response = await userRepository.resetPassword(
+          email, event.password, deviceModel);
 
-    await this.userRepository.resetPassword(email, event.password, deviceModel);
-    await secureStorage.remove(key: 'password');
+      if (response.hasException) {
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          add(ForgotPasswordRefreshTokenEvent());
+        } else {
+          yield ForgotPasswordConnectionFailedState();
+        }
+      }
 
-    navigationService.navigateAndRemove(Routes.HomeRoute);
+      await secureStorage.remove(key: 'password');
+
+      navigationService.navigateAndRemove(Routes.HomeRoute);
+    } catch (error) {
+      yield ForgotPasswordConnectionFailedState();
+    }
+  }
+
+  Stream<ForgotPasswordState> _mapForgotPasswordRefreshTokenEvent(
+      ForgotPasswordRefreshTokenEvent event) async* {
+    try {
+      String refreshToken = await secureStorage.read(key: "refreshToken");
+      final response = await userRepository.refreshToken(refreshToken);
+      if (response.hasException) {
+        yield ForgotPasswordConnectionFailedState();
+      } else {
+        add(SaveUserNewPasswordEvent(password));
+      }
+    } catch (error) {
+      yield ForgotPasswordConnectionFailedState();
+    }
   }
 }

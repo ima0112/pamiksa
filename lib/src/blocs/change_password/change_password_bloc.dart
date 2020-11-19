@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 part 'change_password_event.dart';
@@ -13,6 +15,9 @@ class ChangePasswordBloc
   final NavigationService navigationService = locator<NavigationService>();
   final UserRepository userRepository;
 
+  SecureStorage secureStorage = SecureStorage();
+  String password;
+
   ChangePasswordBloc(this.userRepository) : super(ChangePasswordInitial());
 
   @override
@@ -21,20 +26,47 @@ class ChangePasswordBloc
   ) async* {
     if (event is SendNewPasswordEvent) {
       yield* _mapSendNewPasswordEvent(event);
+    } else if (event is ChangePasswordRefreshTokenEvent) {
+      yield* _mapChangePasswordRefreshTokenEvent(event);
     }
   }
 
   Stream<ChangePasswordState> _mapSendNewPasswordEvent(
       SendNewPasswordEvent event) async* {
+    password = event.password;
     try {
       yield ChangingPasswordState();
 
-      await userRepository.changePassword(event.password);
+      final response = await userRepository.changePassword(event.password);
+
+      if (response.hasException) {
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          add(ChangePasswordRefreshTokenEvent());
+        } else {
+          yield ChangePasswordConnectionFailedState();
+        }
+      }
 
       yield PasswordChanged();
       navigationService.navigateWithoutGoBack(Routes.Profile);
     } catch (error) {
-      print(error.toString());
+      yield ChangePasswordConnectionFailedState();
+    }
+  }
+
+  Stream<ChangePasswordState> _mapChangePasswordRefreshTokenEvent(
+      ChangePasswordRefreshTokenEvent event) async* {
+    try {
+      String refreshToken = await secureStorage.read(key: "refreshToken");
+      final response = await userRepository.refreshToken(refreshToken);
+      if (response.hasException) {
+        yield ChangePasswordConnectionFailedState();
+      } else {
+        add(SendNewPasswordEvent(password));
+      }
+    } catch (error) {
+      yield ChangePasswordConnectionFailedState();
     }
   }
 }
