@@ -6,4 +6,5 @@ class Errors {
   static const String BannedDevice = "BANNED_DEVICE";
   static const String UniqueConstraintError = "UNIQUE_CONSTRAINT_ERROR";
   static const String RefreshTokenExpired = "REFRESH_TOKEN_EXPIRED";
+  static const String DeprecatedApp = "DEPRECATED_APP";
 }

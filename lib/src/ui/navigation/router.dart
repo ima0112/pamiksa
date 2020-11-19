@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/application_update_page.dart';
 import 'package:pamiksa/src/ui/pages/busines_page.dart';
 import 'package:pamiksa/src/ui/pages/device_banned_page.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
@@ -24,6 +25,8 @@ class GenerateRoute {
         return createRouter(RegisterPasswordPage());
       case Routes.RegisterPersonalInfoRoute:
         return createRouter(RegisterPersonalInfoPage());
+      case Routes.ForceApplicationUpdate:
+        return createRouter(ApplicationUpdate());
       case Routes.RegisterLocationRoute:
         return createRouter(RegisterLocationPage());
       case Routes.DevicesRoute:

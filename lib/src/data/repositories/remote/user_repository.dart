@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:graphql/client.dart';
+import 'package:package_info/package_info.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
@@ -9,6 +10,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
 import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
+import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
 
 class UserRepository {
   final GraphQLClient client;
@@ -53,6 +55,9 @@ class UserRepository {
   }
 
   Future<QueryResult> refreshToken(String refreshToken) async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    //double currentVersion = double.parse(info.version.trim().replaceAll(".", ""));
+    String currentVersion = info.version;
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.refreshToken),
       onCompleted: (data) {
@@ -65,7 +70,10 @@ class UserRepository {
               value: data['refreshTheToken']['refreshToken'].toString());
         }
       },
-      variables: {'refreshTokenValue': refreshToken},
+      variables: {
+        'refreshTokenValue': refreshToken,
+        'appVersion': currentVersion,
+      },
     );
     return await client.mutate(_options);
   }
@@ -110,6 +118,9 @@ class UserRepository {
 
   Future<QueryResult> signIn(
       String email, String password, DeviceModel deviceModel) async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    //double currentVersion = double.parse(info.version.trim().replaceAll(".", ""));
+    String currentVersion = info.version;
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.singIn),
       onCompleted: (data) {
@@ -124,6 +135,7 @@ class UserRepository {
       variables: {
         'email': email,
         'password': password,
+        'appVersion': currentVersion,
         'plattform': deviceModel.plattform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
@@ -171,9 +183,19 @@ class UserRepository {
   }
 
   Future<QueryResult> checkSession(String deviceId) async {
+    DeviceModel deviceModel = DeviceModel();
+    await deviceInfo.initPlatformState(deviceModel);
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    //double currentVersion = double.parse(info.version.trim().replaceAll(".", ""));
+    String currentVersion = info.version;
     final WatchQueryOptions _options = WatchQueryOptions(
       documentNode: gql(queries.checkSession),
-      variables: {'deviceId': deviceId},
+      variables: {
+        'deviceId': deviceId,
+        'appVersion': currentVersion,
+        'systemVersion': deviceModel.systemVersion,
+        'refreshToken': await secureStorage.read(key: 'refreshToken')
+      },
       fetchResults: true,
     );
     return await client.query(_options);
