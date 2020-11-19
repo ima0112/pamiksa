@@ -12,3 +12,7 @@ class ChangePasswordInitial extends ChangePasswordState {}
 class ChangingPasswordState extends ChangePasswordState {}
 
 class PasswordChanged extends ChangePasswordState {}
+
+class ChangePasswordTokenExpiredState extends ChangePasswordState {}
+
+class ChangePasswordConnectionFailedState extends ChangePasswordState {}

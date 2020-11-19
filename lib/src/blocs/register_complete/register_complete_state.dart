@@ -10,3 +10,5 @@ abstract class RegisterCompleteState extends Equatable {
 class RegistercompleteInitial extends RegisterCompleteState {}
 
 class SendingUserandDeviceDataState extends RegisterCompleteState {}
+
+class RegisterCompleteConnectionFailedState extends RegisterCompleteState {}

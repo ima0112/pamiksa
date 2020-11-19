@@ -12,3 +12,6 @@ class ForgotPasswordEmailInitial extends ForgotPasswordEmailState {}
 class NotExistsUserEmailState extends ForgotPasswordEmailState {}
 
 class LoadingForgotPasswordState extends ForgotPasswordEmailState {}
+
+class ForgotPasswordEmailConnectionFailedState
+    extends ForgotPasswordEmailState {}

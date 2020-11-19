@@ -12,3 +12,5 @@ class CheckPasswordByUserEmailEvent extends ForgotPasswordEmailEvent {
 
   CheckPasswordByUserEmailEvent(this.email);
 }
+
+class ForgotPasswordEmailRefreshTokenEvent extends ForgotPasswordEmailEvent {}

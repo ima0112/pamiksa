@@ -11,6 +11,7 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
+  final SuggestionRepository suggestionRepository;
   final SearchRepository searchRepository;
   final UserRepository userRepository;
 
@@ -20,7 +21,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   String name;
 
-  SearchBloc(this.searchRepository, this.userRepository)
+  SearchBloc(
+      this.searchRepository, this.userRepository, this.suggestionRepository)
       : super(SearchInitial());
 
   @override
@@ -53,16 +55,28 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         final List searchData = response.data['searchFood'];
 
         searchModel = searchData
-            .map((e) => SearchModel(id: e['id'], name: e['name']))
+            .map((e) => SearchModel(
+                id: e['id'],
+                availability: e['availability'],
+                isAvailable: e['isAvailable'] ? 1 : 0,
+                name: e['name'],
+                photo: e['photo'],
+                photoUrl: e['photoUrl'],
+                price: e['price']))
             .toList();
 
-        final suggestion = await searchRepository.getByName(event.name);
+        searchRepository.clear();
+        searchModel.forEach((element) {
+          searchRepository.insert('Search', element.toMap());
+        });
+
+        final suggestion = await suggestionRepository.getByName(event.name);
 
         if (suggestion == null) {
           List<SuggestionsModel> suggestionsModel = List();
           suggestionsModel.add(SuggestionsModel(name: event.name));
           suggestionsModel.forEach((element) {
-            searchRepository.insert('Search', element.toMap());
+            searchRepository.insert('Suggestion', element.toMap());
           });
         }
 
@@ -91,7 +105,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Stream<SearchState> _mapSearchSuggestionsEvent(
       SearchSuggestionsEvent event) async* {
     try {
-      final suggestions = await searchRepository.all();
+      final suggestions = await suggestionRepository.all();
       suggestionsNames =
           suggestions.map((e) => SuggestionsModel(name: e['name'])).toList();
 

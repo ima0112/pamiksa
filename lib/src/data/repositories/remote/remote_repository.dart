@@ -9,3 +9,4 @@ export './addons_repository.dart';
 export './favorite_repository.dart';
 export './food_repository.dart';
 export './search_repository.dart';
+export './suggestion_repository.dart';

@@ -12,3 +12,5 @@ class SendNewPasswordEvent extends ChangePasswordEvent {
 
   SendNewPasswordEvent(this.password);
 }
+
+class ChangePasswordRefreshTokenEvent extends ChangePasswordEvent {}

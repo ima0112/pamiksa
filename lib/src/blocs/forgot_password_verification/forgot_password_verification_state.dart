@@ -12,3 +12,6 @@ class ForgotPasswordVerificationInitial
 
 class IncorrectedVerificationToForgotPasswordCodeState
     extends ForgotPasswordVerificationState {}
+
+class ForgotPasswordVerificationConnectionFailedState
+    extends ForgotPasswordVerificationState {}

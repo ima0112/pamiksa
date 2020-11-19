@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/blocs/search_details/search_details_bloc.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
@@ -8,6 +9,7 @@ class FoodSearch extends SearchDelegate<SearchModel> {
   final NavigationService navigationService = locator<NavigationService>();
 
   SearchBloc searchBloc;
+  SearchDetailsBloc searchDetailsBloc;
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -34,6 +36,7 @@ class FoodSearch extends SearchDelegate<SearchModel> {
 
   @override
   Widget buildResults(BuildContext context) {
+    searchDetailsBloc = BlocProvider.of<SearchDetailsBloc>(context);
     searchBloc = BlocProvider.of<SearchBloc>(context);
     searchBloc.add(SearchFoodEvent(query));
 
@@ -93,9 +96,11 @@ class FoodSearch extends SearchDelegate<SearchModel> {
                             color: Theme.of(context).textTheme.bodyText1.color),
                       )
                     ])),
-                onTap: () {
-                  navigationService.navigateTo(Routes.SearchDetailsRoute);
-                  // close(context, state.searchModel[index]);
+                onTap: () async {
+                  searchDetailsBloc
+                      .add(FetchSearchDetailEvent(state.searchModel[index].id));
+                  await navigationService.navigateTo(Routes.SearchDetailsRoute);
+                  close(context, state.searchModel[index]);
                 },
               );
             },

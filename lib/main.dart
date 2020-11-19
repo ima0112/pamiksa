@@ -7,6 +7,7 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/change_password/change_password_bloc.dart';
 import 'package:pamiksa/src/blocs/favorite_details/favorite_details_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
+import 'package:pamiksa/src/blocs/search_details/search_details_bloc.dart';
 import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
@@ -109,8 +110,10 @@ void main() async {
       ),
       BlocProvider(
           create: (context) => SearchBloc(
-              SearchRepository(client: GraphQLConfiguration().clients()),
-              UserRepository(client: GraphQLConfiguration().clients()))),
+                SearchRepository(client: GraphQLConfiguration().clients()),
+                UserRepository(client: GraphQLConfiguration().clients()),
+                SuggestionRepository(client: GraphQLConfiguration().clients()),
+              )),
       BlocProvider(
           create: (context) => FavoriteBloc(
               FavoriteRepository(client: GraphQLConfiguration().clients()),
@@ -127,7 +130,13 @@ void main() async {
           create: (context) => FavoriteDetailsBloc(
               UserRepository(client: GraphQLConfiguration().clients()),
               FavoriteRepository(client: GraphQLConfiguration().clients()),
-              AddonsRepository(client: GraphQLConfiguration().clients())))
+              AddonsRepository(client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+        create: (context) => SearchDetailsBloc(
+            AddonsRepository(client: GraphQLConfiguration().clients()),
+            UserRepository(client: GraphQLConfiguration().clients()),
+            SearchRepository(client: GraphQLConfiguration().clients())),
+      ),
     ],
     child: MyApp(initialRoute: initialRoute),
   ));
