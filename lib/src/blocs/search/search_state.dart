@@ -18,7 +18,7 @@ class FoodsFoundState extends SearchState {
 }
 
 class SuggestionsState extends SearchState {
-  final List suggestions;
+  final List<SuggestionsModel> suggestions;
 
   SuggestionsState({this.suggestions});
 }

@@ -13,7 +13,7 @@ class DatabaseConnection {
 
   _onCreatingDatabase(Database database, int version) async {
     await database.execute(
-        'CREATE TABLE "Search" (id character varying(255) NOT NULL, name character varying(255))');
+        'CREATE TABLE "Search" (id integer PRIMARY KEY AUTOINCREMENT, name character varying(255))');
     await database.execute(
         'CREATE TABLE "Business" (id character varying(255) NOT NULL, name character varying(255),description character varying(255),adress character varying(255),phone character varying(255),email character varying(255),photo character varying(255),photoUrl character varying(255),"valorationsQuantity" bigint,"valorationSum" double precision, valoration double precision,"deliveryPrice" double precision,CONSTRAINT "Business_pkey" PRIMARY KEY (id))');
     await database.execute(

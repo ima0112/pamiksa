@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/models/models.dart';
-import 'package:pamiksa/src/data/repositories/remote/search_repository.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
 class FoodSearch extends SearchDelegate<SearchModel> {
@@ -35,22 +34,22 @@ class FoodSearch extends SearchDelegate<SearchModel> {
 
   @override
   Widget buildResults(BuildContext context) {
-    if (query.isEmpty) {
-      return Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [Text("No has hecho ninguna busqueda")],
-          ),
-        ),
-      );
-    }
     searchBloc = BlocProvider.of<SearchBloc>(context);
     searchBloc.add(SearchFoodEvent(query));
+
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
-        if (state is SearchConnectionFailedState) {
+        if (query.isEmpty) {
+          return Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [Text("No has hecho ninguna busqueda")],
+              ),
+            ),
+          );
+        } else if (state is SearchConnectionFailedState) {
           return Padding(
             padding: EdgeInsets.all(8.0),
             child: Center(
@@ -59,11 +58,6 @@ class FoodSearch extends SearchDelegate<SearchModel> {
                 children: [Text("Tienes un problema con la conexion")],
               ),
             ),
-          );
-        } else if (state is SearchingFoodsState) {
-          return Align(
-            alignment: Alignment.topCenter,
-            child: LinearProgressIndicator(),
           );
         } else if (state is FoodsFoundState) {
           if (state.searchModel.length == 0) {
@@ -75,6 +69,11 @@ class FoodSearch extends SearchDelegate<SearchModel> {
                   children: [Text("No hay resultados")],
                 ),
               ),
+            );
+          } else if (state is SearchingFoodsState) {
+            return Align(
+              alignment: Alignment.topCenter,
+              child: LinearProgressIndicator(),
             );
           }
           return ListView.builder(
@@ -95,20 +94,16 @@ class FoodSearch extends SearchDelegate<SearchModel> {
                       )
                     ])),
                 onTap: () {
-                  close(context, state.searchModel[index]);
+                  navigationService.navigateTo(Routes.SearchDetailsRoute);
+                  // close(context, state.searchModel[index]);
                 },
               );
             },
           );
         }
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [Text("No has hecho ninguna busqueda")],
-            ),
-          ),
+        return Align(
+          alignment: Alignment.topCenter,
+          child: LinearProgressIndicator(),
         );
       },
     );
@@ -117,34 +112,51 @@ class FoodSearch extends SearchDelegate<SearchModel> {
   @override
   Widget buildSuggestions(BuildContext context) {
     searchBloc = BlocProvider.of<SearchBloc>(context);
+    searchBloc.add(SearchSuggestionsEvent(query));
 
     return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
-      searchBloc.add(SearchSuggestionsEvent(query));
       if (state is SuggestionsState) {
         if (state.suggestions.length == 0) {
           return Container();
+        } else if (query.isEmpty) {
+          return ListView.builder(
+            itemCount: state.suggestions.length,
+            itemBuilder: (context, index) {
+              final String suggestion = state.suggestions[index].name;
+              return ListTile(
+                leading: query.isEmpty ? Icon(Icons.history) : Icon(null),
+                title: RichText(
+                    text: TextSpan(
+                        text: suggestion.substring(0, query.length),
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color),
+                        children: [
+                      TextSpan(
+                        text: suggestion.substring(query.length),
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color),
+                      )
+                    ])),
+                onTap: () {
+                  query = suggestion;
+                  showResults(context);
+                },
+              );
+            },
+          );
         }
-        return ListView.builder(
-          itemCount: state.suggestions.length,
-          itemBuilder: (context, index) {
-            final String suggestion = state.suggestions[index];
-            return ListTile(
-              leading: query.isEmpty ? Icon(Icons.history) : Icon(null),
-              title: RichText(
-                  text: TextSpan(
-                      text: suggestion.substring(0, query.length),
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1.color),
-                      children: [
-                    TextSpan(
-                      text: suggestion.substring(query.length),
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1.color),
-                    )
-                  ])),
-              onTap: () {},
-            );
-          },
+
+        final result = state.suggestions
+            .where((element) => element.name.toLowerCase().contains(query));
+
+        return ListView(
+          children: result
+              .map((e) => ListTile(
+                    leading: Icon(Icons.history),
+                    title: Text(e.name),
+                    onTap: () {},
+                  ))
+              .toList(),
         );
       }
       return Container();

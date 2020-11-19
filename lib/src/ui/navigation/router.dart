@@ -72,6 +72,8 @@ class GenerateRoute {
         return MaterialPageRoute(builder: (context) => FoodPage());
       case Routes.FavoriteDetailsRoute:
         return MaterialPageRoute(builder: (context) => FavoriteDetailsPage());
+      case Routes.SearchDetailsRoute:
+        return MaterialPageRoute(builder: (context) => SearchDetailsPage());
     }
   }
 

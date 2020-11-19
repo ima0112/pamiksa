@@ -16,6 +16,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   SecureStorage secureStorage = SecureStorage();
   List<SearchModel> searchModel = List();
+  List<SuggestionsModel> suggestionsNames = List();
+
   String name;
 
   SearchBloc(this.searchRepository, this.userRepository)
@@ -54,10 +56,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             .map((e) => SearchModel(id: e['id'], name: e['name']))
             .toList();
 
-        searchRepository.clear();
-        searchModel.forEach((element) {
-          searchRepository.insert('Search', element.toMap());
-        });
+        final suggestion = await searchRepository.getByName(event.name);
+
+        if (suggestion == null) {
+          List<SuggestionsModel> suggestionsModel = List();
+          suggestionsModel.add(SuggestionsModel(name: event.name));
+          suggestionsModel.forEach((element) {
+            searchRepository.insert('Search', element.toMap());
+          });
+        }
 
         yield FoodsFoundState(searchModel: searchModel);
       }
@@ -84,23 +91,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Stream<SearchState> _mapSearchSuggestionsEvent(
       SearchSuggestionsEvent event) async* {
     try {
-      List suggestions = List();
-      List<String> suggestionsNames = List();
+      final suggestions = await searchRepository.all();
+      suggestionsNames =
+          suggestions.map((e) => SuggestionsModel(name: e['name'])).toList();
 
-      suggestions = await searchRepository.all();
-      suggestionsNames = suggestions.map((e) => e['name'].toString()).toList();
-
-      if (event.query.isEmpty) {
-        yield SuggestionsState(suggestions: suggestionsNames);
-      } else {
-        List<String> aux = List();
-
-        aux = suggestionsNames
-            .where((element) => element.contains(event.query))
-            .toList();
-
-        yield SuggestionsState(suggestions: aux);
-      }
+      yield SuggestionsState(suggestions: suggestionsNames);
     } catch (error) {
       yield SearchConnectionFailedState();
     }

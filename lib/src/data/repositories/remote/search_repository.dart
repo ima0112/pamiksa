@@ -38,15 +38,15 @@ class SearchRepository {
         (txn) async => await txn.rawQuery('SELECT * FROM "Search"'));
   }
 
-  Future<SearchModel> getById(String id) async {
-    SearchModel searchModel = SearchModel();
+  Future<SuggestionsModel> getByName(String name) async {
+    SuggestionsModel suggestionsModel = SuggestionsModel();
     var connection = await database;
     List<Map<dynamic, dynamic>> maps = await connection.transaction(
         (txn) async =>
-            await txn.query("Search", where: 'id = ?', whereArgs: [id]));
+            await txn.query("Search", where: 'name = ?', whereArgs: [name]));
     if (maps.length > 0) {
-      searchModel.fromMap(maps.first);
-      return searchModel;
+      suggestionsModel.fromMap(maps.first);
+      return suggestionsModel;
     }
     return null;
   }
