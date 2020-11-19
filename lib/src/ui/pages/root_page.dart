@@ -18,7 +18,6 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     rootBloc = BlocProvider.of<RootBloc>(context);
-    MySearchDelegate();
     super.initState();
   }
 

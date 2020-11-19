@@ -30,3 +30,4 @@ export './food_details_page.dart';
 export './cart_page.dart';
 export './busines_page.dart';
 export './favorite_details_page.dart';
+export './search_details.dart';

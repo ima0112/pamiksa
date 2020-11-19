@@ -31,4 +31,5 @@ class Routes {
   static const String SettingRoute = '/settings';
   static const String FoodRoute = '/food';
   static const String FavoriteDetailsRoute = '/favorite_details';
+  static const String SearchDetailsRoute = '/search_details';
 }
