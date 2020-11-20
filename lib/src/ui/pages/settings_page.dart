@@ -76,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: Icon(Icons.security),
                 title: Text("Seguridad"),
                 onTap: () {
-                  navigationService.navigateTo(Routes.Security);
+                  navigationService.navigateTo(Routes.SecurityRoute);
                 },
                 trailing: Icon(
                   Icons.arrow_forward_ios,

@@ -125,8 +125,9 @@ class _VerificationPageState extends State<VerificationPage> {
                                 ),
                                 onChanged: (String value) {
                                   if (value.length == 6) {
-                                    registerVerificationBloc
-                                        .add(CheckVerificationCodeEvent(value));
+                                    registerVerificationBloc.add(
+                                        CheckVerificationCodeEvent(
+                                            code: value));
                                   }
                                 }),
                           ),
@@ -147,8 +148,9 @@ class _VerificationPageState extends State<VerificationPage> {
                                 ),
                                 onChanged: (String value) {
                                   if (value.length == 6) {
-                                    registerVerificationBloc
-                                        .add(CheckVerificationCodeEvent(value));
+                                    registerVerificationBloc.add(
+                                        CheckVerificationCodeEvent(
+                                            code: value));
                                   }
                                 }),
                           ),

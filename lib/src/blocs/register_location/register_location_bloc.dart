@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/municipality.dart';
 import 'package:pamiksa/src/data/models/province.dart';
 import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
@@ -26,6 +28,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   List<ProvinceModel> provinceReturn = List();
   List<MunicipalityModel> municipalitiesReturn = new List();
 
+  String adress;
+  String provinceId;
+  String municipalityId;
+
   LocationBloc(
       this.provinceRepository, this.userRepository, this.municipalityRepository)
       : super(LocationInitial());
@@ -36,29 +42,48 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   ) async* {
     if (event is LocationMutateCodeEvent) {
       yield* _mapMutateCodeEvent(event);
-    }
-    if (event is FetchProvinceMunicipalityDataEvent) {
+    } else if (event is FetchProvinceMunicipalityDataEvent) {
       yield* _mapFetchProvinceMunicipalityDataEvent(event);
-    }
-    if (event is ProvinceSelectedEvent) {
+    } else if (event is ProvinceSelectedEvent) {
       yield* _mapProvinceSelectedEvent(event);
+    } else if (event is LocationRefreshTokenEvent) {
+      yield* _mapLocationRefreshTokenEvent(event);
     }
   }
 
   Stream<LocationState> _mapMutateCodeEvent(
       LocationMutateCodeEvent event) async* {
-    String email = await secureStorage.read(key: 'email');
-    int code = await random.randomCode();
+    adress = event.adress;
+    provinceId = event.provinceId;
+    municipalityId = event.municipalityId;
+    try {
+      String email = await secureStorage.read(key: 'email');
+      int code = await random.randomCode();
 
-    await secureStorage.save(key: 'code', value: code.toString());
-    await secureStorage.save(key: 'adress', value: event.adress);
-    await secureStorage.save(key: 'province', value: event.provinceId);
-    await secureStorage.save(key: 'municipality', value: event.municipalityId);
-    final response =
-        await this.userRepository.sendVerificationCode(email, code.toString());
+      await secureStorage.save(key: 'code', value: code.toString());
+      await secureStorage.save(key: 'adress', value: event.adress);
+      await secureStorage.save(key: 'province', value: event.provinceId);
+      await secureStorage.save(
+          key: 'municipality', value: event.municipalityId);
+      final response = await this
+          .userRepository
+          .sendVerificationCode(email, code.toString());
 
-    print({"response": response.data.toString(), "code": code, "email": email});
-    navigationService.navigateAndRemoveUntil(Routes.VerificationRoute);
+      if (response.hasException) {
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          add(LocationRefreshTokenEvent());
+        } else {
+          yield LocationConnectionFailedState();
+        }
+      }
+
+      print(
+          {"response": response.data.toString(), "code": code, "email": email});
+      navigationService.navigateAndRemoveUntil(Routes.VerificationRoute);
+    } catch (error) {
+      yield LocationConnectionFailedState();
+    }
   }
 
   Stream<LocationState> _mapFetchProvinceMunicipalityDataEvent(
@@ -92,5 +117,23 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         .toList();
 
     yield MunicipalitiesLoadedState(municipalitiesReturn, provinceReturn);
+  }
+
+  Stream<LocationState> _mapLocationRefreshTokenEvent(
+      LocationRefreshTokenEvent event) async* {
+    try {
+      String refreshToken = await secureStorage.read(key: "refreshToken");
+      final response = await userRepository.refreshToken(refreshToken);
+      if (response.hasException) {
+        yield LocationConnectionFailedState();
+      } else {
+        add(LocationMutateCodeEvent(
+            adress: adress,
+            municipalityId: municipalityId,
+            provinceId: provinceId));
+      }
+    } catch (error) {
+      yield LocationConnectionFailedState();
+    }
   }
 }

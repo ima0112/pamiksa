@@ -12,5 +12,7 @@ class RegisterVerificationMutateCodeEvent extends RegisterVerificationEvent {}
 class CheckVerificationCodeEvent extends RegisterVerificationEvent {
   final String code;
 
-  CheckVerificationCodeEvent(this.code);
+  CheckVerificationCodeEvent({this.code});
 }
+
+class RegisterVerificationRefreshTokenEvent extends RegisterVerificationEvent {}

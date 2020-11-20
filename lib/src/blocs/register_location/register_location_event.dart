@@ -14,7 +14,7 @@ class LocationMutateCodeEvent extends LocationEvent {
   final String provinceId;
   final String municipalityId;
 
-  LocationMutateCodeEvent(this.adress, this.provinceId, this.municipalityId);
+  LocationMutateCodeEvent({this.adress, this.provinceId, this.municipalityId});
 }
 
 class FetchProvinceMunicipalityDataEvent extends LocationEvent {}
@@ -24,3 +24,5 @@ class ProvinceSelectedEvent extends LocationEvent {
 
   ProvinceSelectedEvent(this.provinceFk);
 }
+
+class LocationRefreshTokenEvent extends LocationEvent {}

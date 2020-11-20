@@ -43,8 +43,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   ) async* {
     if (event is GetRegisterDataEvent) {
       yield* _mapGetRegisterDataEvent(event);
-    }
-    if (event is MutateSignInEvent) {
+    } else if (event is MutateSignInEvent) {
       yield* _mapMutateSignInEvent(event);
     }
     yield SignInInitial();
@@ -61,12 +60,29 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       if (response.hasException) {
         print(response.exception);
-        String message = response.exception.graphqlErrors[0].message;
-        if (message == Errors.InvalidCredentials) {
+        if (response.hasException) {
+          if (response.exception.graphqlErrors[0].message ==
+              Errors.TokenExpired) {
+            String refreshToken = await secureStorage.read(key: "refreshToken");
+
+            final response = await userRepository.refreshToken(refreshToken);
+
+            if (response.hasException) {
+              yield ConnectionFailedState();
+            } else {
+              add(MutateSignInEvent());
+            }
+          } else {
+            yield ConnectionFailedState();
+          }
+        } else if (response.exception.graphqlErrors[0].message ==
+            Errors.InvalidCredentials) {
           yield CredentialsErrorState();
-        } else if (message == Errors.BannedUser) {
+        } else if (response.exception.graphqlErrors[0].message ==
+            Errors.BannedUser) {
           navigationService.navigateWithoutGoBack(Routes.UserBannedRoute);
-        } else if (message == Errors.BannedDevice) {
+        } else if (response.exception.graphqlErrors[0].message ==
+            Errors.BannedDevice) {
           navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
         }
       } else {
@@ -87,7 +103,22 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final response = await this.registerDataRepository.registerData();
 
       if (response.hasException) {
-        yield ConnectionFailedState();
+        if (response.hasException) {
+          if (response.exception.graphqlErrors[0].message ==
+              Errors.TokenExpired) {
+            String refreshToken = await secureStorage.read(key: "refreshToken");
+
+            final response = await userRepository.refreshToken(refreshToken);
+
+            if (response.hasException) {
+              yield ConnectionFailedState();
+            } else {
+              add(GetRegisterDataEvent());
+            }
+          } else {
+            yield ConnectionFailedState();
+          }
+        }
       } else {
         final List provincesData = response.data['provinces'];
         provinceModel = provincesData

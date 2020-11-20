@@ -24,3 +24,5 @@ class MunicipalitiesLoadedState extends LocationState {
 }
 
 class LoadingProvinceMunicipalityState extends LocationState {}
+
+class LocationConnectionFailedState extends LocationState {}
