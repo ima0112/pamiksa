@@ -11,7 +11,6 @@ export './register_password/register_password_bloc.dart';
 export './register_personal_info/register_personal_info_bloc.dart';
 export './register_verification/register_verification_bloc.dart';
 export './sign_in/sign_in_bloc.dart';
-export './splash_screen/splash_screen_bloc.dart';
 export './theme/theme_bloc.dart';
 export './timer/timer_bloc.dart';
 export './timer/ticker.dart';

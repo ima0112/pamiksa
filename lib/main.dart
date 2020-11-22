@@ -51,7 +51,6 @@ void main() async {
               UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(create: (context) => ThemeBloc()),
       BlocProvider(create: (context) => TimerBloc(ticker: TickerPamiksa())),
-      BlocProvider(create: (context) => SplashScreenBloc()),
       BlocProvider(create: (context) => IntroBloc()),
       BlocProvider(
           create: (context) => RegisterPersonalInfoBloc(RegisterDataRepository(

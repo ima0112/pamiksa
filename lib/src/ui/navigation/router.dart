@@ -55,7 +55,7 @@ class GenerateRoute {
         return createRouter(BusinessPage());
       case Routes.PickImageRoute:
         return createRouter(PickImagePage());
-      case Routes.ChangePassword:
+      case Routes.ChangePasswordRoute:
         return createRouter(ChangePasswordPage());
       case Routes.Profile:
         return MaterialPageRoute(builder: (context) => ProfilePage());
@@ -67,7 +67,7 @@ class GenerateRoute {
         return MaterialPageRoute(builder: (context) => RootPage());
       case Routes.DeviceBannedRoute:
         return MaterialPageRoute(builder: (context) => DeviceBannedpage());
-      case Routes.Security:
+      case Routes.SecurityRoute:
         return MaterialPageRoute(builder: (context) => SecurityPage());
       case Routes.UserBannedRoute:
         return MaterialPageRoute(builder: (context) => UserBannedpage());

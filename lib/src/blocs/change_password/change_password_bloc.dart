@@ -33,10 +33,9 @@ class ChangePasswordBloc
 
   Stream<ChangePasswordState> _mapSendNewPasswordEvent(
       SendNewPasswordEvent event) async* {
+    yield ChangingPasswordState();
     password = event.password;
     try {
-      yield ChangingPasswordState();
-
       final response = await userRepository.changePassword(event.password);
 
       if (response.hasException) {
@@ -47,9 +46,8 @@ class ChangePasswordBloc
           yield ChangePasswordConnectionFailedState();
         }
       }
-
-      yield PasswordChanged();
-      navigationService.navigateWithoutGoBack(Routes.Profile);
+      navigationService.goBack();
+      yield ChangePasswordInitial();
     } catch (error) {
       yield ChangePasswordConnectionFailedState();
     }

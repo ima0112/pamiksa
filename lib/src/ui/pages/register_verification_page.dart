@@ -125,8 +125,9 @@ class _VerificationPageState extends State<VerificationPage> {
                                 ),
                                 onChanged: (String value) {
                                   if (value.length == 6) {
-                                    registerVerificationBloc
-                                        .add(CheckVerificationCodeEvent(value));
+                                    registerVerificationBloc.add(
+                                        CheckVerificationCodeEvent(
+                                            code: value));
                                   }
                                 }),
                           ),
@@ -147,13 +148,32 @@ class _VerificationPageState extends State<VerificationPage> {
                                 ),
                                 onChanged: (String value) {
                                   if (value.length == 6) {
-                                    registerVerificationBloc
-                                        .add(CheckVerificationCodeEvent(value));
+                                    registerVerificationBloc.add(
+                                        CheckVerificationCodeEvent(
+                                            code: value));
                                   }
                                 }),
                           ),
                         );
                       }
+                      return Expanded(
+                        flex: 1,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: TextFormField(
+                              maxLength: 6,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelText: "Código de verificación",
+                              ),
+                              onChanged: (String value) {
+                                if (value.length == 6) {
+                                  registerVerificationBloc.add(
+                                      CheckVerificationCodeEvent(code: value));
+                                }
+                              }),
+                        ),
+                      );
                     },
                   );
                 },
