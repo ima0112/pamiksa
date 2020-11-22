@@ -11,6 +11,6 @@ class RegisterEmailInitial extends RegisterEmailState {}
 
 class ExistsUserEmailState extends RegisterEmailState {}
 
-class LoadingState extends RegisterEmailState {}
+class RegisterEmailLoadingState extends RegisterEmailState {}
 
 class RegisterEmailConnectionFailedState extends RegisterEmailState {}

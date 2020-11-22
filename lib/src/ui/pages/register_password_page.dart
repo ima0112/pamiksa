@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/register_password/register_password_bloc.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
@@ -21,6 +22,7 @@ class RegisterPasswordPageState extends State<RegisterPasswordPage> {
   final _passKey = GlobalKey<FormFieldState<String>>();
 
   RegisterPasswordBloc registerPasswordBloc;
+  RegisterEmailBloc registerEmailBloc;
 
   String password;
   String passwordtwo;
@@ -48,6 +50,13 @@ class RegisterPasswordPageState extends State<RegisterPasswordPage> {
       return '¡Las contraseñas no coinciden!';
     }
     return null;
+  }
+
+  @override
+  void initState() {
+    registerEmailBloc = BlocProvider.of<RegisterEmailBloc>(context);
+    registerEmailBloc.add(SetRegisterEmailInitialEvent());
+    super.initState();
   }
 
   @override

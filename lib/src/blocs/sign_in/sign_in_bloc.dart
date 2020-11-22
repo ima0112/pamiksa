@@ -150,8 +150,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         preferences.saveInt('year', year);
         preferences.saveInt('month', month);
         preferences.saveInt('day', day);
-
-        navigationService.navigateTo(Routes.RegisterEmailRoute);
       }
     } catch (error) {
       yield ConnectionFailedState();

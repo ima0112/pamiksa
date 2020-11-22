@@ -38,50 +38,56 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
           //     return false;
           //   },
           //   child:
-          Container(
-        child: Column(
-          children: <Widget>[
-            registroText(),
-            SizedBox(
-              height: 50,
-            ),
-            Expanded(flex: 3, child: infoText()),
-            Padding(
-              padding: EdgeInsets.only(bottom: 20.0),
-              child: Container(
-                  height: 45,
-                  width: 320,
-                  child:
-                      BlocBuilder<RegisterCompleteBloc, RegisterCompleteState>(
-                    builder: (context, state) {
-                      if (state is RegistercompleteInitial) {
-                        return RaisedButton(
-                          textColor: Colors.white,
-                          color: Theme.of(context).primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          onPressed: () {
-                            registerCompleteBloc
-                                .add(MutateUserandDeviceEvent(userModel));
-                          },
-                          child: Text(
-                            'REGISTRARME',
-                            style: TextStyle(
-                                fontFamily: 'RobotoMono-Regular',
-                                fontWeight: FontWeight.w900),
-                          ),
-                        );
-                      }
-                      if (state is SendingUserandDeviceDataState) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
-                  )),
-            )
-          ],
+          WillPopScope(
+        onWillPop: () async {
+          navigationService.navigateAndRemove(Routes.LoginRoute);
+          return false;
+        },
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              registroText(),
+              SizedBox(
+                height: 50,
+              ),
+              Expanded(flex: 3, child: infoText()),
+              Padding(
+                padding: EdgeInsets.only(bottom: 20.0),
+                child: Container(
+                    height: 45,
+                    width: 320,
+                    child: BlocBuilder<RegisterCompleteBloc,
+                        RegisterCompleteState>(
+                      builder: (context, state) {
+                        if (state is RegistercompleteInitial) {
+                          return RaisedButton(
+                            textColor: Colors.white,
+                            color: Theme.of(context).primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            onPressed: () {
+                              registerCompleteBloc
+                                  .add(MutateUserandDeviceEvent(userModel));
+                            },
+                            child: Text(
+                              'REGISTRARME',
+                              style: TextStyle(
+                                  fontFamily: 'RobotoMono-Regular',
+                                  fontWeight: FontWeight.w900),
+                            ),
+                          );
+                        }
+                        if (state is SendingUserandDeviceDataState) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    )),
+              )
+            ],
+          ),
         ),
       ),
       // )
