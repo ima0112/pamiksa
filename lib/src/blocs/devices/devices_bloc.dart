@@ -21,6 +21,8 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   List<DeviceModel> devicesModelList;
   DeviceModel deviceModel = DeviceModel();
 
+  String deviceId;
+
   DevicesBloc(this.sessionsRepository, this.userRepository)
       : super(DevicesInitial());
 
@@ -43,15 +45,14 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
 
   Stream<DevicesState> _mapFetchDevicesDataEvent(
       FetchDevicesDataEvent event) async* {
+    yield LoadingDeviceData();
     try {
-      yield LoadingDeviceData();
       await deviceInfo.initPlatformState(deviceModel);
       final response =
           await sessionsRepository.fetchSessions(deviceModel.deviceId);
       if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message ==
-            Errors.TokenExpired) {
-          yield DevicesTokenExpiredState();
+        if (response.exception.graphqlErrors[0].message == "Token Expired") {
+          add(DeviceRefreshTokenEvent());
         } else {
           yield DeviceConnectionFailedState();
         }
@@ -59,6 +60,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         final List businessData = response.data['devicesByUser'];
         devicesModelList = businessData
             .map((e) => DeviceModel(
+                id: e['id'],
                 plattform: e['plattform'],
                 systemVersion: e['systemVersion'],
                 deviceId: e['deviceId'],
@@ -79,26 +81,38 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
     await deviceInfo.initPlatformState(deviceModel);
     final response = await sessionsRepository.signOutAll(deviceModel.deviceId);
     if (response.hasException) {
-      if (response.exception.graphqlErrors[0].message == Errors.TokenExpired) {
-        yield DevicesTokenExpiredState();
+      if (response.exception.graphqlErrors[0].message == "Token Expired") {
+        String refreshToken = await secureStorage.read(key: "refreshToken");
+        final response = await userRepository.refreshToken(refreshToken);
+        if (response.hasException) {
+          yield DeviceConnectionFailedState();
+        } else {
+          add(SignOutAllEvent());
+        }
       } else {
         yield DeviceConnectionFailedState();
       }
     } else {
       sessionsRepository.clear();
       devicesModelList.clear();
-      yield SignOutAllState(devicesModelList, deviceModel);
+      add(FetchDevicesDataEvent());
     }
   }
 
   Stream<DevicesState> _mapSignOutEvent(SignOutEvent event) async* {
+    deviceId = event.deviceId;
     try {
       await deviceInfo.initPlatformState(deviceModel);
       final response = await userRepository.signOut(event.deviceId);
       if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message ==
-            Errors.TokenExpired) {
-          yield DevicesTokenExpiredState();
+        if (response.exception.graphqlErrors[0].message == "Token Expired") {
+          String refreshToken = await secureStorage.read(key: "refreshToken");
+          final response = await userRepository.refreshToken(refreshToken);
+          if (response.hasException) {
+            yield DeviceConnectionFailedState();
+          } else {
+            add(SignOutEvent(deviceId: deviceId));
+          }
         } else {
           yield DeviceConnectionFailedState();
         }
@@ -106,7 +120,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         await sessionsRepository.deleteById(event.deviceId);
         devicesModelList
             .removeWhere((element) => element.deviceId == event.deviceId);
-        yield SignOutState(devicesModelList, deviceModel);
+        add(FetchDevicesDataEvent());
       }
     } catch (error) {
       yield DeviceConnectionFailedState();

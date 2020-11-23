@@ -19,7 +19,7 @@ class SignOutAllEvent extends DevicesEvent {
 class SignOutEvent extends DevicesEvent {
   final String deviceId;
 
-  SignOutEvent(this.deviceId);
+  SignOutEvent({this.deviceId});
 
   @override
   // TODO: implement props

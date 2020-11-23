@@ -1,10 +1,12 @@
 class DeviceModel {
+  String id;
   String plattform;
   String systemVersion;
   String deviceId;
   String model;
 
-  DeviceModel({this.plattform, this.deviceId, this.model, this.systemVersion});
+  DeviceModel(
+      {this.id, this.plattform, this.deviceId, this.model, this.systemVersion});
 
   set phoneModel(String model) {
     String aux = "";
@@ -19,6 +21,7 @@ class DeviceModel {
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
+      'id': id,
       'plattform': plattform,
       'systemVersion': systemVersion,
       'deviceId': deviceId,
@@ -29,6 +32,6 @@ class DeviceModel {
 
   @override
   String toString() {
-    return 'Plattform: ${this.plattform}, SystemVersion: ${this.systemVersion}, DeviceId: ${this.deviceId}, Model: ${this.model}';
+    return 'Id: ${this.id}, Plattform: ${this.plattform}, SystemVersion: ${this.systemVersion}, DeviceId: ${this.deviceId}, Model: ${this.model}';
   }
 }
