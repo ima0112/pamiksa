@@ -47,8 +47,6 @@ class RootBloc extends Bloc<RootEvent, RootState> {
       yield* _mapChangeToInitialStateEvent(event);
     } else if (event is LogoutEvent) {
       yield* _mapLogoutEvent(event);
-    } else if (event is ShowedDevicesEvent) {
-      navigationService.navigateTo("/devices");
     } else if (event is RefreshTokenEvent) {
       yield* _mapRefreshTokenEvent(event);
     }

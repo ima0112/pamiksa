@@ -28,12 +28,6 @@ class LogoutEvent extends RootEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-class ShowedDevicesEvent extends RootEvent {
-  @override
-  // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
-}
-
 class RefreshTokenEvent extends RootEvent {
   @override
   // TODO: implement props

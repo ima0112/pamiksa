@@ -88,8 +88,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: Icon(Icons.devices),
                 title: Text("Dispositivos"),
                 onTap: () {
-                  devicesBloc.add(SetDeviceInitialEvent());
-                  rootBloc.add(ShowedDevicesEvent());
+                  devicesBloc.add(FetchDevicesDataEvent());
+                  navigationService.navigateTo(Routes.DevicesRoute);
                 },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
