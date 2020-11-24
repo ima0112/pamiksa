@@ -27,8 +27,7 @@ class RegisterPersonalInfoBloc
   ) async* {
     if (event is SaveUserPersonalInfoEvent) {
       yield* _mapSaveUserPersonalInfoEvent(event);
-    }
-    if (event is SelectDateEvent) {
+    } else if (event is SelectDateEvent) {
       yield DateSelectedState();
     }
   }

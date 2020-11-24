@@ -110,7 +110,9 @@ class RegisterLocationPageState extends State<RegisterLocationPage> {
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             locationBloc.add(LocationMutateCodeEvent(
-                                adress, selectedprovincia, selectedmunicipio));
+                                adress: adress,
+                                municipalityId: selectedmunicipio,
+                                provinceId: selectedprovincia));
                           }
                         },
                         child: Text(

@@ -76,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: Icon(Icons.security),
                 title: Text("Seguridad"),
                 onTap: () {
-                  navigationService.navigateTo(Routes.Security);
+                  navigationService.navigateTo(Routes.SecurityRoute);
                 },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
@@ -88,8 +88,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: Icon(Icons.devices),
                 title: Text("Dispositivos"),
                 onTap: () {
-                  devicesBloc.add(SetDeviceInitialEvent());
-                  rootBloc.add(ShowedDevicesEvent());
+                  devicesBloc.add(FetchDevicesDataEvent());
+                  navigationService.navigateTo(Routes.DevicesRoute);
                 },
                 trailing: Icon(
                   Icons.arrow_forward_ios,

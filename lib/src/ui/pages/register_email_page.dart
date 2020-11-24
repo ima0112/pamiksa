@@ -41,12 +41,12 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
 
   @override
   void initState() {
+    registerEmailBloc = BlocProvider.of<RegisterEmailBloc>(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    registerEmailBloc = BlocProvider.of<RegisterEmailBloc>(context);
     return Scaffold(
         // resizeToAvoidBottomPadding: false,
         appBar: PreferredSize(
@@ -57,8 +57,10 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
               brightness: Theme.of(context).appBarTheme.brightness,
             )),
         body: BlocBuilder<RegisterEmailBloc, RegisterEmailState>(
+          buildWhen: (previous, current) =>
+              previous.runtimeType != current.runtimeType,
           builder: (context, state) {
-            if (state is LoadingState) {
+            if (state is RegisterEmailLoadingState) {
               return Center(
                 child: CircularProgressIndicator(),
               );

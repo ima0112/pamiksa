@@ -22,6 +22,7 @@ class SearchDetailsBloc extends Bloc<SearchDetailsEvent, SearchDetailsState> {
   List<AddonsModel> addonsModel = List();
 
   String id;
+
   SearchDetailsBloc(
       this.addonsRepository, this.userRepository, this.searchRepository)
       : super(SearchDetailsInitial());
@@ -83,7 +84,9 @@ class SearchDetailsBloc extends Bloc<SearchDetailsEvent, SearchDetailsState> {
       SearchDetailRefreshTokenEvent event) async* {
     try {
       String refreshToken = await secureStorage.read(key: "refreshToken");
+
       final response = await userRepository.refreshToken(refreshToken);
+
       if (response.hasException &&
           response.exception.graphqlErrors[0].message ==
               Errors.RefreshTokenExpired) {

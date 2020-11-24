@@ -35,7 +35,7 @@ class SetProfileInitialStateEvent extends ProfileEvent {
 class ChangeNameEvent extends ProfileEvent {
   final String name;
 
-  ChangeNameEvent(this.name);
+  ChangeNameEvent({this.name});
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
@@ -44,7 +44,7 @@ class ChangeNameEvent extends ProfileEvent {
 class ChangeAdressEvent extends ProfileEvent {
   final String adress;
 
-  ChangeAdressEvent(this.adress);
+  ChangeAdressEvent({this.adress});
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
@@ -53,7 +53,7 @@ class ChangeAdressEvent extends ProfileEvent {
 class ChangeEmailEvent extends ProfileEvent {
   final String email;
 
-  ChangeEmailEvent(this.email);
+  ChangeEmailEvent({this.email});
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();

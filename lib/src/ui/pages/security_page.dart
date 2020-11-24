@@ -26,8 +26,7 @@ class _SecurityPageState extends State<SecurityPage> {
             title: Text(
               "Seguridad",
               style: TextStyle(
-                  color:
-                  Theme.of(context).textTheme.bodyText1.color,
+                  color: Theme.of(context).textTheme.bodyText1.color,
                   fontWeight: FontWeight.bold),
             ),
             elevation: 2.0,
@@ -36,7 +35,7 @@ class _SecurityPageState extends State<SecurityPage> {
             leading: Icon(Icons.lock),
             title: Text("Cambiar contraseña"),
             onTap: () {
-              navigationService.navigateTo(Routes.ChangePassword);
+              navigationService.navigateTo(Routes.ChangePasswordRoute);
             },
           )
         ],

@@ -10,7 +10,7 @@ class Routes {
   static const String RegisterCompleteRoute = "/register_complete";
   static const String VerificationRoute = "/verification";
   static const String HomeRoute = "/home";
-  static const String Security = "/security";
+  static const String SecurityRoute = "/security";
   static const String DevicesRoute = "/devices";
   static const String ThemeRoute = "/theme";
   static const String Profile = "/profile";
@@ -28,7 +28,7 @@ class Routes {
   static const String UserBannedRoute = "/user_banned";
   static const String RootRoute = "/root";
   static const String FavoriteRoute = '/favorite';
-  static const String ChangePassword = '/change_password';
+  static const String ChangePasswordRoute = '/change_password';
   static const String SettingRoute = '/settings';
   static const String FoodRoute = '/food';
   static const String FavoriteDetailsRoute = '/favorite_details';

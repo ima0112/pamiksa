@@ -273,8 +273,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  profileBloc
-                                      .add(ChangeNameEvent(this.fullname));
+                                  profileBloc.add(
+                                      ChangeNameEvent(name: this.fullname));
                                 },
                               )
                             ],
@@ -362,8 +362,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  profileBloc
-                                      .add(ChangeAdressEvent(this.adress));
+                                  profileBloc.add(
+                                      ChangeAdressEvent(adress: this.adress));
                                 },
                               )
                             ],
@@ -451,7 +451,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  profileBloc.add(ChangeEmailEvent(this.email));
+                                  profileBloc
+                                      .add(ChangeEmailEvent(email: this.email));
                                 },
                               )
                             ],
