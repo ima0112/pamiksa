@@ -14,7 +14,7 @@ final appThemeData = {
         bodyText2: TextStyle(color: Colors.black)),
     chipTheme: ChipThemeData(
         backgroundColor: Colors.grey[200],
-        disabledColor: Colors.grey[400],
+        disabledColor: Colors.grey[300],
         selectedColor: Colors.grey[700],
         secondarySelectedColor: Colors.grey[700],
         padding: EdgeInsets.all(4),

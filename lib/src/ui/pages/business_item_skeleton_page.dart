@@ -19,8 +19,8 @@ class BusinessItemSkeletonPage extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 17.5,
-                    backgroundColor: Colors.grey,
-                    //backgroundImage: AssetImage("assets/images/profile.png"),
+                    backgroundColor:
+                        Theme.of(context).chipTheme.backgroundColor,
                   ),
                   SizedBox(
                     width: 6,
@@ -36,7 +36,8 @@ class BusinessItemSkeletonPage extends StatelessWidget {
                               child: Container(
                                 width: 120,
                                 height: 10,
-                                color: Colors.grey,
+                                color:
+                                    Theme.of(context).chipTheme.backgroundColor,
                               ),
                             )
                           ],
@@ -51,7 +52,8 @@ class BusinessItemSkeletonPage extends StatelessWidget {
                               child: Container(
                                 width: 170,
                                 height: 10,
-                                color: Colors.grey,
+                                color:
+                                    Theme.of(context).chipTheme.backgroundColor,
                               ),
                             )
                           ],
@@ -93,7 +95,7 @@ class BusinessItemSkeletonPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.0),
             child: Container(
               height: 225,
-              color: Colors.grey,
+              color: Theme.of(context).chipTheme.backgroundColor,
             ),
           ),
         ),
@@ -114,7 +116,7 @@ class BusinessItemSkeletonPage extends StatelessWidget {
                       child: Container(
                         width: 180,
                         height: 10,
-                        color: Colors.grey,
+                        color: Theme.of(context).chipTheme.backgroundColor,
                       ),
                     )
                   ],
@@ -130,7 +132,7 @@ class BusinessItemSkeletonPage extends StatelessWidget {
                       child: Container(
                         width: 300,
                         height: 10,
-                        color: Colors.grey,
+                        color: Theme.of(context).chipTheme.backgroundColor,
                       ),
                     )
                   ],

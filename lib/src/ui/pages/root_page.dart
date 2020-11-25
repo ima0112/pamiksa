@@ -71,13 +71,15 @@ class _RootPageState extends State<RootPage> {
                 ),
                 SliverList(
                     delegate: SliverChildListDelegate([
+                  LinearProgressIndicator(),
                   ListView.separated(
                     controller: _scrollController,
                     shrinkWrap: true,
                     itemCount: 2,
                     itemBuilder: (_, index) => Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[200],
+                        baseColor: Theme.of(context).chipTheme.disabledColor,
+                        highlightColor:
+                            Theme.of(context).chipTheme.backgroundColor,
                         child: BusinessItemSkeletonPage()),
                     separatorBuilder: (_, __) => Divider(height: 0.0),
                   )

@@ -4,19 +4,18 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
-import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class BusinessItemPage extends StatefulWidget {
-  String id;
-  String name;
-  String description;
-  String adress;
-  String phone;
-  String email;
-  String photo;
-  String photoUrl;
-  double valoration;
-  double deliveryPrice;
+  final String id;
+  final String name;
+  final String description;
+  final String adress;
+  final String phone;
+  final String email;
+  final String photo;
+  final String photoUrl;
+  final double valoration;
+  final double deliveryPrice;
 
   BusinessItemPage(
       {this.id,
@@ -66,11 +65,12 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                     backgroundColor: Colors.transparent,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(17.5),
-                      child: Image.network(
-                        this.widget.photoUrl,
+                      child: FadeInImage(
                         width: 100,
+                        fit: BoxFit.cover,
                         height: 100,
-                        fit: BoxFit.fitHeight,
+                        placeholder: AssetImage("assets/gif/loading.gif"),
+                        image: NetworkImage(this.widget.photoUrl),
                       ),
                     ),
                   ),
