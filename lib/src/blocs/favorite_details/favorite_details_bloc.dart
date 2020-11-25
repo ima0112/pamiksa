@@ -33,8 +33,7 @@ class FavoriteDetailsBloc
   ) async* {
     if (event is FetchFavoriteFoodsDetailsEvent) {
       yield* _mapFetchFavoriteFoodsDetailsEvent(event);
-    }
-    if (event is FavoriteDetailsRefreshTokenEvent) {
+    } else if (event is FavoriteDetailsRefreshTokenEvent) {
       yield* _mapFavoriteDetailsRefreshTokenEvent(event);
     }
   }

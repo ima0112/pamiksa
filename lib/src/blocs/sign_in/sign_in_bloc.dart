@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pamiksa/src/data/models/device.dart';
-import 'package:pamiksa/src/data/models/municipality.dart';
-import 'package:pamiksa/src/data/models/province.dart';
+import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/remote/municipality_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/province_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/register_data_repository.dart';
@@ -59,32 +57,29 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       preferences.saveInt('lightMode', 0);
 
       if (response.hasException) {
-        print(response.exception);
-        if (response.hasException) {
-          if (response.exception.graphqlErrors[0].message ==
-              Errors.TokenExpired) {
-            String refreshToken = await secureStorage.read(key: "refreshToken");
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          String refreshToken = await secureStorage.read(key: "refreshToken");
 
-            final response = await userRepository.refreshToken(refreshToken);
+          final response = await userRepository.refreshToken(refreshToken);
 
-            if (response.hasException) {
-              yield ConnectionFailedState();
-            } else {
-              add(MutateSignInEvent());
-            }
-          } else {
+          if (response.hasException) {
             yield ConnectionFailedState();
+          } else {
+            add(MutateSignInEvent());
           }
-        } else if (response.exception.graphqlErrors[0].message ==
-            Errors.InvalidCredentials) {
-          yield CredentialsErrorState();
-        } else if (response.exception.graphqlErrors[0].message ==
-            Errors.BannedUser) {
-          navigationService.navigateWithoutGoBack(Routes.UserBannedRoute);
-        } else if (response.exception.graphqlErrors[0].message ==
-            Errors.BannedDevice) {
-          navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
+        } else {
+          yield ConnectionFailedState();
         }
+      } else if (response.exception.graphqlErrors[0].message ==
+          Errors.InvalidCredentials) {
+        yield CredentialsErrorState();
+      } else if (response.exception.graphqlErrors[0].message ==
+          Errors.BannedUser) {
+        navigationService.navigateWithoutGoBack(Routes.UserBannedRoute);
+      } else if (response.exception.graphqlErrors[0].message ==
+          Errors.BannedDevice) {
+        navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
       } else {
         navigationService.navigateWithoutGoBack(Routes.HomeRoute);
         yield SignInInitial();
@@ -103,21 +98,19 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final response = await this.registerDataRepository.registerData();
 
       if (response.hasException) {
-        if (response.hasException) {
-          if (response.exception.graphqlErrors[0].message ==
-              Errors.TokenExpired) {
-            String refreshToken = await secureStorage.read(key: "refreshToken");
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          String refreshToken = await secureStorage.read(key: "refreshToken");
 
-            final response = await userRepository.refreshToken(refreshToken);
+          final response = await userRepository.refreshToken(refreshToken);
 
-            if (response.hasException) {
-              yield ConnectionFailedState();
-            } else {
-              add(GetRegisterDataEvent());
-            }
-          } else {
+          if (response.hasException) {
             yield ConnectionFailedState();
+          } else {
+            add(GetRegisterDataEvent());
           }
+        } else {
+          yield ConnectionFailedState();
         }
       } else {
         final List provincesData = response.data['provinces'];
