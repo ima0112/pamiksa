@@ -41,7 +41,7 @@ class FavoriteRepository {
   Future<QueryResult> fetchFavorite() async {
     final WatchQueryOptions _options = WatchQueryOptions(
       documentNode: gql(queries.favorite),
-      fetchPolicy: FetchPolicy.cacheAndNetwork,
+      fetchPolicy: FetchPolicy.networkOnly,
       fetchResults: true,
     );
     return await client.query(_options);

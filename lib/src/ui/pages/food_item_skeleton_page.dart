@@ -10,21 +10,29 @@ class _FoodItemSkeletonPageState extends State<FoodItemSkeletonPage> {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-      title: Text(
-        'test',
-        style: TextStyle(fontSize: 14.0),
+      title: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Container(
+          width: 60,
+          height: 10,
+          color: Theme.of(context).chipTheme.backgroundColor,
+        ),
       ),
       onTap: () {},
-      subtitle: Text(
-        'test',
-        style: TextStyle(fontWeight: FontWeight.bold),
+      subtitle: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Container(
+          width: 40,
+          height: 10,
+          color: Theme.of(context).chipTheme.backgroundColor,
+        ),
       ),
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(7.5),
-        child: Image.network(
-          'test',
-          fit: BoxFit.fitWidth,
+        child: Container(
           width: 80,
+          height: 100,
+          color: Theme.of(context).chipTheme.backgroundColor,
         ),
       ),
       dense: true,

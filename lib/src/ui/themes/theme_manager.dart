@@ -71,8 +71,8 @@ final appThemeData = {
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: Color(0xff121212)),
     errorColor: Colors.red[400],
     chipTheme: ChipThemeData(
-        backgroundColor: Colors.grey[900],
-        disabledColor: Colors.grey[400],
+        backgroundColor: Colors.grey[850],
+        disabledColor: Colors.grey[900],
         selectedColor: Colors.grey[700],
         secondarySelectedColor: Colors.grey[700],
         padding: EdgeInsets.all(4),
