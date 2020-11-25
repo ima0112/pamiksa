@@ -76,22 +76,25 @@ class _FavoritePageState extends State<FavoritePage> {
                           navigationService
                               .navigateTo(Routes.FavoriteDetailsRoute);
                         },
-                        subtitle:
-                            Text("Precio: ${state.favoriteModel[index].price}"),
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(7.5),
-                          child: Image.network(
-                            state.favoriteModel[index].photoUrl,
-                            fit: BoxFit.fitHeight,
-                            height: 100,
+                        subtitle: Text(
+                          "\$ ${state.favoriteModel[index].price}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        leading: Hero(
+                          tag: state.favoriteModel[index].photo,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(7.5),
+                            child: Image.network(
+                              state.favoriteModel[index].photoUrl,
+                              fit: BoxFit.fitWidth,
+                              width: 80,
+                            ),
                           ),
                         ),
                         dense: true,
                       ),
-                      separatorBuilder: (_, __) => Divider(
-                        height: 0.0,
-                      ),
-                    ),
+                      separatorBuilder: (_, __) => Divider(height: 0.0),
+                    )
                   ],
                 ),
               );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
-import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class FavoriteDetailsPage extends StatefulWidget {
   @override
@@ -23,245 +22,51 @@ class _FavoriteDetailsPageState extends State<FavoriteDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      right: false,
-      left: false,
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => null,
-          label: Text("Agregar al carrito"),
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: BlocBuilder<FavoriteDetailsBloc, FavoriteDetailsState>(
-          builder: (context, state) {
-            return Stack(
-              children: <Widget>[
-                CustomScrollView(
-                  controller: this._scrollController,
-                  slivers: <Widget>[
-                    appBar(),
-                    SliverList(delegate: SliverChildListDelegate([details()]))
-                  ],
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget appBar() {
     return BlocBuilder<FavoriteDetailsBloc, FavoriteDetailsState>(
-      builder: (context, state) {
-        if (state is LoadingFavoritesDetailsFoodsState) {
-          return SliverAppBar(
-              pinned: true,
-              backgroundColor: Theme.of(context).appBarTheme.color,
-              expandedHeight: 200,
-              elevation: 2.0,
-              flexibleSpace: FlexibleSpaceBar(
-                  background: Stack(
-                    children: [
-                      Container(
-                        width: double.maxFinite,
-                        height: double.maxFinite,
-                        child: Image.asset(
-                          "assets/images/image_color_gray_transparent_background.png",
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        height: double.maxFinite,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Colors.transparent.withOpacity(0.0),
-                                  Colors.black87
-                                ],
-                                stops: [
-                                  0.5,
-                                  1.0
-                                ])),
-                      ),
-                    ],
-                  ),
-                  centerTitle: false,
-                  title: Text(
-                    " ",
-                    style: TextStyle(
-                        color: Theme.of(context)
-                            .appBarTheme
-                            .textTheme
-                            .bodyText1
-                            .color),
-                  )));
-        } else if (state is LoadedFavoritesFoodsWithOutAddonsState) {
-          return SliverAppBar(
-              pinned: true,
-              backgroundColor: Theme.of(context).appBarTheme.color,
-              expandedHeight: 200,
-              elevation: 2.0,
-              stretch: true,
-              flexibleSpace: FlexibleSpaceBar(
-                  background: Stack(
-                    children: [
-                      Container(
-                        width: double.maxFinite,
-                        height: double.maxFinite,
-                        child: Image.network(
-                          state.favoriteModel.photoUrl,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        height: double.maxFinite,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Colors.transparent.withOpacity(0.0),
-                                  Colors.black54
-                                ],
-                                stops: [
-                                  0.5,
-                                  1.0
-                                ])),
-                      ),
-                    ],
-                  ),
-                  centerTitle: false,
-                  title: Text(
-                    "",
-                    style: TextStyle(
-                        color: Theme.of(context)
-                            .appBarTheme
-                            .textTheme
-                            .bodyText1
-                            .color),
-                  )));
-        } else if (state is LoadedFavoritesFoodsDetailsState) {
-          return SliverAppBar(
-              pinned: true,
-              backgroundColor: Theme.of(context).appBarTheme.color,
-              expandedHeight: 200,
-              elevation: 2.0,
-              stretch: true,
-              flexibleSpace: FlexibleSpaceBar(
-                  background: Stack(
-                    children: [
-                      Container(
-                        width: double.maxFinite,
-                        height: double.maxFinite,
-                        child: Image.network(
-                          state.favoriteModel.photoUrl,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        height: double.maxFinite,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Colors.transparent.withOpacity(0.0),
-                                  Colors.black54
-                                ],
-                                stops: [
-                                  0.5,
-                                  1.0
-                                ])),
-                      ),
-                    ],
-                  ),
-                  centerTitle: false,
-                  title: Text(
-                    "",
-                    style: TextStyle(
-                        color: Theme.of(context)
-                            .appBarTheme
-                            .textTheme
-                            .bodyText1
-                            .color),
-                  )));
-        }
-        return SliverAppBar(
-            pinned: true,
-            backgroundColor: Theme.of(context).appBarTheme.color,
-            expandedHeight: 200,
-            elevation: 2.0,
-            flexibleSpace: FlexibleSpaceBar(
-                background: Stack(
-                  children: [
-                    Container(
-                      width: double.maxFinite,
-                      height: double.maxFinite,
-                      child: Image.asset(
-                        "assets/images/image_color_gray_transparent_background.png",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Container(
-                      width: double.maxFinite,
-                      height: double.maxFinite,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.transparent.withOpacity(0.0),
-                                Colors.black87
-                              ],
-                              stops: [
-                                0.5,
-                                1.0
-                              ])),
-                    ),
-                  ],
-                ),
-                centerTitle: false,
-                title: Text(
-                  " ",
-                  style: TextStyle(
-                      color: Theme.of(context)
-                          .appBarTheme
-                          .textTheme
-                          .bodyText1
-                          .color),
-                )));
-      },
-    );
-  }
-
-  Widget details() {
-    return BlocBuilder<FavoriteDetailsBloc, FavoriteDetailsState>(
-      builder: (context, state) {
-        if (state is LoadingFavoritesDetailsFoodsState) {
-          return Center(
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: LinearProgressIndicator(),
+        builder: (context, state) {
+      if (state is LoadingFavoritesDetailsFoodsState) {
+        return Center(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: CircularProgressIndicator(),
+          ),
+        );
+      } else if (state is LoadedFavoritesFoodsWithOutAddonsState) {
+        return Center(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: CircularProgressIndicator(),
+          ),
+        );
+      } else if (state is LoadedFavoritesFoodsDetailsState) {
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-          );
-        } else if (state is LoadedFavoritesFoodsWithOutAddonsState) {
-          return Container();
-        } else if (state is LoadedFavoritesFoodsDetailsState) {
-          return Column(
+            title: Text(
+              state.favoriteModel.name,
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1.color,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          body: Column(
             children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                  child: Hero(
+                    tag: state.favoriteModel.photo,
+                    child: ClipRRect(
+                      child: Image.network(
+                        state.favoriteModel.photoUrl,
+                      ),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  )),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                 child: ListView.separated(
@@ -303,17 +108,17 @@ class _FavoriteDetailsPageState extends State<FavoriteDetailsPage> {
                 ),
               ),
             ],
-          );
-        }
-        return Center(
-            child: FlatButton.icon(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                onPressed: () {},
-                icon: Icon(Icons.refresh),
-                label: Text("Reintentar")));
-      },
-    );
+          ),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () => null,
+            icon: Icon(Icons.add_shopping_cart),
+            label: Text("Agregar al carrito"),
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+        );
+      }
+    });
   }
 }
