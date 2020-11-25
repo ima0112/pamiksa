@@ -59,23 +59,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       preferences.saveInt('lightMode', 0);
 
       if (response.hasException) {
-        print(response.exception);
-        if (response.hasException) {
-          if (response.exception.graphqlErrors[0].message ==
-              Errors.TokenExpired) {
-            String refreshToken = await secureStorage.read(key: "refreshToken");
-
-            final response = await userRepository.refreshToken(refreshToken);
-
-            if (response.hasException) {
-              yield ConnectionFailedState();
-            } else {
-              add(MutateSignInEvent());
-            }
-          } else {
-            yield ConnectionFailedState();
-          }
-        } else if (response.exception.graphqlErrors[0].message ==
+        if (response.exception.graphqlErrors[0].message ==
             Errors.InvalidCredentials) {
           yield CredentialsErrorState();
         } else if (response.exception.graphqlErrors[0].message ==
