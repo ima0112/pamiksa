@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/models/models.dart';
-import 'package:pamiksa/src/ui/pages/pages.dart';
+import 'package:pamiksa/src/ui/utils/business_item_page.dart';
+import 'package:pamiksa/src/ui/utils/business_item_skeleton_page.dart';
 import 'package:shimmer/shimmer.dart';
 
 class RootPage extends StatefulWidget {

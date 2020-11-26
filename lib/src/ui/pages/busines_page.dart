@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
-import 'package:pamiksa/src/ui/pages/business_skeleton_page.dart';
+import 'package:pamiksa/src/ui/utils/business_skeleton_page.dart';
 
 class BusinessPage extends StatefulWidget {
   const BusinessPage({Key key}) : super(key: key);

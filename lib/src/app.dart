@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
-import 'package:pamiksa/src/ui/themes/consts.dart' show APP_NAME;
 
 class MyApp extends StatefulWidget {
   final String initialRoute;
@@ -42,7 +41,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               localizationsDelegates: [GlobalMaterialLocalizations.delegate],
               supportedLocales: [const Locale('es')],
-              title: APP_NAME,
+              title: 'Pamiksa',
               themeMode: state.themeData,
               theme: appThemeData[ThemeMode.light],
               darkTheme: appThemeData[ThemeMode.dark],
@@ -55,7 +54,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             localizationsDelegates: [GlobalMaterialLocalizations.delegate],
             supportedLocales: [const Locale('es')],
-            title: APP_NAME,
+            title: 'Pamiksa',
             themeMode: state.themeData,
             theme: appThemeData[ThemeMode.light],
             darkTheme: appThemeData[ThemeMode.dark],

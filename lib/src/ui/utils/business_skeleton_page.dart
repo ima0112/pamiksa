@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pamiksa/src/ui/pages/food_item_skeleton_page.dart';
 import 'package:shimmer/shimmer.dart';
-
-import 'food_item_skeleton_page.dart';
 
 class BusinessSkeletonPage extends StatefulWidget {
   @override
