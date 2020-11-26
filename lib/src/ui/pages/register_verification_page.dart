@@ -71,7 +71,7 @@ class _VerificationPageState extends State<VerificationPage> {
                 child: Container(
                   margin: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 16.0),
                   child: Text(
-                    "Te hemos enviado un código de verificación a ${email}",
+                    "Te hemos enviado un código de verificación a $email",
                     style: TextStyle(color: Colors.grey),
                     textAlign: TextAlign.center,
                   ),
@@ -248,6 +248,7 @@ class RegisterVerificationActions extends StatelessWidget {
           child: Align(
             alignment: Alignment.topCenter,
             child: FlatButton.icon(
+              onPressed: () {},
               textColor: Colors.grey,
               icon: Icon(Icons.refresh),
               shape: RoundedRectangleBorder(

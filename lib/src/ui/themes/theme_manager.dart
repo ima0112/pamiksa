@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/data/storage/shared.dart';
 
 enum AppTheme { Claro, Oscuro }
 

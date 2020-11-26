@@ -14,7 +14,6 @@ class RegisterLocationPage extends StatefulWidget {
 
 class RegisterLocationPageState extends State<RegisterLocationPage> {
   final NavigationService navigationService = locator<NavigationService>();
-  final ScrollController _scrollController = ScrollController();
   final _formKey = GlobalKey<FormState>();
 
   LocationBloc locationBloc;

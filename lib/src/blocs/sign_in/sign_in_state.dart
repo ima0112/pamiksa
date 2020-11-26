@@ -11,30 +11,25 @@ class SignInInitial extends SignInState {
 
 class WaitingSignInResponseState extends SignInState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class ConnectionFailedState extends SignInState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class CredentialsErrorState extends SignInState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class LoadingSignState extends SignInState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class UserBannedState extends SignInState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:device_info/device_info.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/device.dart';

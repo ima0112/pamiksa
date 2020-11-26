@@ -11,7 +11,7 @@ class RegisterDataRepository {
 
   Future<QueryResult> registerData() async {
     final WatchQueryOptions _options = WatchQueryOptions(
-      documentNode: gql(queries.register_data),
+      documentNode: gql(queries.registerDataQuery),
       fetchResults: true,
     );
     return await client.query(_options);

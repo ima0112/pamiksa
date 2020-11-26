@@ -15,30 +15,25 @@ class LoadedProfileState extends ProfileState {
   LoadedProfileState(this.results);
 
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class ProfileConnectionFailedState extends ProfileState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class CropProfileImageState extends ProfileState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class LoadingProfileState extends ProfileState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class ProfileTokenExpiredState extends ProfileState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }

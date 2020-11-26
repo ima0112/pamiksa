@@ -6,13 +6,11 @@ abstract class DevicesEvent extends Equatable {
 
 class FetchDevicesDataEvent extends DevicesEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class SignOutAllEvent extends DevicesEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
@@ -22,18 +20,15 @@ class SignOutEvent extends DevicesEvent {
   SignOutEvent({this.deviceId});
 
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class SetDeviceInitialEvent extends DevicesEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class DeviceRefreshTokenEvent extends DevicesEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }

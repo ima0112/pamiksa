@@ -17,18 +17,15 @@ class LoadedBusinessState extends RootState {
   LoadedBusinessState(this.results);
 
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class HomeConnectionFailedState extends RootState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class TokenExpiredState extends RootState {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/repositories/remote/sessions_repository.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'ticker.dart';
-import 'ticker.dart';
 
 part 'timer_event.dart';
 part 'timer_state.dart';

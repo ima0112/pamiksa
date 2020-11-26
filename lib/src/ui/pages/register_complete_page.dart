@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/register_complete/register_complete_bloc.dart';
 import 'package:pamiksa/src/data/models/user.dart';

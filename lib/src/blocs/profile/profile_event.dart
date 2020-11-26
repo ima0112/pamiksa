@@ -6,7 +6,6 @@ abstract class ProfileEvent extends Equatable {
 
 class FetchProfileEvent extends ProfileEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
@@ -16,19 +15,16 @@ class SendImageEvent extends ProfileEvent {
   SendImageEvent(this.file);
 
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class SetCropProfileEvent extends ProfileEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class SetProfileInitialStateEvent extends ProfileEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
@@ -37,7 +33,6 @@ class ChangeNameEvent extends ProfileEvent {
 
   ChangeNameEvent({this.name});
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
@@ -46,7 +41,6 @@ class ChangeAdressEvent extends ProfileEvent {
 
   ChangeAdressEvent({this.adress});
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
@@ -55,12 +49,10 @@ class ChangeEmailEvent extends ProfileEvent {
 
   ChangeEmailEvent({this.email});
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class ProfileRefreshTokenEvent extends ProfileEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
