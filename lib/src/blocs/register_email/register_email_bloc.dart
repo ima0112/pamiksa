@@ -26,8 +26,6 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
   ) async* {
     if (event is CheckUserEmailEvent) {
       yield* _mapCheckUserEmailEvent(event);
-    } else if (event is RegisterEmailRefreshTokenEvent) {
-      yield* _mapRegisterEmailRefreshTokenEvent(event);
     } else if (event is SetRegisterEmailInitialEvent) {
       yield RegisterEmailInitial();
     }
@@ -40,37 +38,13 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
     try {
       final response = await this.userRepository.userExists(event.email);
 
-      if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message ==
-            Errors.TokenExpired) {
-          add(RegisterEmailRefreshTokenEvent());
-        } else {
-          yield RegisterEmailConnectionFailedState();
-        }
-      } else if (response.data['userExists'] == true) {
+      if (response.data['userExists'] == true) {
         yield ExistsUserEmailState();
       } else if (response.data['userExists'] == false) {
         await secureStorage.save(key: 'email', value: event.email);
         print({await secureStorage.read(key: 'email')});
 
         navigationService.navigateTo(Routes.RegisterPasswordRoute);
-      }
-    } catch (error) {
-      yield RegisterEmailConnectionFailedState();
-    }
-  }
-
-  Stream<RegisterEmailState> _mapRegisterEmailRefreshTokenEvent(
-      RegisterEmailRefreshTokenEvent event) async* {
-    try {
-      String refreshToken = await secureStorage.read(key: "refreshToken");
-
-      final response = await userRepository.refreshToken(refreshToken);
-
-      if (response.hasException) {
-        yield RegisterEmailConnectionFailedState();
-      } else {
-        add(CheckUserEmailEvent(email));
       }
     } catch (error) {
       yield RegisterEmailConnectionFailedState();

@@ -54,32 +54,20 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final response = await this
           .userRepository
           .signIn(event.email, event.password, deviceModel);
+
       preferences.saveInt('lightMode', 0);
 
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
-            Errors.TokenExpired) {
-          String refreshToken = await secureStorage.read(key: "refreshToken");
-
-          final response = await userRepository.refreshToken(refreshToken);
-
-          if (response.hasException) {
-            yield ConnectionFailedState();
-          } else {
-            add(MutateSignInEvent());
-          }
-        } else {
-          yield ConnectionFailedState();
+            Errors.InvalidCredentials) {
+          yield CredentialsErrorState();
+        } else if (response.exception.graphqlErrors[0].message ==
+            Errors.BannedUser) {
+          navigationService.navigateWithoutGoBack(Routes.UserBannedRoute);
+        } else if (response.exception.graphqlErrors[0].message ==
+            Errors.BannedDevice) {
+          navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
         }
-      } else if (response.exception.graphqlErrors[0].message ==
-          Errors.InvalidCredentials) {
-        yield CredentialsErrorState();
-      } else if (response.exception.graphqlErrors[0].message ==
-          Errors.BannedUser) {
-        navigationService.navigateWithoutGoBack(Routes.UserBannedRoute);
-      } else if (response.exception.graphqlErrors[0].message ==
-          Errors.BannedDevice) {
-        navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
       } else {
         navigationService.navigateWithoutGoBack(Routes.HomeRoute);
         yield SignInInitial();
@@ -97,53 +85,36 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       final response = await this.registerDataRepository.registerData();
 
-      if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message ==
-            Errors.TokenExpired) {
-          String refreshToken = await secureStorage.read(key: "refreshToken");
+      final List provincesData = response.data['provinces'];
+      provinceModel = provincesData
+          .map((e) => ProvinceModel(
+                id: e['id'],
+                name: e['name'],
+              ))
+          .toList();
+      provincesRepository.clear();
+      provinceModel.forEach((element) {
+        provincesRepository.insert(element.toMap());
+      });
 
-          final response = await userRepository.refreshToken(refreshToken);
+      final List municipalityData = response.data['municipalities'];
+      municipalityModel = municipalityData
+          .map((e) => MunicipalityModel(
+              id: e['id'], name: e['name'], provinceFk: e['provinceFk']))
+          .toList();
+      municipalityRepository.clear();
+      municipalityModel.forEach((element) {
+        municipalityRepository.insert(element.toMap());
+      });
 
-          if (response.hasException) {
-            yield ConnectionFailedState();
-          } else {
-            add(GetRegisterDataEvent());
-          }
-        } else {
-          yield ConnectionFailedState();
-        }
-      } else {
-        final List provincesData = response.data['provinces'];
-        provinceModel = provincesData
-            .map((e) => ProvinceModel(
-                  id: e['id'],
-                  name: e['name'],
-                ))
-            .toList();
-        provincesRepository.clear();
-        provinceModel.forEach((element) {
-          provincesRepository.insert(element.toMap());
-        });
+      String date = response.data['dateNow'];
+      int year = int.parse(date.substring(0, 4)) - 18;
+      int month = int.parse(date.substring(5, 7));
+      int day = int.parse(date.substring(8));
 
-        final List municipalityData = response.data['municipalities'];
-        municipalityModel = municipalityData
-            .map((e) => MunicipalityModel(
-                id: e['id'], name: e['name'], provinceFk: e['provinceFk']))
-            .toList();
-        municipalityRepository.clear();
-        municipalityModel.forEach((element) {
-          municipalityRepository.insert(element.toMap());
-        });
-
-        String date = response.data['dateNow'];
-        int year = int.parse(date.substring(0, 4)) - 18;
-        int month = int.parse(date.substring(5, 7));
-        int day = int.parse(date.substring(8));
-
-        preferences.saveInt('year', year);
-        preferences.saveInt('month', month);
-        preferences.saveInt('day', day);
-      }
+      preferences.saveInt('year', year);
+      preferences.saveInt('month', month);
+      preferences.saveInt('day', day);
     } catch (error) {
       yield ConnectionFailedState();
     }

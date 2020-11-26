@@ -32,13 +32,6 @@ class _SearchDetailsPageState extends State<SearchDetailsPage> {
             child: CircularProgressIndicator(),
           ),
         );
-      } else if (state is SearchDetailsTokenExpiredState) {
-        searchDetailsBloc.add(SearchDetailRefreshTokenEvent());
-        return Container(
-          child: Center(
-            child: LinearProgressIndicator(),
-          ),
-        );
       } else if (state is LoadedSearchDetailWithOutAddonsState) {
         return AppBar(
           title: Text(state.searchModel.name),

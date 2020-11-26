@@ -12,5 +12,3 @@ class SaveUserNewPasswordEvent extends ForgotPasswordEvent {
 
   SaveUserNewPasswordEvent(this.password);
 }
-
-class ForgotPasswordRefreshTokenEvent extends ForgotPasswordEvent {}

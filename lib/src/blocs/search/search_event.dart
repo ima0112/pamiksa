@@ -19,4 +19,8 @@ class SearchSuggestionsEvent extends SearchEvent {
   SearchSuggestionsEvent(this.query);
 }
 
-class SearchRefreshTokenEvent extends SearchEvent {}
+class SearchRefreshTokenEvent extends SearchEvent {
+  final SearchEvent childEvent;
+
+  SearchRefreshTokenEvent(this.childEvent);
+}

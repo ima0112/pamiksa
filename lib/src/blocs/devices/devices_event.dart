@@ -33,6 +33,9 @@ class SetDeviceInitialEvent extends DevicesEvent {
 }
 
 class DeviceRefreshTokenEvent extends DevicesEvent {
+  final DevicesEvent childEvent;
+
+  DeviceRefreshTokenEvent(this.childEvent);
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();

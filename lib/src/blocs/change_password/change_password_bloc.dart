@@ -36,12 +36,12 @@ class ChangePasswordBloc
     yield ChangingPasswordState();
     password = event.password;
     try {
-      final response = await userRepository.changePassword(event.password);
+      final response = await userRepository.changePassword(password);
 
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          add(ChangePasswordRefreshTokenEvent());
+          add(ChangePasswordRefreshTokenEvent(event));
         } else {
           yield ChangePasswordConnectionFailedState();
         }
@@ -61,7 +61,7 @@ class ChangePasswordBloc
       if (response.hasException) {
         yield ChangePasswordConnectionFailedState();
       } else {
-        add(SendNewPasswordEvent(password));
+        add(event.childEvent);
       }
     } catch (error) {
       yield ChangePasswordConnectionFailedState();

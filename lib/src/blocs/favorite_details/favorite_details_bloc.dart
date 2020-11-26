@@ -44,13 +44,13 @@ class FavoriteDetailsBloc
     id = event.id;
     try {
       FavoriteModel favoriteResult =
-          await favoriteRepository.getFavoriteFoodById(event.id);
-      final response = await addonsRepository.addons(event.id);
+          await favoriteRepository.getFavoriteFoodById(id);
+      final response = await addonsRepository.addons(id);
 
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          add(FavoriteDetailsRefreshTokenEvent());
+          add(FavoriteDetailsRefreshTokenEvent(event));
         } else {
           yield FavoriteDetailsConnectionFailed();
         }
@@ -94,7 +94,7 @@ class FavoriteDetailsBloc
       } else if (response.hasException) {
         yield FavoriteDetailsConnectionFailed();
       } else {
-        add(FetchFavoriteFoodsDetailsEvent(id));
+        add(event.childEvent);
       }
     } catch (error) {
       yield FavoriteDetailsConnectionFailed();

@@ -43,13 +43,13 @@ class SearchDetailsBloc extends Bloc<SearchDetailsEvent, SearchDetailsState> {
     yield LoadingSearchDetailsState();
     id = event.id;
     try {
-      SearchModel result = await searchRepository.getById(event.id);
-      final response = await addonsRepository.addons(event.id);
+      SearchModel result = await searchRepository.getById(id);
+      final response = await addonsRepository.addons(id);
 
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          add(SearchDetailRefreshTokenEvent());
+          add(SearchDetailRefreshTokenEvent(event));
         } else {
           yield SearchDetailsConnectionFailedState();
         }
@@ -94,7 +94,7 @@ class SearchDetailsBloc extends Bloc<SearchDetailsEvent, SearchDetailsState> {
       } else if (response.hasException) {
         yield SearchDetailsConnectionFailedState();
       } else {
-        add(FetchSearchDetailEvent(id));
+        add(event.childEvent);
       }
     } catch (error) {
       yield SearchDetailsConnectionFailedState();

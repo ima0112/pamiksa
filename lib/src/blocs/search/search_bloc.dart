@@ -42,12 +42,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     yield SearchingFoodsState();
     name = event.name;
     try {
-      final response = await searchRepository.foods(event.name);
+      final response = await searchRepository.foods(name);
 
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          add(SearchRefreshTokenEvent());
+          add(SearchRefreshTokenEvent(event));
         } else {
           yield SearchConnectionFailedState();
         }
@@ -70,11 +70,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           searchRepository.insert('Search', element.toMap());
         });
 
-        final suggestion = await suggestionRepository.getByName(event.name);
+        final suggestion = await suggestionRepository.getByName(name);
 
         if (suggestion == null) {
           List<SuggestionsModel> suggestionsModel = List();
-          suggestionsModel.add(SuggestionsModel(name: event.name));
+          suggestionsModel.add(SuggestionsModel(name: name));
           suggestionsModel.forEach((element) {
             searchRepository.insert('Suggestion', element.toMap());
           });
@@ -95,7 +95,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       if (response.hasException) {
         yield SearchConnectionFailedState();
       } else {
-        add(SearchFoodEvent(name));
+        add(event.childEvent);
       }
     } catch (error) {
       yield SearchConnectionFailedState();
