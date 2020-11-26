@@ -9,8 +9,6 @@ import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
-import '../blocs.dart';
-
 part 'business_details_event.dart';
 
 part 'business_details_state.dart';
