@@ -9,8 +9,10 @@ import 'package:pamiksa/src/ui/themes/consts.dart' show APP_NAME;
 
 class MyApp extends StatefulWidget {
   final String initialRoute;
+  final ThemeMode themeMode;
 
-  const MyApp({Key key, @required this.initialRoute}) : super(key: key);
+  const MyApp({Key key, @required this.initialRoute, this.themeMode})
+      : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -35,28 +37,13 @@ class _MyAppState extends State<MyApp> {
         buildWhen: (previousState, state) =>
             state.runtimeType != previousState.runtimeType,
         builder: (context, state) {
-          if (state is ThemeInitial) {
-            themeBloc.add(LoadingThemeEvent());
-          } else {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: [GlobalMaterialLocalizations.delegate],
-              supportedLocales: [const Locale('es')],
-              title: APP_NAME,
-              themeMode: state.themeData,
-              theme: appThemeData[ThemeMode.light],
-              darkTheme: appThemeData[ThemeMode.dark],
-              onGenerateRoute: GenerateRoute.generateRoute,
-              initialRoute: widget.initialRoute,
-              navigatorKey: locator<NavigationService>().navigatorKey,
-            );
-          }
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             localizationsDelegates: [GlobalMaterialLocalizations.delegate],
             supportedLocales: [const Locale('es')],
             title: APP_NAME,
-            themeMode: state.themeData,
+            themeMode:
+                state is ThemeInitial ? widget.themeMode : state.themeMode,
             theme: appThemeData[ThemeMode.light],
             darkTheme: appThemeData[ThemeMode.dark],
             onGenerateRoute: GenerateRoute.generateRoute,

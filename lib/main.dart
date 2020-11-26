@@ -22,6 +22,8 @@ void main() async {
   await DotEnv().load('.env');
   WidgetsFlutterBinding.ensureInitialized();
 
+  ThemeMode themeMode = await Utils().loadedTheme();
+
   String initialRoute = Routes.HomeRoute;
 
   bool isUserLoggedIn = await UserModel().isLoggedIn();
@@ -137,6 +139,9 @@ void main() async {
             SearchRepository(client: GraphQLConfiguration().clients())),
       ),
     ],
-    child: MyApp(initialRoute: initialRoute),
+    child: MyApp(
+      initialRoute: initialRoute,
+      themeMode: themeMode,
+    ),
   ));
 }

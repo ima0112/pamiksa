@@ -66,7 +66,6 @@ class Utils {
 
   Future<ThemeMode> loadedTheme() async {
     int themeMode = await preferences.read('themeMode') ?? null;
-
     if (themeMode == 0) {
       await preferences.saveInt('themeMode', 0);
       return ThemeMode.system;
