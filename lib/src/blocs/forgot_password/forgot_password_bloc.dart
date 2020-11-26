@@ -33,8 +33,6 @@ class ForgotPasswordBloc
   ) async* {
     if (event is SaveUserNewPasswordEvent) {
       yield* _mapSaveUserNewPasswordEvent(event);
-    } else if (event is ForgotPasswordRefreshTokenEvent) {
-      yield* _mapForgotPasswordRefreshTokenEvent(event);
     }
   }
 
@@ -52,33 +50,9 @@ class ForgotPasswordBloc
       final response = await userRepository.resetPassword(
           email, event.password, deviceModel);
 
-      if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message ==
-            Errors.TokenExpired) {
-          add(ForgotPasswordRefreshTokenEvent());
-        } else {
-          yield ForgotPasswordConnectionFailedState();
-        }
-      }
-
       await secureStorage.remove(key: 'password');
 
       navigationService.navigateAndRemove(Routes.HomeRoute);
-    } catch (error) {
-      yield ForgotPasswordConnectionFailedState();
-    }
-  }
-
-  Stream<ForgotPasswordState> _mapForgotPasswordRefreshTokenEvent(
-      ForgotPasswordRefreshTokenEvent event) async* {
-    try {
-      String refreshToken = await secureStorage.read(key: "refreshToken");
-      final response = await userRepository.refreshToken(refreshToken);
-      if (response.hasException) {
-        yield ForgotPasswordConnectionFailedState();
-      } else {
-        add(SaveUserNewPasswordEvent(password));
-      }
     } catch (error) {
       yield ForgotPasswordConnectionFailedState();
     }

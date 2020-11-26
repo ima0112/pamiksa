@@ -67,7 +67,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          yield ProfileTokenExpiredState();
+          add(ProfileRefreshTokenEvent(event));
         } else {
           yield ProfileConnectionFailedState();
         }
@@ -93,23 +93,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     file = event.file;
     try {
       await minio.fPutObject(DotEnv().env['USER_AVATAR_BULK_NAME'],
-          '${basename(event.file.path)}', '${event.file.path}');
-      final response =
-          await userRepository.editProfile(basename(event.file.path));
+          '${basename(file.path)}', '${file.path}');
+      final response = await userRepository.editProfile(basename(file.path));
 
       if (response.hasException) {
         if (response.hasException) {
           if (response.exception.graphqlErrors[0].message ==
               Errors.TokenExpired) {
-            String refreshToken = await secureStorage.read(key: "refreshToken");
-
-            final response = await userRepository.refreshToken(refreshToken);
-
-            if (response.hasException) {
-              yield ProfileConnectionFailedState();
-            } else {
-              add(SendImageEvent(file));
-            }
+            add(ProfileRefreshTokenEvent(event));
           } else {
             yield ProfileConnectionFailedState();
           }
@@ -145,21 +136,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _mapChangeNameEvent(ChangeNameEvent event) async* {
     name = event.name;
     try {
-      final response = await userRepository.editName(event.name);
+      final response = await userRepository.editName(name);
 
       if (response.hasException) {
         if (response.hasException) {
           if (response.exception.graphqlErrors[0].message ==
               Errors.TokenExpired) {
-            String refreshToken = await secureStorage.read(key: "refreshToken");
-
-            final response = await userRepository.refreshToken(refreshToken);
-
-            if (response.hasException) {
-              yield ProfileConnectionFailedState();
-            } else {
-              add(ChangeNameEvent(name: name));
-            }
+            add(ProfileRefreshTokenEvent(event));
           } else {
             yield ProfileConnectionFailedState();
           }
@@ -176,21 +159,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _mapChangeAdressEvent(ChangeAdressEvent event) async* {
     adress = event.adress;
     try {
-      final response = await userRepository.editAdress(event.adress);
+      final response = await userRepository.editAdress(adress);
 
       if (response.hasException) {
         if (response.hasException) {
           if (response.exception.graphqlErrors[0].message ==
               Errors.TokenExpired) {
-            String refreshToken = await secureStorage.read(key: "refreshToken");
-
-            final response = await userRepository.refreshToken(refreshToken);
-
-            if (response.hasException) {
-              yield ProfileConnectionFailedState();
-            } else {
-              add(ChangeAdressEvent(adress: adress));
-            }
+            add(ProfileRefreshTokenEvent(event));
           } else {
             yield ProfileConnectionFailedState();
           }
@@ -205,22 +180,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _mapChangeEmailEvent(ChangeEmailEvent event) async* {
+    email = event.email;
     try {
-      final response = await userRepository.editEmail(event.email);
+      final response = await userRepository.editEmail(email);
 
       if (response.hasException) {
         if (response.hasException) {
           if (response.exception.graphqlErrors[0].message ==
               Errors.TokenExpired) {
-            String refreshToken = await secureStorage.read(key: "refreshToken");
-
-            final response = await userRepository.refreshToken(refreshToken);
-
-            if (response.hasException) {
-              yield ProfileConnectionFailedState();
-            } else {
-              add(ChangeEmailEvent(email: email));
-            }
+            add(ProfileRefreshTokenEvent(event));
           } else {
             yield ProfileConnectionFailedState();
           }
@@ -247,7 +215,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } else if (response.hasException) {
         yield ProfileConnectionFailedState();
       } else {
-        yield ProfileInitial();
+        add(event.childEvent);
       }
     } catch (error) {
       yield ProfileConnectionFailedState();

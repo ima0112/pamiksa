@@ -14,5 +14,3 @@ class CheckVerificationCodeEvent extends RegisterVerificationEvent {
 
   CheckVerificationCodeEvent({this.code});
 }
-
-class RegisterVerificationRefreshTokenEvent extends RegisterVerificationEvent {}

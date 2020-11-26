@@ -51,9 +51,6 @@ class _FavoritePageState extends State<FavoritePage> {
             if (state is FavoriteInitial) {
               favoriteBloc.add(FetchFavoritesFoodsEvent());
               return Center(child: CircularProgressIndicator());
-            } else if (state is FavoriteTokenExpired) {
-              favoriteBloc.add(FavoriteRefreshTokenEvent());
-              return Center(child: CircularProgressIndicator());
             } else if (state is LoadedFavoritesFoodsState) {
               return SingleChildScrollView(
                 child: Column(

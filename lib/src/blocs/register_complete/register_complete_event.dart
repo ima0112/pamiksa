@@ -12,5 +12,3 @@ class MutateUserandDeviceEvent extends RegisterCompleteEvent {
 
   MutateUserandDeviceEvent(this.userModel);
 }
-
-class RegisterCompleteRefreshTokenEvent extends RegisterCompleteEvent {}

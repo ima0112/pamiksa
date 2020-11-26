@@ -31,8 +31,6 @@ class RegisterVerificationBloc
       yield* _mapMutateCodeEvent(event);
     } else if (event is CheckVerificationCodeEvent) {
       yield* _mapCheckVerificationCodeEvent(event);
-    } else if (event is RegisterVerificationRefreshTokenEvent) {
-      yield* _mapRegisterVerificationRefreshTokenEvent(event);
     }
   }
 
@@ -50,15 +48,6 @@ class RegisterVerificationBloc
           .userRepository
           .sendVerificationCode(email, code.toString());
 
-      if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message ==
-            Errors.TokenExpired) {
-          add(RegisterVerificationRefreshTokenEvent());
-        } else {
-          yield RegisterVerificationConnectionFailedState();
-        }
-      }
-
       print(
           {"response": response.data.toString(), "code": code, "email": email});
     } catch (error) {
@@ -75,21 +64,6 @@ class RegisterVerificationBloc
       navigationService.navigateAndRemoveUntil(Routes.RegisterCompleteRoute);
     } else {
       yield IncorrectedVerificationCodeState();
-    }
-  }
-
-  Stream<RegisterVerificationState> _mapRegisterVerificationRefreshTokenEvent(
-      RegisterVerificationRefreshTokenEvent event) async* {
-    try {
-      String refreshToken = await secureStorage.read(key: "refreshToken");
-      final response = await userRepository.refreshToken(refreshToken);
-      if (response.hasException) {
-        yield RegisterVerificationConnectionFailedState();
-      } else {
-        add(RegisterVerificationMutateCodeEvent());
-      }
-    } catch (error) {
-      yield RegisterVerificationConnectionFailedState();
     }
   }
 }

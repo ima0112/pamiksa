@@ -9,7 +9,11 @@ abstract class FavoriteEvent extends Equatable {
 
 class FetchFavoritesFoodsEvent extends FavoriteEvent {}
 
-class FavoriteRefreshTokenEvent extends FavoriteEvent {}
+class FavoriteRefreshTokenEvent extends FavoriteEvent {
+  final FavoriteEvent childEvent;
+
+  FavoriteRefreshTokenEvent(this.childEvent);
+}
 
 class ChangeStateToInitialEvent extends FavoriteEvent {}
 

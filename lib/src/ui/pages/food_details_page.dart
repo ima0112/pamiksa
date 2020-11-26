@@ -30,13 +30,6 @@ class _FoodPageState extends State<FoodPage> {
             child: CircularProgressIndicator(),
           ),
         );
-      } else if (state is FoodTokenExpiredState) {
-        foodBloc.add(FoodRefreshTokenEvent());
-        return Container(
-          child: Center(
-            child: LinearProgressIndicator(),
-          ),
-        );
       } else if (state is LoadedFoodWithOutAddonsState) {
         return AppBar(
           title: Text(state.foodModel.name),

@@ -60,6 +60,9 @@ class ChangeEmailEvent extends ProfileEvent {
 }
 
 class ProfileRefreshTokenEvent extends ProfileEvent {
+  final ProfileEvent childEvent;
+
+  ProfileRefreshTokenEvent(this.childEvent);
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();

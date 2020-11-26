@@ -45,13 +45,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: CircularProgressIndicator(),
                 ),
               );
-            } else if (state is ProfileTokenExpiredState) {
-              profileBloc.add(ProfileRefreshTokenEvent());
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
             } else if (state is LoadedProfileState) {
               Widget profileCircleAvatar() {
                 if (state.results.photoUrl != null) {

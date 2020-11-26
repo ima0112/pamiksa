@@ -24,5 +24,3 @@ class ProvinceSelectedEvent extends LocationEvent {
 
   ProvinceSelectedEvent(this.provinceFk);
 }
-
-class LocationRefreshTokenEvent extends LocationEvent {}

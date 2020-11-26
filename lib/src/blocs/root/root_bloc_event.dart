@@ -29,6 +29,9 @@ class LogoutEvent extends RootEvent {
 }
 
 class RefreshTokenEvent extends RootEvent {
+  final RootEvent childEvent;
+
+  RefreshTokenEvent(this.childEvent);
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();

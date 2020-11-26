@@ -52,7 +52,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
           await sessionsRepository.fetchSessions(deviceModel.deviceId);
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message == "Token Expired") {
-          add(DeviceRefreshTokenEvent());
+          add(DeviceRefreshTokenEvent(event));
         } else {
           yield DeviceConnectionFailedState();
         }
@@ -82,13 +82,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
     final response = await sessionsRepository.signOutAll(deviceModel.deviceId);
     if (response.hasException) {
       if (response.exception.graphqlErrors[0].message == "Token Expired") {
-        String refreshToken = await secureStorage.read(key: "refreshToken");
-        final response = await userRepository.refreshToken(refreshToken);
-        if (response.hasException) {
-          yield DeviceConnectionFailedState();
-        } else {
-          add(SignOutAllEvent());
-        }
+        add(DeviceRefreshTokenEvent(event));
       } else {
         yield DeviceConnectionFailedState();
       }
@@ -103,23 +97,16 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
     deviceId = event.deviceId;
     try {
       await deviceInfo.initPlatformState(deviceModel);
-      final response = await userRepository.signOut(event.deviceId);
+      final response = await userRepository.signOut(deviceId);
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message == "Token Expired") {
-          String refreshToken = await secureStorage.read(key: "refreshToken");
-          final response = await userRepository.refreshToken(refreshToken);
-          if (response.hasException) {
-            yield DeviceConnectionFailedState();
-          } else {
-            add(SignOutEvent(deviceId: deviceId));
-          }
+          add(DeviceRefreshTokenEvent(event));
         } else {
           yield DeviceConnectionFailedState();
         }
       } else {
-        await sessionsRepository.deleteById(event.deviceId);
-        devicesModelList
-            .removeWhere((element) => element.deviceId == event.deviceId);
+        await sessionsRepository.deleteById(deviceId);
+        devicesModelList.removeWhere((element) => element.deviceId == deviceId);
         add(FetchDevicesDataEvent());
       }
     } catch (error) {
@@ -135,7 +122,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       if (response.hasException) {
         yield DeviceConnectionFailedState();
       } else {
-        add(FetchDevicesDataEvent());
+        add(event.childEvent);
       }
     } catch (error) {
       yield DeviceConnectionFailedState();
