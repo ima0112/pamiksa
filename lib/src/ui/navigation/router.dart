@@ -6,8 +6,8 @@ import 'package:pamiksa/src/ui/pages/application_update_page.dart';
 import 'package:pamiksa/src/ui/pages/busines_page.dart';
 import 'package:pamiksa/src/ui/pages/device_banned_page.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
-import 'package:pamiksa/src/ui/pages/pick_image.dart';
-import 'package:pamiksa/src/ui/pages/profile.dart';
+import 'package:pamiksa/src/ui/pages/pick_image_page.dart';
+import 'package:pamiksa/src/ui/pages/profile_page.dart';
 import 'package:pamiksa/src/ui/pages/security_page.dart';
 
 class GenerateRoute {

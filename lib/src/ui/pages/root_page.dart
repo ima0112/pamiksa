@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/models/models.dart';
-import 'package:pamiksa/src/ui/utils/business_item_page.dart';
-import 'package:pamiksa/src/ui/utils/business_item_skeleton_page.dart';
+import 'package:pamiksa/src/ui/widgets/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class RootPage extends StatefulWidget {
@@ -89,6 +88,8 @@ class _RootPageState extends State<RootPage> {
             ),
           ));
         } else if (state is LoadedBusinessState) {
+          print(
+              'El Modo es ${WidgetsBinding.instance.window.platformBrightness}');
           final List<BusinessModel> businessData = state.results;
           return SafeArea(
             child: CustomScrollView(

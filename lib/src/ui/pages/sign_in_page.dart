@@ -112,9 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        LinearProgressIndicator(
-                          backgroundColor: Colors.white,
-                        ),
+                        LinearProgressIndicator(),
                         Expanded(
                           flex: 3,
                           child: startLogin(),
