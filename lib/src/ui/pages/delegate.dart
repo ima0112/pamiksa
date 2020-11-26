@@ -12,6 +12,13 @@ class FoodSearch extends SearchDelegate<SearchModel> {
   SearchDetailsBloc searchDetailsBloc;
 
   @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+        primaryColor: Theme.of(context).appBarTheme.color,
+        textTheme: Theme.of(context).textTheme);
+  }
+
+  @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
       if (query.isNotEmpty)
