@@ -20,68 +20,85 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     profileBloc = BlocProvider.of<ProfileBloc>(context);
-    return Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(0),
-            child: AppBar(
-              elevation: 0.0,
-              backgroundColor: Theme.of(context).primaryColorLight,
-              automaticallyImplyLeading: false,
-            )),
-        body: BlocBuilder<ProfileBloc, ProfileState>(
-          buildWhen: (previousState, state) =>
-              state.runtimeType != previousState.runtimeType,
-          builder: (context, state) {
-            if (state is ProfileInitial) {
-              profileBloc.add(FetchProfileEvent());
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
+    return BlocBuilder<ProfileBloc, ProfileState>(
+        buildWhen: (previousState, state) =>
+            state.runtimeType != previousState.runtimeType,
+        builder: (context, state) {
+          if (state is ProfileInitial) {
+            profileBloc.add(FetchProfileEvent());
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "Perfil",
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1.color,
+                      fontWeight: FontWeight.bold),
                 ),
-              );
-            } else if (state is LoadingProfileState) {
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
+              ),
+              body: Container(
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            );
+          } else if (state is LoadingProfileState) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "Perfil",
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1.color,
+                      fontWeight: FontWeight.bold),
                 ),
-              );
-            } else if (state is ProfileTokenExpiredState) {
-              profileBloc.add(ProfileRefreshTokenEvent());
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
+              ),
+              body: Container(
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            );
+          } else if (state is ProfileTokenExpiredState) {
+            profileBloc.add(ProfileRefreshTokenEvent());
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "Perfil",
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1.color,
+                      fontWeight: FontWeight.bold),
                 ),
-              );
-            } else if (state is LoadedProfileState) {
-              Widget profileCircleAvatar() {
-                if (state.results.photoUrl != null) {
-                  return CircleAvatar(
-                    radius: 70,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: NetworkImage(
-                      state.results.photoUrl,
-                    ),
-                  );
-                }
+              ),
+              body: Container(
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            );
+          } else if (state is LoadedProfileState) {
+            Widget profileCircleAvatar() {
+              if (state.results.photoUrl != null) {
                 return CircleAvatar(
                   radius: 70,
                   backgroundColor: Colors.transparent,
-                  backgroundImage: AssetImage(
-                      "assets/images/image_color_gray_transparent_background.png"),
+                  backgroundImage: NetworkImage(
+                    state.results.photoUrl,
+                  ),
                 );
               }
+              return CircleAvatar(
+                radius: 70,
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage(
+                    "assets/images/image_color_gray_transparent_background.png"),
+              );
+            }
 
-              return SingleChildScrollView(
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "Perfil",
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1.color,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    AppBar(
-                      title: Text(
-                        "Perfil",
-                        style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1.color,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
                     SizedBox(
                       height: 25.0,
                     ),
@@ -170,19 +187,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize: 16.0,
                             color: Theme.of(context).textTheme.bodyText1.color),
                       ),
-                      /*onTap: () {
-                        changeEmail(state.results.email);
-                      },*/
-                      /*trailing: Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                        size: 16.0,
-                      ),*/
                     ),
                   ],
                 ),
-              );
-            }
+              ),
+            );
+          } else {
             return Center(
                 child: FlatButton.icon(
                     shape: RoundedRectangleBorder(
@@ -193,8 +203,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                     icon: Icon(Icons.refresh),
                     label: Text("Reintentar")));
-          },
-        ));
+          }
+        });
   }
 
   changeName(String fullname) {
