@@ -39,13 +39,7 @@ class _DevicesPageState extends State<DevicesPage> {
               buildWhen: (previousState, state) =>
                   state.runtimeType != previousState.runtimeType,
               builder: (context, state) {
-                if (state is DevicesTokenExpiredState) {
-                  devicesBloc.add(DeviceRefreshTokenEvent());
-                  return Align(
-                    alignment: Alignment.topCenter,
-                    child: LinearProgressIndicator(),
-                  );
-                } else if (state is DevicesInitial) {
+                if (state is DevicesInitial) {
                   devicesBloc.add(FetchDevicesDataEvent());
                   return Align(
                     alignment: Alignment.topCenter,
@@ -310,9 +304,7 @@ class _DevicesPageState extends State<DevicesPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          onPressed: () {
-                            devicesBloc.add(DeviceRefreshTokenEvent());
-                          },
+                          onPressed: () {},
                           icon: Icon(Icons.refresh),
                           label: Text("Reintentar")));
                 }

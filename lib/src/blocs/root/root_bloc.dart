@@ -64,7 +64,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
       if (response.hasException) {
         yield HomeConnectionFailedState();
       } else {
-        yield HomeInitial();
+        add(event.childEvent);
       }
     } catch (error) {
       yield HomeConnectionFailedState();
@@ -77,7 +77,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          yield TokenExpiredState();
+          add(RefreshTokenEvent(event));
         } else {
           yield HomeConnectionFailedState();
         }

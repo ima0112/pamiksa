@@ -46,7 +46,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          yield FavoriteTokenExpired();
+          add(FavoriteRefreshTokenEvent(event));
         } else {
           yield FavoriteConnectionFailed();
         }
@@ -90,7 +90,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       } else if (response.hasException) {
         yield FavoriteConnectionFailed();
       } else {
-        yield FavoriteInitial();
+        add(event.childEvent);
       }
     } catch (error) {
       yield FavoriteConnectionFailed();

@@ -7,7 +7,11 @@ abstract class FavoriteDetailsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FavoriteDetailsRefreshTokenEvent extends FavoriteDetailsEvent {}
+class FavoriteDetailsRefreshTokenEvent extends FavoriteDetailsEvent {
+  final FavoriteDetailsEvent childEvent;
+
+  FavoriteDetailsRefreshTokenEvent(this.childEvent);
+}
 
 class FetchFavoriteFoodsDetailsEvent extends FavoriteDetailsEvent {
   final String id;

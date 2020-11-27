@@ -16,6 +16,3 @@ class CheckVerificationFromForgotPasswordCodeEvent
 
   CheckVerificationFromForgotPasswordCodeEvent(this.code);
 }
-
-class ForgotPasswordVerificationRefreshTokenEvent
-    extends ForgotPasswordVerificationEvent {}

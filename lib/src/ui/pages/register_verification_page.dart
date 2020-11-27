@@ -22,6 +22,7 @@ class _VerificationPageState extends State<VerificationPage> {
   SecureStorage secureStorage = SecureStorage();
 
   String email;
+  String code;
 
   @override
   void initState() {
@@ -95,7 +96,17 @@ class _VerificationPageState extends State<VerificationPage> {
           padding: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 0.0),
           child: Column(
             children: <Widget>[
-              BlocBuilder<RegisterVerificationBloc, RegisterVerificationState>(
+              BlocConsumer<RegisterVerificationBloc, RegisterVerificationState>(
+                listener: (context, state) {
+                  if (state is RegisterVerificationInitial) {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                          "$code",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        duration: Duration(seconds: 6)));
+                  }
+                },
                 builder: (context, state) {
                   return BlocBuilder<RegisterVerificationBloc,
                       RegisterVerificationState>(
@@ -186,9 +197,11 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void obtenerPreferences() async {
+    String codigo = await secureStorage.read(key: 'code');
     String correo = await secureStorage.read(key: 'email');
     setState(() {
       email = correo;
+      code = codigo;
     });
   }
 }

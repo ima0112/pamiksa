@@ -45,8 +45,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       yield* _mapFetchProvinceMunicipalityDataEvent(event);
     } else if (event is ProvinceSelectedEvent) {
       yield* _mapProvinceSelectedEvent(event);
-    } else if (event is LocationRefreshTokenEvent) {
-      yield* _mapLocationRefreshTokenEvent(event);
     }
   }
 
@@ -67,15 +65,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       final response = await this
           .userRepository
           .sendVerificationCode(email, code.toString());
-
-      if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message ==
-            Errors.TokenExpired) {
-          add(LocationRefreshTokenEvent());
-        } else {
-          yield LocationConnectionFailedState();
-        }
-      }
 
       print(
           {"response": response.data.toString(), "code": code, "email": email});
@@ -116,23 +105,5 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         .toList();
 
     yield MunicipalitiesLoadedState(municipalitiesReturn, provinceReturn);
-  }
-
-  Stream<LocationState> _mapLocationRefreshTokenEvent(
-      LocationRefreshTokenEvent event) async* {
-    try {
-      String refreshToken = await secureStorage.read(key: "refreshToken");
-      final response = await userRepository.refreshToken(refreshToken);
-      if (response.hasException) {
-        yield LocationConnectionFailedState();
-      } else {
-        add(LocationMutateCodeEvent(
-            adress: adress,
-            municipalityId: municipalityId,
-            provinceId: provinceId));
-      }
-    } catch (error) {
-      yield LocationConnectionFailedState();
-    }
   }
 }

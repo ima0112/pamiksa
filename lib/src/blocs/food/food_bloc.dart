@@ -43,13 +43,13 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     yield LoadingFoodState();
     id = event.id;
     try {
-      FoodModel foodResult = await foodRepository.getById(event.id);
-      final response = await addonsRepository.addons(event.id);
+      FoodModel foodResult = await foodRepository.getById(id);
+      final response = await addonsRepository.addons(id);
 
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
-          add(FoodRefreshTokenEvent());
+          add(FoodRefreshTokenEvent(event));
         } else {
           yield FoodConnectionFailedState();
         }
@@ -92,7 +92,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       } else if (response.hasException) {
         yield FoodConnectionFailedState();
       } else {
-        add(FetchFoodEvent(id));
+        add(event.childEvent);
       }
     } catch (error) {
       yield FoodConnectionFailedState();

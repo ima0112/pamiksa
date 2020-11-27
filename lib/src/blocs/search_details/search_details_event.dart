@@ -13,4 +13,8 @@ class FetchSearchDetailEvent extends SearchDetailsEvent {
   FetchSearchDetailEvent(this.id);
 }
 
-class SearchDetailRefreshTokenEvent extends SearchDetailsEvent {}
+class SearchDetailRefreshTokenEvent extends SearchDetailsEvent {
+  final SearchDetailsEvent childEvent;
+
+  SearchDetailRefreshTokenEvent(this.childEvent);
+}

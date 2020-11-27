@@ -31,8 +31,6 @@ class ForgotPasswordVerificationBloc extends Bloc<
       yield* _mapMutateCodeFromForgotPasswordEvent(event);
     } else if (event is CheckVerificationFromForgotPasswordCodeEvent) {
       yield* _mapCheckVerificationFromForgotPasswordCodeEvent(event);
-    } else if (event is ForgotPasswordVerificationRefreshTokenEvent) {
-      yield* _mapForgotPasswordVerificationRefreshTokenEvent(event);
     }
   }
 
@@ -45,13 +43,7 @@ class ForgotPasswordVerificationBloc extends Bloc<
 
     final response =
         await this.userRepository.sendVerificationCode(email, code.toString());
-    if (response.hasException) {
-      if (response.exception.graphqlErrors[0].message == Errors.TokenExpired) {
-        add(ForgotPasswordVerificationRefreshTokenEvent());
-      } else {
-        yield ForgotPasswordVerificationConnectionFailedState();
-      }
-    }
+
     print({"response": response.data, "code": code, "email": email});
   }
 
@@ -65,22 +57,6 @@ class ForgotPasswordVerificationBloc extends Bloc<
       navigationService.navigateWithoutGoBack(Routes.ForgotPassword);
     } else {
       yield IncorrectedVerificationToForgotPasswordCodeState();
-    }
-  }
-
-  Stream<ForgotPasswordVerificationState>
-      _mapForgotPasswordVerificationRefreshTokenEvent(
-          ForgotPasswordVerificationRefreshTokenEvent event) async* {
-    try {
-      String refreshToken = await secureStorage.read(key: "refreshToken");
-      final response = await userRepository.refreshToken(refreshToken);
-      if (response.hasException) {
-        yield ForgotPasswordVerificationConnectionFailedState();
-      } else {
-        add(MutateCodeFromForgotPasswordEvent());
-      }
-    } catch (error) {
-      yield ForgotPasswordVerificationConnectionFailedState();
     }
   }
 }
