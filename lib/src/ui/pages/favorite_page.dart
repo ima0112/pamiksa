@@ -71,7 +71,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   ],
                 ),
               );
-            } else if (state is FavoriteTokenExpired) {
+            } /*else if (state is FavoriteTokenExpired) {
               favoriteBloc.add(FavoriteRefreshTokenEvent());
               return SingleChildScrollView(
                 child: Column(
@@ -92,7 +92,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   ],
                 ),
               );
-            } else if (state is LoadedFavoritesFoodsState) {
+            }*/ else if (state is LoadedFavoritesFoodsState) {
               return SingleChildScrollView(
                 child: Column(
                   children: [
