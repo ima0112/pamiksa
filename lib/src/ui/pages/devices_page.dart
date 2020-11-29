@@ -20,18 +20,12 @@ class _DevicesPageState extends State<DevicesPage> {
     devicesBloc = BlocProvider.of<DevicesBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColorLight,
-        bottom: PreferredSize(
-            child: AppBar(
-              title: Text(
-                "Dispositivos",
-                style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText1.color,
-                    fontWeight: FontWeight.bold),
-              ),
-              elevation: 2.0,
-            ),
-            preferredSize: Size.fromHeight(0)),
+        title: Text(
+          "Dispositivos",
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1.color,
+          ),
+        ),
       ),
       body: BlocBuilder<DevicesBloc, DevicesState>(
         builder: (context, state) {
