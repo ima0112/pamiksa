@@ -89,11 +89,12 @@ class _BusinessPagePageState extends State<BusinessPage> {
             body: ListView.separated(
               controller: _scrollControllerList,
               shrinkWrap: true,
-              itemCount: state.foodModel.length,
+              itemCount:
+                  state.foodModel.length == 0 ? 1 : state.foodModel.length,
               itemBuilder: (_, index) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (index == 0 || state.foodModel.length == 0)
+                  if (index == 0)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -133,34 +134,35 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         ),
                       ],
                     ),
-                  ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-                    title: Text(
-                      state.foodModel[index].name,
-                      style: TextStyle(fontSize: 14.0),
-                    ),
-                    onTap: () {
-                      foodBloc.add(FetchFoodEvent(state.foodModel[index].id));
-                      navigationService.navigateTo(Routes.FoodRoute);
-                    },
-                    subtitle: Text(
-                      "\$ ${state.foodModel[index].price}",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    leading: Hero(
-                      tag: state.foodModel[index].photo,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(7.5),
-                        child: Image.network(
-                          state.foodModel[index].photoUrl,
-                          fit: BoxFit.fitWidth,
-                          width: 80,
+                  if (state.foodModel.length != 0)
+                    ListTile(
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 15.0),
+                      title: Text(
+                        state.foodModel[index].name,
+                        style: TextStyle(fontSize: 14.0),
+                      ),
+                      onTap: () {
+                        foodBloc.add(FetchFoodEvent(state.foodModel[index].id));
+                        navigationService.navigateTo(Routes.FoodRoute);
+                      },
+                      subtitle: Text(
+                        "\$ ${state.foodModel[index].price}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      leading: Hero(
+                        tag: state.foodModel[index].photo,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(7.5),
+                          child: Image.network(
+                            state.foodModel[index].photoUrl,
+                            fit: BoxFit.fitWidth,
+                            width: 80,
+                          ),
                         ),
                       ),
+                      dense: true,
                     ),
-                    dense: true,
-                  ),
                 ],
               ),
               separatorBuilder: (_, __) => Divider(height: 0.0),
