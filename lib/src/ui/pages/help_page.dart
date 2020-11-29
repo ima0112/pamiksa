@@ -15,18 +15,12 @@ class _HelpPageState extends State<HelpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColorLight,
-        bottom: PreferredSize(
-            child: AppBar(
-              elevation: 2.0,
-              title: Text(
-                "Ayuda",
-                style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText1.color,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            preferredSize: Size.fromHeight(0)),
+        title: Text(
+          "Ayuda",
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1.color,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(bottom: 15.0),
