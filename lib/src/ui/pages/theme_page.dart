@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/theme/theme_bloc.dart';
 import 'package:pamiksa/src/data/storage/shared.dart';
-import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class ThemePage extends StatefulWidget {
   @override
