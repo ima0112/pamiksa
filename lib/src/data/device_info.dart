@@ -16,7 +16,11 @@ Future<void> initPlatformState(DeviceModel deviceModel) async {
       deviceModel.phoneModel = "${androidInfo.brand} ${androidInfo.model}";
       deviceModel.systemVersion = androidInfo.version.release;
     } else if (Platform.isIOS) {
-      deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+      IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
+      deviceModel.plattform = "iOS";
+      deviceModel.deviceId = iosDeviceInfo.identifierForVendor;
+      deviceModel.phoneModel = iosDeviceInfo.model;
+      deviceModel.systemVersion = iosDeviceInfo.systemVersion;
     }
   } on PlatformException {
     deviceData = <String, dynamic>{'Error:': 'Failed to get platform version.'};
