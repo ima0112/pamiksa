@@ -129,8 +129,6 @@ class _DevicesPageState extends State<DevicesPage> {
                                                     .add(SignOutAllEvent());
                                                 Navigator.pop(context);
                                               },
-                                              color:
-                                                  Colors.deepPurpleAccent[700],
                                               elevation: 0.0,
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:

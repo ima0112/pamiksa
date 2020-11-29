@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
-import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class FoodPage extends StatefulWidget {
   @override

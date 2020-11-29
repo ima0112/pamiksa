@@ -6,25 +6,21 @@ abstract class RootEvent extends Equatable {
 
 class BusinessOptionsPulsed extends RootEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class FetchBusinessEvent extends RootEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class ChangeToInitialStateEvent extends RootEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
 class LogoutEvent extends RootEvent {
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
 
@@ -33,6 +29,5 @@ class RefreshTokenEvent extends RootEvent {
 
   RefreshTokenEvent(this.childEvent);
   @override
-  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }

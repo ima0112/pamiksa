@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:flutter/services.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
-import 'package:pamiksa/src/ui/pages/user_banned.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -113,9 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        LinearProgressIndicator(
-                          backgroundColor: Colors.white,
-                        ),
+                        LinearProgressIndicator(),
                         Expanded(
                           flex: 3,
                           child: startLogin(),

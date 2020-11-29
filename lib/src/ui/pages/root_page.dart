@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/models/models.dart';
-import 'package:pamiksa/src/ui/pages/pages.dart';
+import 'package:pamiksa/src/ui/widgets/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class RootPage extends StatefulWidget {
@@ -71,13 +71,15 @@ class _RootPageState extends State<RootPage> {
                 ),
                 SliverList(
                     delegate: SliverChildListDelegate([
+                  LinearProgressIndicator(),
                   ListView.separated(
                     controller: _scrollController,
                     shrinkWrap: true,
                     itemCount: 2,
                     itemBuilder: (_, index) => Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[200],
+                        baseColor: Theme.of(context).chipTheme.disabledColor,
+                        highlightColor:
+                            Theme.of(context).chipTheme.backgroundColor,
                         child: BusinessItemSkeletonPage()),
                     separatorBuilder: (_, __) => Divider(height: 0.0),
                   )
@@ -86,6 +88,8 @@ class _RootPageState extends State<RootPage> {
             ),
           ));
         } else if (state is LoadedBusinessState) {
+          print(
+              'El Modo es ${WidgetsBinding.instance.window.platformBrightness}');
           final List<BusinessModel> businessData = state.results;
           return SafeArea(
             child: CustomScrollView(

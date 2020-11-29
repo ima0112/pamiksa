@@ -20,3 +20,8 @@ class GetRegisterDataEvent extends SignInEvent {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class SignInRefreshTokenEvent extends SignInEvent {
+  @override
+  List<Object> get props => throw UnimplementedError();
+}

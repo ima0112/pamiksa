@@ -1,4 +1,4 @@
-String register_data = r""" 
+String registerDataQuery = r""" 
 query{
   provinces{
     id

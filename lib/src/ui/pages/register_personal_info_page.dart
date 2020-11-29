@@ -7,7 +7,6 @@ import 'package:pamiksa/src/blocs/register_personal_info/register_personal_info_
 import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class RegisterPersonalInfoPage extends StatefulWidget {
   static Route route() {

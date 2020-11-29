@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pamiksa/src/data/consts.dart' as consts;
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
@@ -64,10 +63,10 @@ class _HelpPageState extends State<HelpPage> {
                           style: TextStyle(fontSize: 14.0, color: Colors.grey),
                           children: [
                             TextSpan(
-                                text: " ${consts.APP_NAME}",
+                                text: " Pamiksa",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             TextSpan(
-                                text: "  ${consts.APP_VERSION}",
+                                text: "  Implementar con la biblioteca",
                                 style: TextStyle(fontWeight: FontWeight.bold))
                           ]))
                 ])

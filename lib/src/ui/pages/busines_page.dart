@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/widgets/widgets.dart';
 
 class BusinessPage extends StatefulWidget {
   const BusinessPage({Key key}) : super(key: key);
@@ -52,30 +53,12 @@ class _BusinessPagePageState extends State<BusinessPage> {
         builder: (context, state) {
       if (state is BusinessDetailsInitial) {
         businessDetailsBloc.add(FetchBusinessDetailsEvent(state.id));
-        return Scaffold(
-          body: Container(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        );
+        return BusinessSkeletonPage();
       } else if (state is LoadingBusinessDetailsState) {
-        return Scaffold(
-          body: Container(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        );
+        return BusinessSkeletonPage();
       } else if (state is BusinessTokenExpired) {
         businessDetailsBloc.add(BusinessRefreshTokenEvent());
-        return Scaffold(
-          body: Container(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        );
+        return BusinessSkeletonPage();
       } else if (state is LoadedBusinessDetailsState) {
         return Scaffold(
             appBar: AppBar(
@@ -99,12 +82,18 @@ class _BusinessPagePageState extends State<BusinessPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                            padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                            child: ClipRRect(
-                              child:
-                                  Image.network(state.businessModel.photoUrl),
-                              borderRadius: BorderRadius.circular(15.0),
-                            )),
+                          padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: FadeInImage(
+                              width: 500,
+                              fit: BoxFit.cover,
+                              height: 225,
+                              placeholder: AssetImage("assets/gif/loading.gif"),
+                              image: NetworkImage(state.businessModel.photoUrl),
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(15.0, 10, 0, 1.5),
                           child: Text(
@@ -154,10 +143,13 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         tag: state.foodModel[index].photo,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(7.5),
-                          child: Image.network(
-                            state.foodModel[index].photoUrl,
+                          child: FadeInImage(
                             fit: BoxFit.fitWidth,
                             width: 80,
+                            image: NetworkImage(
+                              state.foodModel[index].photoUrl,
+                            ),
+                            placeholder: AssetImage("assets/gif/loading.gif"),
                           ),
                         ),
                       ),
