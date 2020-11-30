@@ -35,8 +35,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              body: Container(
-                child: Center(child: CircularProgressIndicator()),
+              body: Align(
+                alignment: Alignment.topCenter,
+                child: LinearProgressIndicator(),
               ),
             );
           } else if (state is LoadingProfileState) {
@@ -49,26 +50,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              body: Container(
-                child: Center(child: CircularProgressIndicator()),
+              body: Align(
+                alignment: Alignment.topCenter,
+                child: LinearProgressIndicator(),
               ),
             );
-          } /*else if (state is ProfileTokenExpiredState) {
-            profileBloc.add(ProfileRefreshTokenEvent());
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  "Perfil",
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText1.color,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              body: Container(
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            );
-          }*/ else if (state is LoadedProfileState) {
+          } else if (state is LoadedProfileState) {
             Widget profileCircleAvatar() {
               if (state.results.photoUrl != null) {
                 return CircleAvatar(

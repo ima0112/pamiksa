@@ -71,28 +71,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   ],
                 ),
               );
-            } /*else if (state is FavoriteTokenExpired) {
-              favoriteBloc.add(FavoriteRefreshTokenEvent());
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    LinearProgressIndicator(),
-                    ListView.separated(
-                      controller: _scrollController,
-                      shrinkWrap: true,
-                      itemCount: 6,
-                      itemBuilder: (_, index) => Shimmer.fromColors(
-                        baseColor: Theme.of(context).chipTheme.disabledColor,
-                        highlightColor:
-                            Theme.of(context).chipTheme.backgroundColor,
-                        child: FoodItemSkeletonPage(),
-                      ),
-                      separatorBuilder: (_, __) => Divider(height: 0.0),
-                    )
-                  ],
-                ),
-              );
-            }*/ else if (state is LoadedFavoritesFoodsState) {
+            } else if (state is LoadedFavoritesFoodsState) {
               return SingleChildScrollView(
                 child: Column(
                   children: [

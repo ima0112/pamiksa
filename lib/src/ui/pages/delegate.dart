@@ -49,7 +49,7 @@ class FoodSearch extends SearchDelegate<SearchModel> {
 
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
-        if (query.isEmpty) {
+        if (query.isEmpty || query.substring(0) == ' ') {
           return Padding(
             padding: EdgeInsets.all(8.0),
             child: Center(
@@ -136,6 +136,13 @@ class FoodSearch extends SearchDelegate<SearchModel> {
             itemBuilder: (context, index) {
               final String suggestion = state.suggestions[index].name;
               return ListTile(
+                trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      searchBloc.add(
+                          DeleteSuggestionsEvent(state.suggestions[index].id));
+                      searchBloc.add(SearchSuggestionsEvent(query));
+                    }),
                 leading: query.isEmpty ? Icon(Icons.history) : Icon(null),
                 title: RichText(
                     text: TextSpan(
@@ -166,7 +173,16 @@ class FoodSearch extends SearchDelegate<SearchModel> {
               .map((e) => ListTile(
                     leading: Icon(Icons.history),
                     title: Text(e.name),
-                    onTap: () {},
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        searchBloc.add(DeleteSuggestionsEvent(e.id));
+                      },
+                    ),
+                    onTap: () {
+                      query = e.name;
+                      showResults(context);
+                    },
                   ))
               .toList(),
         );
