@@ -5,7 +5,6 @@ import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
 import 'package:pamiksa/src/ui/pages/food_item_skeleton_page.dart';
-import 'package:pamiksa/src/ui/widgets/food_list_skeleton.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -53,9 +52,26 @@ class _FavoritePageState extends State<FavoritePage> {
           builder: (context, state) {
             if (state is FavoriteInitial) {
               favoriteBloc.add(FetchFavoritesFoodsEvent());
-              return FoodListSkeleton();
-            }
-            else if (state is LoadedFavoritesFoodsState) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    LinearProgressIndicator(),
+                    ListView.separated(
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      itemCount: 6,
+                      itemBuilder: (_, index) => Shimmer.fromColors(
+                        baseColor: Theme.of(context).chipTheme.disabledColor,
+                        highlightColor:
+                            Theme.of(context).chipTheme.backgroundColor,
+                        child: FoodItemSkeletonPage(),
+                      ),
+                      separatorBuilder: (_, __) => Divider(height: 0.0),
+                    )
+                  ],
+                ),
+              );
+            } else if (state is LoadedFavoritesFoodsState) {
               return SingleChildScrollView(
                 child: Column(
                   children: [
