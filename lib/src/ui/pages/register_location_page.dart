@@ -40,13 +40,6 @@ class RegisterLocationPageState extends State<RegisterLocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomPadding: false,
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: AppBar(
-            elevation: 0.0,
-            backgroundColor: Theme.of(context).primaryColorLight,
-            brightness: Theme.of(context).appBarTheme.brightness,
-          )),
       body: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {
           if (state is LoadingProvinceMunicipalityState) {

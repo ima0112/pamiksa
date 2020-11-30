@@ -35,7 +35,7 @@ class Utils {
           Errors.BannedUser) {
         initialRoute = Routes.UserBannedRoute;
       } else if (response.exception.graphqlErrors[0].message ==
-          "Session not exists") {
+          Errors.SessionNotExists) {
         initialRoute = Routes.LoginRoute;
       } else if (response.exception.graphqlErrors[0].message ==
           Errors.RefreshTokenExpired) {

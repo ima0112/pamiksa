@@ -61,13 +61,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(0),
-            child: AppBar(
-              elevation: 0.0,
-              backgroundColor: Theme.of(context).primaryColorLight,
-              brightness: Theme.of(context).brightness,
-            )),
         body: BlocConsumer<SignInBloc, SignInState>(
             listenWhen: (previous, current) =>
                 current.runtimeType != previous.runtimeType,

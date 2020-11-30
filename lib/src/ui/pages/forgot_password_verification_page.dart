@@ -42,13 +42,6 @@ class ForgotPasswordVerificationPageState
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: AppBar(
-            elevation: 0.0,
-            backgroundColor: Theme.of(context).primaryColorLight,
-            brightness: Theme.of(context).appBarTheme.brightness,
-          )),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 5.0),
