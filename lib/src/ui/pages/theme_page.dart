@@ -27,24 +27,16 @@ class _ThemeState extends State<ThemePage> {
   Widget build(BuildContext context) {
     themeBloc = BlocProvider.of<ThemeBloc>(context);
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: AppBar(
-            backgroundColor: Theme.of(context).primaryColorLight,
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-          )),
+      appBar: AppBar(
+        title: Text(
+          "Tema",
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1.color,
+          ),
+        ),
+      ),
       body: Column(
         children: [
-          AppBar(
-            title: Text(
-              "Tema",
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText1.color,
-                  fontWeight: FontWeight.bold),
-            ),
-            elevation: 2.0,
-          ),
           for (var i = 0; i < themes.length; i++)
             RadioListTile(
               value: i,

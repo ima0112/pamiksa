@@ -7,4 +7,5 @@ class Errors {
   static const String UniqueConstraintError = "UNIQUE_CONSTRAINT_ERROR";
   static const String RefreshTokenExpired = "REFRESH_TOKEN_EXPIRED";
   static const String DeprecatedApp = "DEPRECATED_APP";
+  static const String SessionNotExists = "SESSION_NOT_EXISTS_ERROR";
 }

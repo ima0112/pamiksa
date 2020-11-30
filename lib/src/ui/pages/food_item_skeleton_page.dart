@@ -31,7 +31,7 @@ class _FoodItemSkeletonPageState extends State<FoodItemSkeletonPage> {
         borderRadius: BorderRadius.circular(7.5),
         child: Container(
           width: 80,
-          height: 100,
+          height: 60,
           color: Theme.of(context).chipTheme.backgroundColor,
         ),
       ),

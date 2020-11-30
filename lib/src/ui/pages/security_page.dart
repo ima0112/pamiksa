@@ -13,24 +13,16 @@ class _SecurityPageState extends State<SecurityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: AppBar(
-            backgroundColor: Theme.of(context).primaryColorLight,
-            automaticallyImplyLeading: false,
-            elevation: 0.0,
-          )),
+      appBar: AppBar(
+        title: Text(
+          "Seguridad",
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1.color,
+          ),
+        ),
+      ),
       body: Column(
         children: <Widget>[
-          AppBar(
-            title: Text(
-              "Seguridad",
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText1.color,
-                  fontWeight: FontWeight.bold),
-            ),
-            elevation: 2.0,
-          ),
           ListTile(
             leading: Icon(Icons.lock),
             title: Text("Cambiar contraseña"),

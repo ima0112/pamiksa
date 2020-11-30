@@ -70,13 +70,6 @@ class RegisterPersonalInfoPageState extends State<RegisterPersonalInfoPage> {
           )
         : Scaffold(
             // resizeToAvoidBottomPadding: false,
-            appBar: PreferredSize(
-                preferredSize: Size.fromHeight(0),
-                child: AppBar(
-                  elevation: 0.0,
-                  backgroundColor: Color(0xffF5F5F5),
-                  brightness: Brightness.light,
-                )),
             body: Container(
               child: Column(
                 children: <Widget>[
