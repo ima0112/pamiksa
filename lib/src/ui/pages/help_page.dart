@@ -15,7 +15,7 @@ class _HelpPageState extends State<HelpPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Ajustes",
+          "Ayuda",
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyText1.color,
           ),
