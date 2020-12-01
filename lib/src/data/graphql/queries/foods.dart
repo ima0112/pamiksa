@@ -9,6 +9,7 @@ query Foods ($businessFk: ID){
       photo
       photoUrl
       isAvailable
+      isFavorite
       availability
     }
   }
@@ -25,6 +26,7 @@ query foodsById($foodFk: ID){
       photo
       photoUrl
       isAvailable
+      isFavorite
       availability
     }
   }

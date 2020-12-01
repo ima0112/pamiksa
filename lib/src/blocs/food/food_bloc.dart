@@ -16,6 +16,7 @@ part 'food_state.dart';
 
 class FoodBloc extends Bloc<FoodEvent, FoodState> {
   final FoodRepository foodRepository;
+  final FavoriteRepository favoriteRepository;
   final AddonsRepository addonsRepository;
   final UserRepository userRepository;
   final NavigationService navigationService = locator<NavigationService>();
@@ -24,9 +25,11 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   List<AddonsModel> addonsModel = List();
 
   String id;
+  int isFavorite;
 
-  FoodBloc(this.addonsRepository, this.foodRepository, this.userRepository)
-      : super(FoodInitial());
+  FoodBloc(this.addonsRepository, this.foodRepository, this.userRepository,
+      this.favoriteRepository)
+      : super(FoodInitial("0"));
 
   @override
   Stream<FoodState> mapEventToState(
@@ -36,6 +39,10 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       yield* _mapFetchAddonsEvent(event);
     } else if (event is FoodRefreshTokenEvent) {
       yield* _mapFoodRefreshTokenEvent(event);
+    } else if (event is ToggleIconViewFavoriteEvent) {
+      yield* _mapToggleIconViewFavoriteEvent(event);
+    } else if (event is SetFavoriteInitalStateEvent) {
+      yield FoodInitial(event.foodFk);
     }
   }
 
@@ -45,7 +52,6 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     try {
       FoodModel foodResult = await foodRepository.getById(id);
       final response = await addonsRepository.addons(id);
-
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
@@ -66,7 +72,9 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
           addonsModel.forEach((element) {
             addonsRepository.insert('Addons', element.toMap());
           });
+          isFavorite = foodResult.isFavorite;
           yield LoadedFoodState(
+              isFavorite: isFavorite,
               addonsModel: addonsModel,
               count: addonsModel.length,
               foodModel: foodResult);
@@ -77,6 +85,41 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       }
     } catch (error) {
       FoodConnectionFailedState();
+    }
+  }
+
+  Stream<FoodState> _mapToggleIconViewFavoriteEvent(
+      ToggleIconViewFavoriteEvent event) async* {
+    try {
+      if (isFavorite == 0) {
+        isFavorite = 1;
+        final response = await favoriteRepository.createFavorite(event.foodFk);
+        if (response.hasException) {
+          if (response.exception.graphqlErrors[0].message ==
+              Errors.TokenExpired) {
+            add(FoodRefreshTokenEvent(event));
+          } else {
+            yield FoodConnectionFailedState();
+          }
+        } else {
+          await foodRepository.updateById(event.foodFk, 1);
+        }
+      } else if (isFavorite == 1) {
+        isFavorite = 0;
+        final response = await favoriteRepository.deleteFavorite(event.foodFk);
+        if (response.hasException) {
+          if (response.exception.graphqlErrors[0].message ==
+              Errors.TokenExpired) {
+            add(FoodRefreshTokenEvent(event));
+          } else {
+            yield FoodConnectionFailedState();
+          }
+        } else {
+          await foodRepository.updateById(event.foodFk, 0);
+        }
+      }
+    } catch (error) {
+      yield FoodConnectionFailedState();
     }
   }
 

@@ -4,8 +4,7 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/pages/food_item_skeleton_page.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:pamiksa/src/ui/widgets/food_list_skeleton.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -52,25 +51,7 @@ class _FavoritePageState extends State<FavoritePage> {
           builder: (context, state) {
             if (state is FavoriteInitial) {
               favoriteBloc.add(FetchFavoritesFoodsEvent());
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    LinearProgressIndicator(),
-                    ListView.separated(
-                      controller: _scrollController,
-                      shrinkWrap: true,
-                      itemCount: 6,
-                      itemBuilder: (_, index) => Shimmer.fromColors(
-                        baseColor: Theme.of(context).chipTheme.disabledColor,
-                        highlightColor:
-                            Theme.of(context).chipTheme.backgroundColor,
-                        child: FoodItemSkeletonPage(),
-                      ),
-                      separatorBuilder: (_, __) => Divider(height: 0.0),
-                    )
-                  ],
-                ),
-              );
+              return FoodListSkeleton();
             } else if (state is LoadedFavoritesFoodsState) {
               return SingleChildScrollView(
                 child: Column(
@@ -110,6 +91,13 @@ class _FavoritePageState extends State<FavoritePage> {
                               placeholder: AssetImage("assets/gif/loading.gif"),
                             ),
                           ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            favoriteBloc.add(DeleteFavoriteEvent(
+                                state.favoriteModel[index].id));
+                          },
                         ),
                         dense: true,
                       ),

@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   RootBloc homeBloc;
+  FavoriteBloc favoriteBloc;
   int _currentIndex = 0;
 
   @override
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     homeBloc = BlocProvider.of<RootBloc>(context);
+    favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
 
     return Scaffold(
       extendBody: true,
@@ -42,6 +44,11 @@ class _HomePageState extends State<HomePage> {
         onTap: (index) {
           if (index == 1) {
             showSearch(context: context, delegate: FoodSearch());
+          } else if (index == 2) {
+            favoriteBloc.add(ChangeStateToInitialEvent());
+            setState(() {
+              _currentIndex = index;
+            });
           } else {
             setState(() {
               _currentIndex = index;

@@ -18,3 +18,22 @@ class FoodRefreshTokenEvent extends FoodEvent {
 
   FoodRefreshTokenEvent(this.childEvent);
 }
+
+class ToggleFavoriteEvent extends FoodEvent {
+  final int isFavorite;
+  final String foodFk;
+
+  ToggleFavoriteEvent(this.isFavorite, this.foodFk);
+}
+
+class ToggleIconViewFavoriteEvent extends FoodEvent {
+  final String foodFk;
+
+  ToggleIconViewFavoriteEvent(this.foodFk);
+}
+
+class SetFavoriteInitalStateEvent extends FoodEvent {
+  final String foodFk;
+
+  SetFavoriteInitalStateEvent(this.foodFk);
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
+import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
 import 'package:pamiksa/src/data/models/food.dart';
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
 import 'package:sqflite/sqflite.dart';
@@ -29,6 +30,17 @@ class FoodRepository {
     var connection = await database;
     await connection
         .transaction((txn) async => txn.execute('DELETE FROM "Food"'));
+  }
+
+  //Update row in Table
+  updateById(String id, int isFavorite) async {
+    // row to update
+    Map<String, dynamic> row = {
+      'isFavorite': isFavorite,
+    };
+    var connection = await database;
+    await connection.transaction((txn) async =>
+        txn.update('Food', row, where: 'id = ?', whereArgs: [id]));
   }
 
 //Get all records
