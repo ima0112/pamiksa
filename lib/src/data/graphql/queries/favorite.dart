@@ -22,5 +22,6 @@ query{
       name
     }
     createdAt
+    __typename
   }
 }""";

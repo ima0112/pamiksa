@@ -364,7 +364,7 @@ class _LoginPageState extends State<LoginPage> {
             width: double.infinity,
             padding: EdgeInsets.only(bottom: 15.0),
             child: RaisedButton(
-              child: Text("INICIAR SESIÓN"),
+              child: Text("Iniciar Sesion"),
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
@@ -398,7 +398,7 @@ class _LoginPageState extends State<LoginPage> {
             width: double.infinity,
             padding: EdgeInsets.only(bottom: 15.0),
             child: RaisedButton(
-              child: Text("INICIAR SESIÓN"),
+              child: Text("Iniciar Sesion"),
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),

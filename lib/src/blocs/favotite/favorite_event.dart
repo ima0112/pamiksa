@@ -18,3 +18,9 @@ class FavoriteRefreshTokenEvent extends FavoriteEvent {
 class ChangeStateToInitialEvent extends FavoriteEvent {}
 
 class SessionExpiredEvent extends FavoriteEvent {}
+
+class DeleteFavoriteEvent extends FavoriteEvent {
+  final String foodFk;
+
+  DeleteFavoriteEvent(this.foodFk);
+}

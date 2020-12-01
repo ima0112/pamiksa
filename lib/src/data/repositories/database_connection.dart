@@ -21,7 +21,7 @@ class DatabaseConnection {
     await database.execute(
         'CREATE TABLE "Favorite" (id character varying(255) NOT NULL,name character varying(255) NOT NULL,description character varying(255),price double precision NOT NULL,photo character varying(255) NOT NULL,photoUrl character varying(255) NOT NULL,"isAvailable" boolean DEFAULT false,availability integer DEFAULT 0,CONSTRAINT "Favorite_pkey" PRIMARY KEY (id))');
     await database.execute(
-        'CREATE TABLE "Food" (id character varying(255) NOT NULL,name character varying(255) NOT NULL,description character varying(255),price double precision NOT NULL,photo character varying(255) NOT NULL,photoUrl character varying(255) NOT NULL,"isAvailable" boolean DEFAULT false,availability integer DEFAULT 0,CONSTRAINT "Food_pkey" PRIMARY KEY (id))');
+        'CREATE TABLE "Food" (id character varying(255) NOT NULL,name character varying(255) NOT NULL,description character varying(255),price double precision NOT NULL,photo character varying(255) NOT NULL,photoUrl character varying(255) NOT NULL,"isAvailable" integer DEFAULT false,"isFavorite" integer DEFAULT false,availability integer DEFAULT 0,CONSTRAINT "Food_pkey" PRIMARY KEY (id))');
     await database.execute(
         'CREATE TABLE "Addons" (id character varying(255) NOT NULL,name character varying(255) NOT NULL,price double precision NOT NULL,CONSTRAINT "Addons_pkey" PRIMARY KEY (id))');
     await database.execute(

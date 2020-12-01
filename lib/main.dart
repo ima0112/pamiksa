@@ -121,9 +121,11 @@ void main() async {
               UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => FoodBloc(
-              AddonsRepository(client: GraphQLConfiguration().clients()),
-              FoodRepository(client: GraphQLConfiguration().clients()),
-              UserRepository(client: GraphQLConfiguration().clients()))),
+                AddonsRepository(client: GraphQLConfiguration().clients()),
+                FoodRepository(client: GraphQLConfiguration().clients()),
+                UserRepository(client: GraphQLConfiguration().clients()),
+                FavoriteRepository(client: GraphQLConfiguration().clients()),
+              )),
       BlocProvider(
           create: (context) => FavoriteDetailsBloc(
               UserRepository(client: GraphQLConfiguration().clients()),

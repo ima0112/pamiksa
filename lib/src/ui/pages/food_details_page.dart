@@ -13,6 +13,7 @@ class _FoodPageState extends State<FoodPage> {
   final NavigationService navigationService = locator<NavigationService>();
 
   FoodBloc foodBloc;
+  int _isFavorite = 1;
 
   @override
   void initState() {
@@ -23,7 +24,14 @@ class _FoodPageState extends State<FoodPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
-      if (state is LoadingFoodState) {
+      if (state is FoodInitial) {
+        foodBloc.add(FetchFoodEvent(state.foodFk));
+        return Container(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      } else if (state is LoadingFoodState) {
         return Container(
           child: Center(
             child: CircularProgressIndicator(),
@@ -34,6 +42,33 @@ class _FoodPageState extends State<FoodPage> {
           title: Text(state.foodModel.name),
         );
       } else if (state is LoadedFoodState) {
+        _isFavorite = foodBloc.isFavorite;
+        Widget favoriteIcon() {
+          if (_isFavorite == 1) {
+            return IconButton(
+                icon: Icon(Icons.favorite),
+                onPressed: () {
+                  setState(() {
+                    foodBloc
+                        .add(ToggleIconViewFavoriteEvent(state.foodModel.id));
+                  });
+                },
+                color: Colors.white,
+                splashRadius: 1.0);
+          } else {
+            return IconButton(
+                icon: Icon(Icons.favorite_border),
+                onPressed: () {
+                  setState(() {
+                    foodBloc
+                        .add(ToggleIconViewFavoriteEvent(state.foodModel.id));
+                  });
+                },
+                color: Colors.white,
+                splashRadius: 1.0);
+          }
+        }
+
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -56,8 +91,17 @@ class _FoodPageState extends State<FoodPage> {
                   child: Hero(
                     tag: state.foodModel.photo,
                     child: ClipRRect(
-                      child: Image.network(
-                        state.foodModel.photoUrl,
+                      child: Stack(
+                        children: [
+                          Image.network(
+                            state.foodModel.photoUrl,
+                          ),
+                          Positioned(
+                            right: 2.0,
+                            bottom: 0.0,
+                            child: favoriteIcon(),
+                          ),
+                        ],
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
@@ -113,6 +157,15 @@ class _FoodPageState extends State<FoodPage> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
         );
+      } else if (state is FoodConnectionFailedState) {
+        return Center(
+            child: FlatButton.icon(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                onPressed: () {},
+                icon: Icon(Icons.refresh),
+                label: Text("Reintentar")));
       } else {
         return Center(
             child: FlatButton.icon(

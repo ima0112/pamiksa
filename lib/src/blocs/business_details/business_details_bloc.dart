@@ -65,6 +65,7 @@ class BusinessDetailsBloc
                 id: e['id'],
                 availability: e['availability'],
                 isAvailable: e['isAvailable'] ? 1 : 0,
+                isFavorite: e['isFavorite'] ? 1 : 0,
                 name: e['name'],
                 photo: e['photo'],
                 photoUrl: e['photoUrl'],
