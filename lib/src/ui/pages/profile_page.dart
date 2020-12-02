@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
@@ -143,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               size: 16.0,
                             )
                           : Icon(
-                              CupertinoIcons.pencil_circle,
+                              SFSymbols.square_pencil,
                               color: Colors.grey,
                               size: 24.0,
                             ),
@@ -174,7 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               size: 16.0,
                             )
                           : Icon(
-                              CupertinoIcons.pencil_circle,
+                              SFSymbols.square_pencil,
                               color: Colors.grey,
                               size: 24.0,
                             ),
@@ -281,6 +282,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () => Navigator.pop(context),
                               ),
                               FlatButton(
@@ -290,6 +293,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () {
                                   profileBloc.add(
                                       ChangeNameEvent(name: this.fullname));
@@ -352,7 +357,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               //icon: Icon(Icons.email),
                             ),
                             onChanged: (String value) {
-                              this.adress = value;
+                              profileBloc.add(ReactiveChangeAdressEvent(value));
                             },
                             //validator: (value) => validateEmail(value),
                           ),
@@ -370,6 +375,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () => Navigator.pop(context),
                               ),
                               FlatButton(
@@ -379,9 +386,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () {
-                                  profileBloc.add(
-                                      ChangeAdressEvent(adress: this.adress));
+                                  profileBloc.add(ChangeAdressEvent(
+                                      adress: profileBloc.adress));
                                 },
                               )
                             ],
@@ -459,6 +468,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () => Navigator.pop(context),
                               ),
                               FlatButton(
@@ -468,6 +479,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () {
                                   profileBloc
                                       .add(ChangeEmailEvent(email: this.email));

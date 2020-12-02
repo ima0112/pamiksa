@@ -52,6 +52,7 @@ dependencies:
   device_info: ^0.4.2+6
   connectivity: ^0.4.9+2
   get_it: ^4.0.4
+  flutter_sfsymbols: ^1.0.0
 
 flutter_icons:
   android: true
@@ -87,9 +88,15 @@ flutter:
       fonts:
         - asset: assets/fonts/Roboto-Black.ttf
         - asset: assets/fonts/Roboto-Black.ttf
+    - family: SF-Pro-Regular
+      fonts:
+        - asset: assets/fonts/SF-Pro-Regular.ttf
     - family: Inter
       fonts:
         - asset: assets/fonts/Inter-Regular-slnt=0.ttf
+    - family: sficonsets
+      fonts:
+        - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf
 
   # flutter_native_splash:
   #   image: assets/images/logo.png

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 enum AppTheme { Claro, Oscuro }
@@ -32,7 +34,7 @@ final appThemeData = {
       backgroundColor: Colors.black,
       behavior: SnackBarBehavior.fixed,
     ),
-    fontFamily: 'RobotoMono-Regular',
+    fontFamily: (Platform.isAndroid) ? 'RobotoMono-Regular' : 'sficonsets',
     appBarTheme: AppBarTheme(
       textTheme: TextTheme(
           bodyText1:

@@ -19,7 +19,7 @@ Future<void> initPlatformState(DeviceModel deviceModel) async {
       IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
       deviceModel.plattform = "iOS";
       deviceModel.deviceId = iosDeviceInfo.identifierForVendor;
-      deviceModel.phoneModel = iosDeviceInfo.model;
+      deviceModel.phoneModel = iosDeviceInfo.name;
       deviceModel.systemVersion = iosDeviceInfo.systemVersion;
     }
   } on PlatformException {
