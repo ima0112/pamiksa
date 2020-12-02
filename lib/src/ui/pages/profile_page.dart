@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
@@ -53,22 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Center(child: CircularProgressIndicator()),
               ),
             );
-          } /*else if (state is ProfileTokenExpiredState) {
-            profileBloc.add(ProfileRefreshTokenEvent());
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  "Perfil",
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText1.color,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              body: Container(
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            );
-          }*/ else if (state is LoadedProfileState) {
+          } else if (state is LoadedProfileState) {
             Widget profileCircleAvatar() {
               if (state.results.photoUrl != null) {
                 return CircleAvatar(
@@ -114,7 +102,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   shape: CircleBorder(),
                                   color: Theme.of(context).primaryColor),
                               child: IconButton(
-                                  icon: Icon(Icons.photo_camera),
+                                  icon: (Platform.isAndroid)
+                                      ? Icon(Icons.photo_camera)
+                                      : Icon(CupertinoIcons.camera_fill),
                                   onPressed: () {
                                     navigationService.navigateTo("/pick_image");
                                   },
@@ -128,7 +118,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 40.0,
                     ),
                     ListTile(
-                      leading: Icon(Icons.person),
+                      leading: (Platform.isAndroid)
+                          ? Icon(Icons.person)
+                          : Icon(CupertinoIcons.person_fill),
                       isThreeLine: true,
                       title: Text(
                         "Nombre",
@@ -144,14 +136,22 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         changeName(state.results.fullName);
                       },
-                      trailing: Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                        size: 16.0,
-                      ),
+                      trailing: (Platform.isAndroid)
+                          ? Icon(
+                              Icons.edit,
+                              color: Colors.grey,
+                              size: 16.0,
+                            )
+                          : Icon(
+                              CupertinoIcons.pencil_circle,
+                              color: Colors.grey,
+                              size: 24.0,
+                            ),
                     ),
                     ListTile(
-                      leading: Icon(Icons.location_on),
+                      leading: (Platform.isAndroid)
+                          ? Icon(Icons.location_on)
+                          : Icon(CupertinoIcons.placemark_fill),
                       isThreeLine: true,
                       title: Text(
                         "Direccion",
@@ -167,14 +167,22 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         changeAdress(state.results.adress);
                       },
-                      trailing: Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                        size: 16.0,
-                      ),
+                      trailing: (Platform.isAndroid)
+                          ? Icon(
+                              Icons.edit,
+                              color: Colors.grey,
+                              size: 16.0,
+                            )
+                          : Icon(
+                              CupertinoIcons.pencil_circle,
+                              color: Colors.grey,
+                              size: 24.0,
+                            ),
                     ),
                     ListTile(
-                      leading: Icon(Icons.email),
+                      leading: (Platform.isAndroid)
+                          ? Icon(Icons.email)
+                          : Icon(CupertinoIcons.mail_solid),
                       isThreeLine: true,
                       title: Text(
                         "Correo Electronico",

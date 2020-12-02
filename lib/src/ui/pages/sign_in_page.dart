@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -222,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                       border: UnderlineInputBorder(),
                       // labelText: 'Correo electrónico',
                       filled: false,
-                      icon: Icon(Icons.email),
+                      icon: Icon(CupertinoIcons.mail),
                     ),
                     onChanged: (String value) {
                       email = value;
@@ -299,7 +299,7 @@ class _LoginPageState extends State<LoginPage> {
                       border: UnderlineInputBorder(),
                       // labelText: 'Correo electrónico',
                       filled: false,
-                      icon: Icon(Icons.email),
+                      icon: Icon(CupertinoIcons.mail),
                     ),
                     onChanged: (String value) {
                       email = value;

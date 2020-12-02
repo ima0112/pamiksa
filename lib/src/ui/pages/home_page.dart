@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
@@ -57,15 +60,30 @@ class _HomePageState extends State<HomePage> {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.home), title: Text("Inicio")),
+              icon: (Platform.isAndroid)
+                  ? Icon(Icons.home)
+                  : Icon(CupertinoIcons.house_fill),
+              title: Text("Inicio")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.search), title: Text("Buscar")),
+              icon: (Platform.isAndroid)
+                  ? Icon(Icons.search)
+                  : Icon(CupertinoIcons.search),
+              title: Text("Buscar")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border), title: Text("Favoritos")),
+              icon: (Platform.isAndroid)
+                  ? Icon(Icons.favorite_border)
+                  : Icon(CupertinoIcons.suit_heart),
+              title: Text("Favoritos")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), title: Text("Carrito")),
+              icon: (Platform.isAndroid)
+                  ? Icon(Icons.shopping_cart)
+                  : Icon(CupertinoIcons.cart_fill),
+              title: Text("Carrito")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), title: Text("Ajustes")),
+              icon: (Platform.isAndroid)
+                  ? Icon(Icons.settings)
+                  : Icon(CupertinoIcons.gear_solid),
+              title: Text("Ajustes")),
         ],
       ),
     );
