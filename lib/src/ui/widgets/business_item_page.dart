@@ -183,16 +183,7 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              right: 2.0,
-              bottom: 0.0,
-              child: IconButton(
-                  icon: Icon(Icons.favorite_border),
-                  onPressed: () {},
-                  color: Colors.white,
-                  splashRadius: 1.0),
-            ),
+            )
           ],
         ),
         SizedBox(
@@ -201,7 +192,6 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
         Padding(
           padding: EdgeInsets.fromLTRB(12.0, 0.0, 10.0, 0.0),
           child: Container(
-            //color: Colors.deepPurpleAccent,
             child: Column(
               children: <Widget>[
                 Row(

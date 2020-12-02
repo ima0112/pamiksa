@@ -4,9 +4,7 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
-import 'package:pamiksa/src/ui/pages/food_item_skeleton_page.dart';
 import 'package:pamiksa/src/ui/widgets/food_list_skeleton.dart';
-import 'package:shimmer/shimmer.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -93,6 +91,13 @@ class _FavoritePageState extends State<FavoritePage> {
                               placeholder: AssetImage("assets/gif/loading.gif"),
                             ),
                           ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            favoriteBloc.add(DeleteFavoriteEvent(
+                                state.favoriteModel[index].id));
+                          },
                         ),
                         dense: true,
                       ),

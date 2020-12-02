@@ -39,6 +39,7 @@ class AddonsRepository {
 
   Future<QueryResult> addons(String id) async {
     final WatchQueryOptions _options = WatchQueryOptions(
+      fetchPolicy: FetchPolicy.cacheAndNetwork,
       documentNode: gql(queries.addons),
       variables: {'foodFk': id},
       fetchResults: true,

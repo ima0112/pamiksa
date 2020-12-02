@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
+import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
 import 'package:pamiksa/src/data/models/favorite.dart';
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
 import 'package:sqflite/sqflite.dart';
@@ -45,6 +46,36 @@ class FavoriteRepository {
       fetchResults: true,
     );
     return await client.query(_options);
+  }
+
+  Future<QueryResult> createFavorite(String foodFk) async {
+    final MutationOptions _options = MutationOptions(
+      documentNode: gql(mutations.createFavorite),
+      update: (Cache cache, QueryResult result) {
+        return cache;
+      },
+      fetchPolicy: FetchPolicy.networkOnly,
+      onCompleted: (data) {},
+      variables: {
+        'foodFk': foodFk,
+      },
+    );
+    return await client.mutate(_options);
+  }
+
+  Future<QueryResult> deleteFavorite(String foodFk) async {
+    final MutationOptions _options = MutationOptions(
+      documentNode: gql(mutations.deleteFavorite),
+      fetchPolicy: FetchPolicy.networkOnly,
+      update: (Cache cache, QueryResult result) {
+        return cache;
+      },
+      onCompleted: (data) {},
+      variables: {
+        'foodFk': foodFk,
+      },
+    );
+    return await client.mutate(_options);
   }
 
   Future<QueryResult> favoriteFoodsById(String foodId) async {

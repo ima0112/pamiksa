@@ -35,6 +35,20 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       yield* _mapFavoriteRefreshTokenEvent(event);
     } else if (event is ChangeStateToInitialEvent) {
       yield FavoriteInitial();
+    } else if (event is DeleteFavoriteEvent) {
+      yield* _mapDeleteFavoriteEvent(event);
+    }
+  }
+
+  Stream<FavoriteState> _mapDeleteFavoriteEvent(
+      DeleteFavoriteEvent event) async* {
+    final response = await favoriteRepository.deleteFavorite(event.foodFk);
+    if (response.hasException) {
+      if (response.exception.graphqlErrors[0].message == Errors.TokenExpired) {
+        add(FavoriteRefreshTokenEvent(event));
+      } else {
+        yield FavoriteConnectionFailed();
+      }
     }
   }
 

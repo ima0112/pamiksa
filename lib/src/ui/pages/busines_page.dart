@@ -132,7 +132,8 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         style: TextStyle(fontSize: 14.0),
                       ),
                       onTap: () {
-                        foodBloc.add(FetchFoodEvent(state.foodModel[index].id));
+                        foodBloc.add(SetFavoriteInitalStateEvent(
+                            state.foodModel[index].id));
                         navigationService.navigateTo(Routes.FoodRoute);
                       },
                       subtitle: Text(

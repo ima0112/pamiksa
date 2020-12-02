@@ -6,12 +6,14 @@ class FoodModel {
   String photo;
   String photoUrl;
   int isAvailable;
+  int isFavorite;
   int availability;
 
   FoodModel(
       {this.id,
       this.availability,
       this.isAvailable,
+      this.isFavorite,
       this.name,
       this.description,
       this.photo,
@@ -25,6 +27,7 @@ class FoodModel {
       'description': description,
       'availability': availability,
       'isAvailable': isAvailable,
+      'isFavorite': isFavorite,
       'photo': photo,
       'photoUrl': photoUrl,
       'price': price,
@@ -38,6 +41,7 @@ class FoodModel {
     description = map['description'];
     availability = map['availability'];
     isAvailable = map['isAvailable'];
+    isFavorite = map['isFavorite'];
     photo = map['photo'];
     photoUrl = map['photoUrl'];
     price = map['price'];
