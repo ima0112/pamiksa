@@ -54,8 +54,7 @@ class _FavoritePageState extends State<FavoritePage> {
             if (state is FavoriteInitial) {
               favoriteBloc.add(FetchFavoritesFoodsEvent());
               return FoodListSkeleton();
-            }
-            else if (state is LoadedFavoritesFoodsState) {
+            } else if (state is LoadedFavoritesFoodsState) {
               return SingleChildScrollView(
                 child: Column(
                   children: [

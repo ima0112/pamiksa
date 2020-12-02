@@ -49,4 +49,10 @@ class SuggestionRepository {
     }
     return null;
   }
+
+  deleteById(int id) async {
+    var connection = await database;
+    await connection.transaction((txn) async =>
+        await txn.delete("Suggestion", where: 'id = ?', whereArgs: [id]));
+  }
 }
