@@ -74,13 +74,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
         final suggestion = await suggestionRepository.getByName(name);
 
-        if (suggestion == null && name.substring(0) != ' ') {
-          List<SuggestionsModel> suggestionsModel = List();
-          suggestionsModel.add(SuggestionsModel(name: name));
-          suggestionsModel.forEach((element) {
-            searchRepository.insert('Suggestion', element.toMap());
-          });
-        }
+        List<SuggestionsModel> suggestionsModel = List();
+
+        suggestionsModel.add(SuggestionsModel(name: name));
+        suggestionsModel.forEach((element) {
+          searchRepository.insert('Suggestion', element.toMap());
+        });
 
         yield FoodsFoundState(searchModel: searchModel);
       }

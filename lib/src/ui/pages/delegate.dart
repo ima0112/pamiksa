@@ -4,8 +4,10 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/search_details/search_details_bloc.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/widgets/food_list_skeleton.dart';
 
 class FoodSearch extends SearchDelegate<SearchModel> {
+  final ScrollController _scrollController = ScrollController();
   final NavigationService navigationService = locator<NavigationService>();
 
   SearchBloc searchBloc;
@@ -26,6 +28,7 @@ class FoodSearch extends SearchDelegate<SearchModel> {
           icon: Icon(Icons.clear),
           onPressed: () {
             query = '';
+            showSuggestions(context);
           },
         )
     ];
@@ -45,17 +48,30 @@ class FoodSearch extends SearchDelegate<SearchModel> {
   Widget buildResults(BuildContext context) {
     searchDetailsBloc = BlocProvider.of<SearchDetailsBloc>(context);
     searchBloc = BlocProvider.of<SearchBloc>(context);
-    searchBloc.add(SearchFoodEvent(query));
+
+    if (validate(query) == false) {
+      searchBloc.add(SearchFoodEvent(query));
+    }
 
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
-        if (query.isEmpty || query.substring(0) == ' ') {
+        if (query.isEmpty) {
           return Padding(
             padding: EdgeInsets.all(8.0),
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [Text("No has hecho ninguna busqueda")],
+              ),
+            ),
+          );
+        } else if (validate(query)) {
+          return Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [Text("No hay resultados")],
               ),
             ),
           );
@@ -81,16 +97,36 @@ class FoodSearch extends SearchDelegate<SearchModel> {
               ),
             );
           } else if (state is SearchingFoodsState) {
-            return Align(
-              alignment: Alignment.topCenter,
-              child: LinearProgressIndicator(),
-            );
+            return FoodListSkeleton();
           }
-          return ListView.builder(
+          return ListView.separated(
+            controller: _scrollController,
+            shrinkWrap: true,
+            separatorBuilder: (_, __) => Divider(height: 0.0),
             itemCount: state.searchModel.length,
             itemBuilder: (context, index) {
               final String result = state.searchModel[index].name;
               return ListTile(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+                subtitle: Text(
+                  "\$ ${state.searchModel[index].price}",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                leading: Hero(
+                  tag: state.searchModel[index].photo,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(7.5),
+                    child: FadeInImage(
+                      fit: BoxFit.fitWidth,
+                      width: 80,
+                      image: NetworkImage(
+                        state.searchModel[index].photoUrl,
+                      ),
+                      placeholder: AssetImage("assets/gif/loading.gif"),
+                    ),
+                  ),
+                ),
                 title: RichText(
                     text: TextSpan(
                         text: result.substring(0, query.length),
@@ -113,10 +149,7 @@ class FoodSearch extends SearchDelegate<SearchModel> {
             },
           );
         }
-        return Align(
-          alignment: Alignment.topCenter,
-          child: LinearProgressIndicator(),
-        );
+        return FoodListSkeleton();
       },
     );
   }
@@ -187,7 +220,19 @@ class FoodSearch extends SearchDelegate<SearchModel> {
               .toList(),
         );
       }
-      return Container();
+      return Align(
+        alignment: Alignment.topCenter,
+        child: LinearProgressIndicator(),
+      );
     });
+  }
+
+  bool validate(String value) {
+    String p = "[^\s]";
+    RegExp regExp = new RegExp(p);
+    if (regExp.hasMatch(value)) {
+      return true;
+    }
+    return false;
   }
 }
