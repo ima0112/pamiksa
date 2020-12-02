@@ -34,7 +34,8 @@ final appThemeData = {
       backgroundColor: Colors.black,
       behavior: SnackBarBehavior.fixed,
     ),
-    fontFamily: (Platform.isAndroid) ? 'RobotoMono-Regular' : 'sficonsets',
+    fontFamily:
+        (Platform.isAndroid) ? 'RobotoMono-Regular' : 'RobotoMono-Regular',
     appBarTheme: AppBarTheme(
       textTheme: TextTheme(
           bodyText1:
