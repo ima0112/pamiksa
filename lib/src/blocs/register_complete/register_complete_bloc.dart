@@ -54,6 +54,11 @@ class RegisterCompleteBloc
       final response =
           await this.userRepository.signUp(event.userModel, deviceModel);
 
+      if (response.hasException) {
+        print(response);
+      } else {
+        print(response);
+      }
       await secureStorage.remove(key: 'password');
 
       navigationService.navigateAndRemove(Routes.HomeRoute);
