@@ -36,16 +36,15 @@ class ForgotPasswordEmailBloc
   Stream<ForgotPasswordEmailState> _mapCheckPasswordByUserEmailEvent(
       CheckPasswordByUserEmailEvent event) async* {
     yield LoadingForgotPasswordState();
+    email = event.email;
     try {
-      email = event.email;
-
-      final response = await this.userRepository.userExists(event.email);
+      final response = await this.userRepository.userExists(email);
 
       if (response.data['userExists'] == true) {
         int code = await random.randomCode();
         print(code);
 
-        await secureStorage.save(key: 'email', value: event.email);
+        await secureStorage.save(key: 'email', value: email);
         print({await secureStorage.read(key: 'email')});
         await secureStorage.save(key: 'code', value: code.toString());
         await navigationService

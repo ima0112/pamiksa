@@ -186,8 +186,8 @@ class ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  navigationService.navigateWithoutGoBack(
-                                      Routes.ForgotPasswordVerification);
+                                  forgotpasswordEmailBloc.add(
+                                      CheckPasswordByUserEmailEvent(email));
                                 }
                               },
                               child: Text(
