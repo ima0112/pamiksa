@@ -75,7 +75,7 @@ class _DevicesPageState extends State<DevicesPage> {
                       ListTile(
                         title: Text(state.deviceModel.model),
                         subtitle: Text(
-                            "${state.deviceModel.plattform} ${state.deviceModel.systemVersion}"),
+                            "${state.deviceModel.platform} ${state.deviceModel.systemVersion}"),
                         onTap: () {},
                       ),
                       Divider(
@@ -179,11 +179,11 @@ class _DevicesPageState extends State<DevicesPage> {
                         itemCount: state.results.length,
                         itemBuilder: (_, index) => ListTile(
                           title: Text(state.results[index].model),
-                          leading: (state.results[index].plattform == 'Android')
+                          leading: (state.results[index].platform == 'Android')
                               ? Icon(Icons.phone_android)
                               : Icon(Icons.phone_iphone),
                           subtitle: Text(
-                              "${state.results[index].plattform} ${state.results[index].systemVersion}"),
+                              "${state.results[index].platform} ${state.results[index].systemVersion}"),
                           onTap: () {
                             AlertDialog alertDialog = AlertDialog(
                                 shape: RoundedRectangleBorder(
@@ -290,7 +290,7 @@ class _DevicesPageState extends State<DevicesPage> {
                       ListTile(
                         title: Text(state.deviceModel.model),
                         subtitle: Text(
-                            "${state.deviceModel.plattform} ${state.deviceModel.systemVersion}"),
+                            "${state.deviceModel.platform} ${state.deviceModel.systemVersion}"),
                         onTap: () {},
                       ),
                     ],
