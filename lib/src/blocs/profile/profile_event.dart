@@ -59,3 +59,12 @@ class ProfileRefreshTokenEvent extends ProfileEvent {
   @override
   List<Object> get props => throw UnimplementedError();
 }
+
+class ReactiveChangeAdressEvent extends ProfileEvent {
+  final String adress;
+
+  ReactiveChangeAdressEvent(this.adress);
+
+  @override
+  List<Object> get props => throw UnimplementedError();
+}

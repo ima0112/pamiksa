@@ -29,7 +29,7 @@ class DatabaseConnection {
     await database.execute(
         'CREATE TABLE "Municipalities"(id character varying(255) NOT NULL,name character varying(255),"provinceFk" character varying(255) NOT NULL,CONSTRAINT "Municipalities_pkey" PRIMARY KEY (id))');
     await database.execute(
-        'CREATE TABLE "Sessions" (id character varying(255) NOT NULL,plattform character varying(255),"systemVersion" character varying(255),"deviceId" character varying(255),model character varying(255), CONSTRAINT "Devices_pkey" PRIMARY KEY (id))');
+        'CREATE TABLE "Sessions" (id character varying(255) NOT NULL,platform character varying(255),"systemVersion" character varying(255),"deviceId" character varying(255),model character varying(255), CONSTRAINT "Devices_pkey" PRIMARY KEY (id))');
     await database.execute(
         'CREATE TABLE "Users"(id character varying(255) NOT NULL,email character varying(255),"fullName" character varying(255),adress character varying(255),photo character varying(255),photoName character varying(255),CONSTRAINT "Users_pkey" PRIMARY KEY (id))');
   }

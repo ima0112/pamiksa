@@ -99,7 +99,7 @@ class UserRepository {
         'adress': userModel.adress,
         'provinceFk': userModel.province,
         'municipalityFk': userModel.municipality,
-        'plattform': deviceModel.plattform,
+        'platform': deviceModel.platform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': "1",
         'model': deviceModel.model
@@ -136,7 +136,7 @@ class UserRepository {
         'email': email,
         'password': password,
         'appVersion': currentVersion,
-        'plattform': deviceModel.plattform,
+        'platform': deviceModel.platform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
         'model': deviceModel.model,
@@ -159,7 +159,7 @@ class UserRepository {
       variables: {
         'email': email,
         'password': password,
-        'plattform': deviceModel.plattform,
+        'platform': deviceModel.platform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
         'model': deviceModel.model
