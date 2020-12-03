@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,7 +90,43 @@ class _LoginPageState extends State<LoginPage> {
                 current.runtimeType != previous.runtimeType,
             builder: (BuildContext context, SignInState state) {
               if (state is LoadingSignState) {
-                return Center(child: CircularProgressIndicator());
+                return SafeArea(
+                  top: true,
+                  bottom: true,
+                  left: false,
+                  right: false,
+                  // child: Padding(
+                  //   padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 20.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        LinearProgressIndicator(),
+                        Expanded(
+                          flex: 3,
+                          child: startLogin(),
+                        ),
+                        // Spacer(
+                        //   flex: 1,
+                        // ),
+                        Expanded(
+                            flex: 6,
+                            child: Align(
+                                alignment: Alignment.center,
+                                child: formWhitoutAccions())),
+                        // Spacer(
+                        //   flex: 1,
+                        // ),
+                        Expanded(
+                          flex: 2,
+                          child: endLoginWhitoutAccions(),
+                        )
+                      ],
+                    ),
+                  ),
+                  // ),
+                );
               }
               if (state is WaitingSignInResponseState) {
                 return SafeArea(
@@ -222,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
                       border: UnderlineInputBorder(),
                       // labelText: 'Correo electrónico',
                       filled: false,
-                      icon: Icon(Icons.email),
+                      icon: Icon(CupertinoIcons.mail),
                     ),
                     onChanged: (String value) {
                       email = value;
@@ -299,7 +335,7 @@ class _LoginPageState extends State<LoginPage> {
                       border: UnderlineInputBorder(),
                       // labelText: 'Correo electrónico',
                       filled: false,
-                      icon: Icon(Icons.email),
+                      icon: Icon(CupertinoIcons.mail),
                     ),
                     onChanged: (String value) {
                       email = value;

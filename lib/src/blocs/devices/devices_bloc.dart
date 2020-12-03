@@ -60,7 +60,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         devicesModelList = businessData
             .map((e) => DeviceModel(
                 id: e['id'],
-                plattform: e['plattform'],
+                platform: e['platform'],
                 systemVersion: e['systemVersion'],
                 deviceId: e['deviceId'],
                 model: e['model']))

@@ -2,7 +2,7 @@ String devicesByUser = r"""
 query devicesByUser($deviceId: ID!) {
   devicesByUser(deviceId: $deviceId) {
     id
-    plattform
+    platform
     systemVersion
     deviceId
     model

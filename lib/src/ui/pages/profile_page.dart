@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
@@ -101,7 +105,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   shape: CircleBorder(),
                                   color: Theme.of(context).primaryColor),
                               child: IconButton(
-                                  icon: Icon(Icons.photo_camera),
+                                  icon: (Platform.isAndroid)
+                                      ? Icon(Icons.photo_camera)
+                                      : Icon(CupertinoIcons.camera_fill),
                                   onPressed: () {
                                     navigationService.navigateTo("/pick_image");
                                   },
@@ -115,7 +121,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 40.0,
                     ),
                     ListTile(
-                      leading: Icon(Icons.person),
+                      leading: (Platform.isAndroid)
+                          ? Icon(Icons.person)
+                          : Icon(CupertinoIcons.person_fill),
                       isThreeLine: true,
                       title: Text(
                         "Nombre",
@@ -131,14 +139,22 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         changeName(state.results.fullName);
                       },
-                      trailing: Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                        size: 16.0,
-                      ),
+                      trailing: (Platform.isAndroid)
+                          ? Icon(
+                              Icons.edit,
+                              color: Colors.grey,
+                              size: 16.0,
+                            )
+                          : Icon(
+                              SFSymbols.square_pencil,
+                              color: Colors.grey,
+                              size: 24.0,
+                            ),
                     ),
                     ListTile(
-                      leading: Icon(Icons.location_on),
+                      leading: (Platform.isAndroid)
+                          ? Icon(Icons.location_on)
+                          : Icon(CupertinoIcons.placemark_fill),
                       isThreeLine: true,
                       title: Text(
                         "Direccion",
@@ -154,14 +170,22 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         changeAdress(state.results.adress);
                       },
-                      trailing: Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                        size: 16.0,
-                      ),
+                      trailing: (Platform.isAndroid)
+                          ? Icon(
+                              Icons.edit,
+                              color: Colors.grey,
+                              size: 16.0,
+                            )
+                          : Icon(
+                              SFSymbols.square_pencil,
+                              color: Colors.grey,
+                              size: 24.0,
+                            ),
                     ),
                     ListTile(
-                      leading: Icon(Icons.email),
+                      leading: (Platform.isAndroid)
+                          ? Icon(Icons.email)
+                          : Icon(CupertinoIcons.mail_solid),
                       isThreeLine: true,
                       title: Text(
                         "Correo Electronico",
@@ -257,6 +281,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () => Navigator.pop(context),
                               ),
                               FlatButton(
@@ -266,6 +292,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () {
                                   profileBloc.add(
                                       ChangeNameEvent(name: this.fullname));
@@ -328,7 +356,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               //icon: Icon(Icons.email),
                             ),
                             onChanged: (String value) {
-                              this.adress = value;
+                              profileBloc.add(ReactiveChangeAdressEvent(value));
                             },
                             //validator: (value) => validateEmail(value),
                           ),
@@ -346,6 +374,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () => Navigator.pop(context),
                               ),
                               FlatButton(
@@ -355,9 +385,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () {
-                                  profileBloc.add(
-                                      ChangeAdressEvent(adress: this.adress));
+                                  profileBloc.add(ChangeAdressEvent(
+                                      adress: profileBloc.adress));
                                 },
                               )
                             ],
@@ -435,6 +467,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () => Navigator.pop(context),
                               ),
                               FlatButton(
@@ -444,6 +478,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
                                 onPressed: () {
                                   profileBloc
                                       .add(ChangeEmailEvent(email: this.email));

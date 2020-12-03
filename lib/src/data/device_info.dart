@@ -11,15 +11,15 @@ Future<void> initPlatformState(DeviceModel deviceModel) async {
   try {
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-      deviceModel.plattform = "Android";
+      deviceModel.platform = "Android";
       deviceModel.deviceId = androidInfo.androidId;
       deviceModel.phoneModel = "${androidInfo.brand} ${androidInfo.model}";
       deviceModel.systemVersion = androidInfo.version.release;
     } else if (Platform.isIOS) {
       IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
-      deviceModel.plattform = "iOS";
+      deviceModel.platform = "iOS";
       deviceModel.deviceId = iosDeviceInfo.identifierForVendor;
-      deviceModel.phoneModel = iosDeviceInfo.model;
+      deviceModel.phoneModel = iosDeviceInfo.name;
       deviceModel.systemVersion = iosDeviceInfo.systemVersion;
     }
   } on PlatformException {

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
@@ -37,7 +40,9 @@ class FoodSearch extends SearchDelegate<SearchModel> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: (Platform.isAndroid)
+            ? Icon(Icons.arrow_back)
+            : Icon(Icons.arrow_back_ios),
         color: Theme.of(context).iconTheme.color,
         onPressed: () {
           close(context, null);
