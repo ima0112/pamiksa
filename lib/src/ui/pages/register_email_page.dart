@@ -61,8 +61,37 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
               previous.runtimeType != current.runtimeType,
           builder: (context, state) {
             if (state is RegisterEmailLoadingState) {
-              return Center(
-                child: CircularProgressIndicator(),
+              return Container(
+                child: Column(
+                  children: <Widget>[
+                    LinearProgressIndicator(),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: FittedBox(
+                            child: Text(
+                              "Crear cuenta",
+                              style:
+                                  TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: form(),
+                    ),
+                    Divider(
+                      height: 0.0,
+                    ),
+                    downButtons()
+                  ],
+                ),
               );
             }
             return Container(
@@ -137,26 +166,49 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                       ),
                     ),
                   );
+                } else if (state is RegisterEmailLoadingState) {
+                  return Expanded(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: TextFormField(
+                        initialValue: email,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          errorMaxLines: 3,
+                          helperText: "",
+                          icon: Icon(Icons.email),
+                          fillColor: Colors.white24,
+                          labelText: "Correo electrónico",
+                          labelStyle:
+                              TextStyle(fontFamily: 'RobotoMono-Regular'),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 2)),
+                        ),
+                        validator: (value) => _validateEmail(value),
+                        onChanged: (String value) {
+                          email = value;
+                        },
+                      ),
+                    ),
+                  );
                 }
                 if (state is ExistsUserEmailState) {
                   return Expanded(
                     flex: 1,
                     child: Align(
-                      alignment: Alignment.topCenter,
+                      alignment: Alignment.center,
                       child: TextFormField(
                         initialValue: email,
                         keyboardType: TextInputType.emailAddress,
-                        style: TextStyle(
-                            fontFamily: 'RobotoMono-Regular',
-                            color: Colors.black54,
-                            fontSize: 16),
                         decoration: InputDecoration(
                           errorMaxLines: 3,
+                          helperText: "",
                           errorText:
                               "¡Ya existe una cuenta usando este correo electrónico! Prueba con otro.",
-                          helperText: "",
                           icon: Icon(Icons.email),
-                          filled: false,
                           fillColor: Colors.white24,
                           labelText: "Correo electrónico",
                           labelStyle:

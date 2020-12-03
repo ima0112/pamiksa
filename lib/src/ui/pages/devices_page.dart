@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,8 +26,8 @@ class _DevicesPageState extends State<DevicesPage> {
         title: Text(
           "Dispositivos",
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1.color,
-          ),
+              color: Theme.of(context).textTheme.bodyText1.color,
+              fontWeight: FontWeight.bold),
         ),
       ),
       body: BlocBuilder<DevicesBloc, DevicesState>(
@@ -149,8 +152,7 @@ class _DevicesPageState extends State<DevicesPage> {
                         },
                       ),
                       Divider(
-                        height: 5.0,
-                        thickness: 5.0,
+                        height: 0.0,
                       ),
                       SizedBox(
                         height: 15.0,
@@ -177,6 +179,9 @@ class _DevicesPageState extends State<DevicesPage> {
                         itemCount: state.results.length,
                         itemBuilder: (_, index) => ListTile(
                           title: Text(state.results[index].model),
+                          leading: (state.results[index].plattform == 'Android')
+                              ? Icon(Icons.phone_android)
+                              : Icon(Icons.phone_iphone),
                           subtitle: Text(
                               "${state.results[index].plattform} ${state.results[index].systemVersion}"),
                           onTap: () {
@@ -246,7 +251,9 @@ class _DevicesPageState extends State<DevicesPage> {
                             showDialog(context: context, child: alertDialog);
                           },
                           trailing: Icon(
-                            Icons.remove_circle_outline,
+                            (Platform.isAndroid)
+                                ? Icons.remove_circle_outline
+                                : CupertinoIcons.minus_circle,
                             color: Theme.of(context).errorColor,
                           ),
                         ),

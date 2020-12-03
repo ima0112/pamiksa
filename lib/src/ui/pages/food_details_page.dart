@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
@@ -46,7 +49,9 @@ class _FoodPageState extends State<FoodPage> {
         Widget favoriteIcon() {
           if (_isFavorite == 1) {
             return IconButton(
-                icon: Icon(Icons.favorite),
+                icon: (Platform.isAndroid)
+                    ? Icon(Icons.favorite)
+                    : Icon(CupertinoIcons.suit_heart_fill),
                 onPressed: () {
                   setState(() {
                     foodBloc
@@ -57,7 +62,9 @@ class _FoodPageState extends State<FoodPage> {
                 splashRadius: 1.0);
           } else {
             return IconButton(
-                icon: Icon(Icons.favorite_border),
+                icon: (Platform.isAndroid)
+                    ? Icon(Icons.favorite)
+                    : Icon(CupertinoIcons.suit_heart),
                 onPressed: () {
                   setState(() {
                     foodBloc
@@ -72,7 +79,9 @@ class _FoodPageState extends State<FoodPage> {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.close),
+              icon: (Platform.isAndroid)
+                  ? Icon(Icons.close_rounded)
+                  : Icon(CupertinoIcons.multiply),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -124,14 +133,18 @@ class _FoodPageState extends State<FoodPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.remove),
+                            icon: (Platform.isAndroid)
+                                ? Icon(Icons.remove)
+                                : Icon(CupertinoIcons.minus_circle),
                             onPressed: () {},
                             iconSize: 20,
                             splashRadius: 20,
                           ),
                           Text("0"),
                           IconButton(
-                            icon: Icon(Icons.add),
+                            icon: (Platform.isAndroid)
+                                ? Icon(Icons.add)
+                                : Icon(CupertinoIcons.plus_circle_fill),
                             onPressed: () {},
                             iconSize: 20,
                             splashRadius: 20,
@@ -150,7 +163,9 @@ class _FoodPageState extends State<FoodPage> {
           ),
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () => null,
-            icon: Icon(Icons.add_shopping_cart),
+            icon: (Platform.isAndroid)
+                ? Icon(Icons.add_shopping_cart)
+                : Icon(CupertinoIcons.cart_fill_badge_plus),
             label: Text("Agregar al carrito"),
             backgroundColor: Theme.of(context).primaryColor,
           ),

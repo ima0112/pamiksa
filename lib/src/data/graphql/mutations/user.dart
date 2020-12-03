@@ -1,5 +1,5 @@
 final String signUp = r"""
-mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthday: Date!, $adress: String!, $provinceFk: ID!, $municipalityFk: ID!,  $plattform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
+mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthday: Date!, $adress: String!, $provinceFk: ID!, $municipalityFk: ID!,  $platform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
   signUp(
     fullName: $fullName,
     email: $email,
@@ -8,7 +8,7 @@ mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthd
     adress: $adress,
     provinceFk: $provinceFk,
     municipalityFk: $municipalityFk,
-    plattform: $plattform, 
+    platform: $platform, 
     systemVersion: $systemVersion, 
     deviceId: $deviceId, 
     model: $model){
@@ -27,8 +27,8 @@ mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthd
 """;
 
 String singIn = r"""
-mutation SingIn($email: String!, $password: String!,  $plattform: String!, $systemVersion: String!, $appVersion: String!, $deviceId: String!, $model: String!){
-  signIn(email: $email, password: $password, plattform: $plattform, systemVersion: $systemVersion, appVersion: $appVersion, deviceId: $deviceId, model: $model){
+mutation SingIn($email: String!, $password: String!,  $platform: String!, $systemVersion: String!, $appVersion: String!, $deviceId: String!, $model: String!){
+  signIn(email: $email, password: $password, platform: $platform, systemVersion: $systemVersion, appVersion: $appVersion, deviceId: $deviceId, model: $model){
     refreshToken
     token
     user{
@@ -49,8 +49,8 @@ mutation signOut($deviceId: ID!){
 """;
 
 String resetPassword = r"""
-mutation ResetPassword($email: String!, $password: String!, $plattform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
-  resetPassword(email: $email, password: $password, plattform: $plattform, systemVersion: $systemVersion, deviceId: $deviceId, model: $model){
+mutation ResetPassword($email: String!, $password: String!, $platform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
+  resetPassword(email: $email, password: $password, platform: $platform, systemVersion: $systemVersion, deviceId: $deviceId, model: $model){
     refreshToken
     token
     user{

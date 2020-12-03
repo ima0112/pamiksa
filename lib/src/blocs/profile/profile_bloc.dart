@@ -52,7 +52,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _mapProfileRefreshTokenEvent(event);
     } else if (event is SetProfileInitialStateEvent) {
       yield ProfileInitial();
+    } else if (event is ReactiveChangeAdressEvent) {
+      yield* _mapReactiveChangeAdressEvent(event);
     }
+  }
+
+  Stream<ProfileState> _mapReactiveChangeAdressEvent(
+      ReactiveChangeAdressEvent event) async* {
+    this.adress = event.adress;
   }
 
   Stream<ProfileState> _mapCropProfileImageEvent(
@@ -73,6 +80,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         }
       } else {
         Map<dynamic, dynamic> meData = response.data['me'];
+        this.adress = meData['adress'];
         userRepository.clear();
         meModel = UserModel(
             id: meData['id'],

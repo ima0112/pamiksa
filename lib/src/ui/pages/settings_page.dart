@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
@@ -25,8 +28,8 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text(
           "Ajustes",
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1.color,
-          ),
+              color: Theme.of(context).textTheme.bodyText1.color,
+              fontWeight: FontWeight.bold),
         ),
       ),
       body: WillPopScope(
@@ -38,7 +41,9 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Column(
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.account_circle),
+                leading: (Platform.isAndroid)
+                    ? Icon(Icons.account_circle)
+                    : Icon(CupertinoIcons.person_crop_circle_fill),
                 title: Text("Perfil"),
                 onTap: () {
                   profileBloc.add(FetchProfileEvent());
@@ -51,7 +56,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.credit_card),
+                leading: (Platform.isAndroid)
+                    ? Icon(Icons.credit_card)
+                    : Icon(CupertinoIcons.creditcard_fill),
                 title: Text("Pedidos"),
                 onTap: () {},
                 trailing: Icon(
@@ -61,7 +68,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.palette),
+                leading: (Platform.isAndroid)
+                    ? Icon(Icons.palette)
+                    : Icon(CupertinoIcons.moon_circle),
                 title: Text("Tema"),
                 onTap: () {
                   navigationService.navigateTo(Routes.ThemeRoute);
@@ -73,7 +82,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.security),
+                leading: (Platform.isAndroid)
+                    ? Icon(Icons.security)
+                    : Icon(CupertinoIcons.checkmark_shield_fill),
                 title: Text("Seguridad"),
                 onTap: () {
                   navigationService.navigateTo(Routes.SecurityRoute);
@@ -85,7 +96,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.devices),
+                leading: (Platform.isAndroid)
+                    ? Icon(Icons.devices)
+                    : Icon(CupertinoIcons.device_phone_portrait),
                 title: Text("Dispositivos"),
                 onTap: () {
                   devicesBloc.add(FetchDevicesDataEvent());
@@ -97,7 +110,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.help_outline),
+                leading: (Platform.isAndroid)
+                    ? Icon(Icons.help_outline)
+                    : Icon(CupertinoIcons.question_circle),
                 title: Text("Ayuda"),
                 onTap: () {
                   navigationService.navigateTo(Routes.HelpRoute);
@@ -109,7 +124,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.input),
+                leading: (Platform.isAndroid)
+                    ? Icon(Icons.input)
+                    : Icon(CupertinoIcons.square_arrow_right),
                 title: Text("Cerrar sesión"),
                 onTap: () {
                   AlertDialog alertDialog = AlertDialog(
