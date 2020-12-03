@@ -237,14 +237,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             decoration: const InputDecoration(
                               helperText: "",
                               border: UnderlineInputBorder(),
-                              // labelText: 'Correo electrónico',
                               filled: false,
-                              //icon: Icon(Icons.email),
                             ),
                             onChanged: (String value) {
                               this.fullname = value;
                             },
-                            //validator: (value) => validateEmail(value),
                           ),
                         ),
                         Padding(
