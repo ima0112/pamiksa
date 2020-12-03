@@ -19,6 +19,12 @@ class SearchSuggestionsEvent extends SearchEvent {
   SearchSuggestionsEvent(this.query);
 }
 
+class DeleteSuggestionsEvent extends SearchEvent {
+  final int id;
+
+  DeleteSuggestionsEvent(this.id);
+}
+
 class SearchRefreshTokenEvent extends SearchEvent {
   final SearchEvent childEvent;
 

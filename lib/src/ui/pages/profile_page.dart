@@ -39,8 +39,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              body: Container(
-                child: Center(child: CircularProgressIndicator()),
+              body: Align(
+                alignment: Alignment.topCenter,
+                child: LinearProgressIndicator(),
               ),
             );
           } else if (state is LoadingProfileState) {
@@ -53,8 +54,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              body: Container(
-                child: Center(child: CircularProgressIndicator()),
+              body: Align(
+                alignment: Alignment.topCenter,
+                child: LinearProgressIndicator(),
               ),
             );
           } else if (state is LoadedProfileState) {

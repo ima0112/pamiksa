@@ -35,6 +35,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       yield* _mapSearchRefreshTokenEvent(event);
     } else if (event is SearchSuggestionsEvent) {
       yield* _mapSearchSuggestionsEvent(event);
+    } else if (event is DeleteSuggestionsEvent) {
+      yield* _mapDeleteSuggestionsEvent(event);
     }
   }
 
@@ -72,13 +74,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
         final suggestion = await suggestionRepository.getByName(name);
 
-        if (suggestion == null) {
-          List<SuggestionsModel> suggestionsModel = List();
-          suggestionsModel.add(SuggestionsModel(name: name));
-          suggestionsModel.forEach((element) {
-            searchRepository.insert('Suggestion', element.toMap());
-          });
-        }
+        List<SuggestionsModel> suggestionsModel = List();
+
+        suggestionsModel.add(SuggestionsModel(name: name));
+        suggestionsModel.forEach((element) {
+          searchRepository.insert('Suggestion', element.toMap());
+        });
 
         yield FoodsFoundState(searchModel: searchModel);
       }
@@ -106,10 +107,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       SearchSuggestionsEvent event) async* {
     try {
       final suggestions = await suggestionRepository.all();
-      suggestionsNames =
-          suggestions.map((e) => SuggestionsModel(name: e['name'])).toList();
+      suggestionsNames = suggestions
+          .map((e) => SuggestionsModel(name: e['name'], id: e['id']))
+          .toList();
 
       yield SuggestionsState(suggestions: suggestionsNames);
+    } catch (error) {
+      yield SearchConnectionFailedState();
+    }
+  }
+
+  Stream<SearchState> _mapDeleteSuggestionsEvent(
+      DeleteSuggestionsEvent event) async* {
+    try {
+      await suggestionRepository.deleteById(event.id);
+      yield SearchInitial();
     } catch (error) {
       yield SearchConnectionFailedState();
     }
