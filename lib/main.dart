@@ -6,6 +6,7 @@ import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/change_password/change_password_bloc.dart';
 import 'package:pamiksa/src/blocs/favorite_details/favorite_details_bloc.dart';
+import 'package:pamiksa/src/blocs/network_exception_splash_screen/network_exception_splash_screen_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/blocs/search_details/search_details_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
@@ -69,6 +70,9 @@ void main() async {
               UserRepository(client: GraphQLConfiguration().clients()),
               MunicipalityRepository(
                   client: GraphQLConfiguration().clients()))),
+      BlocProvider(
+          create: (context) => NetworkExceptionSplashScreenBloc(
+              UserRepository(client: GraphQLConfiguration().clients()))),
       BlocProvider(
           create: (context) => RegisterEmailBloc(
               UserRepository(client: GraphQLConfiguration().clients()))),

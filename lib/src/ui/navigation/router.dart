@@ -5,6 +5,7 @@ import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/pages/application_update_page.dart';
 import 'package:pamiksa/src/ui/pages/busines_page.dart';
 import 'package:pamiksa/src/ui/pages/device_banned_page.dart';
+import 'package:pamiksa/src/ui/pages/network_exception_splash_screen_page.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
 import 'package:pamiksa/src/ui/pages/pick_image_page.dart';
 import 'package:pamiksa/src/ui/pages/profile_page.dart';
@@ -31,6 +32,8 @@ class GenerateRoute {
         return createRouter(RegisterLocationPage());
       case Routes.DevicesRoute:
         return createRouter(DevicesPage());
+      case Routes.NetworkExceptionSplashScreenRoute:
+        return createRouter(NetworkExceptionSplashScreen());
       case Routes.RegisterCompleteRoute:
         return createRouter(RegisterCompletePage());
       case Routes.VerificationRoute:
