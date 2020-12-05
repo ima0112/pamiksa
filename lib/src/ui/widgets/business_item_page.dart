@@ -69,7 +69,10 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                         width: 100,
                         fit: BoxFit.cover,
                         height: 100,
-                        placeholder: AssetImage("assets/gif/loading.gif"),
+                        placeholder:
+                            (Theme.of(context).brightness == Brightness.dark)
+                                ? AssetImage("assets/gif/dark_loading.gif")
+                                : AssetImage("assets/gif/loading.gif"),
                         image: NetworkImage(this.widget.photoUrl),
                       ),
                     ),
@@ -178,7 +181,10 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                     width: 500,
                     fit: BoxFit.cover,
                     height: 225,
-                    placeholder: AssetImage("assets/gif/loading.gif"),
+                    placeholder:
+                        (Theme.of(context).brightness == Brightness.dark)
+                            ? AssetImage("assets/gif/dark_loading.gif")
+                            : AssetImage("assets/gif/loading.gif"),
                     image: NetworkImage(this.widget.photoUrl),
                   ),
                 ),
