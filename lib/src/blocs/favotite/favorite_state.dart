@@ -23,3 +23,10 @@ class ErrorFavoriteState extends FavoriteState {
 
   ErrorFavoriteState(this.event);
 }
+
+class DeleteFavoriteLoaded extends FavoriteState {
+  final int count;
+  final List<FavoriteModel> favoriteModel;
+
+  DeleteFavoriteLoaded({this.count, this.favoriteModel});
+}

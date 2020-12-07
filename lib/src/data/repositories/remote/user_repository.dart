@@ -80,15 +80,18 @@ class UserRepository {
 
   Future<QueryResult> signUp(
       UserModel userModel, DeviceModel deviceModel) async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    //double currentVersion = double.parse(info.version.trim().replaceAll(".", ""));
+    String currentVersion = info.version;
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.signUp),
       onCompleted: (data) {
         if (data != null) {
           secureStorage.save(
-              key: "authToken", value: data['signIn']['token'].toString());
+              key: "authToken", value: data['signUp']['token'].toString());
           secureStorage.save(
               key: "refreshToken",
-              value: data['signIn']['refreshToken'].toString());
+              value: data['signUp']['refreshToken'].toString());
         }
       },
       variables: {
@@ -99,9 +102,10 @@ class UserRepository {
         'adress': userModel.adress,
         'provinceFk': userModel.province,
         'municipalityFk': userModel.municipality,
+        'appVersion': currentVersion,
         'platform': deviceModel.platform,
         'systemVersion': deviceModel.systemVersion,
-        'deviceId': "1",
+        'deviceId': deviceModel.deviceId,
         'model': deviceModel.model
       },
     );

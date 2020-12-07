@@ -94,10 +94,64 @@ class _FavoritePageState extends State<FavoritePage> {
                           ),
                         ),
                         trailing: IconButton(
-                          icon: Icon(Icons.delete),
+                          icon: Icon(Icons.close),
                           onPressed: () {
                             favoriteBloc.add(DeleteFavoriteEvent(
-                                state.favoriteModel[index].id));
+                                state.favoriteModel[index].id, state));
+                          },
+                        ),
+                        dense: true,
+                      ),
+                      separatorBuilder: (_, __) => Divider(height: 0.0),
+                    )
+                  ],
+                ),
+              );
+            } else if (state is DeleteFavoriteLoaded) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListView.separated(
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      itemCount: state.count,
+                      itemBuilder: (_, index) => ListTile(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 20.0, horizontal: 15.0),
+                        title: Text(
+                          state.favoriteModel[index].name,
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                        onTap: () {
+                          favoriteDetailsBloc.add(
+                              FetchFavoriteFoodsDetailsEvent(
+                                  state.favoriteModel[index].id));
+                          navigationService
+                              .navigateTo(Routes.FavoriteDetailsRoute);
+                        },
+                        subtitle: Text(
+                          "\$ ${state.favoriteModel[index].price}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        leading: Hero(
+                          tag: state.favoriteModel[index].photo,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(7.5),
+                            child: FadeInImage(
+                              fit: BoxFit.fitWidth,
+                              width: 80,
+                              image: NetworkImage(
+                                state.favoriteModel[index].photoUrl,
+                              ),
+                              placeholder: AssetImage("assets/gif/loading.gif"),
+                            ),
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            favoriteBloc.add(DeleteFavoriteEvent(
+                                state.favoriteModel[index].id, state));
                           },
                         ),
                         dense: true,

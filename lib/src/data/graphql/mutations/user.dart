@@ -1,5 +1,5 @@
 final String signUp = r"""
-mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthday: Date!, $adress: String!, $provinceFk: ID!, $municipalityFk: ID!,  $platform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
+mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthday: Date!, $adress: String!, $provinceFk: ID!, $municipalityFk: ID!,  $platform: String!, $systemVersion: String!, $appVersion: String!, $deviceId: String!, $model: String!){
   signUp(
     fullName: $fullName,
     email: $email,
@@ -9,6 +9,7 @@ mutation SignUp($fullName: String!, $email: String!, $password: String!, $birthd
     provinceFk: $provinceFk,
     municipalityFk: $municipalityFk,
     platform: $platform, 
+    appVersion: $appVersion,
     systemVersion: $systemVersion, 
     deviceId: $deviceId, 
     model: $model){

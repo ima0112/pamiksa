@@ -1,52 +1,61 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/data/models/models.dart';
-import 'package:pamiksa/src/data/repositories/remote/remote_repository.dart';
-import 'package:pamiksa/src/data/storage/secure_storage.dart';
-import 'package:pamiksa/src/data/storage/shared.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
 import 'package:pamiksa/src/data/errors.dart';
+import 'package:pamiksa/src/data/models/models.dart';
+import 'package:pamiksa/src/data/repositories/remote/user_repository.dart';
+import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 
-import 'graphql/graphql_config.dart';
+part 'network_exception_splash_screen_event.dart';
 
-class Utils {
-  Shared preferences = Shared();
+part 'network_exception_splash_screen_state.dart';
 
-  Future<bool> showIntro() async {
-    final showIntro = await preferences.read('showIntro');
+class NetworkExceptionSplashScreenBloc extends Bloc<
+    NetworkExceptionSplashScreenEvent, NetworkExceptionSplashScreenState> {
+  final UserRepository userRepository;
+  final NavigationService navigationService = locator<NavigationService>();
+  NetworkExceptionSplashScreenBloc(this.userRepository)
+      : super(NetworkExceptionSplashScreenInitialState());
 
-    if (showIntro != false) {
-      return true;
-    } else {
-      return false;
+  @override
+  Stream<NetworkExceptionSplashScreenState> mapEventToState(
+    NetworkExceptionSplashScreenEvent event,
+  ) async* {
+    if (event is CheckSessionEvent) {
+      yield* _mapCheckSessionEvent(event);
     }
   }
 
-  Future<String> checkSession(UserRepository userRepository) async {
+  Stream<NetworkExceptionSplashScreenState> _mapCheckSessionEvent(
+      NetworkExceptionSplashScreenEvent event) async* {
     DeviceModel deviceModel = DeviceModel();
     SecureStorage secureStorage = SecureStorage();
-    String initialRoute = Routes.HomeRoute;
     await deviceInfo.initPlatformState(deviceModel);
     try {
+      yield LoadingCheckSessionState();
       final response = await userRepository.checkSession(deviceModel.deviceId);
       if (response.hasException) {
         if (response.exception.graphqlErrors.length > 0) {
           if (response.exception.graphqlErrors[0].message ==
               Errors.BannedDevice) {
-            initialRoute = Routes.DeviceBannedRoute;
+            navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
           } else if (response.exception.graphqlErrors[0].message ==
               Errors.BannedUser) {
-            initialRoute = Routes.UserBannedRoute;
+            navigationService.navigateWithoutGoBack(Routes.UserBannedRoute);
           } else if (response.exception.graphqlErrors[0].message ==
               Errors.SessionNotExists) {
-            initialRoute = Routes.LoginRoute;
+            navigationService.navigateWithoutGoBack(Routes.LoginRoute);
           } else if (response.exception.graphqlErrors[0].message ==
               Errors.RefreshTokenExpired) {
-            initialRoute = Routes.LoginRoute;
+            navigationService.navigateWithoutGoBack(Routes.LoginRoute);
           } else if (response.exception.graphqlErrors[0].message ==
               Errors.DeprecatedApp) {
-            initialRoute = Routes.ForceApplicationUpdate;
+            navigationService
+                .navigateWithoutGoBack(Routes.ForceApplicationUpdate);
           } else if (response.exception.graphqlErrors[0].message ==
               Errors.TokenExpired) {
             final rt = await secureStorage.read(key: 'refreshToken');
@@ -56,37 +65,19 @@ class Utils {
                     Errors.RefreshTokenExpired) {
               secureStorage.remove(key: "authToken");
               secureStorage.remove(key: "refreshToken");
-              initialRoute = Routes.LoginRoute;
+              navigationService.navigateWithoutGoBack(Routes.LoginRoute);
             } else {
-              await checkSession(
-                  UserRepository(client: GraphQLConfiguration().clients()));
+              // Recurisivity
+              add(CheckSessionEvent());
             }
           }
         } else if (response.exception.clientException != null &&
             response.exception.clientException is NetworkException) {
-          initialRoute = Routes.NetworkExceptionSplashScreenRoute;
+          yield NetworkExceptionSplashScreenInitialState();
         }
       } else {
-        initialRoute = Routes.HomeRoute;
+        navigationService.navigateWithoutGoBack(Routes.HomeRoute);
       }
     } catch (error) {}
-    return initialRoute;
-  }
-
-  Future<ThemeMode> loadedTheme() async {
-    int themeMode = await preferences.read('themeMode') ?? null;
-    if (themeMode == 0) {
-      await preferences.saveInt('themeMode', 0);
-      return ThemeMode.system;
-    } else if (themeMode == 1) {
-      await preferences.saveInt('themeMode', 1);
-      return ThemeMode.light;
-    } else if (themeMode == 2) {
-      await preferences.saveInt('themeMode', 2);
-      return ThemeMode.dark;
-    } else {
-      await preferences.saveInt('themeMode', 0);
-      return ThemeMode.system;
-    }
   }
 }

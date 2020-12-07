@@ -30,14 +30,7 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
             backgroundColor: Theme.of(context).primaryColorLight,
             brightness: Theme.of(context).appBarTheme.brightness,
           )),
-      body:
-          // WillPopScope(
-          //   onWillPop: () async {
-          //     navigationService.navigateAndRemove(Routes.LoginRoute);
-          //     return false;
-          //   },
-          //   child:
-          WillPopScope(
+      body: WillPopScope(
         onWillPop: () async {
           navigationService.navigateAndRemove(Routes.LoginRoute);
           return false;
@@ -45,11 +38,50 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
         child: Container(
           child: Column(
             children: <Widget>[
-              registroText(),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FittedBox(
+                      child: Text(
+                        "Registrarme",
+                        style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 50,
               ),
-              Expanded(flex: 3, child: infoText()),
+              Expanded(
+                  flex: 3,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Text.rich(
+                      TextSpan(
+                          style:
+                              TextStyle(fontSize: 14, color: Colors.grey[700]),
+                          children: <TextSpan>[
+                            TextSpan(text: 'Al registrarse acepta nuestras '),
+                            TextSpan(
+                                text: 'políticas de privacidad',
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                )),
+                            TextSpan(text: ' y '),
+                            TextSpan(
+                                text: 'condiciones de uso.',
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                ))
+                          ]),
+                      textAlign: TextAlign.center,
+                    ),
+                  )),
               Padding(
                 padding: EdgeInsets.only(bottom: 20.0),
                 child: Container(
@@ -90,50 +122,6 @@ class _RegisterCompletePageState extends State<RegisterCompletePage> {
         ),
       ),
       // )
-    );
-  }
-
-  Widget registroText() {
-    return Expanded(
-      flex: 1,
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: FittedBox(
-            child: Text(
-              "Registrarme",
-              style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget infoText() {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Text.rich(
-        TextSpan(
-            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-            children: <TextSpan>[
-              TextSpan(text: 'Al registrarse acepta nuestras '),
-              TextSpan(
-                  text: 'políticas de privacidad',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  )),
-              TextSpan(text: ' y '),
-              TextSpan(
-                  text: 'condiciones de uso.',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ))
-            ]),
-        textAlign: TextAlign.center,
-      ),
     );
   }
 }
