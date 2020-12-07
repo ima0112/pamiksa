@@ -20,7 +20,8 @@ class ChangeStateToInitialEvent extends FavoriteEvent {}
 class SessionExpiredEvent extends FavoriteEvent {}
 
 class DeleteFavoriteEvent extends FavoriteEvent {
+  final FavoriteState favoriteState;
   final String foodFk;
 
-  DeleteFavoriteEvent(this.foodFk);
+  DeleteFavoriteEvent(this.foodFk, this.favoriteState);
 }

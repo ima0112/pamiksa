@@ -6,6 +6,10 @@ class GraphQLConfiguration {
   final SecureStorage storage = new SecureStorage();
   String authToken;
 
+  final NormalizedInMemoryCache cache = NormalizedInMemoryCache(
+    dataIdFromObject: typenameDataIdFromObject,
+  );
+
   String uuidFromObject(Object object) {
     if (object is Map<String, Object>) {
       final String typeName = object['__typename'] as String;
@@ -34,7 +38,6 @@ class GraphQLConfiguration {
 
     final Link link = authLink.concat(link1);
 
-    return GraphQLClient(
-        cache: OptimisticCache(dataIdFromObject: uuidFromObject), link: link);
+    return GraphQLClient(cache: cache, link: link);
   }
 }

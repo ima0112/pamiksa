@@ -63,7 +63,7 @@ class _FoodPageState extends State<FoodPage> {
           } else {
             return IconButton(
                 icon: (Platform.isAndroid)
-                    ? Icon(Icons.favorite)
+                    ? Icon(Icons.favorite_border)
                     : Icon(CupertinoIcons.suit_heart),
                 onPressed: () {
                   setState(() {

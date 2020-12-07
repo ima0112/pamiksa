@@ -19,3 +19,10 @@ class LoadedFavoritesFoodsState extends FavoriteState {
 }
 
 class FavoriteConnectionFailed extends FavoriteState {}
+
+class DeleteFavoriteLoaded extends FavoriteState {
+  final int count;
+  final List<FavoriteModel> favoriteModel;
+
+  DeleteFavoriteLoaded({this.count, this.favoriteModel});
+}

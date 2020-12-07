@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
@@ -50,12 +51,33 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         yield FavoriteConnectionFailed();
       }
     }
+    await favoriteRepository.deleteById(event.foodFk);
+    final responseDb = await favoriteRepository.all();
+
+    favoriteModel = responseDb
+        .map((e) => FavoriteModel(
+            id: e['id'],
+            availability: e['availability'],
+            isAvailable: e['isAvailable'],
+            name: e['name'],
+            photo: e['photo'],
+            photoUrl: e['photoUrl'],
+            price: e['price']))
+        .toList();
+    if (event.favoriteState is LoadedFavoritesFoodsState) {
+      yield DeleteFavoriteLoaded(
+          favoriteModel: favoriteModel, count: favoriteModel.length);
+    } else if (event.favoriteState is DeleteFavoriteLoaded) {
+      yield LoadedFavoritesFoodsState(
+          favoriteModel: favoriteModel, count: favoriteModel.length);
+    }
   }
 
   Stream<FavoriteState> _mapFetchFavoritesFoodsEvent(
       FetchFavoritesFoodsEvent event) async* {
     try {
-      final response = await favoriteRepository.fetchFavorite();
+      final response =
+          await favoriteRepository.fetchFavorite(FetchPolicy.cacheAndNetwork);
 
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==

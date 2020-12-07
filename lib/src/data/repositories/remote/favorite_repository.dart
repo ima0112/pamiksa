@@ -32,19 +32,27 @@ class FavoriteRepository {
         .transaction((txn) async => txn.execute('DELETE FROM "Favorite"'));
   }
 
-//Get all records
-/*Future<List<Map>> all() async {
+  //Get all records
+  Future<List<Map>> all() async {
     var connection = await database;
     return await connection.transaction(
-        (txn) async => await txn.rawQuery('SELECT * FROM "Business"'));
-  }*/
+        (txn) async => await txn.rawQuery('SELECT * FROM "Favorite"'));
+  }
 
-  Future<QueryResult> fetchFavorite() async {
+  Future<QueryResult> fetchFavorite(FetchPolicy fetchPolicy) async {
     final WatchQueryOptions _options = WatchQueryOptions(
       documentNode: gql(queries.favorite),
-      fetchPolicy: FetchPolicy.networkOnly,
+      fetchPolicy: fetchPolicy,
       fetchResults: true,
     );
+    return await client.query(_options);
+  }
+
+  Future<QueryResult> fetchFavoriteFromCache() async {
+    final WatchQueryOptions _options = WatchQueryOptions(
+        documentNode: gql(queries.favorite),
+        fetchPolicy: FetchPolicy.cacheOnly,
+        fetchResults: true);
     return await client.query(_options);
   }
 
@@ -66,10 +74,14 @@ class FavoriteRepository {
   Future<QueryResult> deleteFavorite(String foodFk) async {
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.deleteFavorite),
-      fetchPolicy: FetchPolicy.networkOnly,
-      update: (Cache cache, QueryResult result) {
-        return cache;
-      },
+      fetchPolicy: FetchPolicy.cacheAndNetwork,
+      // update: (Cache cache, QueryResult result) {
+      //   final resultado = cache.read('Food/$foodFk');
+      //   final c = resultado.data;
+      //   c["name"] = "PIZAAAAAA COJONE";
+      //   cache.write('Food/$foodFk', c);
+      //   return cache;
+      // },
       onCompleted: (data) {},
       variables: {
         'foodFk': foodFk,
@@ -99,5 +111,11 @@ class FavoriteRepository {
       return favoriteModel;
     }
     return null;
+  }
+
+  deleteById(String id) async {
+    var connection = await database;
+    await connection.transaction((txn) async =>
+        await txn.delete("Favorite", where: 'id = ?', whereArgs: [id]));
   }
 }
