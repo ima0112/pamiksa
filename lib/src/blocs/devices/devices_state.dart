@@ -33,3 +33,11 @@ class DevicesTokenExpiredState extends DevicesState {
   @override
   List<Object> get props => throw UnimplementedError();
 }
+
+class ErrorDevicesState extends DevicesState {
+  final DevicesEvent event;
+
+  ErrorDevicesState(this.event);
+  @override
+  List<Object> get props => throw UnimplementedError();
+}

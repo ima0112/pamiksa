@@ -25,6 +25,10 @@ class SuggestionsState extends SearchState {
 
 class SearchTokenExpiredState extends SearchState {}
 
-class SearchConnectionFailedState extends SearchState {}
+class ErrorSearchState extends SearchState {
+  final SearchEvent event;
+
+  ErrorSearchState(this.event);
+}
 
 class SearchRefreshedTokenState extends SearchState {}

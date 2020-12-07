@@ -232,10 +232,8 @@ class _RootPageState extends State<RootPage> {
             ),
           ));
         } else
-          return Container(
-            child: Center(
-              child: Text("Error"),
-            ),
+          return Center(
+            child: Text("Error"),
           );
       },
     );

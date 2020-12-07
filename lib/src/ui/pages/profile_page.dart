@@ -7,6 +7,7 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -14,11 +15,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final fullname = TextEditingController();
+  final adress = TextEditingController();
   final NavigationService navigationService = locator<NavigationService>();
+
   ProfileBloc profileBloc;
 
-  String fullname;
-  String adress;
   String email;
 
   @override
@@ -107,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: IconButton(
                                   icon: (Platform.isAndroid)
                                       ? Icon(Icons.photo_camera)
-                                      : Icon(CupertinoIcons.camera_fill),
+                                      : Icon(CupertinoIcons.photo_camera),
                                   onPressed: () {
                                     navigationService.navigateTo("/pick_image");
                                   },
@@ -123,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ListTile(
                       leading: (Platform.isAndroid)
                           ? Icon(Icons.person)
-                          : Icon(CupertinoIcons.person_fill),
+                          : Icon(CupertinoIcons.person),
                       isThreeLine: true,
                       title: Text(
                         "Nombre",
@@ -137,7 +139,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Theme.of(context).textTheme.bodyText1.color),
                       ),
                       onTap: () {
-                        changeName(state.results.fullName);
+                        fullname.text = state.results.fullName;
+                        changeName();
                       },
                       trailing: (Platform.isAndroid)
                           ? Icon(
@@ -154,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ListTile(
                       leading: (Platform.isAndroid)
                           ? Icon(Icons.location_on)
-                          : Icon(CupertinoIcons.placemark_fill),
+                          : Icon(CupertinoIcons.location),
                       isThreeLine: true,
                       title: Text(
                         "Direccion",
@@ -168,7 +171,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Theme.of(context).textTheme.bodyText1.color),
                       ),
                       onTap: () {
-                        changeAdress(state.results.adress);
+                        adress.text = state.results.adress;
+                        changeAdress();
                       },
                       trailing: (Platform.isAndroid)
                           ? Icon(
@@ -203,22 +207,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             );
+          } else if (state is ErrorProfileState) {
+            return ErrorPage(event: state.event, bloc: profileBloc);
           } else {
-            return Center(
-                child: FlatButton.icon(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    onPressed: () {
-                      profileBloc.add(SetProfileInitialStateEvent());
-                    },
-                    icon: Icon(Icons.refresh),
-                    label: Text("Reintentar")));
+            return Center(child: Text("Error"));
           }
         });
   }
 
-  changeName(String fullname) {
+  changeName() {
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -253,8 +250,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding:
                               const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
                           child: TextFormField(
+                            initialValue: fullname.text,
                             autofocus: true,
-                            initialValue: fullname,
                             keyboardType: TextInputType.name,
                             maxLength: 40,
                             style: TextStyle(fontSize: 16),
@@ -264,7 +261,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               filled: false,
                             ),
                             onChanged: (String value) {
-                              this.fullname = value;
+                              fullname.text = value;
                             },
                           ),
                         ),
@@ -296,7 +293,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     borderRadius: BorderRadius.circular(30)),
                                 onPressed: () {
                                   profileBloc.add(
-                                      ChangeNameEvent(name: this.fullname));
+                                      ChangeNameEvent(name: fullname.text));
                                 },
                               )
                             ],
@@ -308,7 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ));
   }
 
-  changeAdress(String adress) {
+  changeAdress() {
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -344,21 +341,19 @@ class _ProfilePageState extends State<ProfilePage> {
                               const EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
                           child: TextFormField(
                             autofocus: true,
-                            initialValue: adress,
+                            initialValue: adress.text,
                             keyboardType: TextInputType.text,
                             maxLength: 80,
                             style: TextStyle(fontSize: 16),
                             decoration: const InputDecoration(
                               helperText: "",
                               border: UnderlineInputBorder(),
-                              // labelText: 'Correo electrónico',
                               filled: false,
-                              //icon: Icon(Icons.email),
                             ),
                             onChanged: (String value) {
-                              profileBloc.add(ReactiveChangeAdressEvent(value));
+                              adress.text = value;
+                              // profileBloc.add(ReactiveChangeAdressEvent(value));
                             },
-                            //validator: (value) => validateEmail(value),
                           ),
                         ),
                         Padding(

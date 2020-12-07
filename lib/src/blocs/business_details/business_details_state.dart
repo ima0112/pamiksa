@@ -15,7 +15,11 @@ class BusinessDetailsInitial extends BusinessDetailsState {
 
 class LoadingBusinessDetailsState extends BusinessDetailsState {}
 
-class ErrorBusinessDetailsState extends BusinessDetailsState {}
+class ErrorBusinessDetailsState extends BusinessDetailsState {
+  final BusinessDetailsEvent event;
+
+  ErrorBusinessDetailsState(this.event);
+}
 
 class LoadedBusinessDetailsState extends BusinessDetailsState {
   final BusinessModel businessModel;

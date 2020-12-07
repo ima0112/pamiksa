@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class FoodPage extends StatefulWidget {
   @override
@@ -51,7 +52,7 @@ class _FoodPageState extends State<FoodPage> {
             return IconButton(
                 icon: (Platform.isAndroid)
                     ? Icon(Icons.favorite)
-                    : Icon(CupertinoIcons.suit_heart_fill),
+                    : Icon(CupertinoIcons.heart),
                 onPressed: () {
                   setState(() {
                     foodBloc
@@ -64,7 +65,7 @@ class _FoodPageState extends State<FoodPage> {
             return IconButton(
                 icon: (Platform.isAndroid)
                     ? Icon(Icons.favorite)
-                    : Icon(CupertinoIcons.suit_heart),
+                    : Icon(CupertinoIcons.heart),
                 onPressed: () {
                   setState(() {
                     foodBloc
@@ -80,8 +81,8 @@ class _FoodPageState extends State<FoodPage> {
           appBar: AppBar(
             leading: IconButton(
               icon: (Platform.isAndroid)
-                  ? Icon(Icons.close_rounded)
-                  : Icon(CupertinoIcons.multiply),
+                  ? Icon(Icons.close)
+                  : Icon(CupertinoIcons.add),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -135,7 +136,7 @@ class _FoodPageState extends State<FoodPage> {
                           IconButton(
                             icon: (Platform.isAndroid)
                                 ? Icon(Icons.remove)
-                                : Icon(CupertinoIcons.minus_circle),
+                                : Icon(CupertinoIcons.minus_circled),
                             onPressed: () {},
                             iconSize: 20,
                             splashRadius: 20,
@@ -144,7 +145,7 @@ class _FoodPageState extends State<FoodPage> {
                           IconButton(
                             icon: (Platform.isAndroid)
                                 ? Icon(Icons.add)
-                                : Icon(CupertinoIcons.plus_circle_fill),
+                                : Icon(CupertinoIcons.plus_circled),
                             onPressed: () {},
                             iconSize: 20,
                             splashRadius: 20,
@@ -165,31 +166,17 @@ class _FoodPageState extends State<FoodPage> {
             onPressed: () => null,
             icon: (Platform.isAndroid)
                 ? Icon(Icons.add_shopping_cart)
-                : Icon(CupertinoIcons.cart_fill_badge_plus),
+                : Icon(CupertinoIcons.shopping_cart),
             label: Text("Agregar al carrito"),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
         );
-      } else if (state is FoodConnectionFailedState) {
-        return Center(
-            child: FlatButton.icon(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                onPressed: () {},
-                icon: Icon(Icons.refresh),
-                label: Text("Reintentar")));
+      } else if (state is ErrorFoodState) {
+        return ErrorPage(event: state.event, bloc: foodBloc);
       } else {
-        return Center(
-            child: FlatButton.icon(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                onPressed: () {},
-                icon: Icon(Icons.refresh),
-                label: Text("Reintentar")));
+        return Center(child: Text("Error"));
       }
     });
   }

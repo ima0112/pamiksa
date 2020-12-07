@@ -50,6 +50,13 @@ class FoodRepository {
         .transaction((txn) async => await txn.rawQuery('SELECT * FROM "Food"'));
   }
 
+  Future<int> insertAll(List<dynamic> arguments) async {
+    var connection = await database;
+    return await connection.transaction((txn) async => await txn.rawInsert(
+        'INSERT INTO "Food" (photoUrl, isAvailable, price, name, description, photo, id, availability, isFavorite)',
+        arguments));
+  }
+
   Future<QueryResult> foods(String businessId) async {
     final WatchQueryOptions _options = WatchQueryOptions(
       fetchPolicy: FetchPolicy.cacheAndNetwork,

@@ -57,7 +57,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
             Errors.TokenExpired) {
           add(FoodRefreshTokenEvent(event));
         } else {
-          yield FoodConnectionFailedState();
+          yield ErrorFoodState(event);
         }
       } else {
         final List addonsData = response.data['addOns'] ?? null;
@@ -84,7 +84,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
         }
       }
     } catch (error) {
-      FoodConnectionFailedState();
+      yield ErrorFoodState(event);
     }
   }
 
@@ -99,7 +99,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
               Errors.TokenExpired) {
             add(FoodRefreshTokenEvent(event));
           } else {
-            yield FoodConnectionFailedState();
+            yield ErrorFoodState(event);
           }
         } else {
           await foodRepository.updateById(event.foodFk, 1);
@@ -112,14 +112,14 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
               Errors.TokenExpired) {
             add(FoodRefreshTokenEvent(event));
           } else {
-            yield FoodConnectionFailedState();
+            yield ErrorFoodState(event);
           }
         } else {
           await foodRepository.updateById(event.foodFk, 0);
         }
       }
     } catch (error) {
-      yield FoodConnectionFailedState();
+      yield ErrorFoodState(event);
     }
   }
 
@@ -133,12 +133,12 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
               Errors.RefreshTokenExpired) {
         await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
       } else if (response.hasException) {
-        yield FoodConnectionFailedState();
+        yield ErrorFoodState(event);
       } else {
         add(event.childEvent);
       }
     } catch (error) {
-      yield FoodConnectionFailedState();
+      yield ErrorFoodState(event);
     }
   }
 }

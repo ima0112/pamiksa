@@ -18,4 +18,8 @@ class LoadedFavoritesFoodsState extends FavoriteState {
   LoadedFavoritesFoodsState({this.count, this.favoriteModel});
 }
 
-class FavoriteConnectionFailed extends FavoriteState {}
+class ErrorFavoriteState extends FavoriteState {
+  final FavoriteEvent event;
+
+  ErrorFavoriteState(this.event);
+}
