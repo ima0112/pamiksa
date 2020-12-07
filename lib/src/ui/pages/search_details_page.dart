@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/search_details/search_details_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class SearchDetailsPage extends StatefulWidget {
   @override
@@ -121,15 +122,10 @@ class _SearchDetailsPageState extends State<SearchDetailsPage> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
         );
+      } else if (state is ErrorSearchDetailsState) {
+        return ErrorPage(event: state.event, bloc: searchDetailsBloc);
       } else {
-        return Center(
-            child: FlatButton.icon(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                onPressed: () {},
-                icon: Icon(Icons.refresh),
-                label: Text("Reintentar")));
+        return Center(child: Text("Error"));
       }
     });
   }

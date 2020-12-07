@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: (Platform.isAndroid)
                   ? Icon(Icons.home)
-                  : Icon(CupertinoIcons.house_fill),
+                  : Icon(CupertinoIcons.home),
               title: Text("Inicio")),
           BottomNavigationBarItem(
               icon: (Platform.isAndroid)
@@ -72,12 +72,12 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: (Platform.isAndroid)
                   ? Icon(Icons.favorite_border)
-                  : Icon(CupertinoIcons.suit_heart),
+                  : Icon(CupertinoIcons.heart),
               title: Text("Favoritos")),
           BottomNavigationBarItem(
               icon: (Platform.isAndroid)
                   ? Icon(Icons.shopping_cart)
-                  : Icon(CupertinoIcons.cart_fill),
+                  : Icon(CupertinoIcons.shopping_cart),
               title: Text("Carrito")),
           BottomNavigationBarItem(
               icon: (Platform.isAndroid)

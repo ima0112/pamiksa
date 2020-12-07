@@ -39,12 +39,20 @@ class BusinessRepository {
     await connection
         .transaction((txn) async => txn.execute('DELETE FROM "Business"'));
   }
-//Get all records
+
+  //Get all records
 /*Future<List<Map>> all() async {
     var connection = await database;
     return await connection.transaction(
         (txn) async => await txn.rawQuery('SELECT * FROM "Business"'));
   }*/
+
+//Insert all records
+  Future<int> insertAll(List<dynamic> arguments) async {
+    var connection = await database;
+    return await connection.transaction((txn) async =>
+        await txn.rawInsert('INSERT INTO "Business"', arguments));
+  }
 
   Future<BusinessModel> getById(String id) async {
     BusinessModel businessModel = BusinessModel();

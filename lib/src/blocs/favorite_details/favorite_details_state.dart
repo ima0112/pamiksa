@@ -11,7 +11,11 @@ class FavoriteDetailsInitial extends FavoriteDetailsState {}
 
 class LoadingFavoritesDetailsFoodsState extends FavoriteDetailsState {}
 
-class FavoriteDetailsConnectionFailed extends FavoriteDetailsState {}
+class ErrorFavoriteDetailsState extends FavoriteDetailsState {
+  final FavoriteDetailsEvent event;
+
+  ErrorFavoriteDetailsState(this.event);
+}
 
 class LoadedFavoritesFoodsDetailsState extends FavoriteDetailsState {
   final int count;

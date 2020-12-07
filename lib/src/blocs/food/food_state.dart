@@ -34,7 +34,11 @@ class LoadedFoodWithOutAddonsState extends FoodState {
 
 class FoodTokenExpiredState extends FoodState {}
 
-class FoodConnectionFailedState extends FoodState {}
+class ErrorFoodState extends FoodState {
+  final FoodEvent event;
+
+  ErrorFoodState(this.event);
+}
 
 class FoodFavoriteEnabledState extends FoodState {}
 

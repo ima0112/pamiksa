@@ -55,7 +55,7 @@ class BusinessDetailsBloc
             Errors.TokenExpired) {
           yield BusinessTokenExpired();
         } else {
-          yield ErrorBusinessDetailsState();
+          yield ErrorBusinessDetailsState(event);
         }
       } else {
         foodRepository.clear();
@@ -79,7 +79,7 @@ class BusinessDetailsBloc
             businessModel: businessResult, foodModel: foodModel);
       }
     } catch (error) {
-      yield ErrorBusinessDetailsState();
+      yield ErrorBusinessDetailsState(event);
     }
   }
 
@@ -94,12 +94,12 @@ class BusinessDetailsBloc
         await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
         yield BusinessDetailsInitial(id);
       } else if (response.hasException) {
-        yield ErrorBusinessDetailsState();
+        yield ErrorBusinessDetailsState(event);
       } else {
         yield BusinessDetailsInitial(id);
       }
     } catch (error) {
-      yield ErrorBusinessDetailsState();
+      yield ErrorBusinessDetailsState(event);
     }
   }
 }

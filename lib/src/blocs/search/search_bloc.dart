@@ -51,7 +51,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             Errors.TokenExpired) {
           add(SearchRefreshTokenEvent(event));
         } else {
-          yield SearchConnectionFailedState();
+          yield ErrorSearchState(event);
         }
       } else {
         final List searchData = response.data['searchFood'];
@@ -94,12 +94,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       String refreshToken = await secureStorage.read(key: "refreshToken");
       final response = await userRepository.refreshToken(refreshToken);
       if (response.hasException) {
-        yield SearchConnectionFailedState();
+        yield ErrorSearchState(event);
       } else {
         add(event.childEvent);
       }
     } catch (error) {
-      yield SearchConnectionFailedState();
+      yield ErrorSearchState(event);
     }
   }
 
@@ -113,7 +113,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
       yield SuggestionsState(suggestions: suggestionsNames);
     } catch (error) {
-      yield SearchConnectionFailedState();
+      yield ErrorSearchState(event);
     }
   }
 
@@ -123,7 +123,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       await suggestionRepository.deleteById(event.id);
       yield SearchInitial();
     } catch (error) {
-      yield SearchConnectionFailedState();
+      yield ErrorSearchState(event);
     }
   }
 }

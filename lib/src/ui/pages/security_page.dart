@@ -29,7 +29,7 @@ class _SecurityPageState extends State<SecurityPage> {
           ListTile(
             leading: (Platform.isAndroid)
                 ? Icon(Icons.lock)
-                : Icon(CupertinoIcons.lock_fill),
+                : Icon(CupertinoIcons.loop_thick),
             title: Text("Cambiar contraseña"),
             onTap: () {
               navigationService.navigateTo(Routes.ChangePasswordRoute);
