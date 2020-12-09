@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/device.dart';
 import 'package:pamiksa/src/data/repositories/remote/sessions_repository.dart';
 import 'package:pamiksa/src/data/device_info.dart' as deviceInfo;
@@ -50,10 +51,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       final response =
           await sessionsRepository.fetchSessions(deviceModel.deviceId);
       if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message == "Token Expired") {
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
           add(DeviceRefreshTokenEvent(event));
         } else {
-          yield DeviceConnectionFailedState();
+          yield ErrorDevicesState(event);
         }
       } else {
         final List businessData = response.data['devicesByUser'];
@@ -72,23 +74,29 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         yield LoadedDevicesState(devicesModelList, deviceModel);
       }
     } catch (error) {
-      yield DeviceConnectionFailedState();
+      yield ErrorDevicesState(event);
     }
   }
 
   Stream<DevicesState> _mapSignOutAllEvent(SignOutAllEvent event) async* {
-    await deviceInfo.initPlatformState(deviceModel);
-    final response = await sessionsRepository.signOutAll(deviceModel.deviceId);
-    if (response.hasException) {
-      if (response.exception.graphqlErrors[0].message == "Token Expired") {
-        add(DeviceRefreshTokenEvent(event));
+    try {
+      await deviceInfo.initPlatformState(deviceModel);
+      final response =
+          await sessionsRepository.signOutAll(deviceModel.deviceId);
+      if (response.hasException) {
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          add(DeviceRefreshTokenEvent(event));
+        } else {
+          yield ErrorDevicesState(event);
+        }
       } else {
-        yield DeviceConnectionFailedState();
+        sessionsRepository.clear();
+        devicesModelList.clear();
+        add(FetchDevicesDataEvent());
       }
-    } else {
-      sessionsRepository.clear();
-      devicesModelList.clear();
-      add(FetchDevicesDataEvent());
+    } catch (error) {
+      yield ErrorDevicesState(event);
     }
   }
 
@@ -98,10 +106,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       await deviceInfo.initPlatformState(deviceModel);
       final response = await userRepository.signOut(deviceId);
       if (response.hasException) {
-        if (response.exception.graphqlErrors[0].message == "Token Expired") {
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
           add(DeviceRefreshTokenEvent(event));
         } else {
-          yield DeviceConnectionFailedState();
+          yield ErrorDevicesState(event);
         }
       } else {
         await sessionsRepository.deleteById(deviceId);
@@ -109,7 +118,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         add(FetchDevicesDataEvent());
       }
     } catch (error) {
-      yield DeviceConnectionFailedState();
+      yield ErrorDevicesState(event);
     }
   }
 
@@ -119,12 +128,12 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       String refreshToken = await secureStorage.read(key: "refreshToken");
       final response = await userRepository.refreshToken(refreshToken);
       if (response.hasException) {
-        yield DeviceConnectionFailedState();
+        yield ErrorDevicesState(event);
       } else {
         add(event.childEvent);
       }
     } catch (error) {
-      yield DeviceConnectionFailedState();
+      yield ErrorDevicesState(event);
     }
   }
 }

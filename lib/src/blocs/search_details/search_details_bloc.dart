@@ -51,7 +51,7 @@ class SearchDetailsBloc extends Bloc<SearchDetailsEvent, SearchDetailsState> {
             Errors.TokenExpired) {
           add(SearchDetailRefreshTokenEvent(event));
         } else {
-          yield SearchDetailsConnectionFailedState();
+          yield ErrorSearchDetailsState(event);
         }
       } else {
         final List addonsData = response.data['addOns'] ?? null;
@@ -76,7 +76,7 @@ class SearchDetailsBloc extends Bloc<SearchDetailsEvent, SearchDetailsState> {
         }
       }
     } catch (error) {
-      SearchDetailsConnectionFailedState();
+      yield ErrorSearchDetailsState(event);
     }
   }
 
@@ -92,12 +92,12 @@ class SearchDetailsBloc extends Bloc<SearchDetailsEvent, SearchDetailsState> {
               Errors.RefreshTokenExpired) {
         await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
       } else if (response.hasException) {
-        yield SearchDetailsConnectionFailedState();
+        yield ErrorSearchDetailsState(event);
       } else {
         add(event.childEvent);
       }
     } catch (error) {
-      yield SearchDetailsConnectionFailedState();
+      yield ErrorSearchDetailsState(event);
     }
   }
 }

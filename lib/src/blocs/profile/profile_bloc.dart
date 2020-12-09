@@ -76,7 +76,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             Errors.TokenExpired) {
           add(ProfileRefreshTokenEvent(event));
         } else {
-          yield ProfileConnectionFailedState();
+          yield ErrorProfileState(event);
         }
       } else {
         Map<dynamic, dynamic> meData = response.data['me'];
@@ -93,7 +93,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         yield LoadedProfileState(meModel);
       }
     } catch (error) {
-      yield ProfileConnectionFailedState();
+      yield ErrorProfileState(event);
     }
   }
 
@@ -110,7 +110,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               Errors.TokenExpired) {
             add(ProfileRefreshTokenEvent(event));
           } else {
-            yield ProfileConnectionFailedState();
+            yield ErrorProfileState(event);
           }
         }
       }
@@ -152,7 +152,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               Errors.TokenExpired) {
             add(ProfileRefreshTokenEvent(event));
           } else {
-            yield ProfileConnectionFailedState();
+            yield ErrorProfileState(event);
           }
         }
       }
@@ -175,7 +175,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               Errors.TokenExpired) {
             add(ProfileRefreshTokenEvent(event));
           } else {
-            yield ProfileConnectionFailedState();
+            yield ErrorProfileState(event);
           }
         }
       }
@@ -198,7 +198,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               Errors.TokenExpired) {
             add(ProfileRefreshTokenEvent(event));
           } else {
-            yield ProfileConnectionFailedState();
+            yield ErrorProfileState(event);
           }
         }
       }
@@ -221,12 +221,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
         yield ProfileInitial();
       } else if (response.hasException) {
-        yield ProfileConnectionFailedState();
+        yield ErrorProfileState(event);
       } else {
         add(event.childEvent);
       }
     } catch (error) {
-      yield ProfileConnectionFailedState();
+      yield ErrorProfileState(event);
     }
   }
 }

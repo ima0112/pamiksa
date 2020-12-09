@@ -52,7 +52,7 @@ class FavoriteDetailsBloc
             Errors.TokenExpired) {
           add(FavoriteDetailsRefreshTokenEvent(event));
         } else {
-          yield FavoriteDetailsConnectionFailed();
+          yield ErrorFavoriteDetailsState(event);
         }
       } else {
         final List addonsData = response.data['addOns'] ?? null;
@@ -77,7 +77,7 @@ class FavoriteDetailsBloc
         }
       }
     } catch (error) {
-      yield FavoriteDetailsConnectionFailed();
+      yield ErrorFavoriteDetailsState(event);
     }
   }
 
@@ -92,12 +92,12 @@ class FavoriteDetailsBloc
         await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
         yield FavoriteDetailsInitial();
       } else if (response.hasException) {
-        yield FavoriteDetailsConnectionFailed();
+        yield ErrorFavoriteDetailsState(event);
       } else {
         add(event.childEvent);
       }
     } catch (error) {
-      yield FavoriteDetailsConnectionFailed();
+      yield ErrorFavoriteDetailsState(event);
     }
   }
 }

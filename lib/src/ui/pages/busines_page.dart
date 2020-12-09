@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/error_page.dart';
 import 'package:pamiksa/src/ui/widgets/widgets.dart';
 
 class BusinessPage extends StatefulWidget {
@@ -166,18 +167,10 @@ class _BusinessPagePageState extends State<BusinessPage> {
               ),
               separatorBuilder: (_, __) => Divider(height: 0.0),
             ));
+      } else if (state is ErrorBusinessDetailsState) {
+        return ErrorPage(event: state.event, bloc: businessDetailsBloc);
       }
-      return Scaffold(
-          body: Center(
-              child: FlatButton.icon(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  onPressed: () {
-                    businessDetailsBloc.add(SetInitialBusinessDetailsEvent());
-                  },
-                  icon: Icon(Icons.refresh),
-                  label: Text("Reintentar"))));
+      return Scaffold(body: Center(child: Center(child: Text("Error"))));
     });
   }
 }

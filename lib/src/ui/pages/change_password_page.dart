@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/pages/error_page.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   @override
@@ -71,6 +72,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               alignment: Alignment.topCenter,
               child: LinearProgressIndicator(),
             );
+          } else if (state is ErrorChangePasswordState) {
+            return ErrorPage(event: state.event, bloc: changePasswordBloc);
           }
           return Container(
             child: Column(

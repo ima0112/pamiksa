@@ -7,6 +7,7 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/blocs/search_details/search_details_bloc.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 import 'package:pamiksa/src/ui/widgets/food_list_skeleton.dart';
 
 class FoodSearch extends SearchDelegate<SearchModel> {
@@ -80,16 +81,8 @@ class FoodSearch extends SearchDelegate<SearchModel> {
               ),
             ),
           );
-        } else if (state is SearchConnectionFailedState) {
-          return Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [Text("Tienes un problema con la conexion")],
-              ),
-            ),
-          );
+        } else if (state is ErrorSearchState) {
+          return ErrorPage(event: state.event, bloc: searchBloc);
         } else if (state is FoodsFoundState) {
           if (state.searchModel.length == 0) {
             return Padding(
@@ -224,6 +217,8 @@ class FoodSearch extends SearchDelegate<SearchModel> {
                   ))
               .toList(),
         );
+      } else if (state is ErrorSearchState) {
+        return ErrorPage(event: state.event, bloc: searchBloc);
       }
       return Align(
         alignment: Alignment.topCenter,
@@ -233,7 +228,7 @@ class FoodSearch extends SearchDelegate<SearchModel> {
   }
 
   bool validate(String value) {
-    String p = "[^\s]";
+    String p = "/^\s/";
     RegExp regExp = new RegExp(p);
     if (regExp.hasMatch(value)) {
       return true;

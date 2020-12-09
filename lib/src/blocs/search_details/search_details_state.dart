@@ -28,4 +28,8 @@ class LoadedSearchDetailWithOutAddonsState extends SearchDetailsState {
 
 class SearchDetailsTokenExpiredState extends SearchDetailsState {}
 
-class SearchDetailsConnectionFailedState extends SearchDetailsState {}
+class ErrorSearchDetailsState extends SearchDetailsState {
+  final SearchDetailsEvent event;
+
+  ErrorSearchDetailsState(this.event);
+}

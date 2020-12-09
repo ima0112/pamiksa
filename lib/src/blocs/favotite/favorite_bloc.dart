@@ -48,7 +48,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       if (response.exception.graphqlErrors[0].message == Errors.TokenExpired) {
         add(FavoriteRefreshTokenEvent(event));
       } else {
-        yield FavoriteConnectionFailed();
+        yield ErrorFavoriteState(event);
       }
     }
     await favoriteRepository.deleteById(event.favoriteModel.id);
@@ -84,7 +84,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
             Errors.TokenExpired) {
           add(FavoriteRefreshTokenEvent(event));
         } else {
-          yield FavoriteConnectionFailed();
+          yield ErrorFavoriteState(event);
         }
       } else {
         final List favoriteData = response.data['favorites'];
@@ -124,12 +124,12 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         await navigationService.navigateWithoutGoBack(Routes.LoginRoute);
         yield FavoriteInitial();
       } else if (response.hasException) {
-        yield FavoriteConnectionFailed();
+        yield ErrorFavoriteState(event);
       } else {
         add(event.childEvent);
       }
     } catch (error) {
-      yield FavoriteConnectionFailed();
+      yield ErrorFavoriteState(event);
     }
   }
 }

@@ -43,13 +43,13 @@ class ChangePasswordBloc
             Errors.TokenExpired) {
           add(ChangePasswordRefreshTokenEvent(event));
         } else {
-          yield ChangePasswordConnectionFailedState();
+          yield ErrorChangePasswordState(event);
         }
       }
       navigationService.goBack();
       yield ChangePasswordInitial();
     } catch (error) {
-      yield ChangePasswordConnectionFailedState();
+      yield ErrorChangePasswordState(event);
     }
   }
 
@@ -59,12 +59,12 @@ class ChangePasswordBloc
       String refreshToken = await secureStorage.read(key: "refreshToken");
       final response = await userRepository.refreshToken(refreshToken);
       if (response.hasException) {
-        yield ChangePasswordConnectionFailedState();
+        yield ErrorChangePasswordState(event);
       } else {
         add(event.childEvent);
       }
     } catch (error) {
-      yield ChangePasswordConnectionFailedState();
+      yield ErrorChangePasswordState(event);
     }
   }
 }

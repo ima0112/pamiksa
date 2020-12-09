@@ -4,6 +4,7 @@ import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 import 'package:pamiksa/src/ui/widgets/food_list_skeleton.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -166,17 +167,10 @@ class _FavoritePageState extends State<FavoritePage> {
                   ],
                 ),
               );
+            } else if (state is ErrorFavoriteState) {
+              return ErrorPage(event: state.event, bloc: favoriteBloc);
             }
-            return Center(
-                child: FlatButton.icon(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    onPressed: () {
-                      favoriteBloc.add(ChangeStateToInitialEvent());
-                    },
-                    icon: Icon(Icons.refresh),
-                    label: Text("Reintentar")));
+            return Center(child: Text("Error"));
           },
         ),
       ),

@@ -18,7 +18,10 @@ class LoadedProfileState extends ProfileState {
   List<Object> get props => throw UnimplementedError();
 }
 
-class ProfileConnectionFailedState extends ProfileState {
+class ErrorProfileState extends ProfileState {
+  final ProfileEvent event;
+
+  ErrorProfileState(this.event);
   @override
   List<Object> get props => throw UnimplementedError();
 }

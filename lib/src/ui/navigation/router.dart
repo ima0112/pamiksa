@@ -80,6 +80,8 @@ class GenerateRoute {
         return MaterialPageRoute(builder: (context) => FavoriteDetailsPage());
       case Routes.SearchDetailsRoute:
         return MaterialPageRoute(builder: (context) => SearchDetailsPage());
+      case Routes.ErrorRoute:
+        return MaterialPageRoute(builder: (context) => ErrorPage());
     }
   }
 
