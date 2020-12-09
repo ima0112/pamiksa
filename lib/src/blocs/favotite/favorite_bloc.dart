@@ -17,10 +17,9 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   final FavoriteRepository favoriteRepository;
   final UserRepository userRepository;
   final NavigationService navigationService = locator<NavigationService>();
-
+  bool _isFavoriteFetched = false;
   List<AddonsModel> addonsModel = List();
   SecureStorage secureStorage = SecureStorage();
-
   List<FavoriteModel> favoriteModel = List();
 
   FavoriteBloc(this.favoriteRepository, this.userRepository)
@@ -43,7 +42,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
   Stream<FavoriteState> _mapDeleteFavoriteEvent(
       DeleteFavoriteEvent event) async* {
-    final response = await favoriteRepository.deleteFavorite(event.foodFk);
+    final response =
+        await favoriteRepository.deleteFavorite(event.favoriteModel.id);
     if (response.hasException) {
       if (response.exception.graphqlErrors[0].message == Errors.TokenExpired) {
         add(FavoriteRefreshTokenEvent(event));
@@ -51,7 +51,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         yield FavoriteConnectionFailed();
       }
     }
-    await favoriteRepository.deleteById(event.foodFk);
+    await favoriteRepository.deleteById(event.favoriteModel.id);
     final responseDb = await favoriteRepository.all();
 
     favoriteModel = responseDb

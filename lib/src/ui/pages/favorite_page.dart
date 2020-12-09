@@ -88,7 +88,10 @@ class _FavoritePageState extends State<FavoritePage> {
                               image: NetworkImage(
                                 state.favoriteModel[index].photoUrl,
                               ),
-                              placeholder: AssetImage("assets/gif/loading.gif"),
+                              placeholder: (Theme.of(context).brightness ==
+                                      Brightness.dark)
+                                  ? AssetImage("assets/gif/dark_loading.gif")
+                                  : AssetImage("assets/gif/loading.gif"),
                             ),
                           ),
                         ),
@@ -96,7 +99,7 @@ class _FavoritePageState extends State<FavoritePage> {
                           icon: Icon(Icons.close),
                           onPressed: () {
                             favoriteBloc.add(DeleteFavoriteEvent(
-                                state.favoriteModel[index].id, state));
+                                state.favoriteModel[index], state));
                           },
                         ),
                         dense: true,
@@ -142,7 +145,10 @@ class _FavoritePageState extends State<FavoritePage> {
                               image: NetworkImage(
                                 state.favoriteModel[index].photoUrl,
                               ),
-                              placeholder: AssetImage("assets/gif/loading.gif"),
+                              placeholder: (Theme.of(context).brightness ==
+                                      Brightness.dark)
+                                  ? AssetImage("assets/gif/dark_loading.gif")
+                                  : AssetImage("assets/gif/loading.gif"),
                             ),
                           ),
                         ),
@@ -150,7 +156,7 @@ class _FavoritePageState extends State<FavoritePage> {
                           icon: Icon(Icons.close),
                           onPressed: () {
                             favoriteBloc.add(DeleteFavoriteEvent(
-                                state.favoriteModel[index].id, state));
+                                state.favoriteModel[index], state));
                           },
                         ),
                         dense: true,

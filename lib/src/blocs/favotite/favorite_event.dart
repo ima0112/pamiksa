@@ -21,7 +21,7 @@ class SessionExpiredEvent extends FavoriteEvent {}
 
 class DeleteFavoriteEvent extends FavoriteEvent {
   final FavoriteState favoriteState;
-  final String foodFk;
+  final FavoriteModel favoriteModel;
 
-  DeleteFavoriteEvent(this.foodFk, this.favoriteState);
+  DeleteFavoriteEvent(this.favoriteModel, this.favoriteState);
 }
