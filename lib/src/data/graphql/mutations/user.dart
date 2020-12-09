@@ -50,8 +50,8 @@ mutation signOut($deviceId: ID!){
 """;
 
 String resetPassword = r"""
-mutation ResetPassword($email: String!, $password: String!, $platform: String!, $systemVersion: String!, $deviceId: String!, $model: String!){
-  resetPassword(email: $email, password: $password, platform: $platform, systemVersion: $systemVersion, deviceId: $deviceId, model: $model){
+mutation ResetPassword($email: String!, $password: String!, $platform: String!, $systemVersion: String!, $deviceId: String!, $model: String!, $app: String!, $appVersion: String!){
+  resetPassword(email: $email, password: $password, platform: $platform, systemVersion: $systemVersion, deviceId: $deviceId, model: $model, app: $app, appVersion: $appVersion){
     refreshToken
     token
     user{
