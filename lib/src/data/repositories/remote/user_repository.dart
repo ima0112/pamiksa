@@ -144,6 +144,7 @@ class UserRepository {
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
         'model': deviceModel.model,
+        'app': "pamiksa"
       },
     );
     return await client.mutate(_options);
