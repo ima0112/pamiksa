@@ -151,6 +151,9 @@ class UserRepository {
 
   Future<QueryResult> resetPassword(
       String email, String password, DeviceModel deviceModel) async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    //double currentVersion = double.parse(info.version.trim().replaceAll(".", ""));
+    String currentVersion = info.version;
     final MutationOptions _options = MutationOptions(
       documentNode: gql(mutations.resetPassword),
       onCompleted: (data) {
@@ -166,7 +169,9 @@ class UserRepository {
         'platform': deviceModel.platform,
         'systemVersion': deviceModel.systemVersion,
         'deviceId': deviceModel.deviceId,
-        'model': deviceModel.model
+        'model': deviceModel.model,
+        'app': 'pamiksa',
+        'appVersion': currentVersion
       },
     );
     return await client.mutate(_options);

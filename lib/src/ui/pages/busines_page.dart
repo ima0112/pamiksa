@@ -91,7 +91,10 @@ class _BusinessPagePageState extends State<BusinessPage> {
                               width: 500,
                               fit: BoxFit.cover,
                               height: 225,
-                              placeholder: AssetImage("assets/gif/loading.gif"),
+                              placeholder: (Theme.of(context).brightness ==
+                                      Brightness.dark)
+                                  ? AssetImage("assets/gif/dark_loading.gif")
+                                  : AssetImage("assets/gif/loading.gif"),
                               image: NetworkImage(state.businessModel.photoUrl),
                             ),
                           ),
@@ -161,7 +164,10 @@ class _BusinessPagePageState extends State<BusinessPage> {
                             image: NetworkImage(
                               state.foodModel[index].photoUrl,
                             ),
-                            placeholder: AssetImage("assets/gif/loading.gif"),
+                            placeholder: (Theme.of(context).brightness ==
+                                    Brightness.dark)
+                                ? AssetImage("assets/gif/dark_loading.gif")
+                                : AssetImage("assets/gif/loading.gif"),
                           ),
                         ),
                       ),
