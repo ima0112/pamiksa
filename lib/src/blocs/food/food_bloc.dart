@@ -41,7 +41,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       yield* _mapFoodRefreshTokenEvent(event);
     } else if (event is ToggleIconViewFavoriteEvent) {
       yield* _mapToggleIconViewFavoriteEvent(event);
-    } else if (event is SetFavoriteInitalStateEvent) {
+    } else if (event is SetInitialFoodEvent) {
       yield FoodInitial(event.foodFk);
     }
   }

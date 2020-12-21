@@ -20,8 +20,6 @@ void main() async {
   await DotEnv().load('.env');
   WidgetsFlutterBinding.ensureInitialized();
 
-  ThemeMode themeMode = await Utils().loadedTheme();
-
   String initialRoute = Routes.HomeRoute;
 
   bool isUserLoggedIn = await UserModel().isLoggedIn();
@@ -39,112 +37,112 @@ void main() async {
   setupLocator();
 
   runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider(
-          create: (context) => ForgotPasswordBloc(
-              UserRepository(client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-          create: (context) => ForgotPasswordVerificationBloc(
-              UserRepository(client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-          create: (context) => ForgotPasswordEmailBloc(
-              UserRepository(client: GraphQLConfiguration().clients()))),
-      BlocProvider(create: (context) => ThemeBloc()),
-      BlocProvider(create: (context) => TimerBloc(ticker: TickerPamiksa())),
-      BlocProvider(create: (context) => IntroBloc()),
-      BlocProvider(
-          create: (context) => RegisterPersonalInfoBloc(RegisterDataRepository(
-              client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-          create: (context) => ProfileBloc(
+      providers: [
+        BlocProvider(
+            create: (context) => ForgotPasswordBloc(
+                UserRepository(client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+            create: (context) => ForgotPasswordVerificationBloc(
+                UserRepository(client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+            create: (context) => ForgotPasswordEmailBloc(
+                UserRepository(client: GraphQLConfiguration().clients()))),
+        BlocProvider(create: (context) => ThemeBloc()),
+        BlocProvider(create: (context) => TimerBloc(ticker: TickerPamiksa())),
+        BlocProvider(create: (context) => IntroBloc()),
+        BlocProvider(
+            create: (context) => RegisterPersonalInfoBloc(
+                RegisterDataRepository(
+                    client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+            create: (context) => ProfileBloc(
+                UserRepository(client: GraphQLConfiguration().clients()),
+                Minio(
+                    endPoint: DotEnv().env['MINIO_ADRESS'],
+                    accessKey: DotEnv().env['MINIO_ACCESS_KEY'],
+                    port: int.parse(DotEnv().env['MINIO_PORT']),
+                    useSSL: DotEnv().env['MINIO_USE_SSL'] == 'true',
+                    secretKey: DotEnv().env['MINIO_SECRET_KEY']))),
+        BlocProvider(
+            create: (context) => LocationBloc(
+                ProvinceRepository(client: GraphQLConfiguration().clients()),
+                UserRepository(client: GraphQLConfiguration().clients()),
+                MunicipalityRepository(
+                    client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+            create: (context) => NetworkExceptionSplashScreenBloc(
+                UserRepository(client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+            create: (context) => RegisterEmailBloc(
+                UserRepository(client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+            create: (context) => RegisterVerificationBloc(
+                UserRepository(client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+            create: (context) => RegisterCompleteBloc(
+                  UserRepository(client: GraphQLConfiguration().clients()),
+                )),
+        BlocProvider(
+          create: (context) => RegisterPasswordBloc(),
+        ),
+        BlocProvider(
+          create: (context) => DevicesBloc(
+              SessionsRepository(client: GraphQLConfiguration().clients()),
+              UserRepository(client: GraphQLConfiguration().clients())),
+        ),
+        BlocProvider(
+          create: (context) => RootBloc(
+              BusinessRepository(client: GraphQLConfiguration().clients()),
               UserRepository(client: GraphQLConfiguration().clients()),
-              Minio(
-                  endPoint: DotEnv().env['MINIO_ADRESS'],
-                  accessKey: DotEnv().env['MINIO_ACCESS_KEY'],
-                  port: int.parse(DotEnv().env['MINIO_PORT']),
-                  useSSL: DotEnv().env['MINIO_USE_SSL'] == 'true',
-                  secretKey: DotEnv().env['MINIO_SECRET_KEY']))),
-      BlocProvider(
-          create: (context) => LocationBloc(
+              FavoriteRepository(client: GraphQLConfiguration().clients())),
+        ),
+        BlocProvider(
+          create: (context) => SignInBloc(
+              UserRepository(client: GraphQLConfiguration().clients()),
+              RegisterDataRepository(client: GraphQLConfiguration().clients()),
               ProvinceRepository(client: GraphQLConfiguration().clients()),
-              UserRepository(client: GraphQLConfiguration().clients()),
-              MunicipalityRepository(
-                  client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-          create: (context) => NetworkExceptionSplashScreenBloc(
-              UserRepository(client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-          create: (context) => RegisterEmailBloc(
-              UserRepository(client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-          create: (context) => RegisterVerificationBloc(
-              UserRepository(client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-          create: (context) => RegisterCompleteBloc(
-                UserRepository(client: GraphQLConfiguration().clients()),
-              )),
-      BlocProvider(
-        create: (context) => RegisterPasswordBloc(),
-      ),
-      BlocProvider(
-        create: (context) => DevicesBloc(
-            SessionsRepository(client: GraphQLConfiguration().clients()),
-            UserRepository(client: GraphQLConfiguration().clients())),
-      ),
-      BlocProvider(
-        create: (context) => RootBloc(
-            BusinessRepository(client: GraphQLConfiguration().clients()),
-            UserRepository(client: GraphQLConfiguration().clients()),
-            FavoriteRepository(client: GraphQLConfiguration().clients())),
-      ),
-      BlocProvider(
-        create: (context) => SignInBloc(
-            UserRepository(client: GraphQLConfiguration().clients()),
-            RegisterDataRepository(client: GraphQLConfiguration().clients()),
-            ProvinceRepository(client: GraphQLConfiguration().clients()),
-            MunicipalityRepository(client: GraphQLConfiguration().clients())),
-      ),
-      BlocProvider(
-        create: (context) => BusinessDetailsBloc(
-            BusinessRepository(client: GraphQLConfiguration().clients()),
-            FoodRepository(client: GraphQLConfiguration().clients()),
-            UserRepository(client: GraphQLConfiguration().clients())),
-      ),
-      BlocProvider(
-          create: (context) => SearchBloc(
-                SearchRepository(client: GraphQLConfiguration().clients()),
-                UserRepository(client: GraphQLConfiguration().clients()),
-                SuggestionRepository(client: GraphQLConfiguration().clients()),
-              )),
-      BlocProvider(
-          create: (context) => FavoriteBloc(
-              FavoriteRepository(client: GraphQLConfiguration().clients()),
-              UserRepository(client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-          create: (context) => ChangePasswordBloc(
-              UserRepository(client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-          create: (context) => FoodBloc(
-                AddonsRepository(client: GraphQLConfiguration().clients()),
-                FoodRepository(client: GraphQLConfiguration().clients()),
+              MunicipalityRepository(client: GraphQLConfiguration().clients())),
+        ),
+        BlocProvider(
+          create: (context) => BusinessDetailsBloc(
+              BusinessRepository(client: GraphQLConfiguration().clients()),
+              FoodRepository(client: GraphQLConfiguration().clients()),
+              UserRepository(client: GraphQLConfiguration().clients())),
+        ),
+        BlocProvider(
+            create: (context) => SearchBloc(
+                  SearchRepository(client: GraphQLConfiguration().clients()),
+                  UserRepository(client: GraphQLConfiguration().clients()),
+                  SuggestionRepository(
+                      client: GraphQLConfiguration().clients()),
+                )),
+        BlocProvider(
+            create: (context) => FavoriteBloc(
+                FavoriteRepository(client: GraphQLConfiguration().clients()),
+                UserRepository(client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+            create: (context) => ChangePasswordBloc(
+                UserRepository(client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+            create: (context) => FoodBloc(
+                  AddonsRepository(client: GraphQLConfiguration().clients()),
+                  FoodRepository(client: GraphQLConfiguration().clients()),
+                  UserRepository(client: GraphQLConfiguration().clients()),
+                  FavoriteRepository(client: GraphQLConfiguration().clients()),
+                )),
+        BlocProvider(
+            create: (context) => FavoriteDetailsBloc(
                 UserRepository(client: GraphQLConfiguration().clients()),
                 FavoriteRepository(client: GraphQLConfiguration().clients()),
-              )),
-      BlocProvider(
-          create: (context) => FavoriteDetailsBloc(
+                AddonsRepository(client: GraphQLConfiguration().clients()))),
+        BlocProvider(
+          create: (context) => SearchDetailsBloc(
+              AddonsRepository(client: GraphQLConfiguration().clients()),
               UserRepository(client: GraphQLConfiguration().clients()),
-              FavoriteRepository(client: GraphQLConfiguration().clients()),
-              AddonsRepository(client: GraphQLConfiguration().clients()))),
-      BlocProvider(
-        create: (context) => SearchDetailsBloc(
-            AddonsRepository(client: GraphQLConfiguration().clients()),
-            UserRepository(client: GraphQLConfiguration().clients()),
-            SearchRepository(client: GraphQLConfiguration().clients())),
-      ),
-    ],
-    child: MyApp(
-      initialRoute: initialRoute,
-      themeMode: themeMode,
-    ),
-  ));
+              SearchRepository(client: GraphQLConfiguration().clients())),
+        ),
+      ],
+      child: MyApp(
+        initialRoute: initialRoute,
+      )));
 }

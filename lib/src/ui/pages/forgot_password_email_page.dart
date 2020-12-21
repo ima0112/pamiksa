@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class ForgotPasswordEmailPage extends StatefulWidget {
   @override
@@ -54,153 +55,166 @@ class ForgotPasswordEmailPageState extends State<ForgotPasswordEmailPage> {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                }
-                return Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          "Restablecer contraseña",
-                          style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
-                          textAlign: TextAlign.center,
+                } else if (state is ForgotPasswordEmailInitial) {
+                  return Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            "Restablecer contraseña",
+                            style:
+                                TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
-                          child: Form(
-                            key: _formKey,
-                            child: Container(
-                              margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                              child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      0.0, 25.0, 0.0, 0.0),
-                                  child: Column(children: [
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    BlocBuilder<ForgotPasswordEmailBloc,
-                                        ForgotPasswordEmailState>(
-                                      builder: (context, state) {
-                                        if (state
-                                            is ForgotPasswordEmailInitial) {
-                                          return TextFormField(
-                                            initialValue: email,
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            decoration: InputDecoration(
-                                              errorMaxLines: 3,
-                                              helperText: "",
-                                              icon: Icon(Icons.email),
-                                              fillColor: Colors.white24,
-                                              labelText: "Correo electrónico",
-                                              labelStyle: TextStyle(
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 16.0),
+                            child: Form(
+                              key: _formKey,
+                              child: Container(
+                                margin:
+                                    EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                                child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        0.0, 25.0, 0.0, 0.0),
+                                    child: Column(children: [
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      BlocBuilder<ForgotPasswordEmailBloc,
+                                          ForgotPasswordEmailState>(
+                                        builder: (context, state) {
+                                          if (state
+                                              is ForgotPasswordEmailInitial) {
+                                            return TextFormField(
+                                              initialValue: email,
+                                              keyboardType:
+                                                  TextInputType.emailAddress,
+                                              decoration: InputDecoration(
+                                                errorMaxLines: 3,
+                                                helperText: "",
+                                                icon: Icon(Icons.email),
+                                                fillColor: Colors.white24,
+                                                labelText: "Correo electrónico",
+                                                labelStyle: TextStyle(
+                                                    fontFamily:
+                                                        'RobotoMono-Regular'),
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                            width: 2)),
+                                              ),
+                                              validator: (value) =>
+                                                  _validateEmail(value),
+                                              onChanged: (String value) {
+                                                email = value;
+                                              },
+                                            );
+                                          }
+                                          if (state
+                                              is NotExistsUserEmailState) {
+                                            return TextFormField(
+                                              initialValue: email,
+                                              keyboardType:
+                                                  TextInputType.emailAddress,
+                                              style: TextStyle(
                                                   fontFamily:
-                                                      'RobotoMono-Regular'),
-                                              focusedBorder:
-                                                  UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
-                                                          width: 2)),
-                                            ),
-                                            validator: (value) =>
-                                                _validateEmail(value),
-                                            onChanged: (String value) {
-                                              email = value;
-                                            },
-                                          );
-                                        }
-                                        if (state is NotExistsUserEmailState) {
-                                          return TextFormField(
-                                            initialValue: email,
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            style: TextStyle(
-                                                fontFamily:
-                                                    'RobotoMono-Regular',
-                                                color: Colors.black54,
-                                                fontSize: 16),
-                                            decoration: InputDecoration(
-                                              errorMaxLines: 3,
-                                              errorText:
-                                                  "¡No existe una cuenta usando este correo electrónico! Prueba con otro.",
-                                              helperText: "",
-                                              icon: Icon(Icons.email),
-                                              filled: false,
-                                              fillColor: Colors.white24,
-                                              labelText: "Correo electrónico",
-                                              labelStyle: TextStyle(
-                                                  fontFamily:
-                                                      'RobotoMono-Regular'),
-                                              focusedBorder:
-                                                  UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
-                                                          width: 2)),
-                                            ),
-                                            validator: (value) =>
-                                                _validateEmail(value),
-                                            onChanged: (String value) {
-                                              email = value;
-                                            },
-                                          );
-                                        }
-                                      },
-                                    )
-                                  ])),
+                                                      'RobotoMono-Regular',
+                                                  color: Colors.black54,
+                                                  fontSize: 16),
+                                              decoration: InputDecoration(
+                                                errorMaxLines: 3,
+                                                errorText:
+                                                    "¡No existe una cuenta usando este correo electrónico! Prueba con otro.",
+                                                helperText: "",
+                                                icon: Icon(Icons.email),
+                                                filled: false,
+                                                fillColor: Colors.white24,
+                                                labelText: "Correo electrónico",
+                                                labelStyle: TextStyle(
+                                                    fontFamily:
+                                                        'RobotoMono-Regular'),
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                            width: 2)),
+                                              ),
+                                              validator: (value) =>
+                                                  _validateEmail(value),
+                                              onChanged: (String value) {
+                                                email = value;
+                                              },
+                                            );
+                                          }
+                                        },
+                                      )
+                                    ])),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Divider(),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                        padding: EdgeInsets.only(
-                            top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
+                        Divider(),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                          padding: EdgeInsets.only(
+                              top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              FlatButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                onPressed: () {
+                                  navigationService.goBack();
+                                },
+                                child: Text(
+                                  "ATRÁS",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                ),
                               ),
-                              onPressed: () {
-                                navigationService.goBack();
-                              },
-                              child: Text(
-                                "ATRÁS",
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
+                              RaisedButton(
+                                textColor: Colors.white,
+                                color: Theme.of(context).primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    forgotpasswordEmailBloc.add(
+                                        CheckPasswordByUserEmailEvent(email));
+                                  }
+                                },
+                                child: Text(
+                                  'SIGUIENTE',
+                                  style: TextStyle(
+                                      fontFamily: 'RobotoMono-Regular'),
+                                ),
                               ),
-                            ),
-                            RaisedButton(
-                              textColor: Colors.white,
-                              color: Theme.of(context).primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  forgotpasswordEmailBloc.add(
-                                      CheckPasswordByUserEmailEvent(email));
-                                }
-                              },
-                              child: Text(
-                                'SIGUIENTE',
-                                style:
-                                    TextStyle(fontFamily: 'RobotoMono-Regular'),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  );
+                } else if (state is ErrorForgotPasswordEmailState) {
+                  return ErrorPage(
+                    bloc: forgotpasswordEmailBloc,
+                    event: state.event,
+                  );
+                }
+                return ErrorPage(
+                  bloc: forgotpasswordEmailBloc,
+                  event: SetInitialForgotPasswordEmailEvent(),
                 );
               },
             )));

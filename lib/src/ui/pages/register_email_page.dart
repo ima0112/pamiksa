@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/register_email/register_email_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class RegisterEmailPage extends StatefulWidget {
   @override
@@ -93,37 +94,47 @@ class RegisterEmailPageState extends State<RegisterEmailPage> {
                   ],
                 ),
               );
-            }
-            return Container(
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: FittedBox(
-                          child: Text(
-                            "Crear cuenta",
-                            style:
-                                TextStyle(fontFamily: 'Roboto', fontSize: 30),
-                            textAlign: TextAlign.center,
+            } else if (state is RegisterEmailInitial) {
+              return Container(
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: FittedBox(
+                            child: Text(
+                              "Crear cuenta",
+                              style:
+                                  TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: form(),
-                  ),
-                  Divider(
-                    height: 0.0,
-                  ),
-                  downButtons()
-                ],
-              ),
+                    Expanded(
+                      flex: 3,
+                      child: form(),
+                    ),
+                    Divider(
+                      height: 0.0,
+                    ),
+                    downButtons()
+                  ],
+                ),
+              );
+            } else if (state is ErrorRegisterEmailState) {
+              return ErrorPage(
+                bloc: registerEmailBloc,
+                event: state.event,
+              );
+            }
+            return ErrorPage(
+              bloc: registerEmailBloc,
+              event: SetInitialRegisterEmailEvent(),
             );
           },
         ));

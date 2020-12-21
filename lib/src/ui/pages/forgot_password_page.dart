@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/forgot_password/forgot_password_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   @override
@@ -178,9 +179,15 @@ class ForgotpasswordPageState extends State<ForgotPasswordPage> {
                 ),
               ),
             );
+          } else if (state is ErrorForgotPasswordState) {
+            return ErrorPage(
+              bloc: forgotPasswordBloc,
+              event: state.event,
+            );
           }
-          return Center(
-            child: CircularProgressIndicator(),
+          return ErrorPage(
+            bloc: forgotPasswordBloc,
+            event: SetInitialForgotPasswordEvent(),
           );
         },
       ),

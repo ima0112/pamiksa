@@ -23,11 +23,6 @@ class SetCropProfileEvent extends ProfileEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-class SetProfileInitialStateEvent extends ProfileEvent {
-  @override
-  List<Object> get props => throw UnimplementedError();
-}
-
 class ChangeNameEvent extends ProfileEvent {
   final String name;
 
@@ -66,5 +61,11 @@ class ReactiveChangeAdressEvent extends ProfileEvent {
   ReactiveChangeAdressEvent(this.adress);
 
   @override
+  List<Object> get props => throw UnimplementedError();
+}
+
+class SetInitialProfileEvent extends ProfileEvent {
+  @override
+  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }

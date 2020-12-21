@@ -14,3 +14,5 @@ class CheckVerificationCodeEvent extends RegisterVerificationEvent {
 
   CheckVerificationCodeEvent({this.code});
 }
+
+class SetRegisterVerificationEvent extends RegisterVerificationEvent {}

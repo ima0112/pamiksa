@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           if (index == 1) {
             showSearch(context: context, delegate: FoodSearch());
           } else if (index == 2) {
-            favoriteBloc.add(ChangeStateToInitialEvent());
+            favoriteBloc.add(SetInitialFavoriteEvent());
             setState(() {
               _currentIndex = index;
             });

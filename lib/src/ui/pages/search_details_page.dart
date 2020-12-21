@@ -125,7 +125,8 @@ class _SearchDetailsPageState extends State<SearchDetailsPage> {
       } else if (state is ErrorSearchDetailsState) {
         return ErrorPage(event: state.event, bloc: searchDetailsBloc);
       } else {
-        return Center(child: Text("Error"));
+        return ErrorPage(
+            event: SearchDetailsInitial(), bloc: searchDetailsBloc);
       }
     });
   }

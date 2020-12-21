@@ -15,9 +15,10 @@ class DevicesPage extends StatefulWidget {
 }
 
 class _DevicesPageState extends State<DevicesPage> {
-  DevicesBloc devicesBloc;
   final NavigationService navigationService = locator<NavigationService>();
   final ScrollController _scrollController = ScrollController();
+
+  DevicesBloc devicesBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +299,10 @@ class _DevicesPageState extends State<DevicesPage> {
                   event: state.event,
                 );
               } else {
-                return Center(child: Text("Error"));
+                return ErrorPage(
+                  bloc: devicesBloc,
+                  event: SetInitialDevicesEvent(),
+                );
               }
             }));
   }

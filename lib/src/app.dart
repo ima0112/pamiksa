@@ -3,26 +3,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/data/utils.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/themes/theme_manager.dart';
 
 class MyApp extends StatefulWidget {
   final String initialRoute;
-  final ThemeMode themeMode;
 
-  const MyApp({Key key, @required this.initialRoute, this.themeMode})
-      : super(key: key);
+  const MyApp({Key key, @required this.initialRoute}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeBloc themeBloc;
-
   @override
   void initState() {
-    themeBloc = BlocProvider.of<ThemeBloc>(context);
+    BlocProvider.of<ThemeBloc>(context).add(LoadingThemeEvent());
     super.initState();
   }
 
@@ -41,8 +38,7 @@ class _MyAppState extends State<MyApp> {
             localizationsDelegates: [GlobalMaterialLocalizations.delegate],
             supportedLocales: [const Locale('es')],
             title: 'Pamiksa',
-            themeMode:
-                state is ThemeInitial ? widget.themeMode : state.themeMode,
+            themeMode: state.themeMode,
             theme: appThemeData[ThemeMode.light],
             darkTheme: appThemeData[ThemeMode.dark],
             onGenerateRoute: GenerateRoute.generateRoute,

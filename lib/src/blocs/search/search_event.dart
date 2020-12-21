@@ -30,3 +30,5 @@ class SearchRefreshTokenEvent extends SearchEvent {
 
   SearchRefreshTokenEvent(this.childEvent);
 }
+
+class SetInitialSearchEvent extends SearchEvent {}

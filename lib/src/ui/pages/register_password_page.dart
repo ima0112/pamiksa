@@ -51,13 +51,12 @@ class RegisterPasswordPageState extends State<RegisterPasswordPage> {
   @override
   void initState() {
     registerEmailBloc = BlocProvider.of<RegisterEmailBloc>(context);
-    registerEmailBloc.add(SetRegisterEmailInitialEvent());
+    registerEmailBloc.add(SetInitialRegisterEmailEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    registerPasswordBloc = BlocProvider.of<RegisterPasswordBloc>(context);
     return Scaffold(
       // resizeToAvoidBottomPadding: false,
       body: Container(

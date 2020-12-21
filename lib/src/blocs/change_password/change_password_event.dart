@@ -18,3 +18,5 @@ class ChangePasswordRefreshTokenEvent extends ChangePasswordEvent {
 
   ChangePasswordRefreshTokenEvent(this.childEvent);
 }
+
+class SetInitialChangePasswordEvent extends ChangePasswordEvent {}
