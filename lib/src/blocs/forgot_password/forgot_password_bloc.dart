@@ -32,6 +32,8 @@ class ForgotPasswordBloc
   ) async* {
     if (event is SaveUserNewPasswordEvent) {
       yield* _mapSaveUserNewPasswordEvent(event);
+    } else if (event is SetInitialForgotPasswordEvent) {
+      yield ForgotPasswordInitial();
     }
   }
 
@@ -53,7 +55,7 @@ class ForgotPasswordBloc
 
       navigationService.navigateAndRemove(Routes.HomeRoute);
     } catch (error) {
-      yield ForgotPasswordConnectionFailedState();
+      yield ErrorForgotPasswordState(event);
     }
   }
 }

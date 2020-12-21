@@ -67,20 +67,20 @@ class _SettingsPageState extends State<SettingsPage> {
                   size: 15.0,
                 ),
               ),
-              ListTile(
-                leading: (Platform.isAndroid)
-                    ? Icon(Icons.palette)
-                    : Icon(CupertinoIcons.clear_thick),
-                title: Text("Tema"),
-                onTap: () {
-                  navigationService.navigateTo(Routes.ThemeRoute);
-                },
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.grey,
-                  size: 15.0,
-                ),
-              ),
+              // ListTile(
+              //   leading: (Platform.isAndroid)
+              //       ? Icon(Icons.palette)
+              //       : Icon(CupertinoIcons.clear_thick),
+              //   title: Text("Tema"),
+              //   onTap: () {
+              //     navigationService.navigateTo(Routes.ThemeRoute);
+              //   },
+              //   trailing: Icon(
+              //     Icons.arrow_forward_ios,
+              //     color: Colors.grey,
+              //     size: 15.0,
+              //   ),
+              // ),
               ListTile(
                 leading: (Platform.isAndroid)
                     ? Icon(Icons.security)

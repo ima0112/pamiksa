@@ -25,3 +25,9 @@ class SignInRefreshTokenEvent extends SignInEvent {
   @override
   List<Object> get props => throw UnimplementedError();
 }
+
+class SetInitialSignInEvent extends SignInEvent {
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}

@@ -11,4 +11,8 @@ class ForgotPasswordInitial extends ForgotPasswordState {}
 
 class ChangePasswordLoading extends ForgotPasswordState {}
 
-class ForgotPasswordConnectionFailedState extends ForgotPasswordState {}
+class ErrorForgotPasswordState extends ForgotPasswordState {
+  final ForgotPasswordEvent event;
+
+  ErrorForgotPasswordState(this.event);
+}

@@ -50,10 +50,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield* _mapChangeAdressEvent(event);
     } else if (event is ProfileRefreshTokenEvent) {
       yield* _mapProfileRefreshTokenEvent(event);
-    } else if (event is SetProfileInitialStateEvent) {
-      yield ProfileInitial();
     } else if (event is ReactiveChangeAdressEvent) {
       yield* _mapReactiveChangeAdressEvent(event);
+    } else if (event is SetInitialProfileEvent) {
+      yield ProfileInitial();
     }
   }
 
@@ -71,6 +71,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield LoadingProfileState();
     try {
       final response = await userRepository.me();
+
       if (response.hasException) {
         if (response.exception.graphqlErrors[0].message ==
             Errors.TokenExpired) {
@@ -82,6 +83,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         Map<dynamic, dynamic> meData = response.data['me'];
         this.adress = meData['adress'];
         userRepository.clear();
+
         meModel = UserModel(
             id: meData['id'],
             fullName: meData['fullName'],
@@ -89,6 +91,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             photo: meData['photo'],
             photoUrl: meData['photoUrl'],
             email: meData['email']);
+
         userRepository.insert(meModel.toMap());
         yield LoadedProfileState(meModel);
       }

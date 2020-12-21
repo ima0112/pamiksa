@@ -8,6 +8,7 @@ import 'package:pamiksa/src/data/models/user.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 import '../../blocs/timer/timer_bloc.dart';
 
@@ -97,8 +98,7 @@ class ForgotPasswordVerificationPageState
                                                       value));
                                             }
                                           });
-                                    }
-                                    if (state
+                                    } else if (state
                                         is IncorrectedVerificationToForgotPasswordCodeState) {
                                       return TextFormField(
                                           maxLength: 6,
@@ -115,7 +115,18 @@ class ForgotPasswordVerificationPageState
                                                       value));
                                             }
                                           });
+                                    } else if (state
+                                        is ErrorForgotPasswordVerificationState) {
+                                      return ErrorPage(
+                                        bloc: forgotPasswordVerificationBloc,
+                                        event: state.event,
+                                      );
                                     }
+                                    return ErrorPage(
+                                      bloc: forgotPasswordVerificationBloc,
+                                      event:
+                                          SetInitialForgotPasswordVerificationEvent(),
+                                    );
                                   },
                                 );
                               },

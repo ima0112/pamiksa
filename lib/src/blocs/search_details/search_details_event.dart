@@ -18,3 +18,5 @@ class SearchDetailRefreshTokenEvent extends SearchDetailsEvent {
 
   SearchDetailRefreshTokenEvent(this.childEvent);
 }
+
+class SetInitialSearchDetailsEvent extends SearchDetailsEvent {}

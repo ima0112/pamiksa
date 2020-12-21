@@ -25,4 +25,8 @@ class MunicipalitiesLoadedState extends LocationState {
 
 class LoadingProvinceMunicipalityState extends LocationState {}
 
-class LocationConnectionFailedState extends LocationState {}
+class ErrorLocationState extends LocationState {
+  final LocationEvent event;
+
+  ErrorLocationState(this.event);
+}

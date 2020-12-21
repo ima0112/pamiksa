@@ -42,17 +42,15 @@ class RegisterCompleteBloc
 
       await deviceInfo.initPlatformState(deviceModel);
 
-      event.userModel.fullName = await secureStorage.read(key: 'fullname');
-      event.userModel.password = await secureStorage.read(key: 'password');
-      event.userModel.adress = await secureStorage.read(key: 'adress');
-      event.userModel.birthday = await secureStorage.read(key: 'birthday');
-      event.userModel.email = await secureStorage.read(key: 'email');
-      event.userModel.province = await secureStorage.read(key: 'province');
-      event.userModel.municipality =
-          await secureStorage.read(key: 'municipality');
+      userModel.fullName = await secureStorage.read(key: 'fullname');
+      userModel.password = await secureStorage.read(key: 'password');
+      userModel.adress = await secureStorage.read(key: 'adress');
+      userModel.birthday = await secureStorage.read(key: 'birthday');
+      userModel.email = await secureStorage.read(key: 'email');
+      userModel.province = await secureStorage.read(key: 'province');
+      userModel.municipality = await secureStorage.read(key: 'municipality');
 
-      final response =
-          await this.userRepository.signUp(event.userModel, deviceModel);
+      final response = await this.userRepository.signUp(userModel, deviceModel);
 
       if (response.hasException) {
         print(response);
@@ -63,7 +61,7 @@ class RegisterCompleteBloc
 
       navigationService.navigateAndRemove(Routes.HomeRoute);
 
-      print(event.userModel.toString());
+      print(userModel.toString());
     } catch (error) {
       yield RegisterCompleteConnectionFailedState();
     }

@@ -13,4 +13,4 @@ class CheckUserEmailEvent extends RegisterEmailEvent {
   CheckUserEmailEvent(this.email);
 }
 
-class SetRegisterEmailInitialEvent extends RegisterEmailEvent {}
+class SetInitialRegisterEmailEvent extends RegisterEmailEvent {}

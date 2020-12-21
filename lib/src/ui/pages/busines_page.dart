@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/pages/error_page.dart';
 import 'package:pamiksa/src/ui/widgets/widgets.dart';
@@ -133,8 +134,8 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         style: TextStyle(fontSize: 14.0),
                       ),
                       onTap: () {
-                        foodBloc.add(SetFavoriteInitalStateEvent(
-                            state.foodModel[index].id));
+                        foodBloc.add(
+                            SetInitialFoodEvent(state.foodModel[index].id));
                         navigationService.navigateTo(Routes.FoodRoute);
                       },
                       subtitle: Text(
@@ -146,6 +147,15 @@ class _BusinessPagePageState extends State<BusinessPage> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(7.5),
                           child: FadeInImage(
+                            imageErrorBuilder: (context, error, stackTrace) {
+                              if (Theme.of(context).brightness ==
+                                  Brightness.dark) {
+                                return Image.asset(
+                                    "assets/gif/dark_loading.gif");
+                              } else {
+                                return Image.asset("assets/gif/loading.gif");
+                              }
+                            },
                             fit: BoxFit.fitWidth,
                             width: 80,
                             image: NetworkImage(
@@ -164,7 +174,8 @@ class _BusinessPagePageState extends State<BusinessPage> {
       } else if (state is ErrorBusinessDetailsState) {
         return ErrorPage(event: state.event, bloc: businessDetailsBloc);
       }
-      return Scaffold(body: Center(child: Center(child: Text("Error"))));
+      return ErrorPage(
+          event: SetInitialBusinessDetailsEvent(), bloc: businessDetailsBloc);
     });
   }
 }

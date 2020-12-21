@@ -39,6 +39,8 @@ class BusinessDetailsBloc
       yield BusinessDetailsInitial(id);
     } else if (event is BusinessRefreshTokenEvent) {
       yield* _mapBusinessRefreshTokenEvent(event);
+    } else if (event is SetInitialBusinessDetailsEvent) {
+      yield BusinessDetailsInitial(" ");
     }
   }
 

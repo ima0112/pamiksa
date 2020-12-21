@@ -17,6 +17,8 @@ class _FoodPageState extends State<FoodPage> {
   final NavigationService navigationService = locator<NavigationService>();
 
   FoodBloc foodBloc;
+
+  String foodFK;
   int _isFavorite = 1;
 
   @override
@@ -29,16 +31,19 @@ class _FoodPageState extends State<FoodPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
       if (state is FoodInitial) {
+        foodFK = state.foodFk;
         foodBloc.add(FetchFoodEvent(state.foodFk));
-        return Container(
-          child: Center(
-            child: CircularProgressIndicator(),
+        return SafeArea(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: LinearProgressIndicator(),
           ),
         );
       } else if (state is LoadingFoodState) {
-        return Container(
-          child: Center(
-            child: CircularProgressIndicator(),
+        return SafeArea(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: LinearProgressIndicator(),
           ),
         );
       } else if (state is LoadedFoodWithOutAddonsState) {
@@ -176,7 +181,7 @@ class _FoodPageState extends State<FoodPage> {
       } else if (state is ErrorFoodState) {
         return ErrorPage(event: state.event, bloc: foodBloc);
       } else {
-        return Center(child: Text("Error"));
+        return ErrorPage(event: SetInitialFoodEvent(foodFK), bloc: foodBloc);
       }
     });
   }

@@ -26,6 +26,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final MunicipalityRepository municipalityRepository;
 
   DeviceModel deviceModel = DeviceModel();
+  UserModel userModel = UserModel();
+
   List<ProvinceModel> provinceModel = List();
   List<MunicipalityModel> municipalityModel = List();
   Shared preferences = Shared();
@@ -43,8 +45,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       yield* _mapGetRegisterDataEvent(event);
     } else if (event is MutateSignInEvent) {
       yield* _mapMutateSignInEvent(event);
+    } else if (event is SetInitialSignInEvent) {
+      yield SignInInitial();
     }
-    yield SignInInitial();
   }
 
   Stream<SignInState> _mapMutateSignInEvent(MutateSignInEvent event) async* {
@@ -69,6 +72,13 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           navigationService.navigateWithoutGoBack(Routes.DeviceBannedRoute);
         }
       } else {
+        final userData = response.data['signIn']['user'];
+
+        userModel.fromMap(userData);
+
+        userRepository.clear();
+        userRepository.insert(userModel.toMap());
+
         navigationService.navigateWithoutGoBack(Routes.HomeRoute);
         yield SignInInitial();
       }

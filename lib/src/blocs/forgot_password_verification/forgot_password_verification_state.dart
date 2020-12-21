@@ -15,3 +15,10 @@ class IncorrectedVerificationToForgotPasswordCodeState
 
 class ForgotPasswordVerificationConnectionFailedState
     extends ForgotPasswordVerificationState {}
+
+class ErrorForgotPasswordVerificationState
+    extends ForgotPasswordVerificationState {
+  final ForgotPasswordVerificationEvent event;
+
+  ErrorForgotPasswordVerificationState(this.event);
+}

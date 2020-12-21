@@ -15,7 +15,7 @@ export './theme/theme_bloc.dart';
 export './timer/timer_bloc.dart';
 export './timer/ticker.dart';
 export './business_details/business_details_bloc.dart';
-export './favotite/favorite_bloc.dart';
+export './favorite/favorite_bloc.dart';
 export './change_password/change_password_bloc.dart';
 export './food/food_bloc.dart';
 export './search/search_bloc.dart';

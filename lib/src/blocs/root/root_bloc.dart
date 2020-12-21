@@ -35,7 +35,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
 
   RootBloc(
       this.businessRepository, this.userRepository, this.favoriteRepository)
-      : super(HomeInitial());
+      : super(RootInitial());
 
   @override
   Stream<RootState> mapEventToState(
@@ -43,18 +43,13 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   ) async* {
     if (event is FetchBusinessEvent) {
       yield* _mapFetchBusinessEvent(event);
-    } else if (event is ChangeToInitialStateEvent) {
-      yield* _mapChangeToInitialStateEvent(event);
     } else if (event is LogoutEvent) {
       yield* _mapLogoutEvent(event);
     } else if (event is RefreshTokenEvent) {
       yield* _mapRefreshTokenEvent(event);
+    } else if (event is SetInitialRootEvent) {
+      yield RootInitial();
     }
-  }
-
-  Stream<RootState> _mapChangeToInitialStateEvent(
-      ChangeToInitialStateEvent event) async* {
-    yield HomeInitial();
   }
 
   Stream<RootState> _mapRefreshTokenEvent(RefreshTokenEvent event) async* {
@@ -117,6 +112,6 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     secureStorage.remove(key: "authToken");
     secureStorage.remove(key: "refreshToken");
     await navigationService.navigateAndRemove(Routes.LoginRoute);
-    yield HomeInitial();
+    yield RootInitial();
   }
 }

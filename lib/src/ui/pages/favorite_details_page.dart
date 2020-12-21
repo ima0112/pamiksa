@@ -26,10 +26,12 @@ class _FavoriteDetailsPageState extends State<FavoriteDetailsPage> {
     return BlocBuilder<FavoriteDetailsBloc, FavoriteDetailsState>(
         builder: (context, state) {
       if (state is LoadingFavoritesDetailsFoodsState) {
-        return Center(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: CircularProgressIndicator(),
+        return SafeArea(
+          child: Center(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: LinearProgressIndicator(),
+            ),
           ),
         );
       } else if (state is LoadedFavoritesFoodsWithOutAddonsState) {
@@ -66,6 +68,10 @@ class _FavoriteDetailsPageState extends State<FavoriteDetailsPage> {
                     child: ClipRRect(
                       child: Image.network(
                         state.favoriteModel.photoUrl,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                              'image_color_gray_transparent_background.png');
+                        },
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
@@ -122,10 +128,8 @@ class _FavoriteDetailsPageState extends State<FavoriteDetailsPage> {
               FloatingActionButtonLocation.centerFloat,
         );
       }
-      return Scaffold(
-          body: Center(
-        child: Text("Error"),
-      ));
+      return ErrorPage(
+          event: SetInitialFavoriteDetailsEvent(), bloc: favoriteDetailsBloc);
     });
   }
 }

@@ -13,4 +13,8 @@ class ExistsUserEmailState extends RegisterEmailState {}
 
 class RegisterEmailLoadingState extends RegisterEmailState {}
 
-class RegisterEmailConnectionFailedState extends RegisterEmailState {}
+class ErrorRegisterEmailState extends RegisterEmailState {
+  final RegisterEmailEvent event;
+
+  ErrorRegisterEmailState(this.event);
+}

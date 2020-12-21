@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/register_location/register_location_bloc.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class RegisterLocationPage extends StatefulWidget {
   @override
@@ -46,75 +47,86 @@ class RegisterLocationPageState extends State<RegisterLocationPage> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          }
-          return Container(
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: FittedBox(
-                        child: Text(
-                          "Crear cuenta",
-                          style: TextStyle(fontFamily: 'Roboto', fontSize: 30),
-                          textAlign: TextAlign.center,
+          } else if (state is LocationInitial) {
+            return Container(
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FittedBox(
+                          child: Text(
+                            "Crear cuenta",
+                            style:
+                                TextStyle(fontFamily: 'Roboto', fontSize: 30),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: form(),
-                ),
-                Divider(),
-                Container(
-                  margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                  padding: EdgeInsets.only(
-                      top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        onPressed: () {
-                          navigationService.goBack();
-                        },
-                        child: Text(
-                          "ATRÁS",
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                      RaisedButton(
-                        textColor: Colors.white,
-                        color: Theme.of(context).primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            locationBloc.add(LocationMutateCodeEvent(
-                                adress: adress,
-                                municipalityId: selectedmunicipio,
-                                provinceId: selectedprovincia));
-                          }
-                        },
-                        child: Text(
-                          'SIGUIENTE',
-                          style: TextStyle(fontFamily: 'RobotoMono-Regular'),
-                        ),
-                      )
-                    ],
+                  Expanded(
+                    flex: 3,
+                    child: form(),
                   ),
-                ),
-              ],
-            ),
+                  Divider(),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                    padding: EdgeInsets.only(
+                        top: 0.0, bottom: 0.0, right: 16.0, left: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          onPressed: () {
+                            navigationService.goBack();
+                          },
+                          child: Text(
+                            "ATRÁS",
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                        RaisedButton(
+                          textColor: Colors.white,
+                          color: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              locationBloc.add(LocationMutateCodeEvent(
+                                  adress: adress,
+                                  municipalityId: selectedmunicipio,
+                                  provinceId: selectedprovincia));
+                            }
+                          },
+                          child: Text(
+                            'SIGUIENTE',
+                            style: TextStyle(fontFamily: 'RobotoMono-Regular'),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is ErrorLocationState) {
+            return ErrorPage(
+              bloc: locationBloc,
+              event: state.event,
+            );
+          }
+          return ErrorPage(
+            bloc: locationBloc,
+            event: SetInitialLocationEvent(),
           );
         },
       ),
@@ -229,7 +241,7 @@ class RegisterLocationPageState extends State<RegisterLocationPage> {
               selectedmunicipio = value;
             },
             validator: (value) =>
-                value == null ? '¡Escoge tu provincia!' : null,
+                value == null ? '¡Escoge tu municipio!' : null,
             items: state.results.map((e) {
               return DropdownMenuItem(
                 child: new Text(e.name),
@@ -239,6 +251,7 @@ class RegisterLocationPageState extends State<RegisterLocationPage> {
           );
         }
         return DropdownButtonFormField(
+          items: [null],
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
             labelText: "Municipio",
@@ -246,8 +259,10 @@ class RegisterLocationPageState extends State<RegisterLocationPage> {
             icon: Icon(Icons.location_city),
             helperText: "",
           ),
-          onChanged: (dynamic value) {},
-          validator: (value) => value == null ? '¡Escoge tu provincia!' : null,
+          onChanged: (dynamic value) {
+            return null;
+          },
+          validator: (value) => value == null ? '¡Escoge tu municipio!' : null,
         );
       },
     );

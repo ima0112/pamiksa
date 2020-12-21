@@ -210,7 +210,8 @@ class _ProfilePageState extends State<ProfilePage> {
           } else if (state is ErrorProfileState) {
             return ErrorPage(event: state.event, bloc: profileBloc);
           } else {
-            return Center(child: Text("Error"));
+            return ErrorPage(
+                event: SetInitialProfileEvent(), bloc: profileBloc);
           }
         });
   }

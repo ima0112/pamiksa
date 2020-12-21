@@ -32,8 +32,8 @@ class ToggleIconViewFavoriteEvent extends FoodEvent {
   ToggleIconViewFavoriteEvent(this.foodFk);
 }
 
-class SetFavoriteInitalStateEvent extends FoodEvent {
+class SetInitialFoodEvent extends FoodEvent {
   final String foodFk;
 
-  SetFavoriteInitalStateEvent(this.foodFk);
+  SetInitialFoodEvent(this.foodFk);
 }

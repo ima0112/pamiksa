@@ -16,6 +16,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final UserRepository userRepository;
 
   SecureStorage secureStorage = SecureStorage();
+
   List<SearchModel> searchModel = List();
   List<SuggestionsModel> suggestionsNames = List();
 
@@ -37,6 +38,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       yield* _mapSearchSuggestionsEvent(event);
     } else if (event is DeleteSuggestionsEvent) {
       yield* _mapDeleteSuggestionsEvent(event);
+    } else if (event is SetInitialSearchEvent) {
+      yield SearchInitial();
     }
   }
 

@@ -31,6 +31,8 @@ class RegisterVerificationBloc
       yield* _mapMutateCodeEvent(event);
     } else if (event is CheckVerificationCodeEvent) {
       yield* _mapCheckVerificationCodeEvent(event);
+    } else if (event is SetRegisterVerificationEvent) {
+      yield RegisterVerificationInitial();
     }
   }
 
@@ -51,7 +53,7 @@ class RegisterVerificationBloc
       print(
           {"response": response.data.toString(), "code": code, "email": email});
     } catch (error) {
-      yield RegisterVerificationConnectionFailedState();
+      yield ErrorRegisterVerificationState(event);
     }
   }
 

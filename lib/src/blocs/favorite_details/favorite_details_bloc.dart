@@ -35,6 +35,8 @@ class FavoriteDetailsBloc
       yield* _mapFetchFavoriteFoodsDetailsEvent(event);
     } else if (event is FavoriteDetailsRefreshTokenEvent) {
       yield* _mapFavoriteDetailsRefreshTokenEvent(event);
+    } else if (event is SetInitialFavoriteDetailsEvent) {
+      yield FavoriteDetailsInitial();
     }
   }
 

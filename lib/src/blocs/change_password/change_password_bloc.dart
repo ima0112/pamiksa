@@ -28,6 +28,8 @@ class ChangePasswordBloc
       yield* _mapSendNewPasswordEvent(event);
     } else if (event is ChangePasswordRefreshTokenEvent) {
       yield* _mapChangePasswordRefreshTokenEvent(event);
+    } else if (event is SetInitialChangePasswordEvent) {
+      yield ChangePasswordInitial();
     }
   }
 
