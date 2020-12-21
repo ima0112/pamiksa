@@ -38,7 +38,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       yield* _mapSignOutEvent(event);
     } else if (event is DeviceRefreshTokenEvent) {
       yield* _mapDeviceRefreshTokenEvent(event);
-    } else if (event is SetDeviceInitialEvent) {
+    } else if (event is SetInitialDevicesEvent) {
       yield DevicesInitial();
     }
   }

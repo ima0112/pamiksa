@@ -13,5 +13,8 @@ class NotExistsUserEmailState extends ForgotPasswordEmailState {}
 
 class LoadingForgotPasswordState extends ForgotPasswordEmailState {}
 
-class ForgotPasswordEmailConnectionFailedState
-    extends ForgotPasswordEmailState {}
+class ErrorForgotPasswordEmailState extends ForgotPasswordEmailState {
+  final ForgotPasswordEmailEvent event;
+
+  ErrorForgotPasswordEmailState(this.event);
+}

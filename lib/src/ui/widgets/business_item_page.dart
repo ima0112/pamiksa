@@ -178,6 +178,13 @@ class _BusinessItemPageState extends State<BusinessItemPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
                   child: FadeInImage(
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      if (Theme.of(context).brightness == Brightness.dark) {
+                        return Image.asset("assets/gif/dark_loading.gif");
+                      } else {
+                        return Image.asset("assets/gif/loading.gif");
+                      }
+                    },
                     width: 500,
                     fit: BoxFit.cover,
                     height: 225,

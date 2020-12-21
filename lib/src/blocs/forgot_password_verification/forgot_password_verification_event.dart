@@ -16,3 +16,6 @@ class CheckVerificationFromForgotPasswordCodeEvent
 
   CheckVerificationFromForgotPasswordCodeEvent(this.code);
 }
+
+class SetInitialForgotPasswordVerificationEvent
+    extends ForgotPasswordVerificationEvent {}

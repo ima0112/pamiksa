@@ -44,12 +44,18 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   Stream<ThemeState> _mapChangedThemeEvent(ChangedThemeEvent event) async* {
     if (event.val == 0) {
       yield ThemeInitial(ThemeMode.system);
+      print(
+          "${ThemeMode.system.index}, modo: ${WidgetsBinding.instance.window.platformBrightness}");
       await preferences.saveInt('themeMode', 0);
     } else if (event.val == 1) {
       yield LightThemeState(ThemeMode.light);
+      print(
+          "${ThemeMode.light.index}, modo: ${WidgetsBinding.instance.window.platformBrightness}");
       await preferences.saveInt('themeMode', 1);
     } else if (event.val == 2) {
       yield DarkThemeState(ThemeMode.dark);
+      print(
+          "${ThemeMode.dark.index}, modo: ${WidgetsBinding.instance.window.platformBrightness}");
       await preferences.saveInt('themeMode', 2);
     }
   }

@@ -116,6 +116,13 @@ class FoodSearch extends SearchDelegate<SearchModel> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(7.5),
                     child: FadeInImage(
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        if (Theme.of(context).brightness == Brightness.dark) {
+                          return Image.asset("assets/gif/dark_loading.gif");
+                        } else {
+                          return Image.asset("assets/gif/loading.gif");
+                        }
+                      },
                       fit: BoxFit.fitWidth,
                       width: 80,
                       image: NetworkImage(
@@ -220,10 +227,7 @@ class FoodSearch extends SearchDelegate<SearchModel> {
       } else if (state is ErrorSearchState) {
         return ErrorPage(event: state.event, bloc: searchBloc);
       }
-      return Align(
-        alignment: Alignment.topCenter,
-        child: LinearProgressIndicator(),
-      );
+      return ErrorPage(event: SetInitialSearchEvent(), bloc: searchBloc);
     });
   }
 

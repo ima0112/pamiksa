@@ -25,7 +25,7 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
   ) async* {
     if (event is CheckUserEmailEvent) {
       yield* _mapCheckUserEmailEvent(event);
-    } else if (event is SetRegisterEmailInitialEvent) {
+    } else if (event is SetInitialRegisterEmailEvent) {
       yield RegisterEmailInitial();
     }
   }
@@ -46,7 +46,7 @@ class RegisterEmailBloc extends Bloc<RegisterEmailEvent, RegisterEmailState> {
         navigationService.navigateTo(Routes.RegisterPasswordRoute);
       }
     } catch (error) {
-      yield RegisterEmailConnectionFailedState();
+      yield ErrorRegisterEmailState(event);
     }
   }
 }

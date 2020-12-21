@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
 import 'package:pamiksa/src/data/models/models.dart';
+import 'package:pamiksa/src/ui/pages/pages.dart';
 import 'package:pamiksa/src/ui/widgets/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -25,7 +26,7 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<RootBloc, RootState>(
       builder: (context, state) {
-        if (state is HomeInitial) {
+        if (state is RootInitial) {
           rootBloc.add(FetchBusinessEvent());
           return Center(
               child: SafeArea(
@@ -220,7 +221,7 @@ class _RootPageState extends State<RootPage> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             onPressed: () {
-                              rootBloc.add(ChangeToInitialStateEvent());
+                              rootBloc.add(SetInitialRootEvent());
                             },
                             icon: Icon(Icons.refresh),
                             label: Text("Reintentar"))
@@ -232,9 +233,7 @@ class _RootPageState extends State<RootPage> {
             ),
           ));
         } else
-          return Center(
-            child: Text("Error"),
-          );
+          return ErrorPage(event: SetInitialRootEvent(), bloc: rootBloc);
       },
     );
   }

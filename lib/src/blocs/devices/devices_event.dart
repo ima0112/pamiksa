@@ -23,7 +23,7 @@ class SignOutEvent extends DevicesEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-class SetDeviceInitialEvent extends DevicesEvent {
+class SetInitialDevicesEvent extends DevicesEvent {
   @override
   List<Object> get props => throw UnimplementedError();
 }

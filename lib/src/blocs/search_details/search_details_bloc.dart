@@ -35,6 +35,8 @@ class SearchDetailsBloc extends Bloc<SearchDetailsEvent, SearchDetailsState> {
       yield* _mapFetchSearchDetailEvent(event);
     } else if (event is SearchDetailRefreshTokenEvent) {
       yield* _mapSearchDetailRefreshTokenEvent(event);
+    } else if (event is SetInitialSearchDetailsEvent) {
+      yield SearchDetailsInitial();
     }
   }
 

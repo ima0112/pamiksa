@@ -4,8 +4,8 @@ abstract class RootState extends Equatable {
   const RootState();
 }
 
-class HomeInitial extends RootState {
-  HomeInitial() : super();
+class RootInitial extends RootState {
+  RootInitial() : super();
 
   @override
   List<Object> get props => [];

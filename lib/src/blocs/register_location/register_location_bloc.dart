@@ -45,6 +45,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       yield* _mapFetchProvinceMunicipalityDataEvent(event);
     } else if (event is ProvinceSelectedEvent) {
       yield* _mapProvinceSelectedEvent(event);
+    } else if (event is SetInitialLocationEvent) {
+      yield LocationInitial();
     }
   }
 
@@ -70,7 +72,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
           {"response": response.data.toString(), "code": code, "email": email});
       navigationService.navigateAndRemoveUntil(Routes.VerificationRoute);
     } catch (error) {
-      yield LocationConnectionFailedState();
+      yield ErrorLocationState(event);
     }
   }
 

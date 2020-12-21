@@ -18,3 +18,5 @@ class FetchFavoriteFoodsDetailsEvent extends FavoriteDetailsEvent {
 
   FetchFavoriteFoodsDetailsEvent(this.id);
 }
+
+class SetInitialFavoriteDetailsEvent extends FavoriteDetailsEvent {}

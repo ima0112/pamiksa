@@ -14,11 +14,6 @@ class FetchBusinessEvent extends RootEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-class ChangeToInitialStateEvent extends RootEvent {
-  @override
-  List<Object> get props => throw UnimplementedError();
-}
-
 class LogoutEvent extends RootEvent {
   @override
   List<Object> get props => throw UnimplementedError();
@@ -29,5 +24,11 @@ class RefreshTokenEvent extends RootEvent {
 
   RefreshTokenEvent(this.childEvent);
   @override
+  List<Object> get props => throw UnimplementedError();
+}
+
+class SetInitialRootEvent extends RootEvent {
+  @override
+  // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }

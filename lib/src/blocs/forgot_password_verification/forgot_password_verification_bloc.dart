@@ -31,20 +31,27 @@ class ForgotPasswordVerificationBloc extends Bloc<
       yield* _mapMutateCodeFromForgotPasswordEvent(event);
     } else if (event is CheckVerificationFromForgotPasswordCodeEvent) {
       yield* _mapCheckVerificationFromForgotPasswordCodeEvent(event);
+    } else if (event is SetInitialForgotPasswordVerificationEvent) {
+      yield ForgotPasswordVerificationInitial();
     }
   }
 
   Stream<ForgotPasswordVerificationState> _mapMutateCodeFromForgotPasswordEvent(
       MutateCodeFromForgotPasswordEvent event) async* {
-    String email = await secureStorage.read(key: 'email');
-    int code = await random.randomCode();
+    try {
+      String email = await secureStorage.read(key: 'email');
+      int code = await random.randomCode();
 
-    await secureStorage.save(key: 'code', value: code.toString());
+      await secureStorage.save(key: 'code', value: code.toString());
 
-    final response =
-        await this.userRepository.sendVerificationCode(email, code.toString());
+      final response = await this
+          .userRepository
+          .sendVerificationCode(email, code.toString());
 
-    print({"response": response.data, "code": code, "email": email});
+      print({"response": response.data, "code": code, "email": email});
+    } catch (error) {
+      yield ErrorForgotPasswordVerificationState(event);
+    }
   }
 
   Stream<ForgotPasswordVerificationState>

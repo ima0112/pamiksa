@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:pamiksa/src/blocs/theme/theme_bloc.dart';
 import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/data/repositories/remote/remote_repository.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
@@ -73,7 +75,8 @@ class Utils {
     return initialRoute;
   }
 
-  Future<ThemeMode> loadedTheme() async {
+  Future<ThemeMode> loadedTheme(BuildContext context) async {
+    BlocProvider.of<ThemeBloc>(context).add(LoadingThemeEvent());
     int themeMode = await preferences.read('themeMode') ?? null;
     if (themeMode == 0) {
       await preferences.saveInt('themeMode', 0);

@@ -30,6 +30,8 @@ class ForgotPasswordEmailBloc
   ) async* {
     if (event is CheckPasswordByUserEmailEvent) {
       yield* _mapCheckPasswordByUserEmailEvent(event);
+    } else if (event is SetInitialForgotPasswordEmailEvent) {
+      yield ForgotPasswordEmailInitial();
     }
   }
 
@@ -54,7 +56,7 @@ class ForgotPasswordEmailBloc
         yield NotExistsUserEmailState();
       }
     } catch (error) {
-      yield ForgotPasswordEmailConnectionFailedState();
+      yield ErrorForgotPasswordEmailState(event);
     }
   }
 }

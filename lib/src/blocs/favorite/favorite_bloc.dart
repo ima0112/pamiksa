@@ -33,10 +33,10 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       yield* _mapFetchFavoritesFoodsEvent(event);
     } else if (event is FavoriteRefreshTokenEvent) {
       yield* _mapFavoriteRefreshTokenEvent(event);
-    } else if (event is ChangeStateToInitialEvent) {
-      yield FavoriteInitial();
     } else if (event is DeleteFavoriteEvent) {
       yield* _mapDeleteFavoriteEvent(event);
+    } else if (event is SetInitialFavoriteEvent) {
+      yield FavoriteInitial();
     }
   }
 

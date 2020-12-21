@@ -11,5 +11,8 @@ class RegisterVerificationInitial extends RegisterVerificationState {}
 
 class IncorrectedVerificationCodeState extends RegisterVerificationState {}
 
-class RegisterVerificationConnectionFailedState
-    extends RegisterVerificationState {}
+class ErrorRegisterVerificationState extends RegisterVerificationState {
+  final RegisterVerificationEvent event;
+
+  ErrorRegisterVerificationState(this.event);
+}

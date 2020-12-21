@@ -7,8 +7,7 @@ class ErrorPage extends StatefulWidget {
   final Equatable event;
   final Bloc bloc;
 
-  const ErrorPage({Key key, @required this.event, @required this.bloc})
-      : super(key: key);
+  const ErrorPage({Key key, this.event, this.bloc}) : super(key: key);
 
   @override
   _ErrorPageState createState() => _ErrorPageState();

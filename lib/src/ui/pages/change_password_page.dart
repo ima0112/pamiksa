@@ -74,21 +74,24 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             );
           } else if (state is ErrorChangePasswordState) {
             return ErrorPage(event: state.event, bloc: changePasswordBloc);
+          } else if (state is ChangePasswordInitial) {
+            return Container(
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: form(),
+                  ),
+                  Divider(
+                    height: 0.0,
+                  ),
+                  downButtons(),
+                ],
+              ),
+            );
           }
-          return Container(
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  flex: 3,
-                  child: form(),
-                ),
-                Divider(
-                  height: 0.0,
-                ),
-                downButtons(),
-              ],
-            ),
-          );
+          return ErrorPage(
+              event: SetInitialChangePasswordEvent(), bloc: changePasswordBloc);
         },
       ),
     );
