@@ -114,7 +114,29 @@ class _FoodPageState extends State<FoodPage> {
                           Positioned(
                             right: 2.0,
                             bottom: 0.0,
-                            child: favoriteIcon(),
+                            child: (_isFavorite == 1)
+                                ? IconButton(
+                                    icon: Icon(Icons.favorite),
+                                    onPressed: () {
+                                      setState(() {
+                                        foodBloc.add(
+                                            ToggleIconViewFavoriteEvent(
+                                                state.foodModel.id));
+                                      });
+                                    },
+                                    color: Colors.white,
+                                    splashRadius: 1.0)
+                                : IconButton(
+                                    icon: Icon(Icons.favorite_border),
+                                    onPressed: () {
+                                      setState(() {
+                                        foodBloc.add(
+                                            ToggleIconViewFavoriteEvent(
+                                                state.foodModel.id));
+                                      });
+                                    },
+                                    color: Colors.white,
+                                    splashRadius: 1.0),
                           ),
                         ],
                       ),
