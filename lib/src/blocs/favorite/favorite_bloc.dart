@@ -16,6 +16,8 @@ part 'favorite_state.dart';
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   final FavoriteRepository favoriteRepository;
   final UserRepository userRepository;
+  StreamController<List<FavoriteModel>> streamController =
+      StreamController.broadcast();
   final NavigationService navigationService = locator<NavigationService>();
   bool _isFavoriteFetched = false;
   List<AddonsModel> addonsModel = List();
@@ -64,12 +66,9 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
             photoUrl: e['photoUrl'],
             price: e['price']))
         .toList();
+    streamController.add(favoriteModel);
     if (event.favoriteState is LoadedFavoritesFoodsState) {
-      yield DeleteFavoriteLoaded(
-          favoriteModel: favoriteModel, count: favoriteModel.length);
-    } else if (event.favoriteState is DeleteFavoriteLoaded) {
-      yield LoadedFavoritesFoodsState(
-          favoriteModel: favoriteModel, count: favoriteModel.length);
+      yield DeleteFavoriteLoaded();
     }
   }
 

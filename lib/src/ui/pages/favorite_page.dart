@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/data/models/models.dart';
 import 'package:pamiksa/src/ui/navigation/locator.dart';
 import 'package:pamiksa/src/ui/navigation/navigation.dart';
 import 'package:pamiksa/src/ui/navigation/navigation_service.dart';
@@ -15,20 +18,35 @@ class FavoritePage extends StatefulWidget {
 class _FavoritePageState extends State<FavoritePage> {
   final NavigationService navigationService = locator<NavigationService>();
   final ScrollController _scrollController = ScrollController();
-
+  List<FavoriteModel> favoriteModel;
   FavoriteBloc favoriteBloc;
   FavoriteDetailsBloc favoriteDetailsBloc;
+  StreamController streamController;
 
   @override
   void initState() {
     favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
     favoriteDetailsBloc = BlocProvider.of<FavoriteDetailsBloc>(context);
+    streamController = favoriteBloc.streamController;
+    if (!streamController.hasListener) {
+      streamController.stream.listen((data) {
+        print("DataReceived");
+        setState(() {
+          favoriteModel = data;
+        });
+      }, onDone: () {
+        print("Task Done");
+      }, onError: (error) {
+        print("Some Error");
+      });
+    }
     super.initState();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    //streamController.close(); //Streams must be closed when not needed
     super.dispose();
   }
 
@@ -126,34 +144,34 @@ class _FavoritePageState extends State<FavoritePage> {
                     ListView.separated(
                       controller: _scrollController,
                       shrinkWrap: true,
-                      itemCount: state.count,
+                      itemCount: favoriteModel.length,
                       itemBuilder: (_, index) => ListTile(
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 20.0, horizontal: 15.0),
                         title: Text(
-                          state.favoriteModel[index].name,
+                          favoriteModel[index].name,
                           style: TextStyle(fontSize: 14.0),
                         ),
                         onTap: () {
                           favoriteDetailsBloc.add(
                               FetchFavoriteFoodsDetailsEvent(
-                                  state.favoriteModel[index].id));
+                                  favoriteModel[index].id));
                           navigationService
                               .navigateTo(Routes.FavoriteDetailsRoute);
                         },
                         subtitle: Text(
-                          "\$ ${state.favoriteModel[index].price}",
+                          "\$ ${favoriteModel[index].price}",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         leading: Hero(
-                          tag: state.favoriteModel[index].photo,
+                          tag: favoriteModel[index].photo,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(7.5),
                             child: FadeInImage(
                               fit: BoxFit.fitWidth,
                               width: 80,
                               image: NetworkImage(
-                                state.favoriteModel[index].photoUrl,
+                                favoriteModel[index].photoUrl,
                               ),
                               placeholder: (Theme.of(context).brightness ==
                                       Brightness.dark)
@@ -166,7 +184,7 @@ class _FavoritePageState extends State<FavoritePage> {
                           icon: Icon(Icons.close),
                           onPressed: () {
                             favoriteBloc.add(DeleteFavoriteEvent(
-                                state.favoriteModel[index], state));
+                                favoriteModel[index], state));
                           },
                         ),
                         dense: true,
