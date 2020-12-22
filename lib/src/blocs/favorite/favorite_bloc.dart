@@ -67,9 +67,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
             price: e['price']))
         .toList();
     streamController.add(favoriteModel);
-    if (event.favoriteState is LoadedFavoritesFoodsState) {
-      yield DeleteFavoriteLoaded();
-    }
+    yield DeleteFavoriteLoaded();
   }
 
   Stream<FavoriteState> _mapFetchFavoritesFoodsEvent(

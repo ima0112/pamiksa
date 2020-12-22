@@ -28,18 +28,16 @@ class _FavoritePageState extends State<FavoritePage> {
     favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
     favoriteDetailsBloc = BlocProvider.of<FavoriteDetailsBloc>(context);
     streamController = favoriteBloc.streamController;
-    if (!streamController.hasListener) {
-      streamController.stream.listen((data) {
-        print("DataReceived");
-        setState(() {
-          favoriteModel = data;
-        });
-      }, onDone: () {
-        print("Task Done");
-      }, onError: (error) {
-        print("Some Error");
+    streamController.stream.listen((data) {
+      print("DataReceived");
+      setState(() {
+        favoriteModel = data;
       });
-    }
+    }, onDone: () {
+      print("Task Done");
+    }, onError: (error) {
+      print("Some Error");
+    });
     super.initState();
   }
 
