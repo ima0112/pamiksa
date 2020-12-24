@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/blocs/cart/cart_bloc.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   RootBloc homeBloc;
+  CartBloc cartBloc;
   FavoriteBloc favoriteBloc;
   int _currentIndex = 0;
 
@@ -27,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     homeBloc = BlocProvider.of<RootBloc>(context);
     favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
-
+    cartBloc = BlocProvider.of<CartBloc>(context);
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
@@ -49,6 +51,11 @@ class _HomePageState extends State<HomePage> {
             showSearch(context: context, delegate: FoodSearch());
           } else if (index == 2) {
             favoriteBloc.add(SetInitialFavoriteEvent());
+            setState(() {
+              _currentIndex = index;
+            });
+          } else if (index == 3) {
+            cartBloc.add(SetInitialCartEvent());
             setState(() {
               _currentIndex = index;
             });

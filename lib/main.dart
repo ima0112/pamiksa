@@ -4,12 +4,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:minio/minio.dart';
 import 'package:pamiksa/src/app.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/blocs/cart/cart_bloc.dart';
 import 'package:pamiksa/src/blocs/change_password/change_password_bloc.dart';
 import 'package:pamiksa/src/blocs/favorite_details/favorite_details_bloc.dart';
 import 'package:pamiksa/src/blocs/network_exception_splash_screen/network_exception_splash_screen_bloc.dart';
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/blocs/search_details/search_details_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
+import 'package:pamiksa/src/data/repositories/remote/cart_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
 import 'package:pamiksa/src/data/models/user.dart';
@@ -63,6 +65,11 @@ void main() async {
                     port: int.parse(DotEnv().env['MINIO_PORT']),
                     useSSL: DotEnv().env['MINIO_USE_SSL'] == 'true',
                     secretKey: DotEnv().env['MINIO_SECRET_KEY']))),
+        BlocProvider(
+            create: (context) => CartBloc(
+                CartFoodRepository(client: GraphQLConfiguration().clients()),
+                UserRepository(client: GraphQLConfiguration().clients()),
+                )),            
         BlocProvider(
             create: (context) => LocationBloc(
                 ProvinceRepository(client: GraphQLConfiguration().clients()),
