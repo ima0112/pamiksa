@@ -25,6 +25,8 @@ class DatabaseConnection {
     await database.execute(
         'CREATE TABLE "CartFood" (id character varying(255) NOT NULL,name character varying(255) NOT NULL,description character varying(255),price double precision NOT NULL,photo character varying(255) NOT NULL,photoUrl character varying(255) NOT NULL,foodFk character varying(255) NOT NULL,availability integer DEFAULT 0,quantity integer DEFAULT 0,CONSTRAINT "CartFood_pkey" PRIMARY KEY (id))');
     await database.execute(
+        'CREATE TABLE "CartFoodView" (id character varying(255) NOT NULL,name character varying(255) NOT NULL,price double precision NOT NULL,photo character varying(255) NOT NULL,photoUrl character varying(255) NOT NULL,availability integer DEFAULT 0,quantity integer DEFAULT 0,CONSTRAINT "CartFoodView_pkey" PRIMARY KEY (id))');
+    await database.execute(
         'CREATE TABLE "Addons" (id character varying(255) NOT NULL,name character varying(255) NOT NULL,price double precision NOT NULL,CONSTRAINT "Addons_pkey" PRIMARY KEY (id))');
     await database.execute(
         'CREATE TABLE "Provinces"(id character varying(255) NOT NULL,name character varying(255) NOT NULL,CONSTRAINT "Provinces_pkey" PRIMARY KEY (id),CONSTRAINT "Provinces_name_key" UNIQUE (name))');
