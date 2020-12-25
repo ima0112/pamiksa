@@ -24,3 +24,5 @@ class ErrorCartState extends CartState {
 
   ErrorCartState(this.event);
 }
+
+class EmptyCartState extends CartState {}

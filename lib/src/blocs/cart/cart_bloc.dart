@@ -38,6 +38,26 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       yield* _mapCartRefreshTokenEvent(event);
     } else if (event is SetInitialCartEvent) {
       yield CartInitial();
+    } else if (event is EmptyCartEvent) {
+      yield* _mapEmptyCartEvent(event);
+    }
+  }
+
+  Stream<CartState> _mapEmptyCartEvent(EmptyCartEvent event) async* {
+    try {
+      final response = await cartFoodRepository.deleteAllFoodCart();
+      if (response.hasException) {
+        if (response.exception.graphqlErrors[0].message ==
+            Errors.TokenExpired) {
+          add(CartRefreshTokenEvent(event));
+        } else {
+          yield ErrorCartState(event);
+        }
+      } else {
+        yield EmptyCartState();
+      }
+    } catch (error) {
+      yield ErrorCartState(event);
     }
   }
 

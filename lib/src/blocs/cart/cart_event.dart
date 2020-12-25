@@ -16,3 +16,5 @@ class CartRefreshTokenEvent extends CartEvent {
 }
 
 class SetInitialCartEvent extends CartEvent {}
+
+class EmptyCartEvent extends CartEvent {}
