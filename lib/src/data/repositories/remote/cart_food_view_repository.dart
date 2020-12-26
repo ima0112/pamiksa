@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:pamiksa/src/data/graphql/queries/queries.dart' as queries;
-import 'package:pamiksa/src/data/graphql/mutations/mutations.dart' as mutations;
 import 'package:pamiksa/src/data/repositories/database_connection.dart';
 import 'package:sqflite/sqflite.dart';
 

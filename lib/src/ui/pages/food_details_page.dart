@@ -116,7 +116,10 @@ class _FoodPageState extends State<FoodPage> {
                             bottom: 0.0,
                             child: (_isFavorite == 1)
                                 ? IconButton(
-                                    icon: Icon(Icons.favorite),
+                                    icon: Icon(
+                                      Icons.favorite,
+                                      color: Theme.of(context).errorColor,
+                                    ),
                                     onPressed: () {
                                       setState(() {
                                         foodBloc.add(

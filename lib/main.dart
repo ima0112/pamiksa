@@ -11,6 +11,7 @@ import 'package:pamiksa/src/blocs/network_exception_splash_screen/network_except
 import 'package:pamiksa/src/blocs/profile/profile_bloc.dart';
 import 'package:pamiksa/src/blocs/search_details/search_details_bloc.dart';
 import 'package:pamiksa/src/data/graphql/graphql_config.dart';
+import 'package:pamiksa/src/data/repositories/remote/cart_food_view_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/cart_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/food_repository.dart';
 import 'package:pamiksa/src/data/repositories/repositories.dart';
@@ -67,9 +68,11 @@ void main() async {
                     secretKey: DotEnv().env['MINIO_SECRET_KEY']))),
         BlocProvider(
             create: (context) => CartBloc(
-                CartFoodRepository(client: GraphQLConfiguration().clients()),
-                UserRepository(client: GraphQLConfiguration().clients()),
-                )),            
+                  CartFoodRepository(client: GraphQLConfiguration().clients()),
+                  UserRepository(client: GraphQLConfiguration().clients()),
+                  CartFoodViewRepository(
+                      client: GraphQLConfiguration().clients()),
+                )),
         BlocProvider(
             create: (context) => LocationBloc(
                 ProvinceRepository(client: GraphQLConfiguration().clients()),

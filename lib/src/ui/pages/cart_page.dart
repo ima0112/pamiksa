@@ -96,13 +96,14 @@ class _CartPageState extends State<CartPage> {
                   ListView.separated(
                     controller: _scrollController,
                     shrinkWrap: true,
-                    itemCount: state.cartFoodModel.length,
+                    itemCount: state.cartFoodViewModel.length,
                     itemBuilder: (_, index) => ListTile(
                       contentPadding: EdgeInsets.symmetric(
                           vertical: 20.0, horizontal: 15.0),
                       title: Text(
-                        state.cartFoodModel[index].name,
-                        style: TextStyle(fontSize: 14.0),
+                        state.cartFoodViewModel[index].name,
+                        style: TextStyle(
+                            fontSize: 14.0, fontWeight: FontWeight.bold),
                       ),
                       onTap: () {
                         // favoriteDetailsBloc.add(
@@ -112,11 +113,11 @@ class _CartPageState extends State<CartPage> {
                         //     .navigateTo(Routes.FavoriteDetailsRoute);
                       },
                       subtitle: Text(
-                        "\$ ${state.cartFoodModel[index].price}",
+                        "+${state.cartFoodViewModel[index].quantity}",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       leading: Hero(
-                        tag: state.cartFoodModel[index].photo,
+                        tag: state.cartFoodViewModel[index].photo,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(7.5),
                           child: FadeInImage(
@@ -132,7 +133,7 @@ class _CartPageState extends State<CartPage> {
                             fit: BoxFit.fitWidth,
                             width: 80,
                             image: NetworkImage(
-                              state.cartFoodModel[index].photoUrl,
+                              state.cartFoodViewModel[index].photoUrl,
                             ),
                             placeholder: (Theme.of(context).brightness ==
                                     Brightness.dark)
@@ -142,37 +143,19 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                       trailing: Container(
-                        padding: EdgeInsets.all(2.0),
+                        padding: EdgeInsets.all(5.0),
                         decoration: BoxDecoration(
                             color: Theme.of(context).backgroundColor,
                             borderRadius: BorderRadius.circular(25.0)),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(25.0),
-                          onTap: () => showModalBottomSheet(
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              builder: (context) => Container(
-                                    height: 200,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Theme.of(context).backgroundColor,
-                                          borderRadius: BorderRadius.only(
-                                            topLeft:
-                                                const Radius.circular(25.0),
-                                            topRight:
-                                                const Radius.circular(25.0),
-                                          )),
-                                      child: Center(
-                                        child: Text("Probando"),
-                                      ),
-                                    ),
-                                  )),
-                          child: Icon(Icons.keyboard_arrow_down),
+                        child: Text(
+                          "\$ ${state.cartFoodViewModel[index].price}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
+                      //     Text(
+                      //   "\$ ${state.cartFoodViewModel[index].price}",
+                      //   style: TextStyle(fontWeight: FontWeight.bold),
+                      // ),
                       dense: true,
                     ),
                     separatorBuilder: (_, __) => Divider(height: 0.0),

@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pamiksa/src/data/errors.dart';
 import 'package:pamiksa/src/data/models/cart_food.dart';
+import 'package:pamiksa/src/data/models/cart_food_view.dart';
+import 'package:pamiksa/src/data/repositories/remote/cart_food_view_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/cart_repository.dart';
 import 'package:pamiksa/src/data/repositories/remote/remote_repository.dart';
 import 'package:pamiksa/src/data/storage/secure_storage.dart';
@@ -14,11 +16,13 @@ part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final CartFoodRepository cartFoodRepository;
+  final CartFoodViewRepository cartFoodViewRepository;
   final UserRepository userRepository;
   final NavigationService navigationService = locator<NavigationService>();
 
   SecureStorage secureStorage = SecureStorage();
   List<CartFoodModel> cartFoodModel = List();
+  List<CartFoodViewModel> cartFoodViewModel = List();
 
   String id;
   int isFavorite;
@@ -26,6 +30,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc(
     this.cartFoodRepository,
     this.userRepository,
+    this.cartFoodViewRepository,
   ) : super(CartInitial());
 
   @override
@@ -63,6 +68,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Stream<CartState> _mapFetchCartEvent(FetchCartEvent event) async* {
     try {
+      cartFoodViewModel.clear();
       yield LoadingCartState();
       final response = await cartFoodRepository.cart();
       if (response.hasException) {
@@ -87,10 +93,37 @@ class CartBloc extends Bloc<CartEvent, CartState> {
                 quantity: e['quantity']))
             .toList();
         cartFoodRepository.clear();
+        //cartFoodViewRepository.clear();
         cartFoodModel.forEach((element) {
+          if (cartFoodViewModel.isEmpty) {
+            cartFoodViewModel.add(CartFoodViewModel(
+                id: element.foodFk,
+                name: element.name,
+                availability: element.availability,
+                photo: element.photo,
+                photoUrl: element.photoUrl,
+                price: element.price,
+                quantity: element.quantity));
+          } else {
+            int cartFoodViewModelIndex = cartFoodViewModel.indexWhere(
+                (elementItem) => (elementItem.id == element.foodFk));
+            if (cartFoodViewModelIndex != -1) {
+              cartFoodViewModel[cartFoodViewModelIndex].quantity += 1;
+              cartFoodViewModel[cartFoodViewModelIndex].price += element.price;
+            } else {
+              cartFoodViewModel.add(CartFoodViewModel(
+                  id: element.foodFk,
+                  name: element.name,
+                  availability: element.availability,
+                  photo: element.photo,
+                  photoUrl: element.photoUrl,
+                  price: element.price,
+                  quantity: element.quantity));
+            }
+          }
           cartFoodRepository.insert('CartFood', element.toMap());
         });
-        yield LoadedCartState(cartFoodModel: cartFoodModel);
+        yield LoadedCartState(cartFoodViewModel: cartFoodViewModel);
       }
     } catch (error) {
       yield ErrorCartState(event);

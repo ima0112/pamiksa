@@ -12,9 +12,9 @@ class CartInitial extends CartState {}
 class LoadingCartState extends CartState {}
 
 class LoadedCartState extends CartState {
-  final List<CartFoodModel> cartFoodModel;
+  final List<CartFoodViewModel> cartFoodViewModel;
 
-  LoadedCartState({this.cartFoodModel});
+  LoadedCartState({this.cartFoodViewModel});
 }
 
 class CartTokenExpiredState extends CartState {}
