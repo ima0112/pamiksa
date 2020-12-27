@@ -67,30 +67,15 @@ class _HomePageState extends State<HomePage> {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.home)
-                  : Icon(CupertinoIcons.home),
-              title: Text("Inicio")),
+              icon: Icon(Icons.home), title: Text("Inicio")),
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.search)
-                  : Icon(CupertinoIcons.search),
-              title: Text("Buscar")),
+              icon: Icon(Icons.search), title: Text("Buscar")),
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.favorite_border)
-                  : Icon(CupertinoIcons.heart),
-              title: Text("Favoritos")),
+              icon: Icon(Icons.favorite_border), title: Text("Favoritos")),
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.shopping_cart)
-                  : Icon(CupertinoIcons.shopping_cart),
-              title: Text("Carrito")),
+              icon: Icon(Icons.shopping_cart), title: Text("Carrito")),
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.settings)
-                  : Icon(CupertinoIcons.gear_solid),
-              title: Text("Ajustes")),
+              icon: Icon(Icons.settings), title: Text("Ajustes")),
         ],
       ),
     );

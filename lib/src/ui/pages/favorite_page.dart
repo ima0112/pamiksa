@@ -121,13 +121,17 @@ class _FavoritePageState extends State<FavoritePage> {
                             ),
                           ),
                         ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.close),
-                          onPressed: () {
-                            favoriteBloc.add(DeleteFavoriteEvent(
-                                state.favoriteModel[index], state));
-                          },
-                        ),
+                        trailing: InkWell(
+                            onTap: () => favoriteBloc.add(DeleteFavoriteEvent(
+                                state.favoriteModel[index], state)),
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
+                              padding: EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).backgroundColor,
+                                  borderRadius: BorderRadius.circular(30.0)),
+                              child: Icon(Icons.close, size: 14),
+                            )),
                         dense: true,
                       ),
                       separatorBuilder: (_, __) => Divider(height: 0.0),

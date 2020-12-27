@@ -213,21 +213,8 @@ class _LoginPageState extends State<LoginPage> {
           child: Padding(
             padding: EdgeInsets.only(top: 25.0),
             child: Image.asset(
-              "assets/images/pamiksa_logo_violeta_sin_fondo.png",
+              "assets/images/ic_launcher.png",
               fit: BoxFit.fill,
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: FittedBox(
-              child: Text("Pamiksa",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      letterSpacing: 1.0)),
             ),
           ),
         ),
@@ -258,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                       border: UnderlineInputBorder(),
                       // labelText: 'Correo electrónico',
                       filled: false,
-                      icon: Icon(CupertinoIcons.mail),
+                      icon: Icon(Icons.mail),
                     ),
                     onChanged: (String value) {
                       email = value;
@@ -335,7 +322,7 @@ class _LoginPageState extends State<LoginPage> {
                       border: UnderlineInputBorder(),
                       // labelText: 'Correo electrónico',
                       filled: false,
-                      icon: Icon(CupertinoIcons.mail),
+                      icon: Icon(Icons.mail),
                     ),
                     onChanged: (String value) {
                       email = value;
