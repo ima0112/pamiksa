@@ -28,9 +28,9 @@ class BusinessRepository {
   }
 
   //Insert data to Table
-  insert(table, data) async {
+  insert(data) async {
     var connection = await database;
-    return await connection.transaction((txn) async => txn.insert(table, data));
+    return connection.transaction((txn) async => txn.insert("Business", data));
   }
 
   //Clear database

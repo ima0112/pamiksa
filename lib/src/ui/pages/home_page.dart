@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pamiksa/src/blocs/blocs.dart';
+import 'package:pamiksa/src/blocs/cart/cart_bloc.dart';
 import 'package:pamiksa/src/ui/pages/pages.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   RootBloc homeBloc;
+  CartBloc cartBloc;
   FavoriteBloc favoriteBloc;
   int _currentIndex = 0;
 
@@ -27,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     homeBloc = BlocProvider.of<RootBloc>(context);
     favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
-
+    cartBloc = BlocProvider.of<CartBloc>(context);
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
@@ -52,6 +54,11 @@ class _HomePageState extends State<HomePage> {
             setState(() {
               _currentIndex = index;
             });
+          } else if (index == 3) {
+            cartBloc.add(SetInitialCartEvent());
+            setState(() {
+              _currentIndex = index;
+            });
           } else {
             setState(() {
               _currentIndex = index;
@@ -60,30 +67,15 @@ class _HomePageState extends State<HomePage> {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.home)
-                  : Icon(CupertinoIcons.home),
-              title: Text("Inicio")),
+              icon: Icon(Icons.home), title: Text("Inicio")),
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.search)
-                  : Icon(CupertinoIcons.search),
-              title: Text("Buscar")),
+              icon: Icon(Icons.search), title: Text("Buscar")),
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.favorite_border)
-                  : Icon(CupertinoIcons.heart),
-              title: Text("Favoritos")),
+              icon: Icon(Icons.favorite_border), title: Text("Favoritos")),
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.shopping_cart)
-                  : Icon(CupertinoIcons.shopping_cart),
-              title: Text("Carrito")),
+              icon: Icon(Icons.shopping_cart), title: Text("Carrito")),
           BottomNavigationBarItem(
-              icon: (Platform.isAndroid)
-                  ? Icon(Icons.settings)
-                  : Icon(CupertinoIcons.gear_solid),
-              title: Text("Ajustes")),
+              icon: Icon(Icons.settings), title: Text("Ajustes")),
         ],
       ),
     );

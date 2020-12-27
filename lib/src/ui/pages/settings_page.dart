@@ -41,26 +41,12 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Column(
             children: <Widget>[
               ListTile(
-                leading: (Platform.isAndroid)
-                    ? Icon(Icons.account_circle)
-                    : Icon(CupertinoIcons.person),
+                leading: Icon(Icons.account_circle),
                 title: Text("Perfil"),
                 onTap: () {
                   profileBloc.add(FetchProfileEvent());
                   navigationService.navigateTo(Routes.Profile);
                 },
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.grey,
-                  size: 15.0,
-                ),
-              ),
-              ListTile(
-                leading: (Platform.isAndroid)
-                    ? Icon(Icons.credit_card)
-                    : Icon(CupertinoIcons.car_detailed),
-                title: Text("Pedidos"),
-                onTap: () {},
                 trailing: Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.grey,
@@ -82,9 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
               //   ),
               // ),
               ListTile(
-                leading: (Platform.isAndroid)
-                    ? Icon(Icons.security)
-                    : Icon(CupertinoIcons.add),
+                leading: Icon(Icons.security),
                 title: Text("Seguridad"),
                 onTap: () {
                   navigationService.navigateTo(Routes.SecurityRoute);
@@ -96,9 +80,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                leading: (Platform.isAndroid)
-                    ? Icon(Icons.devices)
-                    : Icon(CupertinoIcons.phone),
+                leading: Icon(Icons.devices),
                 title: Text("Dispositivos"),
                 onTap: () {
                   devicesBloc.add(FetchDevicesDataEvent());
@@ -110,9 +92,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                leading: (Platform.isAndroid)
-                    ? Icon(Icons.help_outline)
-                    : Icon(CupertinoIcons.add),
+                leading: Icon(Icons.help_outline),
                 title: Text("Ayuda"),
                 onTap: () {
                   navigationService.navigateTo(Routes.HelpRoute);
@@ -124,9 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                leading: (Platform.isAndroid)
-                    ? Icon(Icons.input)
-                    : Icon(CupertinoIcons.search),
+                leading: Icon(Icons.input),
                 title: Text("Cerrar sesión"),
                 onTap: () {
                   AlertDialog alertDialog = AlertDialog(

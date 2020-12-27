@@ -6,3 +6,4 @@ export './foods.dart';
 export './favorite.dart';
 export './addons.dart';
 export './search.dart';
+export './cart.dart';

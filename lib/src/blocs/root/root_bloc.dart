@@ -96,7 +96,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
             .toList();
         businessRepository.clear();
         businessModel.forEach((element) {
-          businessRepository.insert('Business', element.toMap());
+          businessRepository.insert(element.toMap());
         });
         yield LoadedBusinessState(businessModel);
       }

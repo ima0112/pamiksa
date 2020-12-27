@@ -6,8 +6,6 @@ createFavorite(foodFk: $foodFk)
 
 String deleteFavorite = r"""
 mutation deleteFavorite($foodFk: ID!) {
-deleteFavorite(foodFk: $foodFk){
-  foodFk
-}
+deleteFavorite(foodFk: $foodFk)
 }
 """;

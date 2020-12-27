@@ -89,8 +89,6 @@ class _RootPageState extends State<RootPage> {
             ),
           ));
         } else if (state is LoadedBusinessState) {
-          print(
-              'El Modo es ${WidgetsBinding.instance.window.platformBrightness}');
           final List<BusinessModel> businessData = state.results;
           return SafeArea(
             child: CustomScrollView(
